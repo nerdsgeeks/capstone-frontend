@@ -1,0 +1,29 @@
+{
+  "name": "capstone-frontend",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "eslint --ext .jsx --ext .jsx ./src",
+    "lint:fix": "eslint --fix --ext .jsx --ext .jsx ./src",
+    "format": "prettier --check ./src",
+    "write": "prettier --write ./src"
+  },
+  "dependencies": {
+    "expo": "~50.0.3",
+    "expo-status-bar": "~1.11.1",
+    "react": "18.2.0",
+    "react-native": "0.73.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.2.4"
+  },
+  "private": true
+}
