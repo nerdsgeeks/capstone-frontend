@@ -11,6 +11,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/SatoshiBlack.otf",
+            "./assets/fonts/SatoshiMedium.otf",
+            "./assets/fonts/SatoshiRegular.otf"
+          ]
+        }
+      ]
+    ],
     "assetBundlePatterns": [
       "**/*"
     ],
