@@ -13,6 +13,7 @@
     "write": "prettier --write ./src"
   },
   "dependencies": {
+    "@rneui/themed": "^4.0.0-rc.8",
     "expo": "~50.0.3",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",

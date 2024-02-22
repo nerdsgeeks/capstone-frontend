@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Modal, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import React  from "react";
+import {  StyleSheet , View  } from "react-native";
 import TestModal from "./TestModal";
 
 const App = () => {
