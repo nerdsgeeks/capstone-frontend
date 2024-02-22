@@ -3,20 +3,21 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
+import Typography from "../Typography/Typography";
 
 const Counter = ({count, handleIncrement, handleDecrement}) => {
     
     return (
         <View style={styles.container}>
             <View>
-                <Text>Quantity</Text>
+                <Typography variant="small-medium">Quantity</Typography>
             </View>
             <View style={styles.counterContainer}>
                 <TouchableOpacity style={styles.button} onPress={handleDecrement}>
                     <MinusIcon></MinusIcon>
                 </TouchableOpacity>
 
-                <Text style={styles.count}>{count}</Text>
+                <Typography variant="body-medium">{count}</Typography>
 
                 <TouchableOpacity style={styles.button} onPress={handleIncrement}>
                     <PlusIcon></PlusIcon>

@@ -13,7 +13,7 @@ const App = () => {
     <View style={styles.container}>
       <TestModal />
       <Button name="Primary" type="secondary" onPress={handleClick} />
-      <Typography variant="h1 black" style={{ color: "blue" }}>
+      <Typography variant="h1-black" style={{ color: "blue" }}>
         Hello World!
       </Typography>
     </View>
