@@ -5,10 +5,10 @@ import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import Typography from "../Typography/Typography";
 
-const Counter = ({count, handleIncrement, handleDecrement}) => {
+const Counter = ({count, handleIncrement, handleDecrement, containerStyle}) => {
     
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,containerStyle]}>
             <View>
                 <Typography variant="small-medium">Quantity</Typography>
             </View>
