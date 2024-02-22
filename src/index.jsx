@@ -1,8 +1,6 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import TestModal from "./TestModal";
-import Button from "./components/Button/Button";
-import Typography from "./components/Typography/Typography";
+import { NavigationContainer } from "@react-navigation/native";
+import NavigationTab from "./Navigation/NavigationTab";
 
 const App = () => {
   handleClick = () => {
@@ -10,23 +8,10 @@ const App = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TestModal />
-      <Button name="Primary" type="secondary" onPress={handleClick} />
-      <Typography variant="h1 black" style={{ color: "blue" }}>
-        Hello World!
-      </Typography>
-    </View>
+    <NavigationContainer>
+      <NavigationTab />
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default App;
