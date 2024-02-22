@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import CloseIcon from "./components/SVG/CloseIcon";
+import CloseIcon from "./SVG/CloseIcon";
 
 const TestModal = () => {
   const [isModalOpen, setModalState] = useState(false);
