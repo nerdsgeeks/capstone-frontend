@@ -10,14 +10,7 @@ import CartIcon from "../../SVG/CartIcon";
 const HousekeeperHome = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <TestModal />
-      <HomeIcon fill="#FECE8C"></HomeIcon>
-      <ProfileIcon fill="#FECE8C"></ProfileIcon>
-      <CartIcon fill="#FECE8C"></CartIcon>
-      <Button name="Primary" type="secondary" onPress={handleClick} />
-      <Typography variant="h1 black" style={{ color: "blue" }}>
-        Hello World!
-      </Typography>
+      <Text>Housekeeper Home Screen</Text>
     </View>
   );
 };
@@ -25,7 +18,7 @@ const HousekeeperHome = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#8fcbbc",
     alignItems: "center",
     justifyContent: "center",
   },

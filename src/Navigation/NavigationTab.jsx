@@ -6,6 +6,7 @@ import { View, StyleSheet, Text } from "react-native";
 import HomeIcon from "../SVG/HomeIcon";
 import ProfileIcon from "../SVG/ProfileIcon";
 import CartIcon from "../SVG/CartIcon";
+import HousekeeperTest from "../screens/Housekeeper/HousekeeperTest";
 
 const Tab = createBottomTabNavigator();
 const NavigationTab = () => {
@@ -160,6 +161,38 @@ const NavigationTab = () => {
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               ></ProfileIcon>
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="HousekeeperTest"
+        component={HousekeeperTest}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={
+                focused
+                  ? {
+                      backgroundColor: "#F89C7B",
+                      height: 72,
+                      width: 60,
+                      borderRadius: 30,
+                      borderWidth: 1,
+                      borderColor: "#F89C7B",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }
+                  : {}
+              }
+            >
+              <HomeIcon
+                fill={focused ? "#FECE8C" : "none"}
+                stroke={focused ? "#FECE8C" : "white"}
+                h={focused ? 26 : 22}
+                w={focused ? 29 : 25}
+              ></HomeIcon>
             </View>
           ),
         }}
