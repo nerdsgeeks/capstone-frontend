@@ -10,6 +10,7 @@ import AssignedRoomListItem from "../../components/AssignedRoom/AssignedRoomList
 import HousekeeperHomeHeader from "../../components/HousekeeperHomeHeader/HousekeeperHomeHeader";
 import ClockIcon from "../../SVG/ClockIcon";
 import ClockShiftIcon from "../../SVG/ClockShiftIcon";
+import NavTabs from "../../components/NavTabs/NavTabs";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -73,6 +74,11 @@ const HousekeeperTest = ({ navigation }) => {
     roomNumber: "101", // Room number
     date: "2023-04-01", // Date associated with the room status
   };
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = [{ label: "To do" }, { label: "Completed" }];
+  const handleTabPress = (index) => {
+    setActiveTab(index);
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -92,6 +98,13 @@ const HousekeeperTest = ({ navigation }) => {
       ></HousekeeperHomeHeader>
       <ClockIcon></ClockIcon>
       <ClockShiftIcon></ClockShiftIcon>
+
+      <NavTabs tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
+      <View>
+        {tabs[activeTab] && (
+          <Text>This is content for {tabs[activeTab].label}</Text>
+        )}
+      </View>
       <AssignedRoomListItem room={roomGoldDueout} />
       <AssignedRoomListItem room={roomSilverDueout} />
       <AssignedRoomListItem room={roomDiamondDueout} />
