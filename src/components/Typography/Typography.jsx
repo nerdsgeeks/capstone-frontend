@@ -2,7 +2,8 @@ import React from "react";
 import { Text } from "react-native";
 
 const Typography = ({ variant, children, style }) => {
-  const variants = variant.split('-');
+
+  const variants = variant.split("-");
 
   const textStyles = variants.map((v) => {
     let styleObject = fontWeights[v] || fontSizes[v];
@@ -51,9 +52,12 @@ const fontSizes = {
   small: {
     fontSize: 14,
   },
+  xs: {
+    fontSize: 12,
+  },
   button: {
     fontSize: 11,
-  }
+  },
 };
 
 export default Typography;
