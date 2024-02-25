@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const NavTabs = ({ tabs, activeTab, onTabPress }) => {
   return (
@@ -7,7 +7,10 @@ const NavTabs = ({ tabs, activeTab, onTabPress }) => {
       {tabs.map((tab, index) => (
         <TouchableOpacity
           key={index}
-          style={[styles.tab, activeTab === index ? styles.activeTab : styles.inactiveTab]}
+          style={[
+            styles.tab,
+            activeTab === index ? styles.activeTab : styles.inactiveTab,
+          ]}
           onPress={() => onTabPress(index)}
           disabled={activeTab === index}
         >
@@ -20,26 +23,26 @@ const NavTabs = ({ tabs, activeTab, onTabPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 10,
   },
   tab: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 10,
-    borderBottomColor: 'transparent',
+    borderBottomColor: "transparent",
   },
   activeTab: {
     borderBottomWidth: 2,
-    borderBottomColor: 'black',
+    borderBottomColor: "black",
   },
   inactiveTab: {
-    opacity: 0.5, 
+    opacity: 0.5,
   },
   tabText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
@@ -55,14 +58,14 @@ export default NavTabs;
 //   ];
 
 //   then write a tab change code
-//const handleTabPress = (index) => {
+// const handleTabPress = (index) => {
 //     setActiveTab(index);
 //   };
 
 // then declare component as follows
-// {/* <NavTabs tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
+// { <NavTabs tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
 // <View>
 //   {tabs[activeTab] && (
 //     <Text>This is content for {tabs[activeTab].label}</Text>
 //   )}
-// </View> */}
+// </View> }
