@@ -51,6 +51,9 @@ const fontSizes = {
   small: {
     fontSize: 14,
   },
+  button: {
+    fontSize: 11,
+  }
 };
 
 export default Typography;
