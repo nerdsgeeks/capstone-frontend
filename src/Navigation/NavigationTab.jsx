@@ -82,7 +82,7 @@ const NavigationTab = () => {
                 stroke={focused ? "#FECE8C" : "white"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
-              ></CartIcon>
+              />
 
               <View
                 style={
@@ -160,7 +160,7 @@ const NavigationTab = () => {
                 stroke={focused ? "#FECE8C" : "white"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
-              ></ProfileIcon>
+              />
             </View>
           ),
         }}
