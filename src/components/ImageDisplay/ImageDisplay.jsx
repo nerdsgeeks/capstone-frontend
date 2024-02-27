@@ -6,7 +6,7 @@ const ImageDisplay = ({ type, source, text }) => {
     <View>
       <Image
         style={type === "large" ? styles.largeImage : styles.smallImage}
-        source={source}
+        source={{ uri: source }}
       />
       {text ? (
         <Typography
