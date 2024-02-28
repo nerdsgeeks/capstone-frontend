@@ -11,69 +11,83 @@ import HousekeeperHomeHeader from "../../components/HousekeeperHomeHeader/Housek
 import ClockIcon from "../../SVG/ClockIcon";
 import ClockShiftIcon from "../../SVG/ClockShiftIcon";
 import NavTabs from "../../components/NavTabs/NavTabs";
+import RoomDetailInfo from "../../components/RoomDetailInfo/RoomDetailInfo";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
-    tier: "gold", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "gold",
     type: "Suite",
-    status: "dueOut", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "dueOut",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
   const roomSilverDueout = {
-    tier: "silver", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "silver",
     type: "King Bed",
-    status: "dueOut", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "dueOut",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
   const roomDiamondDueout = {
-    tier: "diamond", // Could be 'gold', 'silver', 'silver', or another value for the default case
+    tier: "diamond", 
     type: "Queen Bed",
-    status: "dueOut", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "dueOut",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
 
   const roomGoldDueIn = {
-    tier: "gold", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "gold",
     type: "Double Bed",
-    status: "dueIn", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "dueIn",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
 
   const roomGoldCheckedOut = {
-    tier: "gold", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "gold",
     type: "Suite",
-    status: "checkedOut", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "checkedOut",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
 
   const roomGoldCheckedIn = {
-    tier: "gold", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "gold",
     type: "King Bed",
-    status: "checkedIn", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "checkedIn",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
 
   const roomGoldDueOutdueIn = {
-    tier: "gold", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "gold",
     type: "Queen Bed",
-    status: "dueOutdueIn", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "dueOutdueIn",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
 
   const roomGoldCheckedOutcheckedIn = {
-    tier: "gold", // Could be 'gold', 'silver', 'diamond', or another value for the default case
+    tier: "gold",
     type: "Double Bed",
-    status: "checkedOutcheckedIn", // Could be one of the predefined statuses or another value for the default case
-    roomNumber: "101", // Room number
-    date: "2023-04-01", // Date associated with the room status
+    status: "checkedOutcheckedIn",
+    roomNumber: "101",
+    date: "2023-04-01",
   };
+
+  const reservation = {
+    id: 12345,
+    roomId: "A101",
+    checkIn: "2024-03-10",
+    checkOut: "2024-03-15",
+    guestName: "John Doe",
+    noOfGuest: 2,
+    additionalNotes: "Prefer a room with a view if available.",
+    isCompleted: false
+  };
+  
+
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
   const handleTabPress = (index) => {
@@ -83,11 +97,12 @@ const HousekeeperTest = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <TestModal />
+      <RoomDetailInfo room={roomGoldDueOutdueIn} reservation= {reservation}></RoomDetailInfo>
       <HomeIcon fill="#FECE8C"></HomeIcon>
       <ProfileIcon fill="#FECE8C"></ProfileIcon>
       <CartIcon fill="#FECE8C"></CartIcon>
       <Button name="Primary" type="secondary" onPress={handleClick} />
-      <Typography variant="h1 black" style={{ color: "blue" }}>
+      <Typography variant="h1-black" style={{ color: "blue" }}>
         Hello World!
       </Typography>
       <HousekeeperHomeHeader
