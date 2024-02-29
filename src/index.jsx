@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import NavigationTab from "./Navigation/NavigationTab";
-import Typography from "./components/Typography/Typography";
-import * as Font from 'expo-font';
 
 const App = () => {
   const loadFonts = async () => {
