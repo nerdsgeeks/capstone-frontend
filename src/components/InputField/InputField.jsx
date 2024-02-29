@@ -1,41 +1,30 @@
-import React, { useState } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { useState } from "react";
+import { StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
+import { colors } from "../../../themes/themes";
 
-const InputField = ({ icon, text }) => {
-  const [showIcon, setShowIcon] = useState(true);
-
+const InputField = ({ label, icon }) => {
+  const [text, setText] = useState("");
   return (
-    <View style={styles.container}>
-      {showIcon && {icon} }
-      <TextInput
-        style={styles.input}
-        onFocus={() => setShowIcon(false)}
-        onBlur={() => setShowIcon(true)}
-        value={text}
-      />
-    </View>
+    <TextInput
+      label={label}
+      value={text}
+      onChangeText={(text) => setText(text)}
+      left={icon ? <TextInput.Icon icon={() => icon} /> : null}
+      style={styles.textInput}
+    />
   );
 };
 
+export default InputField;
+
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginTop: 10,
-  },
-  input: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingLeft: 10,
-  },
-  icon: {
-    marginRight: 10,
-    color: "#555",
+  textInput: {
+    marginHorizontal: 40,
+    backgroundColor: colors.n10,
+    fontSize: 12,
+    fontFamily: "SatoshiMedium",
   },
 });
 
-export default InputField;
+// https://callstack.github.io/react-native-paper/4.0/text-input.html#right
