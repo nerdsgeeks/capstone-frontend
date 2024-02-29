@@ -12,6 +12,8 @@ import ClockIcon from "../../SVG/ClockIcon";
 import ClockShiftIcon from "../../SVG/ClockShiftIcon";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import RoomDetailInfo from "../../components/RoomDetailInfo/RoomDetailInfo";
+import Stopwatch from "../../components/Stopwatch/Stopwatch";
+import { Stop } from "react-native-svg";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -97,6 +99,7 @@ const HousekeeperTest = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <TestModal />
+      <Stopwatch/>
       <RoomDetailInfo room={roomGoldDueOutdueIn} reservation= {reservation}></RoomDetailInfo>
       <HomeIcon fill="#FECE8C"></HomeIcon>
       <ProfileIcon fill="#FECE8C"></ProfileIcon>
