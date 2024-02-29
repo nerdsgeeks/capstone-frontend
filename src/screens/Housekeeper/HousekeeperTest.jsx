@@ -13,7 +13,7 @@ import ClockShiftIcon from "../../SVG/ClockShiftIcon";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import RoomDetailInfo from "../../components/RoomDetailInfo/RoomDetailInfo";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
-import { Stop } from "react-native-svg";
+import ScheduleList from "../../components/ScheduleList/ScheduleList";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -88,6 +88,14 @@ const HousekeeperTest = ({ navigation }) => {
     additionalNotes: "Prefer a room with a view if available.",
     isCompleted: false
   };
+
+  const data = [
+    { id: '1', title: 'Meeting with Client', date: '2024-03-01' },
+    { id: '2', title: 'Project Deadline', date: '2024-03-05' },
+    { id: '3', title: 'Team Lunch', date: '2024-03-10' },
+    { id: '4', title: 'Presentation', date: '2024-03-15' },
+    { id: '5', title: 'Training Session', date: '2024-03-20' },
+  ];
   
 
   const [activeTab, setActiveTab] = useState(0);
@@ -99,6 +107,7 @@ const HousekeeperTest = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <TestModal />
+      <ScheduleList data={data} />
       <Stopwatch/>
       <RoomDetailInfo room={roomGoldDueOutdueIn} reservation= {reservation}></RoomDetailInfo>
       <HomeIcon fill="#FECE8C"></HomeIcon>
