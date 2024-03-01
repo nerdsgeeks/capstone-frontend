@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const CameraComponent = () => {
   const [type, setType] = useState(CameraType.back);
@@ -75,7 +76,7 @@ const CameraComponent = () => {
 
       <View style={styles.imageContainer}>
         {images.map((image, index) => (
-          <TouchableOpacity key={index} onPress={imageView}>
+          <TouchableOpacity key={index}>
           <Image
             key={index}
             source={{ uri: `data:image/jpg;base64,${image}` }}
