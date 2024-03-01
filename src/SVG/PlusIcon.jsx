@@ -1,6 +1,8 @@
+import { Touchable, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-const PlusIcon = ({ w = 20, h = 20, fill = "#9F9F9F" }) => (
+const PlusIcon = ({ w = 20, h = 20, fill = "#9F9F9F", onPress }) => (
+  <TouchableOpacity onPress={onPress}>
   <Svg
     width={w}
     height={h}
@@ -17,6 +19,7 @@ const PlusIcon = ({ w = 20, h = 20, fill = "#9F9F9F" }) => (
       fill={fill}
     />
   </Svg>
+  </TouchableOpacity>
 );
 
 export default PlusIcon;

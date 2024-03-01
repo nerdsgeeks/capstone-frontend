@@ -1,7 +1,9 @@
 import React from 'react';
+import {  TouchableOpacity } from 'react-native';
 import { Svg, Path, Rect, Defs, ClipPath, G } from 'react-native-svg';
 
-const CheckIcon = ({ w = 18, h = 18, fill = "none", stroke = "black" }) => (
+const CheckIcon = ({ w = 18, h = 18, fill = "none", stroke = "black", onPress }) => (
+  <TouchableOpacity onPress={onPress}>
   <Svg width={w} height={h} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <Defs>
       <ClipPath id="clip0_1770_3111">
@@ -18,6 +20,7 @@ const CheckIcon = ({ w = 18, h = 18, fill = "none", stroke = "black" }) => (
       </G>
     </G>
   </Svg>
+  </TouchableOpacity>
 );
 
 export default CheckIcon;
