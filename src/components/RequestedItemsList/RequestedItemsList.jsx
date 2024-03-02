@@ -7,9 +7,11 @@ const RequestedItemsList = ({ items }) => {
     <View>
       {items.length > 0 && (
         <View style={styles.container}>
-          <Typography variant="small-medium">Requested Items</Typography>
+          <Typography variant="small-medium" style={{ marginLeft: 28 }}>
+            Requested Items
+          </Typography>
           {items.map((item, index) => (
-            <View key={index}>
+            <View key={index} style={{}}>
               <RequestItemDetail
                 imageSrc={item.imageSrc}
                 itemName={item.itemName}
@@ -23,10 +25,10 @@ const RequestedItemsList = ({ items }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      backgroundColor: "#f2f2f2",
-    },
-  });
+  container: {
+    backgroundColor: "#f2f2f2",
+    rowGap: 10,
+  },
+});
 
 export default RequestedItemsList;
-

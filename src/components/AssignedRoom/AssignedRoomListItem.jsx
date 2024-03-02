@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
     borderWidth: 1,
-    maxWidth: 268,
+    maxWidth: 314,
     maxHeight: 84,
     borderRadius: 20,
     padding: 10,

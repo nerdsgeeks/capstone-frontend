@@ -4,9 +4,12 @@ import Typography from "../Typography/Typography";
 import ClockIcon from "../../SVG/ClockIcon";
 import { colors } from "../../../themes/themes";
 
-const Stopwatch = () => {
-  const [isRunning, setIsRunning] = useState(false);
+const Stopwatch = ({ isRunning }) => {
+  // const [isRunningStopwatch, setIsRunningStopwatch] = useState(isRunning);
   const [elapsedTime, setElapsedTime] = useState(0);
+
+  // console.log(isRunningStopwatch);
+  console.log(isRunning);
 
   useEffect(() => {
     let intervalId;
@@ -22,18 +25,18 @@ const Stopwatch = () => {
     return () => clearInterval(intervalId);
   }, [isRunning]);
 
-  const handleStart = () => {
-    setIsRunning(true);
-  };
+  // const handleStart = () => {
+  //   setIsRunning(true);
+  // };
 
-  const handlePause = () => {
-    setIsRunning(false);
-  };
+  // const handlePause = () => {
+  //   setIsRunning(false);
+  // };
 
-  const handleStop = () => {
-    setIsRunning(false);
-    setElapsedTime(0);
-  };
+  // const handleStop = () => {
+  //   setIsRunning(false);
+  //   setElapsedTime(0);
+  // };
 
   const formatTime = (milliseconds) => {
     const seconds = Math.floor((milliseconds / 1000) % 60);
@@ -54,14 +57,14 @@ const Stopwatch = () => {
         </Typography>
       </View>
       {/* switch buttons with the ones in the UI to make it work */}
-      <View style={styles.buttonContainer}>
+      {/* <View style={styles.buttonContainer}>
         {!isRunning ? (
           <Button title="Start" onPress={handleStart} />
         ) : (
           <Button title="Pause" onPress={handlePause} />
         )}
         <Button title="Stop" onPress={handleStop} />
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -7,6 +7,7 @@ import HomeIcon from "../SVG/HomeIcon";
 import ProfileIcon from "../SVG/ProfileIcon";
 import CartIcon from "../SVG/CartIcon";
 import HousekeeperTest from "../screens/Housekeeper/HousekeeperTest";
+import HousekeeperHomeStack from "../routes/HousekeeperHomeStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTab = () => {
@@ -25,8 +26,8 @@ const NavigationTab = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HousekeeperHome}
+        name="HousekeeperHomeStack"
+        component={HousekeeperHomeStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
