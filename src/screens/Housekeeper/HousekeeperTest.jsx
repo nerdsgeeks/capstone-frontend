@@ -14,6 +14,7 @@ import NavTabs from "../../components/NavTabs/NavTabs";
 import RoomDetailInfo from "../../components/RoomDetailInfo/RoomDetailInfo";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
 import ScheduleList from "../../components/ScheduleList/ScheduleList";
+import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -102,6 +103,23 @@ const HousekeeperTest = ({ navigation }) => {
   const handleTabPress = (index) => {
     setActiveTab(index);
   };
+  const dummyItems = [
+    {
+      id: "1",
+      imageSrc: "https://picsum.photos/2000/600?random=11",
+      itemName: "Item 1",
+    },
+    {
+      id: "2",
+      imageSrc: "https://picsum.photos/2000/600?random=12",
+      itemName: "Item 2",
+    },
+    {
+      id: "3",
+      imageSrc: "https://picsum.photos/2000/600?random=13",
+      itemName: "Item 3",
+    },
+  ];
 
   return (
     <ScrollView style={styles.container}>
@@ -109,6 +127,7 @@ const HousekeeperTest = ({ navigation }) => {
       <Typography variant="body-regular">Hello</Typography>
       <ScheduleList data={data} />
       <Stopwatch />
+      <RequestedItemsList items={dummyItems}></RequestedItemsList>
       <RoomDetailInfo
         room={roomGoldDueOutdueIn}
         reservation={reservation}
@@ -116,7 +135,7 @@ const HousekeeperTest = ({ navigation }) => {
       <HomeIcon fill="#FECE8C"></HomeIcon>
       <ProfileIcon fill="#FECE8C"></ProfileIcon>
       <CartIcon fill="#FECE8C"></CartIcon>
-      <Button name="Primary" type="secondary" onPress={handleClick} />
+      <Button name="Primary" type="secondary" />
       <Typography variant="h1-black" style={{ color: "blue" }}>
         Hello World!
       </Typography>

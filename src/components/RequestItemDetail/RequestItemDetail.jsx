@@ -18,7 +18,7 @@ const RequestItemDetail = ({ imageSrc, itemName }) => {
     //react native code
     <View style={styles.container}>
       <View>
-        <ImageDisplay type="small" imageSrc={imageSrc}/>
+        <ImageDisplay type="small" source={imageSrc} />
       </View>
       <View>
         <View style={styles.topHeader}>
@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 68,
+    marginBottom: 16,
   },
   topHeader: {
     flexDirection: "row",
