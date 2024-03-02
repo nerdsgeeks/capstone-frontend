@@ -1,8 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 
-const Typography = ({ variant, children, style }) => {
-
+const Typography = ({ variant = "body-regular", children, style }) => {
   const variants = variant.split("-");
 
   const textStyles = variants.map((v) => {

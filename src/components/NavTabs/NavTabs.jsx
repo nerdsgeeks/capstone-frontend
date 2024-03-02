@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
+    width: 200,
   },
   tab: {
     flex: 1,

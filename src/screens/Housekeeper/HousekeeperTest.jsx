@@ -31,7 +31,7 @@ const HousekeeperTest = ({ navigation }) => {
     date: "2023-04-01",
   };
   const roomDiamondDueout = {
-    tier: "diamond", 
+    tier: "diamond",
     type: "Queen Bed",
     status: "dueOut",
     roomNumber: "101",
@@ -86,17 +86,16 @@ const HousekeeperTest = ({ navigation }) => {
     guestName: "John Doe",
     noOfGuest: 2,
     additionalNotes: "Prefer a room with a view if available.",
-    isCompleted: false
+    isCompleted: false,
   };
 
   const data = [
-    { id: '1', title: 'Meeting with Client', date: '2024-03-01' },
-    { id: '2', title: 'Project Deadline', date: '2024-03-05' },
-    { id: '3', title: 'Team Lunch', date: '2024-03-10' },
-    { id: '4', title: 'Presentation', date: '2024-03-15' },
-    { id: '5', title: 'Training Session', date: '2024-03-20' },
+    { id: "1", title: "Meeting with Client", date: "2024-03-01" },
+    { id: "2", title: "Project Deadline", date: "2024-03-05" },
+    { id: "3", title: "Team Lunch", date: "2024-03-10" },
+    { id: "4", title: "Presentation", date: "2024-03-15" },
+    { id: "5", title: "Training Session", date: "2024-03-20" },
   ];
-  
 
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
@@ -107,9 +106,13 @@ const HousekeeperTest = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <TestModal />
+      <Typography variant="body-regular">Hello</Typography>
       <ScheduleList data={data} />
-      <Stopwatch/>
-      <RoomDetailInfo room={roomGoldDueOutdueIn} reservation= {reservation}></RoomDetailInfo>
+      <Stopwatch />
+      <RoomDetailInfo
+        room={roomGoldDueOutdueIn}
+        reservation={reservation}
+      ></RoomDetailInfo>
       <HomeIcon fill="#FECE8C"></HomeIcon>
       <ProfileIcon fill="#FECE8C"></ProfileIcon>
       <CartIcon fill="#FECE8C"></CartIcon>
