@@ -52,7 +52,15 @@ const RoomDetailInfo = ({ reservation, room }) => {
         </Typography>
       </View>
       {reservation.additionalNotes ? (
-        <View style={{ flexDirection: "column", gap: 6, padding: 10, backgroundColor: "hotpink", borderRadius: 8 }}>
+        <View
+          style={{
+            flexDirection: "column",
+            gap: 6,
+            padding: 10,
+            backgroundColor: "#DAEBEC",
+            borderRadius: 8,
+          }}
+        >
           <Typography variant="xs-medium">Requests:</Typography>
           <Typography variant="xs-regular">
             {"\u2022"} {reservation.additionalNotes}

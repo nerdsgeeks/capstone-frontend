@@ -14,6 +14,7 @@ import NavTabs from "../../components/NavTabs/NavTabs";
 import RoomDetailInfo from "../../components/RoomDetailInfo/RoomDetailInfo";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
 import ScheduleList from "../../components/ScheduleList/ScheduleList";
+import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -31,7 +32,7 @@ const HousekeeperTest = ({ navigation }) => {
     date: "2023-04-01",
   };
   const roomDiamondDueout = {
-    tier: "diamond", 
+    tier: "diamond",
     type: "Queen Bed",
     status: "dueOut",
     roomNumber: "101",
@@ -86,34 +87,55 @@ const HousekeeperTest = ({ navigation }) => {
     guestName: "John Doe",
     noOfGuest: 2,
     additionalNotes: "Prefer a room with a view if available.",
-    isCompleted: false
+    isCompleted: false,
   };
 
   const data = [
-    { id: '1', title: 'Meeting with Client', date: '2024-03-01' },
-    { id: '2', title: 'Project Deadline', date: '2024-03-05' },
-    { id: '3', title: 'Team Lunch', date: '2024-03-10' },
-    { id: '4', title: 'Presentation', date: '2024-03-15' },
-    { id: '5', title: 'Training Session', date: '2024-03-20' },
+    { id: "1", title: "Meeting with Client", date: "2024-03-01" },
+    { id: "2", title: "Project Deadline", date: "2024-03-05" },
+    { id: "3", title: "Team Lunch", date: "2024-03-10" },
+    { id: "4", title: "Presentation", date: "2024-03-15" },
+    { id: "5", title: "Training Session", date: "2024-03-20" },
   ];
-  
 
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
   const handleTabPress = (index) => {
     setActiveTab(index);
   };
+  const dummyItems = [
+    {
+      id: "1",
+      imageSrc: "https://picsum.photos/2000/600?random=11",
+      itemName: "Item 1",
+    },
+    {
+      id: "2",
+      imageSrc: "https://picsum.photos/2000/600?random=12",
+      itemName: "Item 2",
+    },
+    {
+      id: "3",
+      imageSrc: "https://picsum.photos/2000/600?random=13",
+      itemName: "Item 3",
+    },
+  ];
 
   return (
     <ScrollView style={styles.container}>
       <TestModal />
+      <Typography variant="body-regular">Hello</Typography>
       <ScheduleList data={data} />
-      <Stopwatch/>
-      <RoomDetailInfo room={roomGoldDueOutdueIn} reservation= {reservation}></RoomDetailInfo>
+      <Stopwatch />
+      <RequestedItemsList items={dummyItems}></RequestedItemsList>
+      <RoomDetailInfo
+        room={roomGoldDueOutdueIn}
+        reservation={reservation}
+      ></RoomDetailInfo>
       <HomeIcon fill="#FECE8C"></HomeIcon>
       <ProfileIcon fill="#FECE8C"></ProfileIcon>
       <CartIcon fill="#FECE8C"></CartIcon>
-      <Button name="Primary" type="secondary" onPress={handleClick} />
+      <Button name="Primary" type="secondary" />
       <Typography variant="h1-black" style={{ color: "blue" }}>
         Hello World!
       </Typography>

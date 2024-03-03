@@ -1,4 +1,4 @@
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground, Text } from "react-native";
 import CheckIcon from "../../SVG/CheckIcon";
 import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 import DueInIcon from "../../SVG/DueInIcon";
@@ -6,53 +6,52 @@ import DueOutIcon from "../../SVG/DueOutIcon";
 import BackIcon from "../../SVG/BackIcon";
 import TextChip from "../TextChip/TextChip";
 import Typography from "../Typography/Typography";
-import BackgroundImage from "../../../assets/Rooms-Card.png"
+import BackgroundImage from "../../../assets/Rooms-Card.png";
 
 const RoomDetailHeader = ({ room, taskStatus }) => {
   let statusIcon;
-switch (room.status) {
+  console.log(room);
+
+  const StatusSvg = () => {
+    switch (room.status) {
       case "dueOut":
-        statusIcon = <DueOutIcon />;
-        break;
+        return <DueOutIcon />;
       case "dueIn":
-        statusIcon = <DueInIcon />;
-        break;
+        return <DueInIcon />;
       case "checkedOut":
-        statusIcon = <CheckedOutIcon />;
-        break;
+        return <CheckedOutIcon />;
       case "checkedIn":
-        statusIcon = <CheckIcon stroke="#469AA2" fill="white" />;
-        break;
+        return <CheckIcon stroke="green" />;
       case "dueOutdueIn":
-        statusIcon = (
+        return (
           <>
             <DueOutIcon /> <DueInIcon />
           </>
         );
-        break;
       case "checkedOutcheckedIn":
-        statusIcon = (
+        return (
           <>
             <CheckedOutIcon /> <CheckIcon />{" "}
           </>
         );
-        break;
       default:
-        statusIcon = <TextChip text="NO INFO"/>;
-        break;
+        return <Text>Checked In</Text>;
     }
+  };
 
   return (
     <ImageBackground source={BackgroundImage} style={styles.container}>
       <View style={styles.line1}>
         <BackIcon />
-        <TextChip text={taskStatus} backgroundColor="#F89C7B"/>
+        <TextChip text={taskStatus} backgroundColor="#F89C7B" />
       </View>
       <View>
-        <Typography variant="h4-medium" style={{color:'white'}}>{room.number}</Typography>
+        <Typography variant="h4-medium" style={{ color: "white" }}>
+          {room.roomNumber}
+        </Typography>
         <View style={styles.bottomLine}>
           <TextChip text={room.type} />
-          {statusIcon}
+          <Text style={styles.svg}>{StatusSvg()}</Text>
         </View>
       </View>
     </ImageBackground>
