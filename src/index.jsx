@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import NavigationTab from "./Navigation/NavigationTab";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
+import StaffCleanedRoomScreen from "./components/StaffCleanedRoomScreen/StaffCleanedRoomScreen";
 
 const App = () => {
   const [isFontLoaded, setIsFontLoaded] = React.useState(false);
@@ -24,9 +25,10 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <NavigationTab />
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <NavigationTab />
+    // </NavigationContainer>
+    <StaffCleanedRoomScreen />
   );
 };
 
