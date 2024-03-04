@@ -15,6 +15,9 @@ import RoomDetailInfo from "../../components/RoomDetailInfo/RoomDetailInfo";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
 import ScheduleList from "../../components/ScheduleList/ScheduleList";
 import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
+import BedIcon from "../../SVG/BedIcon";
+import BigButton from "../../components/BigButton/BigButton";
+import { colors } from "../../../themes/themes"
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -124,6 +127,8 @@ const HousekeeperTest = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <TestModal />
+      <BigButton name="bark bark" icon={<BedIcon w="40" h="28" fill={colors.orange}/>} />
+      <BigButton name="bark bark"  text="30"/>
       <Typography variant="body-regular">Hello</Typography>
       <ScheduleList data={data} />
       <Stopwatch />
