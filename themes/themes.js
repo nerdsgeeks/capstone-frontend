@@ -18,7 +18,7 @@ export const colors = {
   n30: "#9f9f9f",
   n20: "#d9d9d9",
   n10: "#F2F2F2",
-  n0: "##FFFFFF",
+  n0: "#FFFFFF",
 };
 
 // import { colors } from '../themes/themes';
