@@ -25,10 +25,13 @@ const App = () => {
   }
 
   return (
-    // <NavigationContainer>
-    //   <NavigationTab />
-    // </NavigationContainer>
-    <StaffCleanedRoomScreen />
+    <SafeAreaProvider>
+    <SafeAreaView>
+      <NavigationContainer>
+        <NavigationTab />
+      </NavigationContainer>
+    </SafeAreaView>
+  </SafeAreaProvider>
   );
 };
 
