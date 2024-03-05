@@ -9,8 +9,6 @@ import Typography from "../Typography/Typography";
 import BackgroundImage from "../../../assets/Rooms-Card.png";
 
 const RoomDetailHeader = ({ room, taskStatus }) => {
-  let statusIcon;
-  console.log(room);
 
   const StatusSvg = () => {
     switch (room.status) {
@@ -31,7 +29,7 @@ const RoomDetailHeader = ({ room, taskStatus }) => {
       case "checkedOutcheckedIn":
         return (
           <>
-            <CheckedOutIcon /> <CheckIcon />{" "}
+            <CheckedOutIcon /> <CheckIcon />
           </>
         );
       default:
