@@ -39,7 +39,7 @@ import NavigationTab from "./Navigation/NavigationTab";
 import NavigationTabSupervisor from "./Navigation/NavigationTabSupervisor";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
-import StaffCleanedRoomScreen from "./components/StaffCleanedRoomScreen/StaffCleanedRoomScreen";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const App = () => {
   const [isFontLoaded, setIsFontLoaded] = React.useState(false);
@@ -74,45 +74,39 @@ const App = () => {
   };
 
   return (
-<<<<<<< HEAD
     <SafeAreaProvider>
-    <SafeAreaView>
-      <NavigationContainer>
-        <NavigationTab />
-      </NavigationContainer>
-    </SafeAreaView>
-  </SafeAreaProvider>
-=======
-    // <NavigationContainer>
-    //   <NavigationTab />
-    // </NavigationContainer>
-    <>
-      {!isDashboardSelected && (
-        <View style={styles.container}>
-          <Button
-            title="Housekeeper Dashboard"
-            onPress={handleHousekeeperDashboardClick}
-          ></Button>
-          <Button
-            title="Supervisor Dashboard Dashboard"
-            onPress={handleSupervisorDashboardClick}
-          ></Button>
-        </View>
-      )}
+    <SafeAreaView style={{ flex: 1 }}>
+        <>
+      
+          {!isDashboardSelected && (
+            <View style={styles.container}>
+              <Button
+                title="Housekeeper Dashboard"
+                onPress={handleHousekeeperDashboardClick}
+              ></Button>
+              <Button
+                title="Supervisor Dashboard Dashboard"
+                onPress={handleSupervisorDashboardClick}
+              ></Button>
+            </View>
+          )}
 
-      {showHousekeeperDashboard && (
-        <NavigationContainer>
-          <NavigationTab />
-        </NavigationContainer>
-      )}
+          {showHousekeeperDashboard && (
+            <NavigationContainer>
+              <NavigationTab />
+            </NavigationContainer>
+          )}
 
-      {showSupervisorDashboard && (
-        <NavigationContainer>
-          <NavigationTabSupervisor />
-        </NavigationContainer>
-      )}
-    </>
->>>>>>> 37640b45c4c50615cd06b5c51ad7926b531fba5f
+          {showSupervisorDashboard && (
+            <NavigationContainer>
+              <NavigationTabSupervisor />
+            </NavigationContainer>
+          )}
+             
+        </>
+        </SafeAreaView>
+        </SafeAreaProvider>
+  
   );
 };
 
