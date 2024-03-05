@@ -46,16 +46,13 @@ const fontSizes = {
     fontSize: 19,
   },
   body: {
-    fontSize: 16,
+    fontSize: 17,
   },
   small: {
-    fontSize: 14,
+    fontSize: 16,
   },
   xs: {
-    fontSize: 12,
-  },
-  button: {
-    fontSize: 11,
+    fontSize: 14,
   },
 };
 

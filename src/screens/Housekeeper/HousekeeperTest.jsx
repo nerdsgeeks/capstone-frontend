@@ -17,7 +17,10 @@ import ScheduleList from "../../components/ScheduleList/ScheduleList";
 import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
 import BedIcon from "../../SVG/BedIcon";
 import BigButton from "../../components/BigButton/BigButton";
-import { colors } from "../../../themes/themes"
+import { colors } from "../../../themes/themes";
+import MGRoomHeader from "../../components/MGRoomHeader/MGRoomHeader";
+import Accordion from "../../components/Accordion/Accordion";
+import RoomAccordionButton from "../../components/RoomAccordionButton/RoomAccordionButton";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -101,10 +104,36 @@ const HousekeeperTest = ({ navigation }) => {
     { id: "5", title: "Training Session", date: "2024-03-20" },
   ];
 
+  const dummyRooms = [
+    { id: 1, roomName: "A203", roomFloor: 2, roomTypeId: 1, roomStatus: "dueOut" },
+    { id: 2, roomName: "B105", roomFloor: 1, roomTypeId: 2, roomStatus: "dueIn" },
+    { id: 3, roomName: "C307", roomFloor: 3, roomTypeId: 3, roomStatus: "checkedOut" },
+    { id: 4, roomName: "D410", roomFloor: 4, roomTypeId: 4, roomStatus: "checkedIn" },
+    {
+      roomName: "E201",
+      roomFloor: 2,
+      roomTypeId: 1,
+      roomStatus: "dueOutdueIn",
+    },
+    {
+      roomName: "F112",
+      roomFloor: 1,
+      roomTypeId: 2,
+      roomStatus: "checkedOutcheckedIn",
+    },
+  ];
+
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
   const handleTabPress = (index) => {
     setActiveTab(index);
+  };
+
+  const room = {
+    roomFloor: 2,
+    roomName: "A203",
+    roomStatus: "dueOut",
+    roomTypeId: 1,
   };
   const dummyItems = [
     {
@@ -127,8 +156,14 @@ const HousekeeperTest = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <TestModal />
-      <BigButton name="bark bark" icon={<BedIcon w="40" h="28" fill={colors.orange}/>} />
-      <BigButton name="bark bark"  text="30"/>
+      <Accordion rooms={dummyRooms} />
+      <RoomAccordionButton room={room} />
+      <MGRoomHeader />
+      <BigButton
+        name="bark bark"
+        icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+      />
+      <BigButton name="bark bark" text="30" />
       <Typography variant="body-regular">Hello</Typography>
       <ScheduleList data={data} />
       <Stopwatch />
