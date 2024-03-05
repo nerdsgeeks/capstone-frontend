@@ -39,7 +39,6 @@ import NavigationTab from "./Navigation/NavigationTab";
 import NavigationTabSupervisor from "./Navigation/NavigationTabSupervisor";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
-import StaffCleanedRoomScreen from "./components/StaffCleanedRoomScreen/StaffCleanedRoomScreen";
 
 const App = () => {
   const [isFontLoaded, setIsFontLoaded] = React.useState(false);
@@ -74,15 +73,6 @@ const App = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <SafeAreaProvider>
-    <SafeAreaView>
-      <NavigationContainer>
-        <NavigationTab />
-      </NavigationContainer>
-    </SafeAreaView>
-  </SafeAreaProvider>
-=======
     // <NavigationContainer>
     //   <NavigationTab />
     // </NavigationContainer>
@@ -112,7 +102,6 @@ const App = () => {
         </NavigationContainer>
       )}
     </>
->>>>>>> 37640b45c4c50615cd06b5c51ad7926b531fba5f
   );
 };
 
