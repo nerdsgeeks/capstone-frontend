@@ -6,6 +6,7 @@ import { View, StyleSheet } from "react-native";
 import Typography from "../Typography/Typography";
 import PersonIcon from "../../SVG/PersonIcon";
 import CalendarIcon from "../../SVG/CalendarIcon";
+import { colors } from "../../../themes/themes";
 
 const RoomDetailInfo = ({ reservation, room }) => {
   let tierIcon;
@@ -57,7 +58,7 @@ const RoomDetailInfo = ({ reservation, room }) => {
             flexDirection: "column",
             gap: 6,
             padding: 10,
-            backgroundColor: "#DAEBEC",
+            backgroundColor: colors.pale_teal2,
             borderRadius: 8,
           }}
         >
