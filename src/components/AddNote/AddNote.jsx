@@ -33,10 +33,13 @@ const AddNote = () => {
             <CheckIcon onPress={onSubmit} />
           ) : (
             <PlusIcon onPress={onPress} />
-          )} 
-    {!savedNote && <Typography variant="h5-black">Note</Typography>}
+          )}
+          {!savedNote && (
+            <Typography variant="body-medium" style={{}}>
+              Note
+            </Typography>
+          )}
         </View>
-        
       )}
       {textInputIsShown && !savedNote && (
         <TextInput
@@ -72,9 +75,9 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
     justifyContent: "flex-start",
-    borderWidth:1,
-    borderRadius:12,
-    padding:10,
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 10,
   },
   iconAndText: {
     flexDirection: "row",
@@ -82,8 +85,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textInput: {
-    width: "80%", 
-    marginTop: 10, 
+    width: "80%",
+    marginTop: 10,
     borderWidth: 1,
     borderColor: "gray",
     padding: 10,
