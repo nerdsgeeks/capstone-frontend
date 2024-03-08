@@ -38,7 +38,9 @@ const RoomButton = ({ type, onPress, isDisabled }) => {
 
   return (
     <TouchableOpacity onPress={onPress} disabled={isDisabled}>
-      <View style={[styles.buttonContainer, isDisabled && styles.disabledButton]}>
+      <View
+        style={[styles.buttonContainer, isDisabled && styles.disabledButton]}
+      >
         {icon}
         <Typography variant="button-regular" style={styles.buttonText}>
           {text}

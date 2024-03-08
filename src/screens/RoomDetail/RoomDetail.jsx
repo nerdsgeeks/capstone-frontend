@@ -21,6 +21,9 @@ import CheckIcon from "../../SVG/CheckIcon";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
 import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
 import CloseIcon from "../../SVG/CloseIcon";
+import AddNote from "../../components/AddNote/AddNote";
+import PlusIcon from "../../SVG/PlusIcon";
+import { useRequestStore } from "../../store/requestStore";
 
 const RoomDetail = ({ route, navigation }) => {
   const { roomDetails } = route.params;
@@ -30,11 +33,15 @@ const RoomDetail = ({ route, navigation }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isHelperRequested, setIsHelperRequested] = useState(false);
   const [isHelpButtonDisabled, setIsHelpButtonDisabled] = useState(false);
+  const [isRequestHelpModalTextFocused, setIsRequestHelpModalTextFocused] =
+    useState(false);
+
   const [isBottomTextContainerEnabled, setIsBottomTextContainerEnabled] =
     useState(false);
   const [hasRequestedItems, setHasRequestedItems] = useState(true);
 
   const [isRequestHelpModalOpen, setRequestHelpModalState] = useState(false);
+  const requestedItems = useRequestStore((state) => state.requestedItems);
 
   const toggleRequestHelpModal = () => {
     console.log(isRequestHelpModalOpen);
@@ -98,23 +105,26 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   // Dummy data for the items
-  const dummyItems = [
-    {
-      id: "1",
-      imageSrc: "https://picsum.photos/2000/600?random=11",
-      itemName: "Item 1",
-    },
-    {
-      id: "2",
-      imageSrc: "https://picsum.photos/2000/600?random=12",
-      itemName: "Item 2",
-    },
-    {
-      id: "3",
-      imageSrc: "https://picsum.photos/2000/600?random=13",
-      itemName: "Item 3",
-    },
-  ];
+  // const requestedItems = [
+  //   {
+  //     id: "1",
+  //     imageSrc: "https://picsum.photos/2000/600?random=11",
+  //     itemName: "Item 1",
+  //     count: 2,
+  //   },
+  //   {
+  //     id: "2",
+  //     imageSrc: "https://picsum.photos/2000/600?random=12",
+  //     itemName: "Item 2",
+  //     count: 2,
+  //   },
+  //   {
+  //     id: "3",
+  //     imageSrc: "https://picsum.photos/2000/600?random=13",
+  //     itemName: "Item 3",
+  //     count: 2,
+  //   },
+  // ];
 
   return (
     <View style={styles.container}>
@@ -133,8 +143,8 @@ const RoomDetail = ({ route, navigation }) => {
             reservation={reservation}
           ></RoomDetailInfo>
 
-          {hasRequestedItems && (
-            <RequestedItemsList items={dummyItems}></RequestedItemsList>
+          {requestedItems.length > 0 && (
+            <RequestedItemsList items={requestedItems}></RequestedItemsList>
           )}
         </ScrollView>
 
@@ -160,11 +170,30 @@ const RoomDetail = ({ route, navigation }) => {
                 </View>
                 <View style={styles.requestHelpModalNoteSection}>
                   <Text style={styles.requestHelpModalNoteLabel}>Add Note</Text>
-                  <TextInput
-                    style={styles.requestHelpModalInput}
-                    placeholder="Note"
-                  />
+                  <View>
+                    {!isRequestHelpModalTextFocused && (
+                      <View style={{ position: "absolute", top: 15, left: 10 }}>
+                        <PlusIcon />
+                      </View>
+                    )}
+
+                    <TextInput
+                      multiline
+                      style={[
+                        styles.requestHelpModalInput,
+                        {
+                          padding: isRequestHelpModalTextFocused ? 2 : 10,
+                          paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
+                          height: isRequestHelpModalTextFocused ? 80 : 40,
+                        },
+                      ]}
+                      placeholder="Note"
+                      onFocus={() => setIsRequestHelpModalTextFocused(true)}
+                      onBlur={() => setIsRequestHelpModalTextFocused(false)}
+                    />
+                  </View>
                 </View>
+
                 <TouchableOpacity
                   style={styles.requestHelpModalButton}
                   onPress={onRequestHelpModalSubmitPressed}
@@ -224,7 +253,11 @@ const RoomDetail = ({ route, navigation }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={onRequestPressed}
+              onPress={() =>
+                navigation.navigate("RoomDetailRequestItem", {
+                  roomDetails: roomDetails,
+                })
+              }
               style={styles.commonButton}
             >
               <RequestIcon></RequestIcon>
@@ -399,7 +432,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "grey",
     borderRadius: 5,
-    padding: 10,
     marginTop: 5,
   },
   requestHelpModalButton: {

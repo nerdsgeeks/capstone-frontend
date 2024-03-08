@@ -5,12 +5,14 @@ import TrashIcon from "../../SVG/TrashIcon";
 import Counter from "../Counter/Counter";
 import Typography from "../Typography/Typography";
 
-const RequestItemDetail = ({ imageSrc, itemName }) => {
-  const [count, setCount] = useState(0);
+const RequestItemDetail = ({ countProp = 0, imageSrc, itemName }) => {
+  const [count, setCount] = useState(countProp);
   const handleIncrement = () => {
+    console.log("handleIncrement");
     setCount(count + 1);
   };
   const handleDecrement = () => {
+    console.log("handleDecrement");
     setCount(count - 1);
   };
 

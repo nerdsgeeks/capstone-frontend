@@ -1,5 +1,5 @@
-import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import React from "react";
+import Svg, { Path } from "react-native-svg";
 
 const MinusIcon = ({ w = 20, h = 20, fill = "#9F9F9F" }) => (
   <Svg
@@ -17,7 +17,6 @@ const MinusIcon = ({ w = 20, h = 20, fill = "#9F9F9F" }) => (
       d="M3.75 10C3.75 9.30964 4.30964 8.75 5 8.75H15C15.6904 8.75 16.25 9.30964 16.25 10C16.25 10.6904 15.6904 11.25 15 11.25H5C4.30964 11.25 3.75 10.6904 3.75 10Z"
       fill={fill}
     />
-    
   </Svg>
 );
 
