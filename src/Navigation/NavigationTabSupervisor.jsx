@@ -12,6 +12,7 @@ import SupervisorRequest from "../screens/Supervisor/SupervisorRequest";
 import SupervisorRoom from "../screens/Supervisor/SupervisorRoom";
 import SupervisorStaff from "../screens/Supervisor/SupervisorStaff";
 import SupervisorTest from "../screens/Supervisor/SupervisorTest";
+import RequestIcon from "../SVG/RequestIcon";
 
 const Tab = createBottomTabNavigator();
 const NavigationTabSupervisor = () => {
@@ -114,7 +115,7 @@ const NavigationTabSupervisor = () => {
                   : {}
               }
             >
-              <CartIcon
+              <RequestIcon
                 fill={focused ? "#FECE8C" : "none"}
                 stroke={focused ? "#FECE8C" : "white"}
                 h={focused ? 26 : 22}
