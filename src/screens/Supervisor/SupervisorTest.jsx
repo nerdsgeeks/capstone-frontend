@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
+import BigButton from "../../components/BigButton/BigButton";
+import { colors } from "../../../themes/themes";
 import RequestDetail from "../Request/RequestDetail";
 
 export function BearCounter() {
@@ -30,6 +32,11 @@ const SupervisorTest = () => {
     <View style={styles.container}>
       <Text>SupervisorTest Screen</Text>
       <BedIcon></BedIcon>
+      <BigButton
+        name="bark bark"
+        icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+      />
+
       <BearCounter />
       <RequestDetail request={request} />
       <Controls />

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 20,
     alignItems: "flex-start",
-    padding: 13,
+    padding: 25,
     borderRadius: 20,
     borderColor: colors.yellow1,
     backgroundColor: colors.n0,

@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HousekeeperHome from "../screens/Housekeeper/HousekeeperHome";
 import RoomDetail from "../screens/RoomDetail/RoomDetail";
+import RoomDetailRequestItem from "../screens/RoomDetailRequestItem/RoomDetailRequestItem";
 
 const Stack = createNativeStackNavigator();
 const HousekeeperHomeStack = () => {
@@ -17,6 +18,11 @@ const HousekeeperHomeStack = () => {
       <Stack.Screen
         name="RoomDetail"
         component={RoomDetail}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="RoomDetailRequestItem"
+        component={RoomDetailRequestItem}
         options={{ title: "" }}
       />
     </Stack.Navigator>
