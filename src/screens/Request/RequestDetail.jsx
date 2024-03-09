@@ -4,7 +4,9 @@ import Typography from "../../components/Typography/Typography";
 import { Image } from "react-native";
 import { colors } from "../../../themes/themes";
 import Button from "../../components/Button/Button";
-const RequestDetail = ({ request }) => {
+const RequestDetail = ({ route ,navigation }) => {
+
+  const request = route.params.request;
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -12,7 +14,7 @@ const RequestDetail = ({ request }) => {
           source={require("./../../../assets/request-help-modal-image.png")}
           style={styles.image}
         />
-        <Typography variant="small-regular">itemName</Typography>
+        <Typography variant="small-regular">{request.itemName}</Typography>
       </View>
       <View style={styles.detailsContainer}>
         <View style={styles.detailItem}>
