@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
+import RequestDetail from "../Request/RequestDetail";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -15,12 +16,22 @@ export function Controls() {
   return <Button onPress={increasePopulation} title="one up" />;
 }
 
+const request = {
+  date: "2021-09-24",
+  itemType: "pillow",
+  roomNumber: "A123",
+  requester: "John Doe",
+  requesterId: "12345",
+  comments: "I need a pillow",
+}
+
 const SupervisorTest = () => {
   return (
     <View style={styles.container}>
       <Text>SupervisorTest Screen</Text>
       <BedIcon></BedIcon>
       <BearCounter />
+      <RequestDetail request={request} />
       <Controls />
     </View>
   );

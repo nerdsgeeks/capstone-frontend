@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    gap:20,
     padding: 10,
-    width: 200,
   },
   tab: {
     flex: 1,
