@@ -1,5 +1,4 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HousekeeperHome from "../screens/Housekeeper/HousekeeperHome";
 import { View, StyleSheet, Text } from "react-native";
 import HomeIcon from "../SVG/HomeIcon";
 import ProfileIcon from "../SVG/ProfileIcon";
@@ -13,6 +12,7 @@ import SupervisorRoom from "../screens/Supervisor/SupervisorRoom";
 import SupervisorStaff from "../screens/Supervisor/SupervisorStaff";
 import SupervisorTest from "../screens/Supervisor/SupervisorTest";
 import RequestIcon from "../SVG/RequestIcon";
+import SupervisorHomeStack from "../routes/SupervisorHomeStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTabSupervisor = () => {
@@ -30,6 +30,38 @@ const NavigationTabSupervisor = () => {
         headerShown: false, // This removes the top app bar
       }}
     >
+      <Tab.Screen
+        name="SuperVisorHomeStack"
+        component={SupervisorHomeStack}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={
+                focused
+                  ? {
+                      backgroundColor: "#F89C7B",
+                      height: 72,
+                      width: 60,
+                      borderRadius: 30,
+                      borderWidth: 1,
+                      borderColor: "#F89C7B",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }
+                  : {}
+              }
+            >
+              <HomeIcon
+                fill={focused ? "#FECE8C" : "none"}
+                stroke={focused ? "#FECE8C" : "white"}
+                h={focused ? 26 : 22}
+                w={focused ? 29 : 25}
+              ></HomeIcon>
+            </View>
+          ),
+        }}
+      />
+
       <Tab.Screen
         name="SupervisorHome"
         component={SupervisorHome}

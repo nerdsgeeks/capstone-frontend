@@ -4,6 +4,7 @@ import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
 import BigButton from "../../components/BigButton/BigButton";
 import { colors } from "../../../themes/themes";
+import RequestDetail from "../Request/RequestDetail";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -17,6 +18,15 @@ export function Controls() {
   return <Button onPress={increasePopulation} title="one up" />;
 }
 
+const request = {
+  date: "2021-09-24",
+  itemType: "pillow",
+  roomNumber: "A123",
+  requester: "John Doe",
+  requesterId: "12345",
+  comments: "I need a pillow",
+}
+
 const SupervisorTest = () => {
   return (
     <View style={styles.container}>
@@ -28,6 +38,7 @@ const SupervisorTest = () => {
       />
 
       <BearCounter />
+      <RequestDetail request={request} />
       <Controls />
     </View>
   );
