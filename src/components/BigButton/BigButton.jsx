@@ -3,7 +3,15 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Typography from "../Typography/Typography";
 import { colors } from "../../../themes/themes";
 
-const BigButton = ({ name, icon, text, type, onPress, disabled }) => {
+const BigButton = ({
+  name,
+  icon,
+  text,
+  variant = "title-medium",
+  onPress,
+  disabled,
+  width = 160,
+}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -12,6 +20,8 @@ const BigButton = ({ name, icon, text, type, onPress, disabled }) => {
         marginBottom: 24,
         borderRadius: 20,
         alignItems: "flex-start",
+        height: 80,
+        width: { width },
       }}
     >
       <View style={styles.buttonContainer}>
@@ -24,11 +34,13 @@ const BigButton = ({ name, icon, text, type, onPress, disabled }) => {
             gap: 20,
           }}
         >
-          {icon ? icon : <View style={{width:40, height:28}}></View>}
+          {icon ? icon : <View style={{ width: 40, height: 28 }}></View>}
           {text ? (
-            <Typography variant="h5-medium">{text}</Typography>
+            <Typography variant={variant} style={{ width: 50 }}>
+              {text}
+            </Typography>
           ) : (
-            <View style={{width:30, height:28}}></View>
+            <View style={{ width: 30, height: 28 }}></View>
           )}
         </View>
       </View>
@@ -38,6 +50,7 @@ const BigButton = ({ name, icon, text, type, onPress, disabled }) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    width: "100%",
     flexDirection: "column",
     gap: 20,
     alignItems: "flex-start",

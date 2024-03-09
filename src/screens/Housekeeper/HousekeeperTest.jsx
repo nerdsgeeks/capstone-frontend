@@ -97,18 +97,42 @@ const HousekeeperTest = ({ navigation }) => {
   };
 
   const data = [
-    { id: "1", title: "Meeting with Client", date: "2024-03-01" },
-    { id: "2", title: "Project Deadline", date: "2024-03-05" },
-    { id: "3", title: "Team Lunch", date: "2024-03-10" },
-    { id: "4", title: "Presentation", date: "2024-03-15" },
-    { id: "5", title: "Training Session", date: "2024-03-20" },
+    { day: "Tue", date: "Feb 20", time: "10am-6pm" },
+    { day: "Wed", date: "Feb 21", time: "10am-6pm" },
+    { day: "Fri", date: "Feb 23", time: "8am-4pm" },
+    { day: "Sun", date: "Feb 25", time: "1pm-6pm" },
+    { day: "Mon", date: "Feb 26", time: "8am-4pm" },
   ];
 
   const dummyRooms = [
-    { id: 1, roomName: "A203", roomFloor: 2, roomTypeId: 1, roomStatus: "dueOut" },
-    { id: 2, roomName: "B105", roomFloor: 1, roomTypeId: 2, roomStatus: "dueIn" },
-    { id: 3, roomName: "C307", roomFloor: 3, roomTypeId: 3, roomStatus: "checkedOut" },
-    { id: 4, roomName: "D410", roomFloor: 4, roomTypeId: 4, roomStatus: "checkedIn" },
+    {
+      id: 1,
+      roomName: "A203",
+      roomFloor: 2,
+      roomTypeId: 1,
+      roomStatus: "dueOut",
+    },
+    {
+      id: 2,
+      roomName: "B105",
+      roomFloor: 1,
+      roomTypeId: 2,
+      roomStatus: "dueIn",
+    },
+    {
+      id: 3,
+      roomName: "C307",
+      roomFloor: 3,
+      roomTypeId: 3,
+      roomStatus: "checkedOut",
+    },
+    {
+      id: 4,
+      roomName: "D410",
+      roomFloor: 4,
+      roomTypeId: 4,
+      roomStatus: "checkedIn",
+    },
     {
       roomName: "E201",
       roomFloor: 2,
