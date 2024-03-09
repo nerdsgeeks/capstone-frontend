@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const NavTabs = ({ tabs, activeTab, onTabPress }) => {
+const NavTabs = ({ tabs, activeTab, onTabPress, screen = "home" }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { width: screen === "home" ? 200 : "100%" }]}
+    >
       {tabs.map((tab, index) => (
         <TouchableOpacity
           key={index}
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
-    width: 200,
+    // width: "100%",
   },
   tab: {
     flex: 1,

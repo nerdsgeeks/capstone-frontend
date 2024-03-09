@@ -15,9 +15,17 @@ const ScheduleList = ({ data }) => {
         marginHorizontal: 36,
       }}
     >
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          columnGap: 20,
+        }}
+      >
         {/* Fix to day of the week name */}
-        <Typography variant="small-medium">{item.date}</Typography>
+        <Typography variant="small-medium" style={{ width: 40 }}>
+          {item.day}
+        </Typography>
         <Typography variant="small-medium">{item.date}</Typography>
       </View>
       <Typography variant="xs-medium" style={{ color: colors.n40 }}>
