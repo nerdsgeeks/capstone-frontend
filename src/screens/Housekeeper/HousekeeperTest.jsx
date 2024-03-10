@@ -21,6 +21,7 @@ import { colors } from "../../../themes/themes";
 import MGRoomHeader from "../../components/MGRoomHeader/MGRoomHeader";
 import Accordion from "../../components/Accordion/Accordion";
 import RoomAccordionButton from "../../components/RoomAccordionButton/RoomAccordionButton";
+import useBaseUrl from "../../hooks/useBaseUrl";
 
 const HousekeeperTest = ({ navigation }) => {
   const roomGoldDueout = {
@@ -176,12 +177,14 @@ const HousekeeperTest = ({ navigation }) => {
       itemName: "Item 3",
     },
   ];
+  const baseUrl = useBaseUrl();
 
   return (
     <ScrollView style={styles.container}>
       <TestModal />
       <Accordion rooms={dummyRooms} />
       <RoomAccordionButton room={room} />
+      <Text>Base URL is: {baseUrl}</Text>
       <MGRoomHeader />
       <BigButton
         name="bark bark"
