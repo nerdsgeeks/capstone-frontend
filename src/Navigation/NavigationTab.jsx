@@ -16,7 +16,7 @@ const NavigationTab = () => {
       screenOptions={{
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "#F89C7B",
+          // backgroundColor: "#F89C7B",
           borderTopLeftRadius: 28,
           borderTopRightRadius: 28,
           height: 50,
@@ -34,11 +34,11 @@ const NavigationTab = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -47,8 +47,8 @@ const NavigationTab = () => {
               }
             >
               <HomeIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               ></HomeIcon>
@@ -66,11 +66,11 @@ const NavigationTab = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -79,8 +79,8 @@ const NavigationTab = () => {
               }
             >
               <CartIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               />
@@ -144,11 +144,11 @@ const NavigationTab = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      //backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      //borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -157,8 +157,8 @@ const NavigationTab = () => {
               }
             >
               <ProfileIcon
-                fill={focused ? "#FF0000" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FF0000" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               />
@@ -176,11 +176,11 @@ const NavigationTab = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      //backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      //borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -189,8 +189,8 @@ const NavigationTab = () => {
               }
             >
               <HomeIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               ></HomeIcon>
