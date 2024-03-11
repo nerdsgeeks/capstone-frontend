@@ -4,7 +4,7 @@ import Typography from "../../components/Typography/Typography";
 import { Image } from "react-native";
 import { colors } from "../../../themes/themes";
 import Button from "../../components/Button/Button";
-const RequestDetail = ({ route ,navigation }) => {
+const RequestDetail = ({ navigation,route }) => {
 
   const request = route.params.request;
   return (
