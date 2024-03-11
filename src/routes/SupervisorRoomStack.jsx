@@ -12,11 +12,11 @@ const SupervisorRoomStack = () => {
         component={SupervisorRoom}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="SupervisorRoomDetail"
         component={SupervisorRoomDetail}
         options={{ headerShown: false }}
-      /> */}
+      />
     </Stack.Navigator>
   );
 };

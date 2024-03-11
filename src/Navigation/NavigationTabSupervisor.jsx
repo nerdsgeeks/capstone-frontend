@@ -14,6 +14,7 @@ import SupervisorTest from "../screens/Supervisor/SupervisorTest";
 import RequestIcon from "../SVG/RequestIcon";
 import SupervisorHomeStack from "../routes/SupervisorHomeStack";
 import SupervisorRequestStack from "../routes/SupervisorRequestStack";
+import SupervisorRoomStack from "../routes/SupervisorRoomStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTabSupervisor = () => {
@@ -32,7 +33,7 @@ const NavigationTabSupervisor = () => {
       }}
     >
       <Tab.Screen
-        name="SupervisorHome"
+        name="SupervisorHomeStack"
         component={SupervisorHomeStack}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -64,8 +65,8 @@ const NavigationTabSupervisor = () => {
       />
 
       <Tab.Screen
-        name="SupervisorRoom"
-        component={SupervisorRoom}
+        name="SupervisorRoomStack"
+        component={SupervisorRoomStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

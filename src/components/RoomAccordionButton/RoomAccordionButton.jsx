@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Touchable, TouchableOpacity } from "react-native";
 import { colors } from "../../../themes/themes";
 import Typography from "../Typography/Typography";
 import DueOutIcon from "../../SVG/DueOutIcon";
@@ -7,9 +7,9 @@ import DueInIcon from "../../SVG/DueInIcon";
 import CheckIcon from "../../SVG/CheckIcon";
 import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 
-const RoomAccordionButton = ({ room }) => {
+const RoomAccordionButton = ({ room, onPress }) => {
   let roomStyle;
-  switch (room.roomTypeId) {
+  switch (room.RoomTypeID) {
     case 1:
       roomStyle = {
         backgroundColor: colors.main,
@@ -34,7 +34,7 @@ const RoomAccordionButton = ({ room }) => {
       break;
   }
   const StatusSvg = () => {
-    switch (room.roomStatus) {
+    switch (room.RoomStatus) {
       case "dueOut":
         return <DueOutIcon />;
       case "dueIn":
@@ -59,11 +59,13 @@ const RoomAccordionButton = ({ room }) => {
         return <></>;
     }
   };
+
+  
   return (
-    <View style={[styles.container, roomStyle]}>
-      <Typography variant="body-black">{room.roomName}</Typography>
-      <View>{StatusSvg()}</View>
-    </View>
+    <TouchableOpacity style={[styles.container, roomStyle]} onPress={onPress}>
+        <Typography variant="body-black">{room.RoomName}</Typography>
+        <Typography>{StatusSvg()}</Typography>
+    </TouchableOpacity>
   );
 };
 
@@ -77,5 +79,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 10,
     paddingVertical: 8,
+    width: "30%",
   },
 });

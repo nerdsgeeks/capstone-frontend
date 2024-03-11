@@ -4,17 +4,17 @@ import RoomAccordionButton from "../RoomAccordionButton/RoomAccordionButton";
 import { View, StyleSheet } from "react-native";
 import { colors } from "../../../themes/themes";
 
-const Accordion = ({ rooms }) => {
+const Accordion = ({ rooms, onPress }) => {
   const [expanded, setExpanded] = React.useState(true);
 
   const handlePress = () => setExpanded(!expanded);
 
   const groupedRooms = rooms.reduce((acc, room) => {
-    const { roomFloor } = room;
-    if (!acc[roomFloor]) {
-      acc[roomFloor] = [];
+    const { Floor } = room;
+    if (!acc[Floor]) {
+      acc[Floor] = [];
     }
-    acc[roomFloor].push(room);
+    acc[Floor].push(room);
     return acc;
   }, {});
 
@@ -30,12 +30,14 @@ const Accordion = ({ rooms }) => {
             borderRadius: 12,
             paddingHorizontal: 10,
             paddingVertical: 7.5,
-            overflow: "hidden",
+            overflow: "scroll",
           }}
         >
+          <View style={styles.RoomCard} >
           {groupedRooms[floor].map((room) => (
-            <RoomAccordionButton key={room.roomId} room={room} />
+            <RoomAccordionButton key={room.ID} room={room} onPress={onPress} />
           ))}
+          </View>
         </List.Accordion>
       ))}
     </View>
@@ -50,5 +52,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 26,
     marginVertical: 16,
     gap: 14,
+  },
+  RoomCard: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+    justifyContent: "flex-start",
   },
 });

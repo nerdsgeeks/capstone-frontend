@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const NavTabs = ({ tabs, activeTab, onTabPress, screen = "home" }) => {
+const NavTabs = ({ tabs, activeTab, onTabPress, screen }) => {
   return (
     <View
-      style={[styles.container, { width: screen === "home" ? 200 : "100%" }]}
+      style={[styles.container, { width: screen === "home" ? 200 : "70%" }]}
     >
       {tabs.map((tab, index) => (
         <TouchableOpacity

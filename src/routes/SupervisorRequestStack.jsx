@@ -8,7 +8,7 @@ const SupervisorRequestStack = () => {
   return (
     <Stack.Navigator initialRouteName="SupervisorRequest">
             <Stack.Screen
-                name="SupervisorRequest"
+              name="SupervisorRequest"
                 component={SupervisorRequest}
                 options={{ headerShown: false }}
             />
