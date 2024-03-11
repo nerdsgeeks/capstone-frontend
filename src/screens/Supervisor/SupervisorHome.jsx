@@ -27,8 +27,6 @@ const SupervisorHome = () => {
             />
           </SafeAreaView>
         </LinearGradient>
-        <View style={styles.body}>
-        </View>
     <View style={styles.bodyContainer}>
       <View style={styles.statusContainer}>
         <View style={styles.upperContainer}>

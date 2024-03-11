@@ -1,4 +1,4 @@
-import { View, StyleSheet, ImageBackground, Text } from "react-native";
+import { View, StyleSheet, ImageBackground, Text, Touchable, TouchableOpacity } from "react-native";
 import CheckIcon from "../../SVG/CheckIcon";
 import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 import DueInIcon from "../../SVG/DueInIcon";
@@ -8,7 +8,7 @@ import TextChip from "../TextChip/TextChip";
 import Typography from "../Typography/Typography";
 import BackgroundImage from "../../../assets/Rooms-Card.png";
 
-const RoomDetailHeader = ({ room, taskStatus }) => {
+const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
 
   const StatusSvg = () => {
     switch (room.status) {
@@ -40,7 +40,10 @@ const RoomDetailHeader = ({ room, taskStatus }) => {
   return (
     <ImageBackground source={BackgroundImage} style={styles.container}>
       <View style={styles.line1}>
-        <BackIcon />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+
+        <BackIcon  />
+        </TouchableOpacity>
         <TextChip text={taskStatus} backgroundColor="#F89C7B" />
       </View>
       <View>

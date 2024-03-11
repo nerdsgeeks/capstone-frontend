@@ -6,6 +6,7 @@ import BigButton from "../../components/BigButton/BigButton";
 import { colors } from "../../../themes/themes";
 import RequestDetail from "../Request/RequestDetail";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -57,6 +58,8 @@ const SupervisorTest = () => {
       <BearCounter />
       {/* <RequestDetail request={request} /> */}
       <Controls />
+      <SupervisorRoomHeader room="Room 1" />
+
 
       {/* <ScrollView style={styles.scrollViewcontainer}>
         <View style={styles.row}>

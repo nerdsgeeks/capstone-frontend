@@ -13,6 +13,8 @@ import SupervisorStaff from "../screens/Supervisor/SupervisorStaff";
 import SupervisorTest from "../screens/Supervisor/SupervisorTest";
 import RequestIcon from "../SVG/RequestIcon";
 import SupervisorHomeStack from "../routes/SupervisorHomeStack";
+import SupervisorRequestStack from "../routes/SupervisorRequestStack";
+import SupervisorRoomStack from "../routes/SupervisorRoomStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTabSupervisor = () => {
@@ -31,7 +33,7 @@ const NavigationTabSupervisor = () => {
       }}
     >
       <Tab.Screen
-        name="SuperVisorHomeStack"
+        name="SupervisorHomeStack"
         component={SupervisorHomeStack}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -63,40 +65,8 @@ const NavigationTabSupervisor = () => {
       />
 
       <Tab.Screen
-        name="SupervisorHome"
-        component={SupervisorHome}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={
-                focused
-                  ? {
-                      backgroundColor: "#F89C7B",
-                      height: 72,
-                      width: 60,
-                      borderRadius: 30,
-                      borderWidth: 1,
-                      borderColor: "#F89C7B",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }
-                  : {}
-              }
-            >
-              <HomeIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
-                h={focused ? 26 : 22}
-                w={focused ? 29 : 25}
-              ></HomeIcon>
-            </View>
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="SupervisorRoom"
-        component={SupervisorRoom}
+        name="SupervisorRoomStack"
+        component={SupervisorRoomStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -127,8 +97,8 @@ const NavigationTabSupervisor = () => {
       />
 
       <Tab.Screen
-        name="Request"
-        component={SupervisorRequest}
+        name="SupervisorRequest"
+        component={SupervisorRequestStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

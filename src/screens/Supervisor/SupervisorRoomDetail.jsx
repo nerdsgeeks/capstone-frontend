@@ -12,12 +12,12 @@ import BedIcon from "../../SVG/BedIcon";
 import CheckIcon from "../../SVG/CheckIcon";
 import CloseIcon from "../../SVG/CloseIcon";
 import { SelectList } from "react-native-dropdown-select-list";
-// https://www.npmjs.com/package/react-native-dropdown-select-list
 
-const SupervisorRoomDetail = ({ staff, onPress }) => {
+const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const [isModalOpen, setModalState] = useState(false);
   const [selected, setSelected] = React.useState("");
   const toggleModal = () => setModalState(!isModalOpen);
+  const room  = route.params.room;
   const roomStatus = [
     { key: "1", value: "Dueout" },
     { key: "2", value: "DueIn" },
@@ -26,12 +26,7 @@ const SupervisorRoomDetail = ({ staff, onPress }) => {
     { key: "5", value: "DueOutDueIn" },
     { key: "6", value: "CheckedOutCheckedIn" },
   ];
-  const room = {
-    roomNumber: "A110",
-    roomType: "Double Bed",
-    roomStatus: "dueOut",
-    tier: "gold",
-  };
+  
   const reservation = {
     guestName: "Mr. Poopie Butthole",
     noOfGuest: 2,
@@ -45,8 +40,8 @@ const SupervisorRoomDetail = ({ staff, onPress }) => {
   };
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <RoomDetailHeader room={room} taskStatus="pending" />
+        <RoomDetailHeader room={room} taskStatus="pending" navigation={navigation} />
+        <SafeAreaView style={{ flex: 1 }}>
         <RoomDetailInfo reservation={reservation} room={room} />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
@@ -89,7 +84,7 @@ const SupervisorRoomDetail = ({ staff, onPress }) => {
                 <CloseIcon onPress={toggleModal} />
                 <Typography variant="h5-black">Update Room Status</Typography>
                 <Typography variant="title-regular">
-                  Room {room.roomNumber}
+                  Room {room.RoomName}
                 </Typography>
                 <Typography variant="xs-medium">Room Status</Typography>
                 <SelectList

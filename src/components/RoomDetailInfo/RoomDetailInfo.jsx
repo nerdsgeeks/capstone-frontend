@@ -7,6 +7,7 @@ import Typography from "../Typography/Typography";
 import PersonIcon from "../../SVG/PersonIcon";
 import CalendarIcon from "../../SVG/CalendarIcon";
 import { colors } from "../../../themes/themes";
+import TextChip from "../TextChip/TextChip";
 
 const RoomDetailInfo = ({ reservation, room }) => {
   let tierIcon;
