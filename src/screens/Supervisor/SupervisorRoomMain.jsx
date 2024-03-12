@@ -21,10 +21,9 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
   const setRoomStatus = (status) => {
     let filteredRooms = [];
     if (status === "All") {
-        filteredRooms = rooms;
+      filteredRooms = rooms;
     } else {
-        filteredRooms = rooms.filter((room) => room.RoomStatus === status);
-
+      filteredRooms = rooms.filter((room) => room.RoomStatus === status);
     }
 
     setRoomToDisplay(filteredRooms);
@@ -45,107 +44,103 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
           ]}
         >
           <Chip
-            style={{
-              backgroundColor: activeChip === "All" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
-            textStyle={{ color: activeChip === "All" ? "#FFFFFF" : "#9F9F9F" }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor: activeChip === "All" ? colors.n40 : colors.n0,
+              },
+            ]}
+            textStyle={{ color: activeChip === "All" ? colors.n0 : colors.n40 }}
             onPress={() => setRoomStatus("All")}
           >
             All
           </Chip>
           <Chip
-            style={{
-              backgroundColor: activeChip === "dueIn" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "dueIn" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "dueIn" ? "#FFFFFF" : "#9F9F9F",
+              color: activeChip === "dueIn" ? colors.n0 : colors.n40,
             }}
             onPress={() => setRoomStatus("dueIn")}
           >
             Due In
           </Chip>
           <Chip
-            style={{
-              backgroundColor: activeChip === "dueOut" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "dueOut" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "dueOut" ? "#FFFFFF" : "#9F9F9F",
+              color: activeChip === "dueOut" ? colors.n0 : colors.n40,
             }}
             onPress={() => setRoomStatus("dueOut")}
           >
             Due Out
           </Chip>
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "checkedIn" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "checkedIn" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "checkedIn" ? "#FFFFFF" : "#9F9F9F",
+              color: activeChip === "checkedIn" ? colors.n0 : colors.n40,
             }}
             onPress={() => setRoomStatus("checkedIn")}
           >
             Checked In
           </Chip>
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "checkedOut" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "checkedOut" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "checkedOut" ? "#FFFFFF" : "#9F9F9F",
+              color: activeChip === "checkedOut" ? colors.n0 : colors.n40,
             }}
             onPress={() => setRoomStatus("checkedOut")}
           >
             Checked Out
           </Chip>
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "dueOutdueIn" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "dueOutdueIn" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "dueOutdueIn" ? "#FFFFFF" : "#9F9F9F",
+              color: activeChip === "dueOutdueIn" ? colors.n0 : colors.n40,
             }}
             onPress={() => setRoomStatus("dueOutdueIn")}
           >
             DueOut-DueIn
           </Chip>
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "checkedOutcheckedIn" ? "#1E1E1E" : "#FFFFFF",
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "checkedOutcheckedIn" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "checkedOutcheckedIn" ? "#FFFFFF" : "#9F9F9F",
+              color:
+                activeChip === "checkedOutcheckedIn" ? colors.n0 : colors.n40,
             }}
             onPress={() => setRoomStatus("checkedOutcheckedIn")}
           >
@@ -155,11 +150,16 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
       </View>
       <ScrollView>
         <View style={styles.bodyContainer}>
-          <View style={styles.filterNavAndTotalcontainer}>
-            <View style={styles.borderContainer}>
-              <Typography variant="small-medium" style={styles.totalTaskStyle}>
-                20
-              </Typography>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginHorizontal: 27,
+              gap: 8,
+            }}
+          >
+            <View style={styles.numberContainer}>
+              <Typography variant="small-medium">20</Typography>
             </View>
             <NavTabs
               tabs={tabs}
@@ -169,7 +169,7 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
             />
           </View>
           <View style={styles.floorAccordion}>
-            <View style={{ width: "90%" }}>
+            <View style={{ width: "100%" }}>
               <Accordion rooms={roomToDisplay} onPress={onPress} />
             </View>
           </View>
@@ -182,47 +182,39 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: colors.n0,
   },
   chipContainer: {
     flexDirection: "row",
-    height: 60,
-    marginLeft: 40,
-    marginTop: 10,
+    marginLeft: 27,
+    marginVertical: 10,
+  },
+  chip: {
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 4,
+    borderRadius: 20,
   },
   headerContainer: {
+    backgroundColor: colors.n10,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
   bodyContainer: {
-    display: "flex",
-    flexDirection: "column",
+    paddingVertical: 10,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+
+  numberContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-  },
-  filterNavAndTotalcontainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  NavContainer: {
-    width: "100%",
-    gap: 20,
-  },
-  borderContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 20,
-    borderWidth: 1,
-    borderColor: colors.main,
+    width: 30,
+    height: 30,
     backgroundColor: colors.main,
-    borderRadius: 20,
-    padding: 5,
+    borderRadius: 100,
   },
   floorAccordion: {
     display: "flex",

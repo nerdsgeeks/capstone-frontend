@@ -11,7 +11,7 @@ const SupervisorRoom = ({navigation}) => {
     {
         "ID": 1,
         "RoomName": "A101",
-        "RoomTypeID": 5,
+        "RoomTypeID": 1,
         "Floor": 1,
         "RoomStatus": "dueOut",
         "RoomImageUrl": "https://picsum.photos/2000/600?random=12"
@@ -19,7 +19,7 @@ const SupervisorRoom = ({navigation}) => {
     {
         "ID": 2,
         "RoomName": "A102",
-        "RoomTypeID": 6,
+        "RoomTypeID": 2,
         "Floor": 1,
         "RoomStatus": "dueIn",
         "RoomImageUrl": "https://picsum.photos/2000/600?random=12"
@@ -27,7 +27,7 @@ const SupervisorRoom = ({navigation}) => {
     {
         "ID": 3,
         "RoomName": "A103",
-        "RoomTypeID": 6,
+        "RoomTypeID": 3,
         "Floor": 1,
         "RoomStatus": "dueOutdueIn",
         "RoomImageUrl": "https://picsum.photos/2000/600?random=12"
@@ -51,7 +51,7 @@ const SupervisorRoom = ({navigation}) => {
     {
         "ID": 6,
         "RoomName": "A203",
-        "RoomTypeID": 6,
+        "RoomTypeID": 4,
         "Floor": 2,
         "RoomStatus": "dueOut",
         "RoomImageUrl": "https://picsum.photos/2000/600?random=12"
@@ -136,8 +136,8 @@ const SupervisorRoom = ({navigation}) => {
         locations={[0.01, 0.7, 0.92, 1.0]}
         style={styles.headerContainer}
       >
-        <SafeAreaView style={{ flex: 1 }}>
-          <SupervisorRoomHeader room="A123" />
+        <SafeAreaView>
+          <SupervisorRoomHeader room="Rooms" />
         </SafeAreaView>
       </LinearGradient>
       <View style={styles.bodyContainer}>
@@ -157,9 +157,9 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    height: "18%",
     borderBottomLeftRadius: 60,
-    padding:20
+    paddingHorizontal:26,
+    paddingTop: 7,
   },
  
 });
