@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -8,11 +8,14 @@ import RequestItemComponent from "../../components/RequestItemComponent/RequestI
 import Button from "../../components/Button/Button";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
 import CloseIcon from "../../SVG/CloseIcon";
+import useBaseUrl from "../../hooks/useBaseUrl";
 
 const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [isRequestHelpModalOpen, setIsRequestHelpModalOpen] = useState(false);
   const [isCancelAllRequest, setIsCancelAllRequest] = useState(false);
+  const [requestItems, setRequestItems] = useState([]);
+  const baseUrl = useBaseUrl();
 
   const toggleRequestHelpModal = () => {
     setIsRequestHelpModalOpen(!isRequestHelpModalOpen);
@@ -39,6 +42,27 @@ const SupervisorRequest = ({ navigation }) => {
   const handleTabPress = (index) => {
     setActiveTab(index);
   };
+
+
+  useEffect(() => {
+    fetchRequestItems().then((data) => {
+      setRequestItems(data);
+    });
+  }, []);
+
+   const fetchRequestItems = async() =>{
+    try
+    {
+      console.log(baseUrl);
+        const response = await fetch(`${baseUrl}/api/requestItems/all`);
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.log(error);  
+    }
+
+   } 
 
   const roomSupplies = [
     { itemName: "Toilet Paper", quantity: 2, roomNumber: 101, date: "2022-01-01", itemType: "Toilet Paper", requester: "John Doe", requesterId: "12345", comments: "I need a toilet paper" },
