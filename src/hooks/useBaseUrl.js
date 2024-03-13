@@ -9,7 +9,7 @@ const useBaseUrl = () => {
     const url =
       process.env.NODE_ENV === "production"
         ? process.env.REACT_APP_BACKEND
-        : "http://localhost:5000";
+        : "http://10.0.2.2:5000";
     setBaseUrl(url);
   }, []);
 
