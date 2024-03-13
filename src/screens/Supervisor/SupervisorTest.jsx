@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, ScrollView } from "react-native";
 import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
 import BigButton from "../../components/BigButton/BigButton";
@@ -33,8 +33,13 @@ const SupervisorTest = () => {
   };
   const fetchData = async () => {
     try {
+      console.log("baseUrl " + baseUrl);
+      console.log(baseUrl + "/api/items/all");
       const response = await fetch(baseUrl + "/api/items/all");
       const data = await response.json();
+
+      console.log(data);
+      setItems(data);
       return data;
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -51,7 +56,23 @@ const SupervisorTest = () => {
   return (
     <View style={styles.container}>
       <Text>SupervisorTest Screen</Text>
-      <InspectionReview />
+      {/* <InspectionReview /> */}
+      {items && (
+        <ScrollView style={styles.scrollViewcontainer}>
+          <View style={styles.row}>
+            <Text style={styles.header}>Item Name</Text>
+            <Text style={styles.header}>Available</Text>
+            <Text style={styles.header}>Type</Text>
+          </View>
+          {items.map((item) => (
+            <View key={item.ID} style={styles.row}>
+              <Text style={styles.cell}>{item.ItemName}</Text>
+              <Text style={styles.cell}>{item.AvailableNum}</Text>
+              <Text style={styles.cell}>{item.ItemType}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
@@ -59,12 +80,13 @@ const SupervisorTest = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#8fcbbc",
-    alignItems: "center",
-    justifyContent: "center",
+    // backgroundColor: "#8fcbbc",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   scrollViewcontainer: {
     flex: 1,
+    height: 400,
   },
   row: {
     flexDirection: "row",
