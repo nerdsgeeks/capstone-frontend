@@ -2,9 +2,8 @@ import { Text, View } from "react-native";
 import CalendarIcon from "../../SVG/CalendarIcon";
 import Typography from "../Typography/Typography";
 
-const SupervisorRoomHeader = ({ room }) => {
+const SupervisorRoomHeader = ({ room, icon, text }) => {
   const date = new Date();
-  const day = date.getDate();
   const showDate =
     date.toLocaleString("default", { day: "numeric" }) +
     " " +
@@ -14,8 +13,8 @@ const SupervisorRoomHeader = ({ room }) => {
     <View style={styles.container}>
       <Typography variant="h5-black"> {room} </Typography>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-        <CalendarIcon />
-        <Typography variant="xs-medium">{showDate} </Typography>
+        {icon ? icon : null}
+        {text ? <Typography variant="xs-medium">{text}</Typography> : null}
       </View>
     </View>
   );

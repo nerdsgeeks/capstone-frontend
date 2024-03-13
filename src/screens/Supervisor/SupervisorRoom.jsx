@@ -4,6 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import { LinearGradient } from "expo-linear-gradient";
 import SupervisorRoomMain from "./SupervisorRoomMain";
+import CalendarIcon from "../../SVG/CalendarIcon";
 
 
 const SupervisorRoom = ({navigation}) => {
@@ -126,6 +127,13 @@ const SupervisorRoom = ({navigation}) => {
     navigation.navigate("SupervisorRoomDetail", { room });
   }
 
+  const date = new Date();
+  const showDate =
+    date.toLocaleString("default", { day: "numeric" }) +
+    " " +
+    date.toLocaleString("default", { month: "short" });
+
+
   return (
     <SafeAreaProvider>
     <View style={styles.container}>
@@ -137,7 +145,7 @@ const SupervisorRoom = ({navigation}) => {
         style={styles.headerContainer}
       >
         <SafeAreaView>
-          <SupervisorRoomHeader room="Rooms" />
+          <SupervisorRoomHeader room="Rooms" icon={<CalendarIcon />} text={showDate}/>
         </SafeAreaView>
       </LinearGradient>
       <View style={styles.bodyContainer}>
