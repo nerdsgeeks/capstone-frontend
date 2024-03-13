@@ -21,7 +21,7 @@ const MGRoomHeader = ({name,message}) => {
         />
         <View style={styles.rightContainer}>
           <View style={styles.innerContainer}>
-            <Typography variant="h5-black">HI {name}</Typography>
+            <Typography variant="h5-black">Hi {name}</Typography>
 
             <View style={styles.rightInnerContainer}>
               <CalendarIcon />

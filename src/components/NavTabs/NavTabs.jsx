@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import Typography from "../Typography/Typography";
 
 const NavTabs = ({ tabs, activeTab, onTabPress, screen }) => {
   return (
     <View
-      style={[styles.container, { width: screen === "home" ? 200 : "70%" }]}
+      style={[styles.container, { width: screen === "home" ? 200 : "100%" }]}
     >
       {tabs.map((tab, index) => (
         <TouchableOpacity
@@ -16,7 +17,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, screen }) => {
           onPress={() => onTabPress(index)}
           disabled={activeTab === index}
         >
-          <Text style={styles.tabText}>{tab.label}</Text>
+          <Typography variant="body-regular">{tab.label}</Typography>
         </TouchableOpacity>
       ))}
     </View>
@@ -26,14 +27,12 @@ const NavTabs = ({ tabs, activeTab, onTabPress, screen }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    gap:20,
-    padding: 10,
+    // justifyContent: "flex-start",
+    gap:8,
   },
   tab: {
-    flex: 1,
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderBottomColor: "transparent",
   },
   activeTab: {

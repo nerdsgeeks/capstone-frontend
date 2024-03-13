@@ -73,7 +73,7 @@ export default RoomAccordionButton;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 13,
+    // marginTop: 13,
     flexDirection: "column",
     gap: 24,
     borderRadius: 6,

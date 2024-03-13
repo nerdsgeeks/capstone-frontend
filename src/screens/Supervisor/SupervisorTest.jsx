@@ -4,9 +4,10 @@ import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
 import BigButton from "../../components/BigButton/BigButton";
 import { colors } from "../../../themes/themes";
-import RequestDetail from "../Request/RequestDetail";
+import InspectionReview from "./InspectionReview";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import Gallery from "../../components/Gallery/Gallery";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -46,35 +47,11 @@ const SupervisorTest = () => {
   useEffect(() => {
     fetchData().then(setItems);
   }, []);
+
   return (
     <View style={styles.container}>
       <Text>SupervisorTest Screen</Text>
-      <BedIcon></BedIcon>
-      <BigButton
-        name="bark bark"
-        icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-      />
-
-      <BearCounter />
-      {/* <RequestDetail request={request} /> */}
-      <Controls />
-      <SupervisorRoomHeader room="Room 1" />
-
-
-      {/* <ScrollView style={styles.scrollViewcontainer}>
-        <View style={styles.row}>
-          <Text style={styles.header}>Item Name</Text>
-          <Text style={styles.header}>Available</Text>
-          <Text style={styles.header}>Type</Text>
-        </View>
-        {items.map((item) => (
-          <View key={item.ID} style={styles.row}>
-            <Text style={styles.cell}>{item.ItemName}</Text>
-            <Text style={styles.cell}>{item.AvailableNum}</Text>
-            <Text style={styles.cell}>{item.ItemType}</Text>
-          </View>
-        ))}
-      </ScrollView> */}
+      <InspectionReview />
     </View>
   );
 };
