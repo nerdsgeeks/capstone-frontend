@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View, ScrollView } from "react-native";
 import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
-import BigButton from "../../components/BigButton/BigButton";
-import { colors } from "../../../themes/themes";
 import InspectionReview from "./InspectionReview";
 import useBaseUrl from "../../hooks/useBaseUrl";
-import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
-import Gallery from "../../components/Gallery/Gallery";
+import SupervisorRequestHistory from "./SupervisorRequestHistory";
+
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);

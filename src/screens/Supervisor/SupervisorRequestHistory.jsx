@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import HistoryIcon from "../../SVG/HistoryIcon";
+import BackIcon from "../../SVG/BackIcon";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors } from "../../../themes/themes";
 import NavTabs from "../../components/NavTabs/NavTabs";
-import RequestItemComponent from "../../components/RequestItemComponent/RequestItemComponent";
+import RequestItemHistory from "../../components/RequestItemHistory/RequestItemHistory";
 import Button from "../../components/Button/Button";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
 import CloseIcon from "../../SVG/CloseIcon";
@@ -14,30 +14,9 @@ import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/Supervis
 
 const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [isRequestHelpModalOpen, setIsRequestHelpModalOpen] = useState(false);
-  const [isCancelAllRequest, setIsCancelAllRequest] = useState(false);
+  const [isModalOpen, setModalState] = useState(false);
 
-  const toggleRequestHelpModal = () => {
-    setIsRequestHelpModalOpen(!isRequestHelpModalOpen);
-  };
-
-  const onPressApprove = () => {
-    setIsRequestHelpModalOpen(true);
-    setIsCancelAllRequest(false);
-  };
-
-  const onPressDecline = () => {
-    setIsRequestHelpModalOpen(true);
-    setIsCancelAllRequest(true);
-  };
-
-  const resetCancelAllRequest = () => {
-    setIsCancelAllRequest(false);
-  };
-
-  const onCancelAllRequests = () => {
-    resetCancelAllRequest();
-  };
+  const toggleModal = () => setModalState(!isModalOpen);
 
   const handleTabPress = (index) => {
     setActiveTab(index);
@@ -64,9 +43,6 @@ const SupervisorRequest = ({ navigation }) => {
     { itemName: "Bucket", quantity: 3, roomNumber: 103, date: "2022-01-01" },
   ];
 
-  const onPress = ({ request }) => {
-    navigation.navigate("RequestDetail", { request });
-  };
   const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
 
   const pressedIcon = () => {
@@ -85,11 +61,15 @@ const SupervisorRequest = ({ navigation }) => {
         >
           <SafeAreaView>
             <SupervisorRoomHeader
-              title="Pending Requests"
-              icon={
-                <TouchableOpacity onPress={pressedIcon}>
-                  <HistoryIcon />
-                </TouchableOpacity>
+              title={
+                <View
+                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                >
+                  <TouchableOpacity>
+                    <BackIcon />
+                  </TouchableOpacity>
+                  <Typography variant="h5-black">History</Typography>
+                </View>
               }
             />
           </SafeAreaView>
@@ -105,10 +85,10 @@ const SupervisorRequest = ({ navigation }) => {
               <View>
                 <RequestItemHeaderComponent />
                 {roomSupplies.map((request, index) => (
-                  <RequestItemComponent
+                  <RequestItemHistory
                     key={index}
                     request={request}
-                    onPress={() => onPress({ request: request })}
+                    onPress={toggleModal}
                   />
                 ))}
               </View>
@@ -116,56 +96,30 @@ const SupervisorRequest = ({ navigation }) => {
               <View>
                 <RequestItemHeaderComponent />
                 {cleanerSupplies.map((request, index) => (
-                  <RequestItemComponent
+                  <RequestItemHistory
                     key={index}
                     request={request}
-                    onPress={() => onPress({ request: request })}
+                    onPress={toggleModal}
                   />
                 ))}
               </View>
             )}
           </View>
-          <View style={styles.buttonStyles}>
-            <Button name="Decline" onPress={onPressDecline} type="secondary" />
-            <Button name="Approve" onPress={onPressApprove} type="primary" />
-          </View>
         </View>
       </View>
-      {isRequestHelpModalOpen && (
-        <Modal
-          visible={isRequestHelpModalOpen}
-          onRequestClose={toggleRequestHelpModal}
-          animationType="fade"
-          transparent={true}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalView}>
-              <CloseIcon onPress={toggleRequestHelpModal} />
-              <View style={styles.requestHelpModalContainer}>
-                <Typography variant="title-black">
-                  {isCancelAllRequest
-                    ? "Do you want to cancel all requests?"
-                    : "Do you want to confirm all?"}
-                </Typography>
-                <View style={styles.requestHelpModalButtonContainer}>
-                  <Button
-                    name="Yes"
-                    type="primary"
-                    onPress={
-                      isCancelAllRequest ? onCancelAllRequests : onPressApprove
-                    }
-                  />
-                  <Button
-                    name="No"
-                    type="secondary"
-                    onPress={toggleRequestHelpModal}
-                  />
-                </View>
-              </View>
-            </View>
+      <Modal
+        visible={isModalOpen}
+        onRequestClose={toggleModal}
+        animationType="fade"
+        transparent={true}
+      >
+        <View style={styles.overlay}>
+          <View style={styles.modalView}>
+            <CloseIcon onPress={toggleModal} />
+            <Typography variant="h5-black">This is my modal</Typography>
           </View>
-        </Modal>
-      )}
+        </View>
+      </Modal>
     </SafeAreaProvider>
   );
 };
@@ -184,44 +138,13 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     marginTop: 10,
+    // width: "100%",
     marginHorizontal: 26,
   },
   bodyContent: {
     paddingTop: 20,
-  },
-  buttonStyles: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingTop: 20,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  requestHelpModalContainer: {
-    alignItems: "center",
-  },
-  requestHelpModalButtonContainer: {
-    flexDirection: "row",
-    marginTop: 20,
+    flexGrow: 1,
+    // width: "100vw",
   },
 });
 

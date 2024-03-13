@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Typography from '../Typography/Typography';
-import PlayIcon from '../../SVG/PlayIcon';
+import FilterIcon from "../../SVG/FilterIcon";
+import { colors } from '../../../themes/themes';
+
 const RequestItemHeaderComponent = () => {
   return (
     <View style={styles.bodyTableHeader}>
-      <PlayIcon />
+      <FilterIcon />
       <Typography variant="xs-black" style={styles.itemStyle}>Item</Typography>
       <Typography variant="xs-black">Qty</Typography>
       <Typography variant="xs-black">Room</Typography>
@@ -17,9 +19,11 @@ const styles = StyleSheet.create({
   bodyTableHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    padding: 10,
-    width: "100%",
+    justifyContent: 'space-between',
+    
+    paddingBottom: 7,
+    borderColor: colors.n50,
+    borderBottomWidth: 1,
   },
   itemStyle: {
     marginLeft: 5,
