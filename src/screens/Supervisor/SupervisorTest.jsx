@@ -22,7 +22,8 @@ export function Controls() {
 }
 
 const SupervisorTest = () => {
-  const baseUrl = useBaseUrl();
+  // const baseUrl = useBaseUrl();
+  const baseUrl = "http://10.0.2.2:5000";
   const request = {
     date: "2021-09-24",
     itemType: "pillow",
