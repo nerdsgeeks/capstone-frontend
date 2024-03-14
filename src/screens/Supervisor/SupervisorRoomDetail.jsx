@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   openButton: {
     borderWidth: 1,
-    borderColor: "gray",
+  borderColor: "gray",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
