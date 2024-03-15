@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-// Import environment variables
-// import { REACT_APP_BACKEND } from "@env";
 
 const useBaseUrl = () => {
-  const [baseUrl, setBaseUrl] = useState("");
+  const [baseUrl, setBaseUrl] = useState("http://10.0.2.2:5000");
 
-  useEffect(() => {
-    const url =
-      process.env.NODE_ENV === "production"
-        ? process.env.REACT_APP_BACKEND
-        : "http://10.0.2.2:5000";
-    setBaseUrl(url);
-  }, []);
+  // useEffect(() => {
+  //   const url = "http://10.2.126.67:5000"; // Default for development
+  //   setBaseUrl(url);
+  // }, []);
 
   return baseUrl;
 };

@@ -5,7 +5,7 @@ import { useTestStore } from "./../../store/testStore";
 import InspectionReview from "./InspectionReview";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import SupervisorRequestHistory from "./SupervisorRequestHistory";
-
+import axios from "axios";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -20,8 +20,9 @@ export function Controls() {
 }
 
 const SupervisorTest = () => {
-  // const baseUrl = useBaseUrl();
-  const baseUrl = "http://10.0.2.2:5000";
+  const baseUrl = useBaseUrl();
+  // console.log(process.env);
+  // const baseUrl = "http://10.0.2.2:5000";
   const request = {
     date: "2021-09-24",
     itemType: "pillow",
@@ -30,26 +31,26 @@ const SupervisorTest = () => {
     requesterId: "12345",
     comments: "I need a pillow",
   };
-  const fetchData = async () => {
-    try {
-      console.log("baseUrl " + baseUrl);
-      console.log(baseUrl + "/api/items/all");
-      const response = await fetch(baseUrl + "/api/items/all");
-      const data = await response.json();
-
-      console.log(data);
-      setItems(data);
-      return data;
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-      return [];
-    }
-  };
 
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetchData().then(setItems);
+    console.log(baseUrl);
+    const apiUrl = baseUrl + "/api/items/all";
+
+    console.log(baseUrl + "/api/items/all");
+    const onFetchItems = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          const data = response.data;
+          setItems(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    onFetchItems();
   }, []);
 
   return (
