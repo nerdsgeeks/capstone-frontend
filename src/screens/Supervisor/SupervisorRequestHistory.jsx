@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import BackIcon from "../../SVG/BackIcon";
@@ -10,16 +10,26 @@ import RequestItemHistory from "../../components/RequestItemHistory/RequestItemH
 import Button from "../../components/Button/Button";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
 import CloseIcon from "../../SVG/CloseIcon";
+import CalendarIcon from "../../SVG/CalendarIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 
-const SupervisorRequest = ({ navigation }) => {
+const SupervisorRequestHistory = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [isModalOpen, setModalState] = useState(false);
+  const [requestDetailObject, setRequestDetailObject] = useState({});
 
-  const toggleModal = () => setModalState(!isModalOpen);
+  const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
+    useState(false);
+
+  const toggleRequestDetailModal = () =>
+    setIsRequestDetailModalOpen(!isRequestDetailModalOpen);
 
   const handleTabPress = (index) => {
     setActiveTab(index);
+  };
+
+  const onPress = ({ request }) => {
+    setRequestDetailObject(request);
+    setIsRequestDetailModalOpen(true);
   };
 
   const roomSupplies = [
@@ -45,8 +55,8 @@ const SupervisorRequest = ({ navigation }) => {
 
   const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
 
-  const pressedIcon = () => {
-    console.log("icon pressed!");
+  const goBack = () => {
+    navigation.goBack();
   };
 
   return (
@@ -65,7 +75,7 @@ const SupervisorRequest = ({ navigation }) => {
                 <View
                   style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
                 >
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={goBack}>
                     <BackIcon />
                   </TouchableOpacity>
                   <Typography variant="h5-black">History</Typography>
@@ -74,52 +84,147 @@ const SupervisorRequest = ({ navigation }) => {
             />
           </SafeAreaView>
         </LinearGradient>
-        <View style={styles.tabContainer}>
-          <NavTabs
-            tabs={tabs}
-            activeTab={activeTab}
-            onTabPress={handleTabPress}
-          />
-          <View style={styles.bodyContent}>
-            {activeTab === 0 ? (
-              <View>
-                <RequestItemHeaderComponent />
-                {roomSupplies.map((request, index) => (
-                  <RequestItemHistory
-                    key={index}
-                    request={request}
-                    onPress={toggleModal}
-                  />
-                ))}
-              </View>
-            ) : (
-              <View>
-                <RequestItemHeaderComponent />
-                {cleanerSupplies.map((request, index) => (
-                  <RequestItemHistory
-                    key={index}
-                    request={request}
-                    onPress={toggleModal}
-                  />
-                ))}
-              </View>
-            )}
+        <View style={{ flexDirection: "row"}}>
+
+          <View style={styles.tabContainer}>
+            <NavTabs
+              tabs={tabs}
+              activeTab={activeTab}
+              onTabPress={handleTabPress}
+              justifyContent="center"
+            />
+            <View style={styles.bodyContent}>
+              {activeTab === 0 ? (
+                <View style={styles.horizontalContainer}>
+                  <RequestItemHeaderComponent />
+                  {roomSupplies.map((request, index) => (
+                    <RequestItemHistory
+                      key={index}
+                      request={request}
+                      onPress={() => onPress({ request: request })}
+                    />
+                  ))}
+                </View>
+              ) : (
+                <View style={styles.horizontalContainer}>
+                  <RequestItemHeaderComponent />
+                  {cleanerSupplies.map((request, index) => (
+                    <RequestItemHistory
+                      key={index}
+                      request={request}
+                      onPress={() => onPress({ request: request })}
+                    />
+                  ))}
+                </View>
+              )}
+            </View>
           </View>
         </View>
       </View>
-      <Modal
-        visible={isModalOpen}
-        onRequestClose={toggleModal}
-        animationType="fade"
-        transparent={true}
-      >
-        <View style={styles.overlay}>
-          <View style={styles.modalView}>
-            <CloseIcon onPress={toggleModal} />
-            <Typography variant="h5-black">This is my modal</Typography>
+      {isRequestDetailModalOpen && (
+        <Modal
+          visible={isRequestDetailModalOpen}
+          onRequestClose={toggleRequestDetailModal}
+          animationType="fade"
+          transparent={true}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.itemDetailModal}>
+              <View style={{ gap: 16, width: "100%" }}>
+                <CloseIcon onPress={toggleRequestDetailModal} />
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={require("./../../../assets/request-help-modal-image.png")}
+                    style={{ height: 160, aspectRatio: 1 }}
+                  />
+                  <Typography variant="small-medium">
+                    {requestDetailObject.itemName}
+                  </Typography>
+                </View>
+
+                {requestDetailObject.comments && (
+                  <View style={styles.notes}>
+                    <Typography variant="small-medium">Notes</Typography>
+                    <Typography variant="small-regular">
+                      {"\u2022"} {requestDetailObject.comments}
+                    </Typography>
+                  </View>
+                )}
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="small-black">Details</Typography>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
+                    <CalendarIcon />
+                    <Typography variant="xs-medium">
+                      {requestDetailObject.date}
+                    </Typography>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="body-regular">Quantity</Typography>
+                  <View
+                    style={{
+                      borderRadius: 100,
+                      height: 28,
+                      width: 28,
+                      backgroundColor: colors.yellow1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="small-medium">
+                      {requestDetailObject.quantity}
+                    </Typography>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="body-regular">Room</Typography>
+                  <Typography variant="small-medium">
+                    {requestDetailObject.roomNumber}
+                  </Typography>
+                </View>
+                <View style={styles.itemDetailTitle}>
+                  <Typography variant="small-black">Requester</Typography>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "flex-start",
+                    gap: 6,
+                  }}
+                >
+                  <Image
+                    style={{ borderRadius: 15, width: 30, height: 30 }}
+                    source={{
+                      uri: "https://reactnative.dev/img/tiny_logo.png",
+                    }}
+                  />
+
+                  <Typography variant="xs-regular">
+                    {requestDetailObject.requester}
+                  </Typography>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </SafeAreaProvider>
   );
 };
@@ -138,7 +243,7 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     marginTop: 10,
-    // width: "100%",
+    flexGrow: 1,
     marginHorizontal: 26,
   },
   bodyContent: {
@@ -146,6 +251,32 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     // width: "100vw",
   },
+
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flexDirection: "row",
+  },
+  itemDetailModal: {
+    flexGrow: 1,
+    margin: 15,
+    backgroundColor: colors.n0,
+    borderRadius: 20,
+    paddingHorizontal: 26,
+    paddingVertical: 15,
+    alignItems: "center",
+  },
+  imageContainer: {
+    alignItems: "center",
+    gap: 10,
+  },
+  notes: {
+    padding: 10,
+    backgroundColor: colors.pale_teal2,
+    borderRadius: 8,
+  },
 });
 
-export default SupervisorRequest;
+export default SupervisorRequestHistory;
