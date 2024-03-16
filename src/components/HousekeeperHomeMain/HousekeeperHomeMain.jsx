@@ -174,6 +174,7 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
               height: 40,
               justifyContent: "center",
               alignItems: "center",
+              right: 8,
             }}
           >
             <Typography
