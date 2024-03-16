@@ -10,6 +10,8 @@ import { Camera } from "expo-camera";
 import CameraComponent from "../../components/Camera/CameraComponent";
 import SupervisorRequestHistory from "./SupervisorRequestHistory";
 import { colors } from "../../../themes/themes";
+import LoginScreen from "../LoginScreen";
+import LoadingScreen from "../LoadingScreen";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -23,7 +25,7 @@ export function Controls() {
   return <Button onPress={increasePopulation} title="one up" />;
 }
 
-const SupervisorTest = ({navigation}) => {
+const SupervisorTest = ({ navigation }) => {
   const baseUrl = useBaseUrl();
   // console.log(process.env);
   // const baseUrl = "http://10.0.2.2:5000";
@@ -58,8 +60,8 @@ const SupervisorTest = ({navigation}) => {
   // }, []);
 
   return (
-    <View style={styles.container}>
-      <CameraComponent navigation={navigation}/>
+    <ScrollView style={styles.container}>
+      <CameraComponent navigation={navigation} />
 
       <Text>SupervisorTest Screen</Text>
       {/* <InspectionReview /> */}
@@ -79,7 +81,8 @@ const SupervisorTest = ({navigation}) => {
           ))}
         </ScrollView>
       )} */}
-    </View>
+      <LoadingScreen></LoadingScreen>
+    </ScrollView>
   );
 };
 
@@ -87,8 +90,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light,
-  }
-})
+  },
+});
 //   container: {
 //     flex: 1,
 //     backgroundColor: "#8fcbbc",

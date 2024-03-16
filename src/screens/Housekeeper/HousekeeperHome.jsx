@@ -11,6 +11,7 @@ import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
 import { useItemsStore } from "../../store/itemsStore";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import LoadingScreen from "../LoadingScreen";
 
 const HousekeeperHome = ({ navigation }) => {
   const baseUrl = useBaseUrl();
@@ -76,9 +77,10 @@ const HousekeeperHome = ({ navigation }) => {
       ) : (
         <SafeAreaProvider>
           <SafeAreaView style={styles.loaderContainer}>
-            <Typography variant="body-medium" style={{}}>
+            {/* <Typography variant="body-medium" style={{}}>
               Loading .......
-            </Typography>
+            </Typography> */}
+            <LoadingScreen></LoadingScreen>
           </SafeAreaView>
         </SafeAreaProvider>
       )}
