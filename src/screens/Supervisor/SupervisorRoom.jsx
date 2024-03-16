@@ -167,7 +167,7 @@ const fetchRooms = async () => {
         style={styles.headerContainer}
       >
         <SafeAreaView>
-          <SupervisorRoomHeader room="Rooms" icon={<CalendarIcon />} text={showDate}/>
+          <SupervisorRoomHeader title="Rooms" icon={<CalendarIcon />} text={showDate}/>
         </SafeAreaView>
       </LinearGradient>
       <View style={styles.bodyContainer}>

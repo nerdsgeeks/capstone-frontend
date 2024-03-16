@@ -34,31 +34,21 @@ const RequestItemComponent = ({ request, onPress }) => {
 const styles = StyleSheet.create({
   bodyCard: {
     flexDirection: "column",
-    padding: 10,
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.n30,
   },
   bodyTopContent: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    padding: 10,
-    width: "100%",
+    justifyContent: "space-between",
   },
-  checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
+
   bodyContentBottom: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 30,
     paddingTop: 20,
     justifyContent: "flex-start",
-    width: "80%",
   },
 });
 

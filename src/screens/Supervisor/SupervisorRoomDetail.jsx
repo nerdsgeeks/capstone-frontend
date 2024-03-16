@@ -15,7 +15,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 
 const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const [isModalOpen, setModalState] = useState(false);
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = useState("");
   const toggleModal = () => setModalState(!isModalOpen);
   const room  = route.params.room;
   const fullName = room.FirstName + " " + room.LastName;
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   openButton: {
     borderWidth: 1,
-    borderColor: "gray",
+  borderColor: "gray",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
