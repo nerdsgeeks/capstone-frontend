@@ -35,24 +35,24 @@ const RoomAccordionButton = ({ room, onPress }) => {
   }
   const StatusSvg = () => {
     switch (room.RoomStatus) {
-      case "dueOut":
+      case "DueOut".toUpperCase():
         return <DueOutIcon />;
-      case "dueIn":
+      case "DueIn".toUpperCase():
         return <DueInIcon />;
-      case "checkedOut":
+      case "CheckedOut".toUpperCase():
         return <CheckedOutIcon />;
-      case "checkedIn":
-        return <CheckIcon stroke={colors.teal} />;
-      case "dueOutdueIn":
+      case "CheckedIn".toUpperCase():
+        return <CheckIcon stroke="green" />;
+      case "DueOut-DueIn".toUpperCase():
         return (
           <>
             <DueOutIcon /> <DueInIcon />
           </>
         );
-      case "checkedOutcheckedIn":
+      case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon /> <CheckIcon />
+            <CheckedOutIcon /> <DueInIcon />{" "}
           </>
         );
       default:
@@ -60,11 +60,10 @@ const RoomAccordionButton = ({ room, onPress }) => {
     }
   };
 
-  
   return (
     <TouchableOpacity style={[styles.container, roomStyle]} onPress={onPress}>
-        <Typography variant="body-black">{room.RoomName}</Typography>
-        <Typography>{StatusSvg()}</Typography>
+      <Typography variant="body-black">{room.RoomName}</Typography>
+      <Typography>{StatusSvg()}</Typography>
     </TouchableOpacity>
   );
 };

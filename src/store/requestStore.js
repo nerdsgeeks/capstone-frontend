@@ -6,3 +6,10 @@ export const useRequestStore = create((set) => ({
   updateRequestedItems: (newRequestedItems) =>
     set({ requestedItems: newRequestedItems }),
 }));
+
+export const useRequestCartStore = create((set) => ({
+  requestedItemsCartStore: [],
+  removeAllRequestedItemsCartStore: () => set({ requestedItemsCartStore: [] }),
+  updateRequestedItemsCartStore: (newRequestedItemsCartStore) =>
+    set({ requestedItemsCartStore: newRequestedItemsCartStore }),
+}));

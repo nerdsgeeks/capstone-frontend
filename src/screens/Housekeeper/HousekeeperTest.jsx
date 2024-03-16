@@ -111,40 +111,40 @@ const HousekeeperTest = ({ navigation }) => {
       roomName: "A203",
       roomFloor: 2,
       roomTypeId: 1,
-      roomStatus: "dueOut",
+      Rooms_RoomStatus: "dueOut",
     },
     {
       id: 2,
       roomName: "B105",
       roomFloor: 1,
       roomTypeId: 2,
-      roomStatus: "dueIn",
+      Rooms_RoomStatus: "dueIn",
     },
     {
       id: 3,
       roomName: "C307",
       roomFloor: 3,
       roomTypeId: 3,
-      roomStatus: "checkedOut",
+      Rooms_RoomStatus: "checkedOut",
     },
     {
       id: 4,
       roomName: "D410",
       roomFloor: 4,
       roomTypeId: 4,
-      roomStatus: "checkedIn",
+      Rooms_RoomStatus: "checkedIn",
     },
     {
       roomName: "E201",
       roomFloor: 2,
       roomTypeId: 1,
-      roomStatus: "dueOutdueIn",
+      Rooms_RoomStatus: "dueOutdueIn",
     },
     {
       roomName: "F112",
       roomFloor: 1,
       roomTypeId: 2,
-      roomStatus: "checkedOutcheckedIn",
+      Rooms_RoomStatus: "checkedOutcheckedIn",
     },
   ];
 
@@ -221,7 +221,7 @@ const HousekeeperTest = ({ navigation }) => {
           <Text>This is content for {tabs[activeTab].label}</Text>
         )}
       </View>
-      <AssignedRoomListItem room={roomGoldDueout} />
+      {/* <AssignedRoomListItem room={roomGoldDueout} />
       <AssignedRoomListItem room={roomSilverDueout} />
       <AssignedRoomListItem room={roomDiamondDueout} />
 
@@ -229,7 +229,7 @@ const HousekeeperTest = ({ navigation }) => {
       <AssignedRoomListItem room={roomGoldCheckedOut} />
       <AssignedRoomListItem room={roomGoldCheckedIn} />
       <AssignedRoomListItem room={roomGoldDueOutdueIn} />
-      <AssignedRoomListItem room={roomGoldCheckedOutcheckedIn} />
+      <AssignedRoomListItem room={roomGoldCheckedOutcheckedIn} /> */}
     </ScrollView>
   );
 };

@@ -10,8 +10,10 @@ import TierGoldIcon from "../../SVG/TierGoldIcon";
 import TierSilverIcon from "../../SVG/TierSilverIcon";
 import TierDiamondIcon from "../../SVG/TierDiamondIcon";
 const AssignedRoomListItem = ({ room }) => {
+  // console.log(room);
   const roomTier = () => {
-    switch (room.tier) {
+    // console.log(room.RoomTier);
+    switch (room.RoomTier) {
       case "gold":
         return <TierGoldIcon />;
       case "silver":
@@ -24,25 +26,25 @@ const AssignedRoomListItem = ({ room }) => {
   };
 
   const StatusSvg = () => {
-    switch (room.status) {
-      case "dueOut":
+    switch (room.Rooms_RoomStatus.toUpperCase()) {
+      case "DueOut".toUpperCase():
         return <DueOutIcon />;
-      case "dueIn":
+      case "DueIn".toUpperCase():
         return <DueInIcon />;
-      case "checkedOut":
+      case "CheckedOut".toUpperCase():
         return <CheckedOutIcon />;
-      case "checkedIn":
+      case "CheckedIn".toUpperCase():
         return <CheckIcon stroke="green" />;
-      case "dueOutdueIn":
+      case "DueOut-DueIn".toUpperCase():
         return (
           <>
             <DueOutIcon /> <DueInIcon />
           </>
         );
-      case "checkedOutcheckedIn":
+      case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon /> <CheckIcon />{" "}
+            <CheckedOutIcon /> <DueInIcon />{" "}
           </>
         );
       default:
@@ -50,15 +52,43 @@ const AssignedRoomListItem = ({ room }) => {
     }
   };
 
+  const formatDateRange = (checkinDate, checkoutDate) => {
+    // Convert the ISO strings to Date objects
+    console.log(`checkinDate : ${checkinDate}`);
+    console.log(`checkoutDate : ${checkoutDate}`);
+    const checkinDateSplitted = checkinDate.split("T");
+    const checkoutDateSplitted = checkoutDate.split("T");
+    const checkin = new Date(checkinDateSplitted[0]);
+    const checkout = new Date(checkoutDateSplitted[0]);
+
+    // Use Intl.DateTimeFormat to format the dates as needed
+    const options = { month: "short", day: "numeric" };
+    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+      checkin,
+    );
+
+    const formattedCheckin = new Intl.DateTimeFormat("en", options).format(
+      checkin,
+    );
+    const formattedCheckout = new Intl.DateTimeFormat("en", options).format(
+      checkout,
+    );
+
+    // Combine the parts into the final string
+    return `${formattedCheckin} - ${formattedCheckout} ${year}`;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Typography variant="h5-regular" style={styles.text}>
-          {room.roomNumber}
+          {room.RoomName}
         </Typography>
         <View style={styles.dateContainer}>
           <CalendarIcon />
-          <Text style={styles.text}>{room.date}</Text>
+          <Text style={styles.text}>
+            {formatDateRange(room.CheckinDate, room.CheckoutDate)}
+          </Text>
         </View>
       </View>
       <View style={styles.bodyContainer}>

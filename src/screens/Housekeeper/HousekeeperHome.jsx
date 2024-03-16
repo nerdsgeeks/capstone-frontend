@@ -7,96 +7,71 @@ import { LinearGradient } from "expo-linear-gradient";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
 import HousekeeperHomeMain from "../../components/HousekeeperHomeMain/HousekeeperHomeMain";
+import useBaseUrl from "../../hooks/useBaseUrl";
+import axios from "axios";
 
 const HousekeeperHome = ({ navigation }) => {
-  const rooms = [
-    {
-      tier: "gold",
-      type: "Suite",
-      status: "dueOut",
-      roomNumber: "A101",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: true,
-      guestName: "Alex Johnson",
-    },
-    {
-      tier: "silver",
-      type: "King Bed",
-      status: "dueOut",
-      roomNumber: "A102",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: true,
-      guestName: "Jamie Smith",
-    },
-    {
-      tier: "diamond",
-      type: "Queen Bed",
-      status: "dueOut",
-      roomNumber: "A103",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: true,
-      guestName: "Jordan Lee",
-    },
-    {
-      tier: "gold",
-      type: "Double Bed",
-      status: "dueIn",
-      roomNumber: "A104",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: true,
-      guestName: "Morgan Brown",
-    },
-    {
-      tier: "gold",
-      type: "Suite",
-      status: "checkedOut",
-      roomNumber: "A105",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: true,
-      guestName: "Casey Davis",
-    },
-    {
-      tier: "gold",
-      type: "King Bed",
-      status: "checkedIn",
-      roomNumber: "A106",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: false,
-      guestName: "Taylor Martinez",
-    },
-    {
-      tier: "gold",
-      type: "Queen Bed",
-      status: "dueOutdueIn",
-      roomNumber: "A107",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: false,
-      guestName: "Jordan Garcia",
-    },
-    {
-      tier: "gold",
-      type: "Double Bed",
-      status: "checkedOutcheckedIn",
-      roomNumber: "A108",
-      date: "Feb 2 - Feb 6 2023",
-      isCompleted: false,
-      guestName: "Charlie Wilson",
-    },
-  ];
+  const baseUrl = useBaseUrl();
+  const [rooms, setRooms] = useState([]);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    // console.log(baseUrl);
+    const apiUrl = baseUrl + "/api/assignedrooms/all";
+    const apiItemsUrl = baseUrl + "/api/items/all";
+
+    console.log(baseUrl + "/api/assignedrooms/all");
+    console.log(baseUrl + "/api/items/all");
+    const onFetchRooms = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          const data = response.data;
+          setRooms(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    const onFetchItems = () =>
+      axios
+        .get(apiItemsUrl)
+        .then((response) => {
+          const data = response.data;
+          setItems(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    onFetchRooms();
+    onFetchItems();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <HousekeeperHomeHeader
-        name="Pujan"
-        message="Time to shine at work!"
-        taskProgress={0.4}
-        scheduleTime="10:00-18:00"
-      ></HousekeeperHomeHeader>
-      <HousekeeperHomeMain
-        rooms={rooms}
-        navigation={navigation}
-      ></HousekeeperHomeMain>
-    </View>
+    <>
+      {rooms.length > 0 && items.length > 0 ? (
+        <View style={styles.container}>
+          <HousekeeperHomeHeader
+            name="Pujan"
+            message="Time to shine at work!"
+            taskProgress={0.4}
+            scheduleTime="10:00-18:00"
+          />
+          <HousekeeperHomeMain
+            rooms={rooms}
+            items={items}
+            navigation={navigation}
+          />
+        </View>
+      ) : (
+        <View style={styles.loaderContainer}>
+          <Typography variant="body-medium" style={{}}>
+            Loading .......
+          </Typography>
+        </View>
+      )}
+    </>
   );
 };
 
@@ -135,6 +110,11 @@ const styles = StyleSheet.create({
   NavTabContainer: {
     // borderColor: "black",
     // borderWidth: 1,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

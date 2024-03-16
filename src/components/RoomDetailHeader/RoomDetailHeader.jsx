@@ -1,4 +1,11 @@
-import { View, StyleSheet, ImageBackground, Text, Touchable, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
 import CheckIcon from "../../SVG/CheckIcon";
 import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 import DueInIcon from "../../SVG/DueInIcon";
@@ -9,27 +16,26 @@ import Typography from "../Typography/Typography";
 import BackgroundImage from "../../../assets/Rooms-Card.png";
 
 const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
-
   const StatusSvg = () => {
-    switch (room.status) {
-      case "dueOut":
+    switch (room.Rooms_RoomStatus.toUpperCase()) {
+      case "DueOut".toUpperCase():
         return <DueOutIcon />;
-      case "dueIn":
+      case "DueIn".toUpperCase():
         return <DueInIcon />;
-      case "checkedOut":
+      case "CheckedOut".toUpperCase():
         return <CheckedOutIcon />;
-      case "checkedIn":
+      case "CheckedIn".toUpperCase():
         return <CheckIcon stroke="green" />;
-      case "dueOutdueIn":
+      case "DueOut-DueIn".toUpperCase():
         return (
           <>
             <DueOutIcon /> <DueInIcon />
           </>
         );
-      case "checkedOutcheckedIn":
+      case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon /> <CheckIcon />
+            <CheckedOutIcon /> <DueInIcon />{" "}
           </>
         );
       default:
@@ -41,14 +47,13 @@ const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
     <ImageBackground source={BackgroundImage} style={styles.container}>
       <View style={styles.line1}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-
-        <BackIcon  />
+          <BackIcon />
         </TouchableOpacity>
         <TextChip text={taskStatus} backgroundColor="#F89C7B" />
       </View>
       <View>
         <Typography variant="h4-medium" style={{ color: "white" }}>
-          {room.roomNumber}
+          {room.RoomName}
         </Typography>
         <View style={styles.bottomLine}>
           <TextChip text={room.type} />

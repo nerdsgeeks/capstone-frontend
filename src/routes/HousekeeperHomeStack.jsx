@@ -1,12 +1,22 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HousekeeperHome from "../screens/Housekeeper/HousekeeperHome";
 import RoomDetail from "../screens/RoomDetail/RoomDetail";
-import RoomDetailRequestItem from "../screens/RoomDetailRequestItem/RoomDetailRequestItem";
+import RequestItemSupplies from "../screens/RequestItemSupplies/RequestItemSupplies";
+import CartIcon from "../SVG/CartIcon";
+import RequestItemSuppliesOrder from "../screens/RequestItemSuppliesOrder/RequestItemSuppliesOrder";
 
 const Stack = createNativeStackNavigator();
+// Function to create a custom right component
+function CustomHeaderRight() {
+  return (
+    <TouchableOpacity onPress={() => alert("Pressed!")}>
+      <Text>Press Me</Text>
+    </TouchableOpacity>
+  );
+}
 const HousekeeperHomeStack = () => {
   return (
     <Stack.Navigator initialRouteName="HousekeeperHome">
@@ -21,9 +31,25 @@ const HousekeeperHomeStack = () => {
         options={{ title: "" }}
       />
       <Stack.Screen
-        name="RoomDetailRequestItem"
-        component={RoomDetailRequestItem}
-        options={{ title: "" }}
+        name="RequestItemSupplies"
+        component={RequestItemSupplies}
+        options={({ route }) => ({
+          title: route.params.screenTitle || "Welcome",
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => alert("This is a button!")}
+              style={{}}
+            >
+              <CartIcon stroke="#000000"></CartIcon>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+
+      <Stack.Screen
+        name="RequestItemSuppliesOrder"
+        component={RequestItemSuppliesOrder}
+        options={{ title: "Shopping Cart" }}
       />
     </Stack.Navigator>
   );

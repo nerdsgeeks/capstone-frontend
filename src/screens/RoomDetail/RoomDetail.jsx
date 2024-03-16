@@ -27,6 +27,8 @@ import { useRequestStore } from "../../store/requestStore";
 
 const RoomDetail = ({ route, navigation }) => {
   const { roomDetails } = route.params;
+  const { items } = route.params;
+
   const [showStart, setShowStart] = useState(true);
   const [showPause, setShowPause] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
@@ -49,21 +51,20 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   const roomGoldCheckedOutcheckedIn = {
-    tier: roomDetails.tier,
-    type: roomDetails.type,
-    status: roomDetails.status,
-    roomNumber: roomDetails.roomNumber,
-    date: roomDetails.date,
+    tier: roomDetails.RoomTier,
+    type: roomDetails.roomTypeName,
+    status: roomDetails.Rooms_RoomStatus,
+    roomNumber: roomDetails.RoomName,
+    date: roomDetails.CheckinDate,
   };
 
   const reservation = {
-    id: 12345,
-    roomId: roomDetails.roomNumber,
-    checkIn: "2024-03-10",
-    checkOut: "2024-03-15",
+    roomId: roomDetails.RoomName,
+    checkIn: roomDetails.CheckinDate,
+    checkOut: roomDetails.CheckinDate,
     guestName: roomDetails.guestName,
-    noOfGuest: 2,
-    additionalNotes: "Prefer a room with a view if available.",
+    noOfGuest: roomDetails.noOfGuest,
+    additionalNotes: roomDetails.AdditionalNotes,
     isCompleted: roomDetails.isCompleted,
   };
 
@@ -103,28 +104,6 @@ const RoomDetail = ({ route, navigation }) => {
     setIsBottomTextContainerEnabled(true);
     toggleRequestHelpModal();
   };
-
-  // Dummy data for the items
-  // const requestedItems = [
-  //   {
-  //     id: "1",
-  //     imageSrc: "https://picsum.photos/2000/600?random=11",
-  //     itemName: "Item 1",
-  //     count: 2,
-  //   },
-  //   {
-  //     id: "2",
-  //     imageSrc: "https://picsum.photos/2000/600?random=12",
-  //     itemName: "Item 2",
-  //     count: 2,
-  //   },
-  //   {
-  //     id: "3",
-  //     imageSrc: "https://picsum.photos/2000/600?random=13",
-  //     itemName: "Item 3",
-  //     count: 2,
-  //   },
-  // ];
 
   return (
     <View style={styles.container}>
@@ -254,8 +233,10 @@ const RoomDetail = ({ route, navigation }) => {
 
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("RoomDetailRequestItem", {
+                navigation.navigate("RequestItemSupplies", {
                   roomDetails: roomDetails,
+                  items: items,
+                  screenTitle: "Room Supplies",
                 })
               }
               style={styles.commonButton}
