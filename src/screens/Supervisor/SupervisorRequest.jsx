@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import HistoryIcon from "../../SVG/HistoryIcon";
@@ -75,10 +82,10 @@ const SupervisorRequest = ({ navigation }) => {
     setIsRequestDetailModalOpen(true);
     // navigation.navigate("RequestDetail", { request });
   };
-  const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
+  const tabs = [{ label: "Supplies" }, { label: "Help" }];
 
   const pressedIcon = () => {
-    navigation.navigate('SupervisorRequestHistory');
+    navigation.navigate("SupervisorRequestHistory");
   };
 
   return (
@@ -103,49 +110,58 @@ const SupervisorRequest = ({ navigation }) => {
           </SafeAreaView>
         </LinearGradient>
         <View style={styles.tabContainer}>
-        <>
-              <NavTabs
-                tabs={tabs}
-                activeTab={activeTab}
-                onTabPress={handleTabPress}
-              />
-              <View style={styles.bodyContent}>
-                {activeTab === 0 ? (
-                  <View>
-                      <RequestItemHeaderComponent />
-                      {requestItems &&
-                        requestItems.map((request, index) => (
-                          <RequestItemComponent
-                            key={index}
-                            request={request}
-                            onPress={() => onPress({ request: request })}
-                          />
-                        ))}
-                  </View>
-                ) : (
-                  <View>
-                      <RequestItemHeaderComponent />
+          <>
+            <NavTabs
+              tabs={tabs}
+              activeTab={activeTab}
+              onTabPress={handleTabPress}
+            />
 
-                      {requestItems &&
-                        requestItems.map((request, index) => (
-                          <RequestItemComponent
-                            key={index}
-                            request={request}
-                            onPress={() => onPress({ request: request })}
-                          />
-                        ))}
-                  </View>
-                )}
+            <View style={styles.bodyContent}>
+            <ScrollView style={styles.ScrollView}>
 
-
-                <View style={styles.buttonStyles}>
-                  <Button name="Approve" onPress={onPressApprove} type="primary" />
-                  <Button name="Decline" onPress={onPressDecline} type="secondary" />
+              {activeTab === 0 ? (
+                <View>
+                  <RequestItemHeaderComponent />
+                  {requestItems &&
+                    requestItems.map((request, index) => (
+                      <RequestItemComponent
+                        key={index}
+                        request={request}
+                        onPress={() => onPress({ request: request })}
+                      />
+                    ))}
                 </View>
+              ) : (
+                <View>
+                  <RequestItemHeaderComponent />
+                  {requestItems &&
+                    requestItems.map((request, index) => (
+                      <RequestItemComponent
+                        key={index}
+                        request={request}
+                        onPress={() => onPress({ request: request })}
+                      />
+                    ))}
+                </View>
+              )}
+                      </ScrollView>
+              <View style={styles.buttonStyles}>
+                <Button
+                  name="Approve"
+                  onPress={onPressApprove}
+                  type="primary"
+                />
+                <Button
+                  name="Decline"
+                  onPress={onPressDecline}
+                  type="secondary"
+                />
               </View>
-            </>
-          </View>
+            </View>
+          </>
         </View>
+      </View>
       {isConfimationModalOpen && (
         <Modal
           visible={isConfimationModalOpen}
@@ -190,7 +206,7 @@ const SupervisorRequest = ({ navigation }) => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.itemDetailModal}>
-              <View style={{ gap: 16, width: '100%' }}>
+              <View style={{ gap: 16, width: "100%" }}>
                 <CloseIcon onPress={toggleRequestDetailModal} />
                 <View style={styles.imageContainer}>
                   <Image
@@ -211,7 +227,12 @@ const SupervisorRequest = ({ navigation }) => {
                   </View>
                 )}
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Typography variant="small-black">Details</Typography>
                   <View style={{ flexDirection: "row", gap: 6 }}>
                     <CalendarIcon />
@@ -220,15 +241,35 @@ const SupervisorRequest = ({ navigation }) => {
                     </Typography>
                   </View>
                 </View>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   <Typography variant="body-regular">Quantity</Typography>
-                  <View style={{ borderRadius: 100, height: 28, width: 28, backgroundColor: colors.yellow1,alignItems: "center", justifyContent: "center" }} >
+                  <View
+                    style={{
+                      borderRadius: 100,
+                      height: 28,
+                      width: 28,
+                      backgroundColor: colors.yellow1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
                     <Typography variant="small-medium">
                       {requestDetailObject.Quantity}
                     </Typography>
                   </View>
                 </View>
-                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Typography variant="body-regular">Room</Typography>
                   <Typography variant="small-medium">
                     {requestDetailObject.RoomName}
@@ -237,18 +278,23 @@ const SupervisorRequest = ({ navigation }) => {
                 <View style={styles.itemDetailTitle}>
                   <Typography variant="small-black">Requester</Typography>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 6 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "flex-start",
+                    gap: 6,
+                  }}
+                >
                   <Image
                     style={{ borderRadius: 15, width: 30, height: 30 }}
                     source={{
                       uri: "https://reactnative.dev/img/tiny_logo.png",
                     }}
                   />
-                  
-                    <Typography variant="xs-regular">
-                      {requestDetailObject.requester}
-                    </Typography>
-                  
+
+                  <Typography variant="xs-regular">
+                    {requestDetailObject.requester}
+                  </Typography>
                 </View>
               </View>
             </View>
@@ -319,13 +365,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-alignItems: "center",
-gap: 10,
+    alignItems: "center",
+    gap: 10,
   },
   notes: {
     padding: 10,
     backgroundColor: colors.pale_teal2,
     borderRadius: 8,
+  },
+  ScrollView: {
+    maxHeight: "80%",
   },
 });
 

@@ -98,7 +98,7 @@ const NavigationTabSupervisor = () => {
       />
 
       <Tab.Screen
-        name="SupervisorRequest"
+        name="SupervisorRequestStack"
         component={SupervisorRequestStack}
         options={{
           tabBarIcon: ({ focused }) => (
