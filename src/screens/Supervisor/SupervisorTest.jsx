@@ -10,18 +10,7 @@ import { Camera } from "expo-camera";
 import CameraComponent from "../../components/Camera/CameraComponent";
 import SupervisorRequestHistory from "./SupervisorRequestHistory";
 import { colors } from "../../../themes/themes";
-
-export function BearCounter() {
-  const bears = useTestStore((state) => state.bears);
-  return <Text>{bears} bears around here...</Text>;
-}
-
-// Controls component
-export function Controls() {
-  const increasePopulation = useTestStore((state) => state.increasePopulation);
-
-  return <Button onPress={increasePopulation} title="one up" />;
-}
+import LoginScreen from "../LoginScreen";
 
 const SupervisorTest = ({navigation}) => {
   const baseUrl = useBaseUrl();
@@ -59,26 +48,7 @@ const SupervisorTest = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <CameraComponent navigation={navigation}/>
-
-      <Text>SupervisorTest Screen</Text>
-      {/* <InspectionReview /> */}
-      {/* {items && (
-        <ScrollView style={styles.scrollViewcontainer}>
-          <View style={styles.row}>
-            <Text style={styles.header}>Item Name</Text>
-            <Text style={styles.header}>Available</Text>
-            <Text style={styles.header}>Type</Text>
-          </View>
-          {items.map((item) => (
-            <View key={item.ID} style={styles.row}>
-              <Text style={styles.cell}>{item.ItemName}</Text>
-              <Text style={styles.cell}>{item.AvailableNum}</Text>
-              <Text style={styles.cell}>{item.ItemType}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      )} */}
+      <LoginScreen/>
     </View>
   );
 };
