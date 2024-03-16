@@ -9,6 +9,7 @@ import Button from "../../components/Button/Button";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
 import CloseIcon from "../../SVG/CloseIcon";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -43,44 +44,27 @@ const SupervisorRequest = ({ navigation }) => {
     setActiveTab(index);
   };
 
-
   useEffect(() => {
     fetchRequestItems().then((data) => {
       setRequestItems(data);
     });
   }, []);
 
-   const fetchRequestItems = async() =>{
-    try
-    {
+  const fetchRequestItems = async () => {
+    try {
       console.log(baseUrl);
-        const response = await fetch(`${baseUrl}/api/requestItems/all`);
-        const data = await response.json();
-        return data;
-
+      const response = await fetch(`${baseUrl}/api/requestItems/all`);
+      const data = await response.json();
+      return data;
     } catch (error) {
-        console.log(error);  
+      console.log(error);
     }
-
-   } 
-
-  const roomSupplies = [
-    { itemName: "Toilet Paper", quantity: 2, roomNumber: 101, date: "2022-01-01", itemType: "Toilet Paper", requester: "John Doe", requesterId: "12345", comments: "I need a toilet paper" },
-    { itemName: "Hand Soap", quantity: 1, roomNumber: 102, date: "2022-01-01" },
-    { itemName: "Towels", quantity: 3, roomNumber: 103, date: "2022-01-01" }
-  ];
-
-  const cleanerSupplies = [
-    { itemName: "Bleach", quantity: 2, roomNumber: 101, date: "2022-01-01" },
-    { itemName: "Mop", quantity: 1, roomNumber: 102, date: "2022-01-01" },
-    { itemName: "Bucket", quantity: 3, roomNumber: 103, date: "2022-01-01" }
-  ];
+  };
 
   const onPress = ({ request }) => {
     navigation.navigate("RequestDetail", { request });
   };
   const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
-
 
   return (
     <SafeAreaProvider>
@@ -102,23 +86,42 @@ const SupervisorRequest = ({ navigation }) => {
               <View style={styles.bodyContent}>
                 {activeTab === 0 ? (
                   <View>
-                    <RequestItemHeaderComponent />
-                    {roomSupplies.map((request, index) => (
-                      <RequestItemComponent key={index} request={request} onPress={() => onPress({ request: request })} />
-                    ))}
+                      <RequestItemHeaderComponent />
+                      {requestItems &&
+                        requestItems.map((request, index) => (
+                          <RequestItemComponent
+                            key={index}
+                            request={request}
+                            onPress={() => onPress({ request: request })}
+                          />
+                        ))}
                   </View>
                 ) : (
                   <View>
-                    <RequestItemHeaderComponent />
-                    {cleanerSupplies.map((request, index) => (
-                      <RequestItemComponent key={index} request={request} onPress={() => onPress({ request: request })} />
-                    ))}
+                      <RequestItemHeaderComponent />
+
+                      {requestItems &&
+                        requestItems.map((request, index) => (
+                          <RequestItemComponent
+                            key={index}
+                            request={request}
+                            onPress={() => onPress({ request: request })}
+                          />
+                        ))}
                   </View>
                 )}
 
                 <View style={styles.buttonStyles}>
-                  <Button name="Approve" onPress={onPressApprove} type="primary" />
-                  <Button name="Decline" onPress={onPressDecline} type="secondary" />
+                  <Button
+                    name="Approve"
+                    onPress={onPressApprove}
+                    type="primary"
+                  />
+                  <Button
+                    name="Decline"
+                    onPress={onPressDecline}
+                    type="secondary"
+                  />
                 </View>
               </View>
             </>
@@ -137,11 +140,23 @@ const SupervisorRequest = ({ navigation }) => {
               <CloseIcon onPress={toggleRequestHelpModal} />
               <View style={styles.requestHelpModalContainer}>
                 <Typography variant="title-black">
-                  {isCancelAllRequest ? "Do you want to cancel all requests?" : "Do you want to confirm all?"}
+                  {isCancelAllRequest
+                    ? "Do you want to cancel all requests?"
+                    : "Do you want to confirm all?"}
                 </Typography>
                 <View style={styles.requestHelpModalButtonContainer}>
-                  <Button name="Approve" type="primary" onPress={isCancelAllRequest ? onCancelAllRequests : onPressApprove} />
-                  <Button name="No" type="secondary" onPress={toggleRequestHelpModal} />
+                  <Button
+                    name="Approve"
+                    type="primary"
+                    onPress={
+                      isCancelAllRequest ? onCancelAllRequests : onPressApprove
+                    }
+                  />
+                  <Button
+                    name="No"
+                    type="secondary"
+                    onPress={toggleRequestHelpModal}
+                  />
                 </View>
               </View>
             </View>

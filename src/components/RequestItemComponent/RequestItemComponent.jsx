@@ -6,7 +6,7 @@ import { colors } from "../../../themes/themes";
 
 const RequestItemComponent = ({ request, onPress }) => {
   const [isChecked, setChecked] = useState(false);
-  const { itemName, quantity, roomNumber, date } = request;
+  const { ItemName, Quantity, RoomName, RequestedDateTime } = request;
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -18,14 +18,14 @@ const RequestItemComponent = ({ request, onPress }) => {
             onValueChange={setChecked}
           />
           <Typography variant="small-regular" style={styles.itemStyle}>
-            {itemName}
+            {ItemName}
           </Typography>
-          <Typography variant="small-regular">{quantity}</Typography>
-          <Typography variant="small-regular">{roomNumber}</Typography>
+          <Typography variant="small-regular">{Quantity}</Typography>
+          <Typography variant="small-regular">{RoomName}</Typography>
         </View>
         <View style={styles.bodyContentBottom}>
-          <Typography variant="small-regular">{date}</Typography>
-        </View>
+          <Typography variant="small-regular">{RequestedDateTime}</Typography>
+        </View>     
       </View>
     </TouchableOpacity>
   );

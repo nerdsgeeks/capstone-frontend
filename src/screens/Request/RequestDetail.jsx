@@ -1,12 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { Image } from "react-native";
 import { colors } from "../../../themes/themes";
 import Button from "../../components/Button/Button";
+import useBaseUrl from "../../hooks/useBaseUrl";
 const RequestDetail = ({ route }) => {
 
   const request = route.params.request;
+  const baseUrl = useBaseUrl();
+
+  const [requestItems, setRequestItems] = useState({
+    RequestItemDateTime: request.RequestedDateTime,
+    RoomId: request.RoomId,
+    RequesterId: request.requesterId,
+    Quantity: request.Quantity,
+    IsCompleted: request.isCompleted,
+    ApprovedBySupervisorId: 1
+  });
+    
+
+  const handleDecline = () => {
+    requestItems.ApprovedBySupervisorId= null
+    updateRequest(requestItems);
+  };
+
+  const handleApproved = () => {
+    requestItems.ApprovedBySupervisorId= 1
+    requestItems.RoomId=1
+    console.log(requestItems)
+    updateRequest(requestItems);
+  };
+    const updateRequest = async (request) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/updateAssignedSupervisorId/${request.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+
+  const fullName = request.FirstName + " " + request.LastName;
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -20,19 +65,19 @@ const RequestDetail = ({ route }) => {
         <View style={styles.detailItem}>
           <View style={styles.detail}>
             <Typography variant="small-regular" style={{flex:1}}>Date:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.date}</Typography>
+            <Typography variant="small-regular" style={{flex:1}}>{request.RequestedDateTime}</Typography>
           </View>
           <View style={styles.detail}>
             <Typography variant="small-regular" style={{flex:1}}>Item Type:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.itemType}</Typography>
+            <Typography variant="small-regular" style={{flex:1}}>{request.ItemType}</Typography>
           </View>
           <View style={styles.detail}>
             <Typography variant="small-regular" style={{flex:1}}>Room Number:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.roomNumber}</Typography>
+            <Typography variant="small-regular" style={{flex:1}}>{request.RoomName}</Typography>
           </View>
           <View style={styles.detail}>
             <Typography variant="small-regular" style={{flex:1}}>Requester:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.requester}</Typography>
+            <Typography variant="small-regular" style={{flex:1}}>{fullName}</Typography>
           </View>
           <View style={styles.detail}>
             <Typography variant="small-regular" style={{flex:1}}>Requester ID:</Typography>
@@ -42,13 +87,13 @@ const RequestDetail = ({ route }) => {
             <Typography variant="small-regular" style={{flex:1}}>Comments:</Typography>
           </View>
           <View style={styles.commentContainer}>
-          <Typography variant="small-regular"> {request.comments}</Typography>
+          <Typography variant="small-regular"> {request.Note}</Typography>
           </View>
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <Button name="Decline" type="secondary"/>
-        <Button name="Approve" type="primary" />
+        <Button name="Decline" type="secondary" onPress={handleDecline}/>
+        <Button name="Approve" type="primary" onPress={handleApproved} />
 
         </View>
     </View>

@@ -8,6 +8,8 @@ import InspectionReview from "./InspectionReview";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import Gallery from "../../components/Gallery/Gallery";
+import { Camera } from "expo-camera";
+import CameraComponent from "../../components/Camera/CameraComponent";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -21,7 +23,7 @@ export function Controls() {
   return <Button onPress={increasePopulation} title="one up" />;
 }
 
-const SupervisorTest = () => {
+const SupervisorTest = ({navigation}) => {
   const baseUrl = useBaseUrl();
   const request = {
     date: "2021-09-24",
@@ -50,8 +52,7 @@ const SupervisorTest = () => {
 
   return (
     <View style={styles.container}>
-      <Text>SupervisorTest Screen</Text>
-      <InspectionReview />
+      <CameraComponent navigation={navigation}/>
     </View>
   );
 };
@@ -59,28 +60,33 @@ const SupervisorTest = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#8fcbbc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollViewcontainer: {
-    flex: 1,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  header: {
-    fontWeight: "bold",
-    flex: 1,
-  },
-  cell: {
-    flex: 1,
-  },
-});
+    backgroundColor: colors.light,
+  }
+})
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#8fcbbc",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   scrollViewcontainer: {
+//     flex: 1,
+//   },
+//   row: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     padding: 10,
+//     borderBottomWidth: 1,
+//     borderBottomColor: "#ddd",
+//   },
+//   header: {
+//     fontWeight: "bold",
+//     flex: 1,
+//   },
+//   cell: {
+//     flex: 1,
+//   },
+// });
 
 export default SupervisorTest;

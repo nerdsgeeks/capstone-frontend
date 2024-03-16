@@ -15,6 +15,7 @@ import RequestIcon from "../SVG/RequestIcon";
 import SupervisorHomeStack from "../routes/SupervisorHomeStack";
 import SupervisorRequestStack from "../routes/SupervisorRequestStack";
 import SupervisorRoomStack from "../routes/SupervisorRoomStack";
+import SupervisorTestStack from "../routes/SupervisorTestStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTabSupervisor = () => {
@@ -208,8 +209,8 @@ const NavigationTabSupervisor = () => {
       />
 
       <Tab.Screen
-        name="SupervisorTest"
-        component={SupervisorTest}
+        name="SupervisorTestStack"
+        component={SupervisorTestStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

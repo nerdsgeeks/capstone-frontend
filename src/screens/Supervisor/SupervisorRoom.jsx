@@ -135,7 +135,8 @@ useEffect(() => {
 
 const fetchRooms = async () => {
   try {
-    const response = await fetch(baseUrl + "/api/assignedrooms/getAssignedRoomsInfo");
+    console.log(baseUrl);
+    const response = await fetch(baseUrl + "/api/assignedrooms/all");
     const data = await response.json();
     return data;
   } catch (error) {

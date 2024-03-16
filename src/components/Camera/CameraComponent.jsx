@@ -1,10 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from "expo-camera";
-import { Button, Image, Text, TouchableOpacity, View } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+import {
+  Button,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import CameraButtonSvg from "../../SVG/CameraButtonSvg";
+import BackIcon from "../../SVG/BackIcon";
+import CheckIcon from "../../SVG/CheckIcon";
 
-const CameraComponent = () => {
+const CameraComponent = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [hasPermission, setHasPermission] = useState(null);
@@ -33,9 +41,7 @@ const CameraComponent = () => {
   }, []);
 
   function toggleCameraType() {
-    setType(
-      type === CameraType.back ? CameraType.front : CameraType.back
-    );
+    setType(type === CameraType.back ? CameraType.front : CameraType.back);
   }
 
   if (!permission) {
@@ -53,38 +59,38 @@ const CameraComponent = () => {
     );
   }
 
+  const confirmImages = () => {   
+    navigation.navigate("StaffCleanedRoomScreen", { images });
+  };
+
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} type={type} ref={cameraRef}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
-            <Ionicons
-              name="camera-reverse"
-              size={50}
-              color="white"
-              onPress={toggleCameraType}
-            />
-            <Ionicons
-              name="camera"
-              size={50}
-              color="white"
-              onPress={takeImage}
-            />
-          </TouchableOpacity>
+          <ScrollView horizontal={true}>
+            <View style={styles.imageContainer}>
+              {images.map((image, index) => (
+                <TouchableOpacity key={index}>
+                  <Image
+                    key={index}
+                    source={{ uri: `data:image/jpg;base64,${image}` }}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+          <View style={styles.button}>
+            <BackIcon w={26} h={26} onPress={() => navigation.goBack()} />
+            <TouchableOpacity onPress={takeImage}>
+              <CameraButtonSvg onPress={takeImage} />
+            </TouchableOpacity>
+            <TouchableOpacity >
+              <CheckIcon w={50} h={50} fill="white" onPress={confirmImages} />
+            </TouchableOpacity>
+          </View>
         </View>
       </Camera>
-
-      <View style={styles.imageContainer}>
-        {images.map((image, index) => (
-          <TouchableOpacity key={index}>
-          <Image
-            key={index}
-            source={{ uri: `data:image/jpg;base64,${image}` }}
-            style={styles.image}
-          />
-          </TouchableOpacity>
-        ))}
-      </View>
     </View>
   );
 };
@@ -97,18 +103,21 @@ const styles = {
   },
   camera: {
     flex: 1,
+    justifyContent: "flex-end",
   },
+
   buttonContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-end",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
     marginBottom: 20,
   },
   button: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-around",
+    gap: 100,
   },
   imageContainer: {
     flexDirection: "row",
