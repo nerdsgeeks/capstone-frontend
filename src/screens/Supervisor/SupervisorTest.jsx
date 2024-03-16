@@ -9,7 +9,7 @@ import Gallery from "../../components/Gallery/Gallery";
 import { Camera } from "expo-camera";
 import CameraComponent from "../../components/Camera/CameraComponent";
 import SupervisorRequestHistory from "./SupervisorRequestHistory";
-import axios from "axios";
+import { colors } from "../../../themes/themes";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -38,24 +38,24 @@ const SupervisorTest = ({navigation}) => {
 
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    console.log(baseUrl);
-    const apiUrl = baseUrl + "/api/items/all";
+  // useEffect(() => {
+  //   console.log(baseUrl);
+  //   const apiUrl = baseUrl + "/api/items/all";
 
-    console.log(baseUrl + "/api/items/all");
-    const onFetchItems = () =>
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          const data = response.data;
-          setItems(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  //   console.log(baseUrl + "/api/items/all");
+  //   // const onFetchItems = () =>
+  //   //   axios
+  //   //     .get(apiUrl)
+  //   //     .then((response) => {
+  //   //       const data = response.data;
+  //   //       setItems(data);
+  //   //     })
+  //   //     .catch((error) => {
+  //   //       console.log(error);
+  //   //     });
 
-    onFetchItems();
-  }, []);
+  //   onFetchItems();
+  // }, []);
 
   return (
     <View style={styles.container}>

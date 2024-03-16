@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import HistoryIcon from "../../SVG/HistoryIcon";
@@ -11,7 +11,6 @@ import Button from "../../components/Button/Button";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
 import CloseIcon from "../../SVG/CloseIcon";
 import useBaseUrl from "../../hooks/useBaseUrl";
-import { ScrollView } from "react-native-gesture-handler";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import CalendarIcon from "../../SVG/CalendarIcon";
 
@@ -226,14 +225,14 @@ const SupervisorRequest = ({ navigation }) => {
                   <Typography variant="body-regular">Quantity</Typography>
                   <View style={{ borderRadius: 100, height: 28, width: 28, backgroundColor: colors.yellow1,alignItems: "center", justifyContent: "center" }} >
                     <Typography variant="small-medium">
-                      {requestDetailObject.quantity}
+                      {requestDetailObject.Quantity}
                     </Typography>
                   </View>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                   <Typography variant="body-regular">Room</Typography>
                   <Typography variant="small-medium">
-                    {requestDetailObject.roomNumber}
+                    {requestDetailObject.RoomName}
                   </Typography>
                 </View>
                 <View style={styles.itemDetailTitle}>
