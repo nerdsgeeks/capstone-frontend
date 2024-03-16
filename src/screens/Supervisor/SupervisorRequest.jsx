@@ -20,6 +20,7 @@ import CloseIcon from "../../SVG/CloseIcon";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import CalendarIcon from "../../SVG/CalendarIcon";
+import axios from "axios";
 
 const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -30,6 +31,9 @@ const SupervisorRequest = ({ navigation }) => {
   const [requestDetailObject, setRequestDetailObject] = useState({});
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
+    const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
+
+  
 
   const toggleRequestDetailModal = () =>
     setIsRequestDetailModalOpen(!isRequestDetailModalOpen);
@@ -66,15 +70,41 @@ const SupervisorRequest = ({ navigation }) => {
     });
   }, []);
 
+  const updateRequestCompletion = (updatedRequest) => {
+    const updatedRequestItemsCopy = [...updatedRequestItems];
+    const existingItemIndex = updatedRequestItemsCopy.findIndex(
+      (item) => item.id === updatedRequest.id
+    );
+    if (existingItemIndex !== -1) {
+      updatedRequestItemsCopy[existingItemIndex] = updatedRequest;
+    } else {
+      updatedRequestItemsCopy.push(updatedRequest);
+    }
+    setUpdatedRequestItems(updatedRequestItemsCopy);
+    console.log(updatedRequestItems)
+  };
   const fetchRequestItems = async () => {
     try {
-      console.log(baseUrl);
-      const response = await fetch(`${baseUrl}/api/requestItems/all`);
-      const data = await response.json();
-      return data;
+        const response = await axios.get(`${baseUrl}/api/requestItems/all`);
+        console.log(response.data);
+        return response.data;
     } catch (error) {
-      console.log(error);
+        console.error("Error fetching request items:", error);
+        throw error;
     }
+};
+
+  const acceptRequest = () => {
+    axios
+      .put(`${baseUrl}/api/requestItems/updateRequestItem`, updatedRequestItems)
+      .then((response) => {
+        console.log(response.data);
+        setIsConfimationModalOpen(false);
+      })
+      .catch((error) => {
+        console.error("Error updating request items:", error);
+        // Handle error
+      });
   };
 
   const onPress = ({ request }) => {
@@ -129,6 +159,7 @@ const SupervisorRequest = ({ navigation }) => {
                         key={index}
                         request={request}
                         onPress={() => onPress({ request: request })}
+                        updateRequestCompletion={updateRequestCompletion}
                       />
                     ))}
                 </View>
@@ -141,6 +172,7 @@ const SupervisorRequest = ({ navigation }) => {
                         key={index}
                         request={request}
                         onPress={() => onPress({ request: request })}
+                        updateRequestCompletion={updateRequestCompletion}
                       />
                     ))}
                 </View>
@@ -187,8 +219,7 @@ const SupervisorRequest = ({ navigation }) => {
                   <Button
                     name="Yes"
                     type="primary"
-                    onPress={
-                      isCancelAllRequest ? onCancelAllRequests : onPressApprove
+                    onPress={acceptRequest
                     }
                   />
                 </View>
@@ -237,7 +268,7 @@ const SupervisorRequest = ({ navigation }) => {
                   <View style={{ flexDirection: "row", gap: 6 }}>
                     <CalendarIcon />
                     <Typography variant="xs-medium">
-                      {requestDetailObject.date}
+                      {requestDetailObject.RequestedDateTime}
                     </Typography>
                   </View>
                 </View>
