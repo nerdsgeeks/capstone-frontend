@@ -18,7 +18,6 @@ const SupervisorRequest = ({ navigation }) => {
   const [isConfimationModalOpen, setIsConfimationModalOpen] = useState(false);
   const [isCancelAllRequest, setIsCancelAllRequest] = useState(false);
   const [requestDetailObject, setRequestDetailObject] = useState({});
-
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
 
@@ -80,7 +79,7 @@ const SupervisorRequest = ({ navigation }) => {
   const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
 
   const pressedIcon = () => {
-    console.log("icon pressed!");
+    navigation.navigate('SupervisorRequestHistory');
   };
 
   return (
@@ -109,6 +108,7 @@ const SupervisorRequest = ({ navigation }) => {
             tabs={tabs}
             activeTab={activeTab}
             onTabPress={handleTabPress}
+            justifyContent="center"
           />
           <View style={styles.bodyContent}>
             {activeTab === 0 ? (
