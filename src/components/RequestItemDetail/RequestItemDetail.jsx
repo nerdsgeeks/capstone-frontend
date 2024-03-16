@@ -4,16 +4,47 @@ import ImageDisplay from "../ImageDisplay/ImageDisplay";
 import TrashIcon from "../../SVG/TrashIcon";
 import Counter from "../Counter/Counter";
 import Typography from "../Typography/Typography";
+import { useRequestCartStore } from "../../store/requestStore";
 
-const RequestItemDetail = ({ countProp = 0, imageSrc, itemName }) => {
+const RequestItemDetail = ({
+  countProp = 0,
+  imageSrc,
+  itemName,
+  index,
+  disabled = false,
+}) => {
   const [count, setCount] = useState(countProp);
-  const handleIncrement = () => {
+  const requestedItemsCartStore = useRequestCartStore(
+    (state) => state.requestedItemsCartStore,
+  );
+  const updateRequestedItemsCartStore = useRequestCartStore(
+    (state) => state.updateRequestedItemsCartStore,
+  );
+  const handleIncrement = (index) => {
+    console.log(index);
     console.log("handleIncrement");
+    console.log(requestedItemsCartStore);
     setCount(count + 1);
+    const updatedItems = requestedItemsCartStore.map((item, idx) => {
+      if (idx === index) {
+        return { ...item, count: count + 1 };
+      }
+      return item;
+    });
+    updateRequestedItemsCartStore(updatedItems);
   };
-  const handleDecrement = () => {
+  const handleDecrement = (index) => {
+    console.log(index);
     console.log("handleDecrement");
+    console.log(requestedItemsCartStore);
     setCount(count - 1);
+    const updatedItems = requestedItemsCartStore.map((item, idx) => {
+      if (idx === index) {
+        return { ...item, count: count - 1 };
+      }
+      return item;
+    });
+    updateRequestedItemsCartStore(updatedItems);
   };
 
   return (
@@ -25,14 +56,16 @@ const RequestItemDetail = ({ countProp = 0, imageSrc, itemName }) => {
       <View>
         <View style={styles.topHeader}>
           <Typography variant="small-medium">{itemName}</Typography>
+          {/* <Typography variant="small-medium">{index}</Typography> */}
           <TrashIcon />
         </View>
         <View>
           <Counter
             count={count}
-            handleIncrement={handleIncrement}
-            handleDecrement={handleDecrement}
+            handleIncrement={() => handleIncrement(index)}
+            handleDecrement={() => handleDecrement(index)}
             containerStyle={styles.Counter}
+            disabled={disabled}
           />
         </View>
       </View>
@@ -50,6 +83,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 68,
     marginBottom: 16,
+    borderBottomWidth: 1,
+    borderColor: "#D9D9D9",
+    paddingVertical: 20,
   },
   topHeader: {
     flexDirection: "row",

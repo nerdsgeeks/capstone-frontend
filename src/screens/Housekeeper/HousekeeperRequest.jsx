@@ -6,35 +6,55 @@ import BigButton from "../../components/BigButton/BigButton";
 import BedIcon from "../../SVG/BedIcon";
 import { colors } from "../../../themes/themes";
 import NavTabs from "../../components/NavTabs/NavTabs";
+import { useBaseScreenStore } from "../../store/screensStore";
+import useBaseUrl from "../../hooks/useBaseUrl";
+import axios from "axios";
 
 const HousekeeperRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [showPendingTab, setShowPendingTab] = useState(true);
   const tabs = [{ label: "Pending" }, { label: "History" }];
   const [items, setItems] = useState([]);
-  const pendingItems = [
-    { id: "1", itemName: "Toilet Paper", date: "2024-03-01" },
-    { id: "2", itemName: "Small Towel", date: "2024-03-05" },
-    { id: "3", itemName: "Large Towel", date: "2024-03-10" },
-    { id: "4", itemName: "Toilet Paper", date: "2024-03-15" },
-    { id: "5", itemName: "Small Towel", date: "2024-03-20" },
-    { id: "6", itemName: "Large Towel", date: "2024-03-20" },
-  ];
+  const [pendingItems, setPendingItems] = useState([]);
+  const [historyItems, setHistoryItems] = useState([]);
+  const baseScreenStore = useBaseScreenStore((state) => state.baseScreenStore);
+  const updateBaseScreenStore = useBaseScreenStore(
+    (state) => state.updateBaseScreenStore,
+  );
+  const baseUrl = useBaseUrl();
+  // const pendingItems = [
+  //   { id: "1", itemName: "Toilet Paper", date: "2024-03-01" },
+  //   { id: "2", itemName: "Small Towel", date: "2024-03-05" },
+  //   { id: "3", itemName: "Large Towel", date: "2024-03-10" },
+  //   { id: "4", itemName: "Toilet Paper", date: "2024-03-15" },
+  //   { id: "5", itemName: "Small Towel", date: "2024-03-20" },
+  //   { id: "6", itemName: "Large Towel", date: "2024-03-20" },
+  // ];
 
-  const historyItems = [
-    { id: "1", itemName: "Mopping Set", date: "2024-03-01" },
-    { id: "2", itemName: "Squeegee", date: "2024-03-05" },
-    { id: "3", itemName: "Sponge", date: "2024-03-10" },
-    { id: "4", itemName: "Mopping Set", date: "2024-03-15" },
-    { id: "5", itemName: "Squeegee", date: "2024-03-20" },
-    { id: "6", itemName: "Sponge", date: "2024-03-20" },
-  ];
+  // const historyItems = [
+  //   { id: "1", itemName: "Mopping Set", date: "2024-03-01" },
+  //   { id: "2", itemName: "Squeegee", date: "2024-03-05" },
+  //   { id: "3", itemName: "Sponge", date: "2024-03-10" },
+  //   { id: "4", itemName: "Mopping Set", date: "2024-03-15" },
+  //   { id: "5", itemName: "Squeegee", date: "2024-03-20" },
+  //   { id: "6", itemName: "Sponge", date: "2024-03-20" },
+  // ];
   const onRoomSuppliesPressed = () => {
     console.log("onRoomSuppliesPressed");
+    navigation.navigate("RequestItemSupplies", {
+      roomDetails: [],
+      items: [],
+      screenTitle: "Room Supplies",
+    });
   };
 
   const onCartSuppliesPressed = () => {
     console.log("onCartSuppliesPressed");
+    navigation.navigate("RequestItemSupplies", {
+      roomDetails: [],
+      items: [],
+      screenTitle: "Cart Supplies",
+    });
   };
 
   const handleTabPress = (index) => {
@@ -59,13 +79,49 @@ const HousekeeperRequest = ({ navigation }) => {
         marginHorizontal: 36,
       }}
     >
-      <Typography variant="small-medium">{item.itemName}</Typography>
-      <Typography variant="small-medium">{item.date}</Typography>
+      <Typography variant="small-medium">{item.ItemName}</Typography>
+      <Typography variant="small-medium">
+        {item.RequestedDateTime.split("T")[0]}
+      </Typography>
     </View>
   );
 
   useEffect(() => {
-    setItems(pendingItems);
+    updateBaseScreenStore("HousekeeperRequest");
+
+    const apiUrl = baseUrl + `/api/requestItems/all`;
+
+    console.log(apiUrl);
+    const onFetchRequestItemsViewAll = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          let data = response.data;
+          let tempPendingItems = [];
+          let tempHistoryItems = [];
+          if (data.length > 0) {
+            data.forEach((item) => {
+              if (item.isCompleted) {
+                tempHistoryItems.push(item);
+              } else {
+                tempPendingItems.push(item);
+              }
+            });
+          }
+
+          console.log("data");
+          console.log(data);
+          console.log(tempPendingItems);
+          console.log(tempPendingItems);
+          setItems(tempPendingItems);
+          setPendingItems(tempPendingItems);
+          setHistoryItems(tempHistoryItems);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    onFetchRequestItemsViewAll();
   }, []);
 
   return (
@@ -98,11 +154,13 @@ const HousekeeperRequest = ({ navigation }) => {
               activeTab={activeTab}
               onTabPress={handleTabPress}
             />
-            <FlatList
-              data={items}
-              renderItem={({ item }) => <Item item={item} />}
-              keyExtractor={(item) => item.id}
-            />
+            {items.length > 0 && (
+              <FlatList
+                data={items}
+                renderItem={({ item }) => <Item item={item} />}
+                keyExtractor={(item) => item.requestItemId}
+              />
+            )}
           </View>
         </View>
       </SafeAreaView>
@@ -125,7 +183,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
-  bottomContainer: {},
+  bottomContainer: {
+    marginTop: 40,
+  },
   navTabContainer: {
     // borderColor: "black",
     // borderWidth: 1,
