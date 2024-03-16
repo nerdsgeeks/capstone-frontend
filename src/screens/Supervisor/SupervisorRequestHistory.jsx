@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -12,10 +12,16 @@ import RequestItemHeaderComponent from "../../components/RequestItemHeaderCompon
 import CloseIcon from "../../SVG/CloseIcon";
 import CalendarIcon from "../../SVG/CalendarIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import axios from "axios";
+import useBaseUrl from "../../hooks/useBaseUrl";
 
 const SupervisorRequestHistory = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [requestDetailObject, setRequestDetailObject] = useState({});
+  const [requestItems, setRequestItems] = useState([]);
+
+  const baseUrl = useBaseUrl();
+
 
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
@@ -32,28 +38,24 @@ const SupervisorRequestHistory = ({ navigation }) => {
     setIsRequestDetailModalOpen(true);
   };
 
-  const roomSupplies = [
-    {
-      itemName: "Toilet Paper",
-      quantity: 2,
-      roomNumber: 101,
-      date: "2022-01-01",
-      itemType: "Toilet Paper",
-      requester: "John Doe",
-      requesterId: "12345",
-      comments: "I need a toilet paper",
-    },
-    { itemName: "Hand Soap", quantity: 1, roomNumber: 102, date: "2022-01-01" },
-    { itemName: "Towels", quantity: 3, roomNumber: 103, date: "2022-01-01" },
-  ];
+  useEffect(() => {
+    fetchRequestItems().then((data) => {
+      setRequestItems(data);
+    });
+  }, []);
 
-  const cleanerSupplies = [
-    { itemName: "Bleach", quantity: 2, roomNumber: 101, date: "2022-01-01" },
-    { itemName: "Mop", quantity: 1, roomNumber: 102, date: "2022-01-01" },
-    { itemName: "Bucket", quantity: 3, roomNumber: 103, date: "2022-01-01" },
-  ];
+  const fetchRequestItems = async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/api/requestItems/all`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching request items:", error);
+        throw error;
+    }
+};
 
-  const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
+
+  const tabs = [{ label: " Supplies" }, { label: "Help" }];
 
   const goBack = () => {
     navigation.goBack();
@@ -97,7 +99,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
               {activeTab === 0 ? (
                 <View style={styles.horizontalContainer}>
                   <RequestItemHeaderComponent />
-                  {roomSupplies.map((request, index) => (
+                  {requestItems.map((request, index) => (
                     <RequestItemHistory
                       key={index}
                       request={request}
@@ -108,7 +110,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
               ) : (
                 <View style={styles.horizontalContainer}>
                   <RequestItemHeaderComponent />
-                  {cleanerSupplies.map((request, index) => (
+                  {requestItems.map((request, index) => (
                     <RequestItemHistory
                       key={index}
                       request={request}
@@ -161,7 +163,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
                   <View style={{ flexDirection: "row", gap: 6 }}>
                     <CalendarIcon />
                     <Typography variant="xs-medium">
-                      {requestDetailObject.date}
+                      {requestDetailObject.RequestedDateTime}
                     </Typography>
                   </View>
                 </View>
@@ -184,7 +186,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
                     }}
                   >
                     <Typography variant="small-medium">
-                      {requestDetailObject.quantity}
+                      {requestDetailObject.Quantity}
                     </Typography>
                   </View>
                 </View>
@@ -196,7 +198,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
                 >
                   <Typography variant="body-regular">Room</Typography>
                   <Typography variant="small-medium">
-                    {requestDetailObject.roomNumber}
+                    {requestDetailObject.RoomName}
                   </Typography>
                 </View>
                 <View style={styles.itemDetailTitle}>

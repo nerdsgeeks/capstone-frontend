@@ -4,13 +4,15 @@ import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import { colors } from "../../../themes/themes";
 
-const RequestItemComponent = ({ request, onPress, }) => {
+const RequestItemComponent = ({ request, onPress,updateRequestCompletion }) => {
   const { ItemName, Quantity, RoomName, RequestedDateTime, isCompleted } = request; 
   const [completed, setCompleted] = useState(isCompleted);
  
-  const changeStatus = () => {  
+  const changeStatus = () => {
+    const updatedRequest = { ...request, isCompleted: !completed };
     setCompleted(!completed);
-  }
+    updateRequestCompletion(updatedRequest);
+  };
 
   return (
     <TouchableOpacity onPress={onPress}>

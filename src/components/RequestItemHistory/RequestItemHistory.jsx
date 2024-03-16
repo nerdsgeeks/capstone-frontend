@@ -4,7 +4,7 @@ import { useState } from "react";
 import { colors } from "../../../themes/themes";
 
 const RequestItemComponent = ({ request, onPress }) => {
-  const { itemName, quantity, roomNumber, date } = request;
+  const { ItemName, Quantity, RoomName, RequestedDateTime } = request;
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -12,7 +12,7 @@ const RequestItemComponent = ({ request, onPress }) => {
         <View
           style={[
             styles.itemColor,
-            request.approvedBySupervisor
+            request.isCompleted
               ? styles.approvedItem
               : styles.declinedItem,
           ]}
@@ -20,13 +20,13 @@ const RequestItemComponent = ({ request, onPress }) => {
         <View style= {{ flexGrow: 1}}>
           <View style={styles.bodyTopContent}>
             <Typography variant="small-regular" style={styles.itemStyle}>
-              {itemName}
+              {ItemName}
             </Typography>
-            <Typography variant="small-regular">{quantity}</Typography>
-            <Typography variant="small-regular">{roomNumber}</Typography>
+            <Typography variant="small-regular">{Quantity}</Typography>
+            <Typography variant="small-regular">{RoomName}</Typography>
           </View>
           <View style={styles.bodyContentBottom}>
-            <Typography variant="small-regular">{date}</Typography>
+            <Typography variant="small-regular">{RequestedDateTime}</Typography>
           </View>
         </View>
       </View>
