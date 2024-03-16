@@ -5,7 +5,6 @@ import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
 import { colors } from "../../../themes/themes";
 import Accordion from "../../components/Accordion/Accordion";
-import RoomAccordionButton from "../../components/RoomAccordionButton/RoomAccordionButton";
 
 const SupervisorRoomMain = ({ rooms, onPress }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);

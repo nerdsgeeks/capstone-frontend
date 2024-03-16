@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HousekeeperHome from "../screens/Housekeeper/HousekeeperHome";
 import RoomDetail from "../screens/RoomDetail/RoomDetail";
 import RoomDetailRequestItem from "../screens/RoomDetailRequestItem/RoomDetailRequestItem";
+import CameraComponent from "../components/Camera/CameraComponent";
+import StaffCleanedRoomScreen from "../components/StaffCleanedRoomScreen/StaffCleanedRoomScreen";
 
 const Stack = createNativeStackNavigator();
 const HousekeeperHomeStack = () => {
@@ -24,6 +26,15 @@ const HousekeeperHomeStack = () => {
         name="RoomDetailRequestItem"
         component={RoomDetailRequestItem}
         options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="Camera"
+        component={CameraComponent}
+        options={{ title: "Camera" }}
+      />
+      <Stack.Screen
+        name="StaffCleanedRoomScreen"
+        component={StaffCleanedRoomScreen}
       />
     </Stack.Navigator>
   );

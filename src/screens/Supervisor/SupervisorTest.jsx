@@ -4,8 +4,12 @@ import BedIcon from "../../SVG/BedIcon";
 import { useTestStore } from "./../../store/testStore";
 import InspectionReview from "./InspectionReview";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import Gallery from "../../components/Gallery/Gallery";
+import { Camera } from "expo-camera";
+import CameraComponent from "../../components/Camera/CameraComponent";
 import SupervisorRequestHistory from "./SupervisorRequestHistory";
-import axios from "axios";
+import { colors } from "../../../themes/themes";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -19,7 +23,7 @@ export function Controls() {
   return <Button onPress={increasePopulation} title="one up" />;
 }
 
-const SupervisorTest = () => {
+const SupervisorTest = ({navigation}) => {
   const baseUrl = useBaseUrl();
   // console.log(process.env);
   // const baseUrl = "http://10.0.2.2:5000";
@@ -34,30 +38,32 @@ const SupervisorTest = () => {
 
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    console.log(baseUrl);
-    const apiUrl = baseUrl + "/api/items/all";
+  // useEffect(() => {
+  //   console.log(baseUrl);
+  //   const apiUrl = baseUrl + "/api/items/all";
 
-    console.log(baseUrl + "/api/items/all");
-    const onFetchItems = () =>
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          const data = response.data;
-          setItems(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  //   console.log(baseUrl + "/api/items/all");
+  //   // const onFetchItems = () =>
+  //   //   axios
+  //   //     .get(apiUrl)
+  //   //     .then((response) => {
+  //   //       const data = response.data;
+  //   //       setItems(data);
+  //   //     })
+  //   //     .catch((error) => {
+  //   //       console.log(error);
+  //   //     });
 
-    onFetchItems();
-  }, []);
+  //   onFetchItems();
+  // }, []);
 
   return (
     <View style={styles.container}>
+      <CameraComponent navigation={navigation}/>
+
       <Text>SupervisorTest Screen</Text>
       {/* <InspectionReview /> */}
-      {items && (
+      {/* {items && (
         <ScrollView style={styles.scrollViewcontainer}>
           <View style={styles.row}>
             <Text style={styles.header}>Item Name</Text>
@@ -72,7 +78,7 @@ const SupervisorTest = () => {
             </View>
           ))}
         </ScrollView>
-      )}
+      )} */}
     </View>
   );
 };
@@ -80,29 +86,55 @@ const SupervisorTest = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#8fcbbc",
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-  scrollViewcontainer: {
-    flex: 1,
-    height: 400,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  header: {
-    fontWeight: "bold",
-    flex: 1,
-  },
-  cell: {
-    flex: 1,
-  },
-});
+    backgroundColor: colors.light,
+  }
+})
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#8fcbbc",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   scrollViewcontainer: {
+//     flex: 1,
+//   },
+//   row: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     padding: 10,
+//     borderBottomWidth: 1,
+//     borderBottomColor: "#ddd",
+//   },
+//   header: {
+//     fontWeight: "bold",
+//     flex: 1,
+//   },
+//   cell: {
+//     flex: 1,
+//   },
+// });
+
+// },
+// scrollViewcontainer: {
+//   flex: 1,
+//   height: 400,
+// },
+// row: {
+//   flexDirection: "row",
+//   justifyContent: "space-between",
+//   alignItems: "center",
+//   padding: 10,
+//   borderBottomWidth: 1,
+//   borderBottomColor: "#ddd",
+// },
+// header: {
+//   fontWeight: "bold",
+//   flex: 1,
+// },
+// cell: {
+//   flex: 1,
+// },
+// });
 
 export default SupervisorTest;
