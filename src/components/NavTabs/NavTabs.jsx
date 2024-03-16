@@ -2,10 +2,10 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Typography from "../Typography/Typography";
 
-const NavTabs = ({ tabs, activeTab, onTabPress, screen }) => {
+const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
   return (
     <View
-      style={[styles.container, { width: screen === "home" ? 200 : "100%" }]}
+      style={[styles.container, { width: screen === "home" ? 200 : "100%", justifyContent: justifyContent || "flex-start", }]}
     >
       {tabs.map((tab, index) => (
         <TouchableOpacity

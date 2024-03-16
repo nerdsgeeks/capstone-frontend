@@ -21,7 +21,6 @@ const SupervisorRequest = ({ navigation }) => {
   const [requestItems, setRequestItems] = useState([]);
   const baseUrl = useBaseUrl();
   const [requestDetailObject, setRequestDetailObject] = useState({});
-
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
 
@@ -79,7 +78,7 @@ const SupervisorRequest = ({ navigation }) => {
   const tabs = [{ label: "Room Supplies" }, { label: "Cleaner Supplies" }];
 
   const pressedIcon = () => {
-    console.log("icon pressed!");
+    navigation.navigate('SupervisorRequestHistory');
   };
 
   return (
@@ -104,7 +103,7 @@ const SupervisorRequest = ({ navigation }) => {
           </SafeAreaView>
         </LinearGradient>
         <View style={styles.tabContainer}>
-            <>
+        <>
               <NavTabs
                 tabs={tabs}
                 activeTab={activeTab}
