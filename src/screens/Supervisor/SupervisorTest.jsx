@@ -64,6 +64,7 @@ const SupervisorTest = ({ navigation }) => {
       <CameraComponent navigation={navigation} />
 
       <Text>SupervisorTest Screen</Text>
+      <HousekeeperPerformance />
       {/* <InspectionReview /> */}
       {/* {items && (
         <ScrollView style={styles.scrollViewcontainer}>
