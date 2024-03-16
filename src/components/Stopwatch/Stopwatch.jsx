@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignSelf: "flex-start",
-    gap: 25,
+    gap: 18,
     alignItems: "center",
     padding: 10,
     borderRadius: 6,

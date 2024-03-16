@@ -10,6 +10,7 @@ import { Camera } from "expo-camera";
 import CameraComponent from "../../components/Camera/CameraComponent";
 import SupervisorRequestHistory from "./SupervisorRequestHistory";
 import { colors } from "../../../themes/themes";
+import HousekeeperPerformance from "../Housekeeper/HousekeeperPerformance";
 
 export function BearCounter() {
   const bears = useTestStore((state) => state.bears);
@@ -59,9 +60,10 @@ const SupervisorTest = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <CameraComponent navigation={navigation}/>
+      
 
       <Text>SupervisorTest Screen</Text>
+      <HousekeeperPerformance />
       {/* <InspectionReview /> */}
       {/* {items && (
         <ScrollView style={styles.scrollViewcontainer}>
