@@ -14,101 +14,25 @@ import {
 import Typography from "../Typography/Typography";
 import SearchIcon from "../../SVG/SearchIcon";
 import ImageDisplay from "../ImageDisplay/ImageDisplay";
-import { useRequestStore } from "../../store/requestStore";
+import { useRequestCartStore } from "../../store/requestStore";
 import CloseIcon from "../../SVG/CloseIcon";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import RequestedItemsList from "../RequestedItemsList/RequestedItemsList";
 
-const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
-  const requestedItems = useRequestStore((state) => state.requestedItems);
-  const updateRequestedItems = useRequestStore(
-    (state) => state.updateRequestedItems,
+const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
+  const requestedItemsCartStore = useRequestCartStore(
+    (state) => state.requestedItemsCartStore,
+  );
+  const updateRequestedItemsCartStore = useRequestCartStore(
+    (state) => state.updateRequestedItemsCartStore,
   );
   const [selectedItem, setSelectedItem] = useState({});
-  const [requestedItemsCart, setRequestedItemsCart] = useState([]);
-  const items = [
-    {
-      id: "1",
-      imageSrc: "https://picsum.photos/2000/600?random=11",
-      itemName: "Item 1",
-    },
-    {
-      id: "2",
-      imageSrc: "https://picsum.photos/2000/600?random=12",
-      itemName: "Item 2",
-    },
-    {
-      id: "3",
-      imageSrc: "https://picsum.photos/2000/600?random=13",
-      itemName: "Item 3",
-    },
-    {
-      id: "4",
-      imageSrc: "https://picsum.photos/2000/600?random=14",
-      itemName: "Item 4",
-    },
-    {
-      id: "5",
-      imageSrc: "https://picsum.photos/2000/600?random=15",
-      itemName: "Item 5",
-    },
-    {
-      id: "6",
-      imageSrc: "https://picsum.photos/2000/600?random=16",
-      itemName: "Item 6",
-    },
-    {
-      id: "7",
-      imageSrc: "https://picsum.photos/2000/600?random=17",
-      itemName: "Item 7",
-    },
-    {
-      id: "8",
-      imageSrc: "https://picsum.photos/2000/600?random=18",
-      itemName: "Item 8",
-    },
-    {
-      id: "9",
-      imageSrc: "https://picsum.photos/2000/600?random=19",
-      itemName: "Item 9",
-    },
-    {
-      id: "10",
-      imageSrc: "https://picsum.photos/2000/600?random=20",
-      itemName: "Item 10",
-    },
-    {
-      id: "11",
-      imageSrc: "https://picsum.photos/2000/600?random=21",
-      itemName: "Item 11",
-    },
-    {
-      id: "12",
-      imageSrc: "https://picsum.photos/2000/600?random=22",
-      itemName: "Item 12",
-    },
-    {
-      id: "13",
-      imageSrc: "https://picsum.photos/2000/600?random=23",
-      itemName: "Item 13",
-    },
-    {
-      id: "14",
-      imageSrc: "https://picsum.photos/2000/600?random=24",
-      itemName: "Item 14",
-    },
-    {
-      id: "15",
-      imageSrc: "https://picsum.photos/2000/600?random=25",
-      itemName: "Item 15",
-    },
-    {
-      id: "16",
-      imageSrc: "https://picsum.photos/2000/600?random=26",
-      itemName: "Item 16",
-    },
-  ];
+  const [requestedItemsCart, setRequestedItemsCart] = useState(
+    requestedItemsCartStore,
+  );
+  // console.log("items:");
+  // console.log(items);
 
   const [isRequestAddToCartModalOpen, setIsRequestAddToCartModalOpen] =
     useState(false);
@@ -116,6 +40,20 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
     useState(false);
   const [showItemsList, setShowItemsList] = useState(true);
   const [count, setCount] = useState(0);
+  const [modalNoteText, setModalNoteText] = useState("");
+
+  const handlemodalNoteTextChange = (text) => {
+    setModalNoteText(text);
+  };
+
+  const updateSelectedItemWithNote = () => {
+    const updatedSelectedItem = { ...selectedItem, note: modalNoteText };
+
+    // Update your state or context with the updated object
+    // This step depends on how selectedItem is being managed (useState, useContext, etc.)
+    setSelectedItem(updatedSelectedItem); // Assuming setSelectedItem is your state updater function
+  };
+
   const handleIncrement = () => {
     console.log("handleIncrement");
     setCount(count + 1);
@@ -148,24 +86,32 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
 
   const onOrderPressed = () => {
     console.log("onOrderPressed");
-    updateRequestedItems(requestedItemsCart);
+    updateRequestedItemsCartStore(requestedItemsCart);
     // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
     navigation.goBack();
   };
 
   const onRequestAddToCartModalSubmitPressed = () => {
-    console.log("onRequestAddToCartModalSubmitPressed");
+    console.log("selectedItem");
+    console.log(selectedItem);
+    console.log("roomDetails");
+    console.log(roomDetails);
     const requestedItem = {
-      imageSrc: selectedItem.imageSrc,
-      itemName: selectedItem.itemName,
+      RequestedItemID: selectedItem.ID,
+      ImageUrl: selectedItem.ImageUrl,
+      ItemName: selectedItem.ItemName,
       count: count,
+      assignedRoomID: roomDetails.ID,
+      Note: modalNoteText,
     };
 
+    console.log("RequestItemSearch");
     console.log(requestedItem);
+    console.log(requestedItemsCart);
 
     setRequestedItemsCart((currentItems) => {
       const itemIndex = currentItems.findIndex(
-        (item) => item.itemName === requestedItem.itemName,
+        (item) => item.ItemName === requestedItem.ItemName,
       );
 
       if (itemIndex !== -1) {
@@ -176,9 +122,21 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
         return [...currentItems, requestedItem];
       }
     });
+
+    let tempRequestedItemsCart = requestedItemsCart;
+
+    tempRequestedItemsCart = checkForSameItems(
+      tempRequestedItemsCart,
+      requestedItem,
+    );
+
+    console.log("requestedItemsCart");
     console.log(requestedItemsCart);
+    console.log(tempRequestedItemsCart);
+    updateRequestedItemsCartStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
+    setModalNoteText("");
   };
 
   const renderItem = ({ item }) => (
@@ -186,19 +144,33 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
       style={styles.itemContainer}
       onPress={() => onPressItem(item)}
     >
-      <Image source={{ uri: item.imageSrc }} style={styles.image} />
-      <Typography variant="xs-medium">{item.itemName}</Typography>
+      <Image source={{ uri: item.ImageUrl }} style={styles.image} />
+      <Typography variant="xs-medium">{item.ItemName}</Typography>
     </TouchableOpacity>
   );
 
+  const checkForSameItems = (currentItems, requestedItem) => {
+    const itemIndex = currentItems.findIndex(
+      (item) => item.ItemName === requestedItem.ItemName,
+    );
+
+    if (itemIndex !== -1) {
+      return currentItems.map((item, index) =>
+        index === itemIndex ? { ...item, ...requestedItem } : item,
+      );
+    } else {
+      return [...currentItems, requestedItem];
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Button
+      {/* <Button
         title="test"
         onPress={() => {
           console.log(requestedItems);
         }}
-      ></Button>
+      ></Button> */}
       <View style={styles.searchBoxContainer}>
         <Typography variant="xs-regular">Search</Typography>
         <View>
@@ -234,9 +206,9 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
               <Typography variant="h5-black">Request Items</Typography>
 
               <View style={styles.requestAddToCartModalImageContainer}>
-                <ImageDisplay type="large" source={selectedItem.imageSrc} />
+                <ImageDisplay type="large" source={selectedItem.ImageUrl} />
                 <Typography variant="body-regular">
-                  {selectedItem.itemName}
+                  {selectedItem.ItemName}
                 </Typography>
               </View>
               <View style={styles.requestAddToCartModalNoteSection}>
@@ -251,7 +223,6 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
                   )}
 
                   <TextInput
-                    multiline
                     style={[
                       styles.requestAddToCartModalInput,
                       {
@@ -262,7 +233,12 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
                     ]}
                     placeholder="Note"
                     onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                    onBlur={() => setIsRequestHelpModalTextFocused(false)}
+                    onBlur={() => {
+                      setIsRequestHelpModalTextFocused(false);
+                      updateSelectedItemWithNote();
+                    }}
+                    onChangeText={handlemodalNoteTextChange} // Update state on text change
+                    value={modalNoteText}
                   />
                 </View>
               </View>
@@ -302,27 +278,20 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
         </View>
       </Modal>
 
-      {showItemsList ? (
-        <View style={styles.listItemsContainer}>
-          <Typography variant="h6-black">{headerText}</Typography>
-          <ScrollView style={styles.listItems}>
-            {/* {items.map((item, index) => (
-            <View key={index} style={{}}>
-              <ImageDisplay type="small" source={item.imageSrc} />
-              <Typography variant="small-medium">{item.itemName}</Typography>
-            </View>
-          ))} */}
-
-            <FlatList
-              data={items}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              numColumns={3}
-              contentContainerStyle={styles.list}
-            />
-          </ScrollView>
-        </View>
-      ) : (
+      {/* {showItemsList ? ( */}
+      <View style={styles.listItemsContainer}>
+        {/* <Typography variant="h6-black">{headerText}</Typography> */}
+        {/* <ScrollView style={styles.listItems}> */}
+        <FlatList
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.ID}
+          numColumns={3}
+          contentContainerStyle={styles.list}
+        />
+        {/* </ScrollView> */}
+      </View>
+      {/* ) : (
         <View style={styles.requestedItemsCartContainer}>
           <RequestedItemsList items={requestedItemsCart}></RequestedItemsList>
 
@@ -333,7 +302,7 @@ const RequestItemSearch = ({ headerText, roomDetails, navigation }) => {
             <Text style={styles.requestAddToCartModalButtonText}>Order</Text>
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
     </View>
   );
 };
@@ -342,11 +311,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    width: 300,
+    width: "90%",
     rowGap: 16,
   },
   searchBoxContainer: {
-    width: 260,
+    width: "90%",
     alignSelf: "center",
   },
   requestHelpModalNoteLabel: {

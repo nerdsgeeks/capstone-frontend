@@ -14,12 +14,14 @@ import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
 import RoomDetail from "../../screens/RoomDetail/RoomDetail";
 
-const HousekeeperHomeMain = ({ rooms, navigation }) => {
+const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
   const [activeChip, setActiveChip] = useState("All");
   const [assignedRoomNumber, setAssignedRoomNumber] = useState(0);
 
   useEffect(() => {
+    // console.log("rooms");
+    // console.log(rooms);
     const filteredRooms = rooms.filter((room) => room.isCompleted === false);
     setRoomToDisplay(filteredRooms);
     setAssignedRoomNumber(filteredRooms.length);
@@ -34,7 +36,7 @@ const HousekeeperHomeMain = ({ rooms, navigation }) => {
       setAssignedRoomNumber(filteredRooms.length);
     } else {
       const filteredRooms = rooms.filter((room) => room.type === type);
-      console.log(filteredRooms);
+      // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
     }
@@ -65,12 +67,12 @@ const HousekeeperHomeMain = ({ rooms, navigation }) => {
 
     if (index === 0) {
       const filteredRooms = rooms.filter((room) => room.isCompleted === false);
-      console.log(filteredRooms);
+      // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
     } else {
       const filteredRooms = rooms.filter((room) => room.isCompleted === true);
-      console.log(filteredRooms);
+      // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
     }
@@ -172,6 +174,7 @@ const HousekeeperHomeMain = ({ rooms, navigation }) => {
               height: 40,
               justifyContent: "center",
               alignItems: "center",
+              right: 8,
             }}
           >
             <Typography
@@ -203,7 +206,10 @@ const HousekeeperHomeMain = ({ rooms, navigation }) => {
             <TouchableOpacity
               key={index}
               onPress={() =>
-                navigation.navigate("RoomDetail", { roomDetails: room })
+                navigation.navigate("RoomDetail", {
+                  roomDetails: room,
+                  items: items,
+                })
               }
             >
               <AssignedRoomListItem room={room} />

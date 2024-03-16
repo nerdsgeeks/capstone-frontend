@@ -25,6 +25,31 @@ const RoomDetailInfo = ({ reservation, room }) => {
       tierIcon = <TextChip text="NO INFO" />;
       break;
   }
+  const formatDateRange = (checkinDate, checkoutDate) => {
+    // Convert the ISO strings to Date objects
+    console.log(`checkinDate : ${checkinDate}`);
+    console.log(`checkoutDate : ${checkoutDate}`);
+    const checkinDateSplitted = checkinDate.split("T");
+    const checkoutDateSplitted = checkoutDate.split("T");
+    const checkin = new Date(checkinDateSplitted[0]);
+    const checkout = new Date(checkoutDateSplitted[0]);
+
+    // Use Intl.DateTimeFormat to format the dates as needed
+    const options = { month: "short", day: "numeric" };
+    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+      checkin,
+    );
+
+    const formattedCheckin = new Intl.DateTimeFormat("en", options).format(
+      checkin,
+    );
+    const formattedCheckout = new Intl.DateTimeFormat("en", options).format(
+      checkout,
+    );
+
+    // Combine the parts into the final string
+    return `${formattedCheckin} - ${formattedCheckout} ${year}`;
+  };
 
   return (
     <View style={styles.container}>
@@ -50,7 +75,7 @@ const RoomDetailInfo = ({ reservation, room }) => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CalendarIcon />
         <Typography variant="xs-medium" style={{ paddingLeft: 10 }}>
-          {reservation.checkIn} - {reservation.checkOut}
+          {formatDateRange(reservation.checkIn, reservation.checkOut)}
         </Typography>
       </View>
       {reservation.additionalNotes ? (
