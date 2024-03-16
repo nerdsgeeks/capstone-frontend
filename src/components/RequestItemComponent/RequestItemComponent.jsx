@@ -4,28 +4,33 @@ import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import { colors } from "../../../themes/themes";
 
-const RequestItemComponent = ({ request, onPress }) => {
-  const [isChecked, setChecked] = useState(false);
-  const { itemName, quantity, roomNumber, date } = request;
+const RequestItemComponent = ({ request, onPress, }) => {
+  const { ItemName, Quantity, RoomName, RequestedDateTime, isCompleted } = request; 
+  const [completed, setCompleted] = useState(isCompleted);
+ 
+  const changeStatus = () => {  
+    setCompleted(!completed);
+  }
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.bodyCard}>
         <View style={styles.bodyTopContent}>
+          
           <Checkbox
             style={styles.checkbox}
-            value={isChecked}
-            onValueChange={setChecked}
+            value={completed}
+            onValueChange={changeStatus}
           />
           <Typography variant="small-regular" style={styles.itemStyle}>
-            {itemName}
+            {ItemName}
           </Typography>
-          <Typography variant="small-regular">{quantity}</Typography>
-          <Typography variant="small-regular">{roomNumber}</Typography>
+          <Typography variant="small-regular">{Quantity}</Typography>
+          <Typography variant="small-regular">{RoomName}</Typography>
         </View>
         <View style={styles.bodyContentBottom}>
-          <Typography variant="small-regular">{date}</Typography>
-        </View>
+          <Typography variant="small-regular">{RequestedDateTime}</Typography>
+        </View>     
       </View>
     </TouchableOpacity>
   );

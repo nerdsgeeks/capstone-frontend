@@ -18,6 +18,7 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const [selected, setSelected] = useState("");
   const toggleModal = () => setModalState(!isModalOpen);
   const room  = route.params.room;
+  const fullName = room.FirstName + " " + room.LastName;
   const roomStatus = [
     { key: "1", value: "Dueout" },
     { key: "2", value: "DueIn" },
@@ -27,22 +28,11 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
     { key: "6", value: "CheckedOutCheckedIn" },
   ];
   
-  const reservation = {
-    guestName: "Mr. Poopie Butthole",
-    noOfGuest: 2,
-    checkIn: "2023-11-20",
-    checkOut: "2023-11-25",
-    additionalNotes: "I need a lot of paper",
-  };
-  const employee = {
-    name: "poop",
-    position: "doggie",
-  };
   return (
     <SafeAreaProvider>
         <RoomDetailHeader room={room} taskStatus="pending" navigation={navigation} />
         <SafeAreaView style={{ flex: 1 }}>
-        <RoomDetailInfo reservation={reservation} room={room} />
+        <RoomDetailInfo reservation={room} room={room} />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
             style={{ borderRadius: 15, width: 30, height: 30 }}
@@ -51,8 +41,8 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
             }}
           />
           <View>
-            <Typography variant="xs-regular">{employee.name}</Typography>
-            <Typography variant="xs-regular">{employee.position}</Typography>
+            <Typography variant="xs-regular">{fullName}</Typography>
+            <Typography variant="xs-regular">{room.position}</Typography>
           </View>
         </View>
         <TextChip
@@ -101,10 +91,10 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
                   />
                   <View>
                     <Typography variant="xs-regular">
-                      {employee.name}
+                      {fullName}
                     </Typography>
                     <Typography variant="xs-regular">
-                      {employee.position}
+                      {room.position}
                     </Typography>
                   </View>
                 </View>

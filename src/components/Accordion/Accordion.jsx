@@ -35,8 +35,7 @@ const Accordion = ({ rooms, onPress }) => {
                 <RoomAccordionButton
                   key={room.ID}
                   room={room}
-                  onPress={onPress}
-                />
+                  onPress={() => onPress(room)}                />
               ))}
             </View>
           </List.Accordion>

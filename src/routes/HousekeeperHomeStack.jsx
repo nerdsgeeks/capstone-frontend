@@ -7,6 +7,8 @@ import RoomDetail from "../screens/RoomDetail/RoomDetail";
 import RequestItemSupplies from "../screens/RequestItemSupplies/RequestItemSupplies";
 import CartIcon from "../SVG/CartIcon";
 import RequestItemSuppliesOrder from "../screens/RequestItemSuppliesOrder/RequestItemSuppliesOrder";
+import CameraComponent from "../components/Camera/CameraComponent";
+import StaffCleanedRoomScreen from "../components/StaffCleanedRoomScreen/StaffCleanedRoomScreen";
 
 const Stack = createNativeStackNavigator();
 // Function to create a custom right component
@@ -50,6 +52,15 @@ const HousekeeperHomeStack = () => {
         name="RequestItemSuppliesOrder"
         component={RequestItemSuppliesOrder}
         options={{ title: "Shopping Cart" }}
+      />
+      <Stack.Screen
+        name="Camera"
+        component={CameraComponent}
+        options={{ title: "Camera" }}
+      />
+      <Stack.Screen
+        name="StaffCleanedRoomScreen"
+        component={StaffCleanedRoomScreen}
       />
     </Stack.Navigator>
   );

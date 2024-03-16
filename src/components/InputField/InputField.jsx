@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { colors } from "../../../themes/themes";
 
 const InputField = ({ label, icon }) => {
   const [text, setText] = useState("");
   return (
-    <TextInput
-      label={label}
-      value={text}
-      onChangeText={(text) => setText(text)}
-      left={icon ? <TextInput.Icon icon={() => icon} /> : null}
-      style={styles.textInput}
-    />
+    <View style={{ flexDirection: "row"}}>
+      <TextInput
+        label={label}
+        value={text}
+        onChangeText={(text) => setText(text)}
+        left={icon ? <TextInput.Icon icon={() => icon} /> : null}
+        style={styles.textInput}
+      />
+    </View>
   );
 };
 
@@ -24,6 +26,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.n10,
     fontSize: 12,
     fontFamily: "SatoshiMedium",
+    flexGrow: 1,
+    color: colors.n50,
   },
 });
 
