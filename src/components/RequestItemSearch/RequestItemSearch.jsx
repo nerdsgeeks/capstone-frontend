@@ -40,6 +40,20 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     useState(false);
   const [showItemsList, setShowItemsList] = useState(true);
   const [count, setCount] = useState(0);
+  const [modalNoteText, setModalNoteText] = useState("");
+
+  const handlemodalNoteTextChange = (text) => {
+    setModalNoteText(text);
+  };
+
+  const updateSelectedItemWithNote = () => {
+    const updatedSelectedItem = { ...selectedItem, note: modalNoteText };
+
+    // Update your state or context with the updated object
+    // This step depends on how selectedItem is being managed (useState, useContext, etc.)
+    setSelectedItem(updatedSelectedItem); // Assuming setSelectedItem is your state updater function
+  };
+
   const handleIncrement = () => {
     console.log("handleIncrement");
     setCount(count + 1);
@@ -83,9 +97,12 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     console.log("roomDetails");
     console.log(roomDetails);
     const requestedItem = {
+      RequestedItemID: selectedItem.ID,
       ImageUrl: selectedItem.ImageUrl,
       ItemName: selectedItem.ItemName,
       count: count,
+      assignedRoomID: roomDetails.ID,
+      Note: modalNoteText,
     };
 
     console.log("RequestItemSearch");
@@ -119,6 +136,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     updateRequestedItemsCartStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
+    setModalNoteText("");
   };
 
   const renderItem = ({ item }) => (
@@ -205,7 +223,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                   )}
 
                   <TextInput
-                    multiline
                     style={[
                       styles.requestAddToCartModalInput,
                       {
@@ -216,7 +233,12 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                     ]}
                     placeholder="Note"
                     onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                    onBlur={() => setIsRequestHelpModalTextFocused(false)}
+                    onBlur={() => {
+                      setIsRequestHelpModalTextFocused(false);
+                      updateSelectedItemWithNote();
+                    }}
+                    onChangeText={handlemodalNoteTextChange} // Update state on text change
+                    value={modalNoteText}
                   />
                 </View>
               </View>

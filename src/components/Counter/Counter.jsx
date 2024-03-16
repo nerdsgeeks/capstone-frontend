@@ -9,6 +9,7 @@ const Counter = ({
   handleIncrement,
   handleDecrement,
   containerStyle,
+  disabled = false,
 }) => {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -16,13 +17,21 @@ const Counter = ({
         <Typography variant="small-medium">Quantity</Typography>
       </View>
       <View style={styles.counterContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleDecrement}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleDecrement}
+          disabled={disabled}
+        >
           <MinusIcon></MinusIcon>
         </TouchableOpacity>
 
         <Typography variant="body-medium">{count}</Typography>
 
-        <TouchableOpacity style={styles.button} onPress={handleIncrement}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleIncrement}
+          disabled={disabled}
+        >
           <PlusIcon></PlusIcon>
         </TouchableOpacity>
       </View>

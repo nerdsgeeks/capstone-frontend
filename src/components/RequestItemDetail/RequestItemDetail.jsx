@@ -6,7 +6,13 @@ import Counter from "../Counter/Counter";
 import Typography from "../Typography/Typography";
 import { useRequestCartStore } from "../../store/requestStore";
 
-const RequestItemDetail = ({ countProp = 0, imageSrc, itemName, index }) => {
+const RequestItemDetail = ({
+  countProp = 0,
+  imageSrc,
+  itemName,
+  index,
+  disabled = false,
+}) => {
   const [count, setCount] = useState(countProp);
   const requestedItemsCartStore = useRequestCartStore(
     (state) => state.requestedItemsCartStore,
@@ -59,6 +65,7 @@ const RequestItemDetail = ({ countProp = 0, imageSrc, itemName, index }) => {
             handleIncrement={() => handleIncrement(index)}
             handleDecrement={() => handleDecrement(index)}
             containerStyle={styles.Counter}
+            disabled={disabled}
           />
         </View>
       </View>

@@ -23,11 +23,15 @@ import RequestedItemsList from "../../components/RequestedItemsList/RequestedIte
 import CloseIcon from "../../SVG/CloseIcon";
 import AddNote from "../../components/AddNote/AddNote";
 import PlusIcon from "../../SVG/PlusIcon";
-import { useRequestStore } from "../../store/requestStore";
+import { useRequestCartStore, useRequestStore } from "../../store/requestStore";
+import useBaseUrl from "../../hooks/useBaseUrl";
+import axios from "axios";
+import { useBaseScreenStore } from "../../store/screensStore";
 
 const RoomDetail = ({ route, navigation }) => {
   const { roomDetails } = route.params;
   const { items } = route.params;
+  const baseUrl = useBaseUrl();
 
   const [showStart, setShowStart] = useState(true);
   const [showPause, setShowPause] = useState(false);
@@ -43,7 +47,18 @@ const RoomDetail = ({ route, navigation }) => {
   const [hasRequestedItems, setHasRequestedItems] = useState(true);
 
   const [isRequestHelpModalOpen, setRequestHelpModalState] = useState(false);
-  const requestedItems = useRequestStore((state) => state.requestedItems);
+  const [requestedItems, setrequestedItems] = useState([]);
+  const requestedItemsCartStore = useRequestCartStore(
+    (state) => state.requestedItemsCartStore,
+  );
+  const updateRequestedItemsCartStore = useRequestCartStore(
+    (state) => state.updateRequestedItemsCartStore,
+  );
+
+  const baseScreenStore = useBaseScreenStore((state) => state.baseScreenStore);
+  const updateBaseScreenStore = useBaseScreenStore(
+    (state) => state.updateBaseScreenStore,
+  );
 
   const toggleRequestHelpModal = () => {
     console.log(isRequestHelpModalOpen);
@@ -105,6 +120,38 @@ const RoomDetail = ({ route, navigation }) => {
     toggleRequestHelpModal();
   };
 
+  useEffect(() => {
+    // console.log(baseUrl);
+    const apiUrl =
+      baseUrl + `/api/requestItems/getRequestItemView/${roomDetails.ID}`;
+
+    console.log(apiUrl);
+    const onFetchRequestItemsByAssignedRoomId = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          let data = response.data;
+
+          let dataWithCount = [];
+          if (data.length > 0) {
+            dataWithCount = data.map((item) => {
+              const { Quantity, ...rest } = item;
+              return { ...rest, count: Quantity };
+            });
+            data = dataWithCount;
+          }
+          setrequestedItems(data);
+          console.log("setrequestedItems");
+          console.log(dataWithCount);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    onFetchRequestItemsByAssignedRoomId();
+    updateBaseScreenStore("RoomDetail");
+  }, [requestedItemsCartStore]);
+
   return (
     <View style={styles.container}>
       <RoomDetailHeader
@@ -123,7 +170,10 @@ const RoomDetail = ({ route, navigation }) => {
           ></RoomDetailInfo>
 
           {requestedItems.length > 0 && (
-            <RequestedItemsList items={requestedItems}></RequestedItemsList>
+            <RequestedItemsList
+              items={requestedItems}
+              disabled={true}
+            ></RequestedItemsList>
           )}
         </ScrollView>
 

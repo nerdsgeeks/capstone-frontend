@@ -14,19 +14,63 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import CartIcon from "../../SVG/CartIcon";
 import { useRequestCartStore } from "../../store/requestStore";
 import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
+import useBaseUrl from "../../hooks/useBaseUrl";
+import axios from "axios";
+import { useBaseScreenStore } from "../../store/screensStore";
 
 const RequestItemSuppliesOrder = ({ route, navigation }) => {
+  const { roomDetails } = route.params;
   const requestedItemsCartStore = useRequestCartStore(
     (state) => state.requestedItemsCartStore,
   );
   const updateRequestedItemsCartStore = useRequestCartStore(
     (state) => state.updateRequestedItemsCartStore,
   );
+
+  const baseUrl = useBaseUrl();
+  const baseScreenStore = useBaseScreenStore((state) => state.baseScreenStore);
+  const updateBaseScreenStore = useBaseScreenStore(
+    (state) => state.updateBaseScreenStore,
+  );
+
+  console.log("baseScreenStore");
+  console.log(baseScreenStore);
+
   const onOrderPressed = () => {
     console.log("onOrderPressed");
+    const currentDateTimeStamp = new Date().toISOString();
+    const apiUrl = baseUrl + "/api/requestItems/addRequestItem";
+    console.log(requestedItemsCartStore);
+
+    requestedItemsCartStore.forEach((item, index) => {
+      // Your logic here
+      const tempRequestedItem = {
+        assignedRoomID: item.assignedRoomID,
+        RequestedItemID: item.RequestedItemID,
+        Quantity: item.count,
+        Note: item.Note,
+        RequestedDateTime: currentDateTimeStamp,
+        isCompleted: false,
+        approvedBySupervisorID: 0,
+      };
+      const onAddRequestItem = () =>
+        axios
+          .post(apiUrl, tempRequestedItem)
+          .then((response) => {
+            const data = response.data;
+            console.log("data");
+            console.log(data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+      onAddRequestItem();
+    });
+
     updateRequestedItemsCartStore([]);
-    // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
-    navigation.goBack();
+    navigation.navigate(baseScreenStore, { roomDetails: roomDetails });
+    //navigation.goBack();
   };
   return (
     <SafeAreaProvider>

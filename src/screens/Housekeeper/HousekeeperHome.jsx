@@ -9,11 +9,16 @@ import Typography from "../../components/Typography/Typography";
 import HousekeeperHomeMain from "../../components/HousekeeperHomeMain/HousekeeperHomeMain";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
+import { useItemsStore } from "../../store/itemsStore";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const HousekeeperHome = ({ navigation }) => {
   const baseUrl = useBaseUrl();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
+
+  const itemsStore = useItemsStore((state) => state.itemsStore);
+  const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
 
   useEffect(() => {
     // console.log(baseUrl);
@@ -39,6 +44,7 @@ const HousekeeperHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setItems(data);
+          updateItemsStore(data);
         })
         .catch((error) => {
           console.log(error);
@@ -51,25 +57,30 @@ const HousekeeperHome = ({ navigation }) => {
   return (
     <>
       {rooms.length > 0 && items.length > 0 ? (
-        <View style={styles.container}>
-          <HousekeeperHomeHeader
-            name="Pujan"
-            message="Time to shine at work!"
-            taskProgress={0.4}
-            scheduleTime="10:00-18:00"
-          />
-          <HousekeeperHomeMain
-            rooms={rooms}
-            items={items}
-            navigation={navigation}
-          />
-        </View>
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.container}>
+            <HousekeeperHomeHeader
+              name="Pujan"
+              message="Time to shine at work!"
+              taskProgress={0.4}
+              scheduleTime="10:00-18:00"
+            />
+            {/* <Text>{itemsStore.length}</Text> */}
+            <HousekeeperHomeMain
+              rooms={rooms}
+              items={items}
+              navigation={navigation}
+            />
+          </SafeAreaView>
+        </SafeAreaProvider>
       ) : (
-        <View style={styles.loaderContainer}>
-          <Typography variant="body-medium" style={{}}>
-            Loading .......
-          </Typography>
-        </View>
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.loaderContainer}>
+            <Typography variant="body-medium" style={{}}>
+              Loading .......
+            </Typography>
+          </SafeAreaView>
+        </SafeAreaProvider>
       )}
     </>
   );

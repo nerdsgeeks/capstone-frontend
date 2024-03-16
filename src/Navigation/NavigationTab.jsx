@@ -8,6 +8,7 @@ import ProfileIcon from "../SVG/ProfileIcon";
 import CartIcon from "../SVG/CartIcon";
 import HousekeeperTest from "../screens/Housekeeper/HousekeeperTest";
 import HousekeeperHomeStack from "../routes/HousekeeperHomeStack";
+import HousekeeperRequestStack from "../routes/HousekeeperRequestStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTab = () => {
@@ -58,8 +59,8 @@ const NavigationTab = () => {
       />
 
       <Tab.Screen
-        name="Request"
-        component={HousekeeperRequest}
+        name="HousekeeperRequestStack"
+        component={HousekeeperRequestStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

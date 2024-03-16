@@ -29,14 +29,32 @@ import RequestItemSearch from "../../components/RequestItemSearch/RequestItemSea
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import CartIcon from "../../SVG/CartIcon";
 import { useRequestCartStore } from "../../store/requestStore";
+import { useItemsStore } from "../../store/itemsStore";
+import { useBaseScreenStore } from "../../store/screensStore";
 
 const RequestItemSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
-  const { items } = route.params;
+  // const { items } = route.params;
+  const [itemsFiltered, setItemsFiltered] = useState([]);
+
+  const items = useItemsStore((state) => state.itemsStore);
+  const updateItemsStore = useItemsStore(
+    (state) => state.updateItemsStoreStore,
+  );
+  // console.log("items");
+  // console.log(items);
+
   const requestedItemsCartStore = useRequestCartStore(
     (state) => state.requestedItemsCartStore,
   );
 
+  const baseScreenStore = useBaseScreenStore((state) => state.baseScreenStore);
+  const updateBaseScreenStore = useBaseScreenStore(
+    (state) => state.updateBaseScreenStore,
+  );
+
+  console.log("baseScreenStore Supplies");
+  console.log(baseScreenStore);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: route.params.screenTitle || "Welcome",
@@ -65,19 +83,43 @@ const RequestItemSupplies = ({ route, navigation }) => {
     });
   }, [navigation, requestedItemsCartStore]);
 
+  useEffect(() => {
+    console.log(route.params.screenTitle);
+    switch (route.params.screenTitle.toUpperCase()) {
+      case "Room Supplies".toUpperCase():
+        const filteredItemsRoom = items.filter(
+          (item) => item.GroupName === "Room Supplies",
+        );
+
+        // Update state with filtered items
+        setItemsFiltered(filteredItemsRoom);
+        break;
+      case "Cart Supplies".toUpperCase():
+        const filteredItemsCart = items.filter(
+          (item) => item.GroupName === "Cart Supplies",
+        );
+
+        // Update state with filtered items
+        setItemsFiltered(filteredItemsCart);
+        break;
+    }
+  }, []);
+
   const onCartIconPressed = () => {
-    navigation.navigate("RequestItemSuppliesOrder", {});
+    navigation.navigate("RequestItemSuppliesOrder", {
+      roomDetails: roomDetails,
+    });
   };
 
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <Text> {requestedItemsCartStore.length}</Text>
+        {/* <Text> {requestedItemsCartStore.length}</Text> */}
         <RequestItemSearch
           headerText="Items"
           roomDetails={roomDetails}
           navigation={navigation}
-          items={items}
+          items={itemsFiltered}
         ></RequestItemSearch>
       </View>
     </SafeAreaProvider>

@@ -2,7 +2,11 @@ import { View, StyleSheet, Text, ScrollView } from "react-native";
 import Typography from "../Typography/Typography";
 import RequestItemDetail from "../RequestItemDetail/RequestItemDetail";
 
-const RequestedItemsList = ({ items, showRequestedItemText = true }) => {
+const RequestedItemsList = ({
+  items,
+  showRequestedItemText = true,
+  disabled = false,
+}) => {
   return (
     <View style={styles.requestedItemsListContainer}>
       {items.length > 0 && (
@@ -19,6 +23,7 @@ const RequestedItemsList = ({ items, showRequestedItemText = true }) => {
                 imageSrc={item.ImageUrl}
                 itemName={item.ItemName}
                 index={index}
+                disabled={disabled}
               />
             </View>
           ))}
