@@ -25,12 +25,12 @@ const RoomDetailInfo = ({ reservation, room }) => {
       tierIcon = <TextChip text="NO INFO" />;
       break;
   }
-  const formatDateRange = (checkinDate, checkoutDate) => {
+  const formatDateRange = (CheckinDate, CheckoutDate) => {
     // Convert the ISO strings to Date objects
-    console.log(`checkinDate : ${checkinDate}`);
-    console.log(`checkoutDate : ${checkoutDate}`);
-    const checkinDateSplitted = checkinDate.split("T");
-    const checkoutDateSplitted = checkoutDate.split("T");
+    console.log(`checkinDate : ${CheckinDate}`);
+    console.log(`checkoutDate : ${CheckoutDate}`);
+    const checkinDateSplitted = CheckinDate.split("T");
+    const checkoutDateSplitted = CheckoutDate.split("T");
     const checkin = new Date(checkinDateSplitted[0]);
     const checkout = new Date(checkoutDateSplitted[0]);
 
@@ -75,7 +75,7 @@ const RoomDetailInfo = ({ reservation, room }) => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CalendarIcon />
         <Typography variant="xs-medium" style={{ paddingLeft: 10 }}>
-          {formatDateRange(reservation.checkIn, reservation.checkOut)}
+          {formatDateRange(reservation.CheckinDate, reservation.CheckoutDate)}
         </Typography>
       </View>
       {reservation.additionalNotes ? (

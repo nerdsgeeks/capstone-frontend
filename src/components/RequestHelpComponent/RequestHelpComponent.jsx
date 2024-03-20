@@ -4,24 +4,29 @@ import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import { colors } from "../../../themes/themes";
 
-const RequestItemComponent = ({ request, onPress,updateRequestCompletion }) => {
-  const { ItemName, Quantity, RoomName, RequestedDateTime, isCompleted } = request; 
+const RequestHelpComponent = ({
+  request,
+  onPress,
+  updateRequestCompletion,
+}) => {
+  const { AdditionalNotes, Quantity, RoomName, startTime, isCompleted } =
+    request;
   const [completed, setCompleted] = useState(isCompleted);
 
   const monthAbbreviations = new Intl.DateTimeFormat("en", {
     month: "short",
-  }).format(new Date(RequestedDateTime));
+  }).format(new Date(startTime));
   const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
-    new Date(RequestedDateTime),
+    new Date(startTime),
   );
   const hours = new Intl.DateTimeFormat("en", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  }).format(new Date(RequestedDateTime));
+  }).format(new Date(startTime));
 
   const formattedTime = day + " " + monthAbbreviations + " " + hours;
- 
+
   const changeStatus = () => {
     const updatedRequest = { ...request, isCompleted: !completed };
     setCompleted(!completed);
@@ -32,21 +37,19 @@ const RequestItemComponent = ({ request, onPress,updateRequestCompletion }) => {
     <TouchableOpacity onPress={onPress}>
       <View style={styles.bodyCard}>
         <View style={styles.bodyTopContent}>
-          
           <Checkbox
             style={styles.checkbox}
             value={completed}
             onValueChange={changeStatus}
           />
           <Typography variant="small-regular" style={styles.itemStyle}>
-            {ItemName}
+            {AdditionalNotes}
           </Typography>
-          <Typography variant="small-regular">{Quantity}</Typography>
           <Typography variant="small-regular">{RoomName}</Typography>
         </View>
         <View style={styles.bodyContentBottom}>
           <Typography variant="small-regular">{formattedTime}</Typography>
-        </View>     
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -71,6 +74,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     justifyContent: "flex-start",
   },
+  itemStyle: {
+    width: "40%",
+  },
 });
 
-export default RequestItemComponent;
+export default RequestHelpComponent;

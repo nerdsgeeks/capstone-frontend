@@ -7,7 +7,7 @@ import DueInIcon from "../../SVG/DueInIcon";
 import CheckIcon from "../../SVG/CheckIcon";
 import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 
-const RoomAccordionButton = ({ room, onPress }) => {
+const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
   let roomStyle;
   switch (room.RoomTypeID) {
     case 1:
@@ -34,16 +34,16 @@ const RoomAccordionButton = ({ room, onPress }) => {
       break;
   }
   const StatusSvg = () => {
-    switch (room.RoomStatus) {
-      case "DueOut".toUpperCase():
+    switch (room.Rooms_RoomStatus) {
+      case "DueOut":
         return <DueOutIcon />;
-      case "DueIn".toUpperCase():
+      case "DueIn":
         return <DueInIcon />;
-      case "CheckedOut".toUpperCase():
+      case "CheckedOut":
         return <CheckedOutIcon />;
-      case "CheckedIn".toUpperCase():
+      case "CheckedIn":
         return <CheckIcon stroke="green" />;
-      case "DueOut-DueIn".toUpperCase():
+      case "DueOut-DueIn":
         return (
           <>
             <DueOutIcon /> <DueInIcon />
@@ -61,7 +61,7 @@ const RoomAccordionButton = ({ room, onPress }) => {
   };
 
   return (
-    <TouchableOpacity style={[styles.container, roomStyle]} onPress={onPress}>
+    <TouchableOpacity style={[styles.container, roomStyle]} onPress={onPressRoomDetail}>
       <Typography variant="body-black">{room.RoomName}</Typography>
       <Typography>{StatusSvg()}</Typography>
     </TouchableOpacity>
