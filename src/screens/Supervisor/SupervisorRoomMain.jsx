@@ -1,36 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Chip } from "react-native-paper";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
 import { colors } from "../../../themes/themes";
 import Accordion from "../../components/Accordion/Accordion";
+import axios from "axios";
+import useBaseUrl from "../../hooks/useBaseUrl";
 
-const SupervisorRoomMain = ({ rooms, onPress }) => {
+const SupervisorRoomMain = ({onPressRoomDetail} ) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
-  const [activeChip, setActiveChip] = useState("All");
   const [activeTab, setActiveTab] = useState(0);
+  const [activeChip, setActiveChip] = useState("All");
 
+  const [rooms, setRooms] = useState([]);
+
+const baseUrl = useBaseUrl();
+
+useEffect(() => {
+  axios.get(`${baseUrl}/api/assignedRooms/all`).then((res) => {
+    setRooms(res.data);
+    console.log(res.data);
+    setRoomToDisplay(res.data);
+  }
+  );
+}, []);
   const tabs = [
     { label: "Pending" },
     { label: "Cleaned" },
     { label: "Approved" },
   ];
 
-  const setRoomStatus = (status) => {
+  const setRoomStatus = (status) => {  
     let filteredRooms = [];
     if (status === "All") {
       filteredRooms = rooms;
     } else {
-      filteredRooms = rooms.filter((room) => room.RoomStatus === status);
-    }
-
+      filteredRooms = rooms.filter((room) => room.Rooms_RoomStatus === status);
+    } 
     setRoomToDisplay(filteredRooms);
     setActiveChip(status);
   };
   const handleTabPress = (index) => {
+    let statusRooms = []
+    let status = tabs[index].label;
+    console.log(status);
+    //there are 3 status In Progress , To Do, Completed
+    if(status === "Pending"){
+      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "In Progress");
+    }else if(status === "Cleaned"){
+      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "To Do");
+    }else if(status === "Approved"){
+      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "Completed");
+    }
+    setRoomToDisplay(statusRooms)
     setActiveTab(index);
   };
+
 
   return (
     <View style={styles.container}>
@@ -59,13 +85,13 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "dueIn" ? colors.n40 : colors.n0,
+                  activeChip === "DueIn" ? colors.n40 : colors.n0,
               },
             ]}
             textStyle={{
-              color: activeChip === "dueIn" ? colors.n0 : colors.n40,
+              color: activeChip === "DueIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("dueIn")}
+            onPress={() => setRoomStatus("DueIn")}
           >
             Due In
           </Chip>
@@ -74,13 +100,13 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "dueOut" ? colors.n40 : colors.n0,
+                  activeChip === "DueOut" ? colors.n40 : colors.n0,
               },
             ]}
             textStyle={{
-              color: activeChip === "dueOut" ? colors.n0 : colors.n40,
+              color: activeChip === "DueOut" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("dueOut")}
+            onPress={() => setRoomStatus("DueOut")}
           >
             Due Out
           </Chip>
@@ -89,13 +115,13 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "checkedIn" ? colors.n40 : colors.n0,
+                  activeChip === "CheckedIn" ? colors.n40 : colors.n0,
               },
             ]}
             textStyle={{
-              color: activeChip === "checkedIn" ? colors.n0 : colors.n40,
+              color: activeChip === "CheckedIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("checkedIn")}
+            onPress={() => setRoomStatus("CheckedIn")}
           >
             Checked In
           </Chip>
@@ -104,13 +130,13 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "checkedOut" ? colors.n40 : colors.n0,
+                  activeChip === "CheckedOut" ? colors.n40 : colors.n0,
               },
             ]}
             textStyle={{
-              color: activeChip === "checkedOut" ? colors.n0 : colors.n40,
+              color: activeChip === "CheckedOut" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("checkedOut")}
+            onPress={() => setRoomStatus("CheckedOut")}
           >
             Checked Out
           </Chip>
@@ -119,13 +145,13 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "dueOutdueIn" ? colors.n40 : colors.n0,
+                  activeChip === "DueOut-DueIn" ? colors.n40 : colors.n0,
               },
             ]}
             textStyle={{
-              color: activeChip === "dueOutdueIn" ? colors.n0 : colors.n40,
+              color: activeChip === "DueOut-DueIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("dueOutdueIn")}
+            onPress={() => setRoomStatus("DueOut-DueIn")}
           >
             DueOut-DueIn
           </Chip>
@@ -134,14 +160,14 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "checkedOutcheckedIn" ? colors.n40 : colors.n0,
+                  activeChip === "CheckedOut-CheckedIn" ? colors.n40 : colors.n0,
               },
             ]}
             textStyle={{
               color:
-                activeChip === "checkedOutcheckedIn" ? colors.n0 : colors.n40,
+                activeChip === "CheckedOut-CheckedIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("checkedOutcheckedIn")}
+            onPress={() => setRoomStatus("CheckedOut-CheckedIn")}
           >
             CheckedOut-DueIn
           </Chip>
@@ -169,7 +195,7 @@ const SupervisorRoomMain = ({ rooms, onPress }) => {
           </View>
           <View style={styles.floorAccordion}>
             <View style={{ width: "100%" }}>
-              <Accordion rooms={roomToDisplay} onPress={onPress} />
+              <Accordion rooms={roomToDisplay} onPressRoomDetail={onPressRoomDetail} />
             </View>
           </View>
         </View>

@@ -21,6 +21,9 @@ import useBaseUrl from "../../hooks/useBaseUrl";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import CalendarIcon from "../../SVG/CalendarIcon";
 import axios from "axios";
+import RequestModalSupervisor from "../../components/RequestModalSupervisor/RequestModalSupervisor";
+import RequestHelpComponent from "../../components/RequestHelpComponent/RequestHelpComponent";
+import RequestHelpHeaderComponent from "../../components/RequestHelpHeader/RequestHelpHeaderComponent";
 
 const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -29,8 +32,11 @@ const SupervisorRequest = ({ navigation }) => {
   const [requestItems, setRequestItems] = useState([]);
   const baseUrl = useBaseUrl();
   const [requestDetailObject, setRequestDetailObject] = useState({});
+  const [updateValue, setUpdateValue] = useState(0);
+  const [rooms, setRooms] = useState([]);
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
+  const [isRequestHelpModalOpen, setIsRequestHelpModalOpen] = useState(false);
     const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
 
   
@@ -67,21 +73,29 @@ const SupervisorRequest = ({ navigation }) => {
   useEffect(() => {
     fetchRequestItems().then((data) => {
       setRequestItems(data);
-    });
-  }, []);
+
+    },)
+    fetchRooms().then((data) => {
+      setRooms(data);
+    })
+    
+  },updateValue, []);
+
+  const fetchRooms = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/assignedRooms/all`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+      throw error;
+    }
+  }
 
   const updateRequestCompletion = (updatedRequest) => {
-    const updatedRequestItemsCopy = [...updatedRequestItems];
-    const existingItemIndex = updatedRequestItemsCopy.findIndex(
-      (item) => item.id === updatedRequest.id
-    );
-    if (existingItemIndex !== -1) {
-      updatedRequestItemsCopy[existingItemIndex] = updatedRequest;
-    } else {
-      updatedRequestItemsCopy.push(updatedRequest);
-    }
-    setUpdatedRequestItems(updatedRequestItemsCopy);
-    console.log(updatedRequestItems)
+    const updateRequest = requestItems.findIndex((request) => request.ID === updatedRequest.ID);
+    const updatedRequestItems = [...requestItems];
+    updatedRequestItems[updateRequest] = updatedRequest;
+    setRequestItems(updatedRequestItems);
   };
   const fetchRequestItems = async () => {
     try {
@@ -95,10 +109,21 @@ const SupervisorRequest = ({ navigation }) => {
 };
 
   const acceptRequest = () => {
+    console.log(requestItems)
+    const requestData = requestItems.map(item => ({
+      ID: item.ID,
+      assignedRoomID: item.assignedRoomID,
+      RequestedItemID: item.requestItemId,
+      Quantity: item.Quantity,
+      Note: item.Note,
+      RequestedDateTime: item.RequestedDateTime,
+      isCompleted: item.isCompleted,
+      approvedBySupervisorID: item.approvedBySupervisorID
+    }));
     axios
-      .put(`${baseUrl}/api/requestItems/updateRequestItem`, updatedRequestItems)
+      .put(`${baseUrl}/api/requestItems/updateRequestItem`, requestData)
       .then((response) => {
-        console.log(response.data);
+        setUpdateValue(updateValue + 1);
         setIsConfimationModalOpen(false);
       })
       .catch((error) => {
@@ -165,14 +190,13 @@ const SupervisorRequest = ({ navigation }) => {
                 </View>
               ) : (
                 <View>
-                  <RequestItemHeaderComponent />
-                  {requestItems &&
-                    requestItems.map((request, index) => (
-                      <RequestItemComponent
+                  <RequestHelpHeaderComponent />
+                  {rooms &&
+                    rooms.map((request, index) => (
+                      <RequestHelpComponent
                         key={index}
                         request={request}
                         onPress={() => onPress({ request: request })}
-                        updateRequestCompletion={updateRequestCompletion}
                       />
                     ))}
                 </View>
@@ -229,108 +253,18 @@ const SupervisorRequest = ({ navigation }) => {
         </Modal>
       )}
       {isRequestDetailModalOpen && (
-        <Modal
-          visible={isRequestDetailModalOpen}
-          onRequestClose={toggleRequestDetailModal}
-          animationType="fade"
-          transparent={true}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.itemDetailModal}>
-              <View style={{ gap: 16, width: "100%" }}>
-                <CloseIcon onPress={toggleRequestDetailModal} />
-                <View style={styles.imageContainer}>
-                  <Image
-                    source={require("./../../../assets/request-help-modal-image.png")}
-                    style={{ height: 160, aspectRatio: 1 }}
-                  />
-                  <Typography variant="small-medium">
-                    {requestDetailObject.itemName}
-                  </Typography>
-                </View>
+        <RequestModalSupervisor
+  isRequestDetailModalOpen={isRequestDetailModalOpen}
+  toggleRequestDetailModal={toggleRequestDetailModal}
+  requestDetailObject={requestDetailObject}
+/>      )}
 
-                {requestDetailObject.comments && (
-                  <View style={styles.notes}>
-                    <Typography variant="small-medium">Notes</Typography>
-                    <Typography variant="small-regular">
-                      {"\u2022"} {requestDetailObject.comments}
-                    </Typography>
-                  </View>
-                )}
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography variant="small-black">Details</Typography>
-                  <View style={{ flexDirection: "row", gap: 6 }}>
-                    <CalendarIcon />
-                    <Typography variant="xs-medium">
-                      {requestDetailObject.RequestedDateTime}
-                    </Typography>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography variant="body-regular">Quantity</Typography>
-                  <View
-                    style={{
-                      borderRadius: 100,
-                      height: 28,
-                      width: 28,
-                      backgroundColor: colors.yellow1,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Typography variant="small-medium">
-                      {requestDetailObject.Quantity}
-                    </Typography>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography variant="body-regular">Room</Typography>
-                  <Typography variant="small-medium">
-                    {requestDetailObject.RoomName}
-                  </Typography>
-                </View>
-                <View style={styles.itemDetailTitle}>
-                  <Typography variant="small-black">Requester</Typography>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    gap: 6,
-                  }}
-                >
-                  <Image
-                    style={{ borderRadius: 15, width: 30, height: 30 }}
-                    source={{
-                      uri: "https://reactnative.dev/img/tiny_logo.png",
-                    }}
-                  />
-
-                  <Typography variant="xs-regular">
-                    {requestDetailObject.requester}
-                  </Typography>
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal>
+  {isRequestHelpModalOpen && (
+        <RequestModalSupervisor
+           isRequestDetailModalOpen={isRequestHelpModalOpen}
+            toggleRequestDetailModal={setIsRequestHelpModalOpen}
+            requestDetailObject={requestDetailObject}
+          />
       )}
     </SafeAreaProvider>
   );
@@ -360,49 +294,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingTop: 20,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    flexDirection: "row",
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  ConfimationModalContainer: {
-    alignItems: "center",
-  },
-  itemDetailModal: {
-    flexGrow: 1,
-    margin: 15,
-    backgroundColor: colors.n0,
-    borderRadius: 20,
-    paddingHorizontal: 26,
-    paddingVertical: 15,
-    alignItems: "center",
-  },
-  imageContainer: {
-    alignItems: "center",
-    gap: 10,
-  },
-  notes: {
-    padding: 10,
-    backgroundColor: colors.pale_teal2,
-    borderRadius: 8,
   },
   ScrollView: {
     maxHeight: "80%",
