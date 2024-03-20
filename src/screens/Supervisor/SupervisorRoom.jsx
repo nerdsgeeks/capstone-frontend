@@ -12,22 +12,10 @@ import axios from "axios";
 
 const SupervisorRoom = ({navigation}) => {
 
-const [rooms, setRooms] = useState([]);
 
 const baseUrl = useBaseUrl();
 
-useEffect(() => {
-  fetchRooms().then(setRooms);
-}, []);
-
-const fetchRooms = async () => {
-
-  axios.get(`${baseUrl}/api/assignedrooms/all`).then((response) => {
-    console.log("response", response.data);
-    setRooms(response.data);
-  });
-};
-  const onPress = (room) => {
+  const onPressRoomDetail = (room) => {
     console.log("room", room)
     navigation.navigate("SupervisorRoomDetail", { room });
   }
@@ -54,7 +42,7 @@ const fetchRooms = async () => {
         </SafeAreaView>
       </LinearGradient>
       <View style={styles.bodyContainer}>
-        <SupervisorRoomMain rooms={rooms} onPress={onPress} />
+        <SupervisorRoomMain onPressRoomDetail={onPressRoomDetail}/>
      
         </View>
   </View>

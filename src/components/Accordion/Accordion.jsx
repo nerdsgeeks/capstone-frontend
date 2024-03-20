@@ -5,9 +5,8 @@ import { View, StyleSheet } from "react-native";
 import { colors } from "../../../themes/themes";
 import Typography from "../Typography/Typography";
 
-const Accordion = ({ rooms, onPress }) => {
+const Accordion = ({ rooms, onPressRoomDetail }) => {
   const [expanded, setExpanded] = React.useState(true);
-
   const handlePress = () => setExpanded(!expanded);
 
   const groupedRooms = rooms.reduce((acc, room) => {
@@ -35,7 +34,7 @@ const Accordion = ({ rooms, onPress }) => {
                 <RoomAccordionButton
                   key={room.ID}
                   room={room}
-                  onPress={() => onPress(room)}                />
+                  onPressRoomDetail={() => onPressRoomDetail(room)} />
               ))}
             </View>
           </List.Accordion>
