@@ -17,7 +17,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
           onPress={() => onTabPress(index)}
           disabled={activeTab === index}
         >
-          <Typography variant="body-regular">{tab.label}</Typography>
+          <Typography variant={activeTab === index ? "body-black" : "body-regular"}>{tab.label}</Typography>
         </TouchableOpacity>
       ))}
     </View>
@@ -36,15 +36,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
   },
   activeTab: {
-    borderBottomWidth: 2,
+    paddingHorizontal: 12,
+    borderBottomWidth: 3,
     borderBottomColor: "black",
   },
   inactiveTab: {
     opacity: 0.5,
-  },
-  tabText: {
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });
 

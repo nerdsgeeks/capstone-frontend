@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { Button, StyleSheet, Dimensions, View, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import ClockShiftIcon from "../../SVG/ClockShiftIcon";
@@ -24,6 +24,8 @@ const HousekeeperProfile = ({ navigation }) => {
     { day: "Sun", date: "Feb 25", time: "1pm-6pm" },
     { day: "Mon", date: "Feb 26", time: "8am-4pm" },
   ];
+
+  const windowWidth = Dimensions.get("window").width;
 
   const handleTabPress = (index) => {
     setActiveTab(index);
@@ -87,12 +89,15 @@ const HousekeeperProfile = ({ navigation }) => {
                       name="Total Rooms"
                       icon={<BedIcon w="40" h="28" fill={colors.orange} />}
                       text="30"
+                      width = {windowWidth / 2 - 34}
+                      disabled
                     />
                     <BigButton
                       name="Average Time"
                       icon={<ClockIcon w="40" h="28" fill={colors.orange} />}
                       text="28:16 mins"
                       variant="xs-medium"
+                      width = {windowWidth / 2 - 34}
                       disabled
                     />
                   </View>
@@ -142,6 +147,7 @@ const styles = StyleSheet.create({
   perfomanceContainer: { 
     gap: 8,
     marginHorizontal: 26,
+    marginVertical: 16,
   },
   perfomanceTopButtonsContainer: {
     flexDirection: "row",
