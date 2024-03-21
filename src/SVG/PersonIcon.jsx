@@ -5,7 +5,7 @@ const PersonIcon = ({ w = 15, h = 24, fill = "white", ...props }) => (
     width={w}
     height={h}
     viewBox="0 0 15 24"
-    fill={fill}
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >

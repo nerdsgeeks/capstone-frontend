@@ -1,11 +1,11 @@
 import Svg, { Path } from "react-native-svg";
 
-const ProfileIcon = ({ w = 22, h = 22, stroke = "white" }) => (
+const ProfileIcon = ({ w = 22, h = 22, stroke = "white", fill = "none" }) => (
   <Svg
     width={w}
     height={h}
     viewBox="0 0 22 22"
-    fill="none"
+    fill={fill}
     xmlns="http://www.w3.org/2000/svg"
   >
     <Path
