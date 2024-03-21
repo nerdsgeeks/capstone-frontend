@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Chip } from "react-native-paper";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
@@ -7,56 +7,70 @@ import { colors } from "../../../themes/themes";
 import Accordion from "../../components/Accordion/Accordion";
 import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import InformationIcon from "../../SVG/InformationIcon";
+import SupervisorInformationModal from "../../components/SupervisorInformationModal/SupervisorInformationModal";
 
-const SupervisorRoomMain = ({onPressRoomDetail} ) => {
+const SupervisorRoomMain = ({ onPressRoomDetail }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [activeChip, setActiveChip] = useState("All");
-
   const [rooms, setRooms] = useState([]);
+  const [isInformationModalOpen, setInformationModalOpen] = useState(false);
 
-const baseUrl = useBaseUrl();
+  const displayInformation = () => {
+    setInformationModalOpen(true);
+  };
 
-useEffect(() => {
-  axios.get(`${baseUrl}/api/assignedRooms/all`).then((res) => {
-    setRooms(res.data);
-    console.log(res.data);
-    setRoomToDisplay(res.data);
-  }
-  );
-}, []);
+  const toggleInformationModal = () => {
+    setInformationModalOpen(!isInformationModalOpen);
+  };
+
+  const baseUrl = useBaseUrl();
+
+  useEffect(() => {
+    axios.get(`${baseUrl}/api/assignedRooms/all`).then((res) => {
+      setRooms(res.data);
+      console.log(res.data);
+      setRoomToDisplay(res.data);
+    });
+  }, []);
   const tabs = [
     { label: "Pending" },
     { label: "Cleaned" },
     { label: "Approved" },
   ];
 
-  const setRoomStatus = (status) => {  
+  const setRoomStatus = (status) => {
     let filteredRooms = [];
     if (status === "All") {
       filteredRooms = rooms;
     } else {
       filteredRooms = rooms.filter((room) => room.Rooms_RoomStatus === status);
-    } 
+    }
     setRoomToDisplay(filteredRooms);
     setActiveChip(status);
   };
   const handleTabPress = (index) => {
-    let statusRooms = []
+    let statusRooms = [];
     let status = tabs[index].label;
     console.log(status);
     //there are 3 status In Progress , To Do, Completed
-    if(status === "Pending"){
-      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "In Progress");
-    }else if(status === "Cleaned"){
-      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "To Do");
-    }else if(status === "Approved"){
-      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "Completed");
+    if (status === "Pending") {
+      statusRooms = roomToDisplay.filter(
+        (room) => room.cleaningStatus === "In Progress",
+      );
+    } else if (status === "Cleaned") {
+      statusRooms = roomToDisplay.filter(
+        (room) => room.cleaningStatus === "To Do",
+      );
+    } else if (status === "Approved") {
+      statusRooms = roomToDisplay.filter(
+        (room) => room.cleaningStatus === "Completed",
+      );
     }
-    setRoomToDisplay(statusRooms)
+    setRoomToDisplay(statusRooms);
     setActiveTab(index);
   };
-
 
   return (
     <View style={styles.container}>
@@ -160,7 +174,9 @@ useEffect(() => {
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "CheckedOut-CheckedIn" ? colors.n40 : colors.n0,
+                  activeChip === "CheckedOut-CheckedIn"
+                    ? colors.n40
+                    : colors.n0,
               },
             ]}
             textStyle={{
@@ -183,6 +199,7 @@ useEffect(() => {
               gap: 8,
             }}
           >
+            
             <View style={styles.numberContainer}>
               <Typography variant="small-medium">20</Typography>
             </View>
@@ -192,14 +209,27 @@ useEffect(() => {
               onTabPress={handleTabPress}
               style={styles.NavContainer}
             />
+            <TouchableOpacity onPress={displayInformation} style={{ justifySelf: "flex-end"}}>
+              <InformationIcon />
+            </TouchableOpacity>
           </View>
           <View style={styles.floorAccordion}>
             <View style={{ width: "100%" }}>
-              <Accordion rooms={roomToDisplay} onPressRoomDetail={onPressRoomDetail} />
+              <Accordion
+                rooms={roomToDisplay}
+                onPressRoomDetail={onPressRoomDetail}
+              />
             </View>
           </View>
         </View>
       </ScrollView>
+
+      {isInformationModalOpen && (
+        <SupervisorInformationModal
+          isInformationModalOpen={isInformationModalOpen}
+          toggleInformationModal={toggleInformationModal}
+        />
+      )}
     </View>
   );
 };
