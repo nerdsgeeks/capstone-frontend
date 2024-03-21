@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Dimensions, Platform } from "react-native";
 import Typography from "../Typography/Typography";
 import { colors } from "../../../themes/themes";
 
@@ -12,10 +12,13 @@ const BigButton = ({
   variant = "title-medium",
   onPress,
   disabled,
-  width = 160,
-  height = 120,
+  width = (windowWidth / 2) - 39,
+  // height = 106,
   ...props
 }) => {
+  const shadowStyle = !disabled ? 
+    Platform.OS === 'ios' ? styles.shadowIOS : styles.shadowAndroid
+    : null;
   return (
     <TouchableOpacity
       onPress={disabled ? undefined : onPress}
@@ -23,10 +26,11 @@ const BigButton = ({
         styles.touchableOpacity,
         { width: width },
         { opacity: disabled ? 0.5 : 1 },
+        shadowStyle
       ]}
       disabled={disabled}
     >
-      <View style={[styles.buttonContainer, {height: height}]}>
+      <View style={[styles.buttonContainer]}>
         <Typography variant="small-medium">{name}</Typography>
         <View
           style={{
@@ -62,11 +66,31 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 20,
     alignItems: "flex-start",
-    padding: 20,
+    padding: 13,
     borderRadius: 20,
     borderColor: colors.yellow1,
     backgroundColor: colors.n0,
     borderWidth: 1,
+  },
+  shadowIOS: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 2, 
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // For Android
+  },
+  shadowAndroid: {
+    elevation: 5, // For Android
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
   },
 });
 

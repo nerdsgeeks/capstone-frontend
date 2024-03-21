@@ -7,7 +7,7 @@ import Button from "../../components/Button/Button";
 import BigButton from "../../components/BigButton/BigButton";
 import BedIcon from "../../SVG/BedIcon";
 import { colors } from "../../../themes/themes";
-import PersonIcon from "../../SVG/PersonIcon";
+
 import RequestIcon from "../../SVG/RequestIcon";
 import CloseIcon from "../../SVG/CloseIcon";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -17,16 +17,46 @@ import { Checkbox } from "expo-checkbox";
 import Typography from "../../components/Typography/Typography";
 import ProfileIcon from "../../SVG/ProfileIcon";
 
-const SupervisorHome = () => {
+const SupervisorHome = ({ navigation }) => {
   const [isAssignRoomModalOpen, setIsAssignRoomModalOpen] = useState(false);
+  const [isUpdateRoomStatusModalOpen, setIsUpdateRoomStatusModalOpen] =
+    useState(false);
   const [employees, setEmployees] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [assignedRooms, setAssignedRooms] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
+
+  // For Assign Rooms Modal
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const [employee, setEmployee] = useState("");
+  const [assignedEmployee, setAssignedEmployee] = useState("");
+
+  // For updateRooms Modal
+  const [updateRoom, setUpdateRoom] = useState([]);
+  const [updateStatus, setUpdateStatus] = useState("");
   const baseUrl = useBaseUrl();
 
   const toggleAssignRoomModal = () => {
     setIsAssignRoomModalOpen(!isAssignRoomModalOpen);
+  };
+
+  const toggleUpdateRoomStatusModal = () => {
+    setIsUpdateRoomStatusModalOpen(!isUpdateRoomStatusModalOpen);
+  };
+
+  const toToDoRooms = () => {
+    navigation.navigate("SupervisorRoom");
+  };
+
+  const toCompletedRooms = () => {
+    navigation.navigate("SupervisorRoom");
+  };
+
+  const toStaff = () => {
+    navigation.navigate("SupervisorStaff");
+  };
+
+  const toRequests = () => {
+    navigation.navigate("SupervisorRequest");
   };
 
   const handleCheckboxChange = (roomId) => {
@@ -38,6 +68,21 @@ const SupervisorHome = () => {
       }
     });
   };
+
+  useEffect(() => {
+    const apiUrl = baseUrl + "/api/requestItems/requestItemsTblAll";
+    const onFetchRequests = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          const data = response.data;
+          setPendingRequests(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching requests:", error);
+        });
+    onFetchRequests();
+  }, []);
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/employees/all";
@@ -55,6 +100,21 @@ const SupervisorHome = () => {
   }, []);
 
   useEffect(() => {
+    const apiUrl = baseUrl + "/api/assignedRooms/all";
+    const onFetchAssignedRooms = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          const data = response.data;
+          setAssignedRooms(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching assigned rooms:", error);
+        });
+    onFetchAssignedRooms();
+  }, []);
+
+  useEffect(() => {
     const apiUrl = baseUrl + "/api/rooms/all";
     const onFetchRooms = () =>
       axios
@@ -69,6 +129,11 @@ const SupervisorHome = () => {
     onFetchRooms();
   }, []);
 
+  const roomsList = rooms.map((room) => ({
+    key: room.ID,
+    value: room.RoomName,
+  }));
+
   const employeeList = employees
     .filter((employee) => employee.EmployeeType === 2)
     .map((employee) => ({
@@ -78,16 +143,18 @@ const SupervisorHome = () => {
 
   const assignRoom = () => {
     console.log("employee");
-    console.log(employee);
+    console.log(assignedEmployee);
     selectedRooms.forEach((roomId) => {
       const assignedRoom = rooms.find((roo) => roo.ID === roomId);
-      const assignedEmployee = employees.find((emp) => emp.ID === employee);
+      const assignEmployee = employees.find(
+        (emp) => emp.ID === assignedEmployee,
+      );
 
       const newAssignedRoom = {
         RoomID: assignedRoom.ID,
         RoomStatus: assignedRoom.RoomStatus,
         assignedDateTime: new Date().toISOString(),
-        assignedEmployeeID: assignedEmployee.ID,
+        assignedEmployeeID: assignEmployee.ID,
         cleaningStatus: "To Do",
         isCompleted: false,
         verifiedPhotoUrl: "",
@@ -116,8 +183,62 @@ const SupervisorHome = () => {
         .catch((error) => {
           console.error("Error creating assignment:", error);
         });
-    });
 
+      toggleAssignRoomModal();
+    });
+  };
+
+  const toDoRoomsToday = assignedRooms.filter((room) => {
+    const assignedDate = new Date(room.assignedDateTime)
+      .toISOString()
+      .split("T")[0];
+    const today = new Date().toISOString().split("T")[0];
+    return room.cleaningStatus === "To Do" && assignedDate === today;
+  });
+
+  const cleanedRoomsToday = assignedRooms.filter((room) => {
+    const assignedDate = new Date(room.assignedDateTime)
+      .toISOString()
+      .split("T")[0];
+    const today = new Date().toISOString().split("T")[0];
+    return room.cleaningStatus === "Completed" && assignedDate === today;
+  });
+
+  const roomStatus = [
+    { key: "DUEOUT", value: "Due Out" },
+    { key: "DUEIN", value: "Due In" },
+    { key: "DUEOUT-DUEIN", value: "Due Out - Due In" },
+    { key: "CHECKEDOUT", value: "Checked Out" },
+    { key: "CHECKEDOUT-CHECKEDIN", value: "Checked Out - Checked In" },
+    { key: "CHECKIN", value: "Checked In" },
+  ];
+
+  const updateRoomStatus = () => {
+    console.log(updateRoom);
+    const roomToUpdate = rooms.find((roo) => roo.ID === updateRoom);
+    const updateRoomItem = {
+      ID: roomToUpdate.ID,
+      RoomName: roomToUpdate.RoomName,
+      RoomTypeID: roomToUpdate.RoomTypeID,
+      Floor: roomToUpdate.Floor,
+      RoomStatus: updateStatus,
+      RoomImageUrl: roomToUpdate.RoomImageUrl,
+      RoomTier: roomToUpdate.RoomTier,
+    };
+
+    console.log(updateRoomItem);
+    const apiUrl = baseUrl + "/api/rooms/updateroom";
+
+    axios
+      .put(apiUrl, updateRoomItem)
+      .then((response) => {
+        console.log("Room updated successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error creating updating room:", error);
+      });
+
+    toggleUpdateRoomStatusModal();
   };
 
   return (
@@ -142,35 +263,44 @@ const SupervisorHome = () => {
             <BigButton
               name="To Do"
               icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-              text="86"
+              text={toDoRoomsToday.length.toString()}
               variant="h5-medium"
+              onPress={toToDoRooms}
             />
             <BigButton
               name="Completed"
               icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-              text="86"
+              text={cleanedRoomsToday.length.toString()}
               variant="h5-medium"
+              onPress={toCompletedRooms}
             />
             <BigButton
               name="Staff"
-              icon={<ProfileIcon w="40" h="28" stroke={colors.orange} fill={colors.orange} />}
-              text="86"
+              icon={
+                <ProfileIcon
+                  w="40"
+                  h="28"
+                  stroke={colors.orange}
+                  fill={colors.orange}
+                />
+              }
+              text={employeeList.length.toString()}
               variant="h5-medium"
-              style={{}}
+              onPress={toStaff}
             />
             <BigButton
               name="Pending"
               icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
-              text="86"
+              text={pendingRequests
+                .filter((item) => !item.isCompleted)
+                .length.toString()}
               variant="h5-medium"
+              onPress={toRequests}
             />
-            <BigButton
-              name="Assign Rooms"
-              onPress={toggleAssignRoomModal}
-            />
+            <BigButton name="Assign Rooms" onPress={toggleAssignRoomModal} />
             <BigButton
               name="Update Room Status"
-              onPress={toggleAssignRoomModal}
+              onPress={toggleUpdateRoomStatusModal}
             />
           </View>
 
@@ -181,45 +311,103 @@ const SupervisorHome = () => {
               transparent={true}
             >
               <View style={styles.modalOverlay}>
-                <View style={styles.AssignRoomModalContainer}>
-                  <CloseIcon onPress={toggleAssignRoomModal} />
+                <View style={{ flexDirection: "row" }}>
+                  <View style={styles.AssignRoomModalContainer}>
+                    <CloseIcon onPress={toggleAssignRoomModal} />
+                    <Typography variant="h5-black">Assign Room</Typography>
+                    <View style={{ gap: 4 }}>
+                      <Typography variant="xs-medium">
+                        Select Room Number
+                      </Typography>
+                      {rooms &&
+                        rooms.map((room) => (
+                          <View
+                            key={room.ID}
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 4,
+                            }}
+                          >
+                            <Checkbox
+                              value={selectedRooms.includes(room.ID)}
+                              onValueChange={() =>
+                                handleCheckboxChange(room.ID)
+                              }
+                              color={
+                                selectedRooms.includes(room.ID)
+                                  ? colors.teal
+                                  : undefined
+                              }
+                            />
+                            <Typography variant="xs-medium">
+                              {room.RoomName}
+                            </Typography>
+                          </View>
+                        ))}
+                    </View>
+                    <View style={{ gap: 4 }}>
+                      <Typography variant="xs-medium">Assign Staff</Typography>
+                      <SelectList
+                        setSelected={(key) => setAssignedEmployee(key)}
+                        data={employeeList}
+                        save="key"
+                        boxStyles={{
+                          borderColor: colors.n30,
+                          borderRadius: 12,
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                        dropdownStyles={{ borderRadius: 12 }}
+                      />
+                    </View>
+                    <View style={styles.buttonStyles}>
+                      <Button
+                        name="Assign"
+                        type="primary"
+                        onPress={assignRoom}
+                      />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          )}
 
-                  <Typography variant="h5-black">Assign Room</Typography>
+          {isUpdateRoomStatusModalOpen && (
+            <Modal
+              onRequestClose={toggleUpdateRoomStatusModal}
+              animationType="fade"
+              transparent={true}
+            >
+              <View style={styles.modalOverlay}>
+                <View style={styles.AssignRoomModalContainer}>
+                  <CloseIcon onPress={toggleUpdateRoomStatusModal} />
+
+                  <Typography variant="h5-black">Update Room Status</Typography>
                   <View style={{ gap: 4 }}>
-                    <Typography variant="xs-medium">
-                      Select Room Number
-                    </Typography>
-                    {rooms &&
-                      rooms.map((room) => (
-                        <View
-                          key={room.ID}
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 4,
-                          }}
-                        >
-                          <Checkbox
-                            value={selectedRooms.includes(room.ID)}
-                            onValueChange={() => handleCheckboxChange(room.ID)}
-                          />
-                          <Typography variant="xs-medium">
-                            {room.RoomName}
-                          </Typography>
-                        </View>
-                      ))}
+                    <Typography variant="xs-medium">Room Number</Typography>
+                    <SelectList
+                      setSelected={(key) => setUpdateRoom(key)}
+                      data={roomsList}
+                      save="key"
+                    />
                   </View>
                   <View style={{ gap: 4 }}>
-                    <Typography variant="xs-medium">Assign Staff</Typography>
+                    <Typography variant="xs-medium">Room Status</Typography>
                     <SelectList
-                      setSelected={(key) => setEmployee(key)}
-                      data={employeeList}
+                      setSelected={(key) => setUpdateStatus(key)}
+                      data={roomStatus}
                       save="key"
                     />
                   </View>
 
                   <View style={styles.buttonStyles}>
-                    <Button name="Assign" type="primary" onPress={assignRoom} />
+                    <Button
+                      name="Update"
+                      type="primary"
+                      onPress={updateRoomStatus}
+                    />
                   </View>
                 </View>
               </View>
@@ -236,17 +424,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
+    backgroundColor: colors.n0,
   },
   headerContainer: {
     width: "100%",
     borderBottomLeftRadius: 60,
-    paddingHorizontal:26,
+    paddingHorizontal: 26,
     paddingTop: 7,
   },
   statusContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 36,
+    gap: 20,
     justifyContent: "center",
     // alignItems: "center",
     paddingVertical: 26,
