@@ -20,12 +20,12 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const room  = route.params.room;
   const fullName = room.FirstName + " " + room.LastName;
   const roomStatus = [
-    { key: "1", value: "Dueout" },
-    { key: "2", value: "DueIn" },
-    { key: "3", value: "CheckedOut" },
-    { key: "4", value: "CheckedIn" },
-    { key: "5", value: "DueOutDueIn" },
-    { key: "6", value: "CheckedOutCheckedIn" },
+    { key: "DUEOUT", value: "Due Out" },
+    { key: "DUEIN", value: "Due In" },
+    { key: "DUEOUT-DUEIN", value: "Due Out - Due In" },
+    { key: "CHECKEDOUT", value: "Checked Out" },
+    { key: "CHECKEDOUT-CHECKEDIN", value: "Checked Out - Checked In" },
+    { key: "CHECKIN", value: "Checked In" },
   ];
   
   return (
