@@ -91,8 +91,9 @@ const HousekeeperProfile = ({ navigation }) => {
                     <BigButton
                       name="Average Time"
                       icon={<ClockIcon w="40" h="28" fill={colors.orange} />}
-                      text="28 mins 16 sec"
-                      variant="xs-regular"
+                      text="28:16 mins"
+                      variant="xs-medium"
+                      disabled
                     />
                   </View>
                   <View style={styles.perfomanceBottomButtonsContainer}>
@@ -100,7 +101,7 @@ const HousekeeperProfile = ({ navigation }) => {
                       name="Rating & Feedbacks"
                       icon={<StarIcon w="40" h="28" fill={colors.teal} />}
                       text="12"
-                      width={300}
+                      width="100%"
                     />
                   </View>
                 </View>
@@ -138,10 +139,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flexGrow: 1,
   },
-  perfomanceContainer: { rowGap: 60 },
+  perfomanceContainer: { 
+    gap: 8,
+    marginHorizontal: 26,
+  },
   perfomanceTopButtonsContainer: {
     flexDirection: "row",
-    columnGap: 10,
+    gap: 16,
   },
   perfomanceBottomButtonsContainer: {},
 });
