@@ -36,19 +36,19 @@ const HousekeeperProfile = ({ navigation }) => {
   };
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <LinearGradient
-              colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
-              start={{ x: 0.0, y: 0.0 }}
-              end={{ x: 1.0, y: 1.0 }}
-              locations={[0.01, 0.7, 0.92, 1.0]}
-              style={styles.headerGradient}
-            >
+      <View style={styles.container}>
+        <LinearGradient
+          colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
+          start={{ x: 0.0, y: 0.0 }}
+          end={{ x: 1.0, y: 1.0 }}
+          locations={[0.01, 0.7, 0.92, 1.0]}
+          style={styles.headerGradient}
+        >
+          <SafeAreaView>
+            <View style={styles.headerContainer}>
               <View style={styles.scheduleContainer}>
                 <CalendarIcon></CalendarIcon>
-                <Typography variant="body-medium">Feb 20 - Feb 27</Typography>
+                <Typography variant="xs-medium">Feb 20 - Feb 27</Typography>
               </View>
               <View style={styles.profilePicAndNameContainer}>
                 <Image
@@ -64,46 +64,51 @@ const HousekeeperProfile = ({ navigation }) => {
                   </Typography>
                 </View>
               </View>
-            </LinearGradient>
-          </View>
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
+
+        <View style={{ flexDirection: "row", marginVertical: 26}}>
           <View style={styles.mainContainer}>
             <NavTabs
               screen="HousekeeperProfile"
               tabs={tabs}
               activeTab={activeTab}
               onTabPress={handleTabPress}
+              justifyContent="space-around"
             />
-
-            {showScheduleTab ? (
-              <ScheduleList data={scheduleList} />
-            ) : (
-              <View style={styles.perfomanceContainer}>
-                <View style={styles.perfomanceTopButtonsContainer}>
-                  <BigButton
-                    name="Total Rooms"
-                    icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-                    text="30"
-                  />
-                  <BigButton
-                    name="Average Time"
-                    icon={<ClockIcon w="40" h="28" fill={colors.orange} />}
-                    text="28 mins 16 sec"
-                    variant="xs-regular"
-                  />
+            <View style={{ paddingVertical: 16}}>
+              {showScheduleTab ? (
+                <ScheduleList data={scheduleList} />
+              ) : (
+                <View style={styles.perfomanceContainer}>
+                  <View style={styles.perfomanceTopButtonsContainer}>
+                    <BigButton
+                      name="Total Rooms"
+                      icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+                      text="30"
+                    />
+                    <BigButton
+                      name="Average Time"
+                      icon={<ClockIcon w="40" h="28" fill={colors.orange} />}
+                      text="28 mins 16 sec"
+                      variant="xs-regular"
+                    />
+                  </View>
+                  <View style={styles.perfomanceBottomButtonsContainer}>
+                    <BigButton
+                      name="Rating & Feedbacks"
+                      icon={<StarIcon w="40" h="28" fill={colors.teal} />}
+                      text="12"
+                      width={300}
+                    />
+                  </View>
                 </View>
-                <View style={styles.perfomanceBottomButtonsContainer}>
-                  <BigButton
-                    name="Rating & Feedbacks"
-                    icon={<StarIcon w="40" h="28" fill={colors.teal} />}
-                    text="12"
-                    width={300}
-                  />
-                </View>
-              </View>
-            )}
+              )}
+            </View>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     </SafeAreaProvider>
   );
 };
@@ -111,36 +116,27 @@ const HousekeeperProfile = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
-    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
-  headerContainer: { height: 140 },
   headerGradient: {
     width: "100%",
-    height: "100%",
-    paddingVertical: 20,
-    paddingHorizontal: 32,
-    rowGap: 20,
+    paddingHorizontal: 26,
+    paddingTop: 8,
   },
   scheduleContainer: { flexDirection: "row", columnGap: 10 },
-  profilePicAndNameContainer: { flexDirection: "row" },
+  profilePicAndNameContainer: { flexDirection: "row", top: 12, alignItems:"flex-start", gap: 20 },
   profilePic: {
-    width: 80,
-    height: 80,
+    width: 86,
+    height: 86,
+    // position: "absolute",
     borderRadius: 40,
-    marginRight: 10,
-    top: 20,
     borderWidth: 6,
     borderColor: "#FAAB85",
   },
-  nameContainer: { flexDirection: "column", rowGap: 10, top: 6 },
   mainContainer: {
     flexDirection: "column",
-    paddingVertical: 20,
-    paddingHorizontal: 32,
-    // borderWidth: 1,
-    marginTop: 60,
-    height: 400,
+    flexGrow: 1,
   },
   perfomanceContainer: { rowGap: 60 },
   perfomanceTopButtonsContainer: {
