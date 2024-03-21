@@ -15,6 +15,7 @@ import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import { Checkbox } from "expo-checkbox";
 import Typography from "../../components/Typography/Typography";
+import ProfileIcon from "../../SVG/ProfileIcon";
 
 const SupervisorHome = () => {
   const [isAssignRoomModalOpen, setIsAssignRoomModalOpen] = useState(false);
@@ -29,9 +30,9 @@ const SupervisorHome = () => {
   };
 
   const handleCheckboxChange = (roomId) => {
-    setSelectedRooms(prevSelectedRooms => {
+    setSelectedRooms((prevSelectedRooms) => {
       if (prevSelectedRooms.includes(roomId)) {
-        return prevSelectedRooms.filter(ID => ID !== roomId);
+        return prevSelectedRooms.filter((ID) => ID !== roomId);
       } else {
         return [...prevSelectedRooms, roomId];
       }
@@ -69,21 +70,19 @@ const SupervisorHome = () => {
   }, []);
 
   const employeeList = employees
-  .filter(employee => employee.EmployeeType === 2)
-  .map((employee) => ({
-    key: employee.ID,
-    value: `${employee.FirstName} ${employee.LastName}`,
-  }));
+    .filter((employee) => employee.EmployeeType === 2)
+    .map((employee) => ({
+      key: employee.ID,
+      value: `${employee.FirstName} ${employee.LastName}`,
+    }));
 
   const assignRoom = () => {
-    console.log("employee")
-    console.log(employee)
+    console.log("employee");
+    console.log(employee);
     selectedRooms.forEach((roomId) => {
       const assignedRoom = rooms.find((roo) => roo.ID === roomId);
-      const assignedEmployee = employees.find(
-        (emp) => emp.ID === employee,
-      );
-  
+      const assignedEmployee = employees.find((emp) => emp.ID === employee);
+
       const newAssignedRoom = {
         RoomID: assignedRoom.ID,
         RoomStatus: assignedRoom.RoomStatus,
@@ -104,11 +103,11 @@ const SupervisorHome = () => {
         inspectionNotes: "",
       };
 
-      console.log("newAssignedRoom")
-      console.log(newAssignedRoom)
+      console.log("newAssignedRoom");
+      console.log(newAssignedRoom);
 
       const apiUrl = baseUrl + "/api/assignedrooms/addAssignedRoom";
-      
+
       axios
         .post(apiUrl, newAssignedRoom)
         .then((response) => {
@@ -119,49 +118,6 @@ const SupervisorHome = () => {
         });
     });
 
-    // const newAssignment = {
-    //   RoomID: assignedRoom.ID,
-    //   RoomStatus: assignedRoom.RoomStatus,
-    //   assignedDateTime: new Date().toISOString(),
-    //   assignedEmployeeID: assignedEmployee.EmployeeID,
-    //   cleaningStatus: "To Do",
-    //   isCompleted: false,
-    //   verifiedPhotoUrl: "",
-    //   startTime: "",
-    //   endTime: "",
-    //   cleaningDuration: "",
-    //   isHelperRequested: false,
-    //   reguestedHelperID: null,
-    //   AdditionalNotes: "N/A",
-    //   inspectionFeedback: "",
-    //   rating: 0,
-    //   inspectionPhotos: "",
-    //   inspectionNotes: "",
-    // };
-
-    // console.log(newAssignment);
-
-    // axios
-    //     .get(apiUrl)
-    //     .then((response) => {
-    //       const data = response.data;
-    //       console.log(data);
-    //       setRooms(data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching rooms:", error);
-    //     });
-
-    // axios.post(`${baseUrl}/api/assignments`, newAssignment)
-    //   .then(response => {
-    //     console.log('Assignment created successfully:', response.data);
-    //     // Optionally perform any further actions upon successful assignment creation
-    //   })
-    //   .catch(error => {
-    //     console.error('Error creating assignment:', error);
-    //     // Optionally handle error cases
-    //   });
-    // };
   };
 
   return (
@@ -172,9 +128,9 @@ const SupervisorHome = () => {
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 1.0 }}
           locations={[0.01, 0.7, 0.92, 1.0]}
-          style={styles.headerGradient}
+          style={styles.headerContainer}
         >
-          <SafeAreaView style={{ flex: 1 }}>
+          <SafeAreaView>
             <MGRoomHeader
               name="thalha"
               message="some quote is here just act as this is a quote"
@@ -183,37 +139,41 @@ const SupervisorHome = () => {
         </LinearGradient>
         <View style={styles.bodyContainer}>
           <View style={styles.statusContainer}>
-            <View style={styles.upperContainer}>
-              <BigButton
-                name="To Do"
-                icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-                text="86"
-              />
-              <BigButton
-                name="Completed"
-                icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-                text="86"
-              />
-            </View>
-            <View style={styles.lowerContainer}>
-              <BigButton
-                name="Staff Active"
-                icon={<PersonIcon w="40" h="28" fill={colors.orange} />}
-                text="86"
-              />
-              <BigButton
-                name="Pending"
-                icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
-                text="86"
-              />
-            </View>
+            <BigButton
+              name="To Do"
+              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              text="86"
+              variant="h5-medium"
+            />
+            <BigButton
+              name="Completed"
+              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              text="86"
+              variant="h5-medium"
+            />
+            <BigButton
+              name="Staff"
+              icon={<ProfileIcon w="40" h="28" stroke={colors.orange} fill={colors.orange} />}
+              text="86"
+              variant="h5-medium"
+              style={{}}
+            />
+            <BigButton
+              name="Pending"
+              icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
+              text="86"
+              variant="h5-medium"
+            />
+            <BigButton
+              name="Assign Rooms"
+              onPress={toggleAssignRoomModal}
+            />
+            <BigButton
+              name="Update Room Status"
+              onPress={toggleAssignRoomModal}
+            />
           </View>
-          <BigButton
-            name="Assign Room"
-            icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
-            style={{ width: "90%" }}
-            onPress={toggleAssignRoomModal}
-          />
+
           {isAssignRoomModalOpen && (
             <Modal
               onRequestClose={toggleAssignRoomModal}
@@ -231,12 +191,21 @@ const SupervisorHome = () => {
                     </Typography>
                     {rooms &&
                       rooms.map((room) => (
-                        <View key={room.ID} style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                        <View
+                          key={room.ID}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
                           <Checkbox
                             value={selectedRooms.includes(room.ID)}
                             onValueChange={() => handleCheckboxChange(room.ID)}
                           />
-                          <Typography variant="xs-medium">{room.RoomName}</Typography>
+                          <Typography variant="xs-medium">
+                            {room.RoomName}
+                          </Typography>
                         </View>
                       ))}
                   </View>
@@ -265,45 +234,25 @@ const SupervisorHome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#8fcbbc",
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  headerGradient: {
+  headerContainer: {
     width: "100%",
-    height: "20%",
     borderBottomLeftRadius: 60,
-    padding: 20,
+    paddingHorizontal:26,
+    paddingTop: 7,
   },
   statusContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 30,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  upperContainer: {
-    display: "flex",
     flexDirection: "row",
-    gap: 30,
+    flexWrap: "wrap",
+    gap: 36,
     justifyContent: "center",
-    alignItems: "center",
-  },
-  lowerContainer: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
+    paddingVertical: 26,
   },
   bodyContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: 20,
+    paddingHorizontal: 26,
   },
   modalOverlay: {
     flex: 1,
