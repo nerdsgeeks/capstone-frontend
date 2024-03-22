@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HousekeeperHome from "../screens/Housekeeper/HousekeeperHome";
 import HousekeeperProfile from "../screens/Housekeeper/HousekeeperProfile";
 import HousekeeperRequest from "../screens/Housekeeper/HousekeeperRequest";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { View, StyleSheet, Text } from "react-native";
 import HomeIcon from "../SVG/HomeIcon";
 import ProfileIcon from "../SVG/ProfileIcon";
@@ -20,7 +21,7 @@ const NavigationTab = () => {
           // backgroundColor: "#F89C7B",
           borderTopLeftRadius: 28,
           borderTopRightRadius: 28,
-          height: 60,
+          height: 52,
         },
         tabBarShowLabel: false, // This hides the label
         headerShown: false, // This removes the top app bar
@@ -29,7 +30,7 @@ const NavigationTab = () => {
       <Tab.Screen
         name="HousekeeperHomeStack"
         component={HousekeeperHomeStack}
-        options={{
+        options={({ route }) => ({
           tabBarIcon: ({ focused }) => (
             <View
               style={
@@ -55,7 +56,13 @@ const NavigationTab = () => {
               ></HomeIcon>
             </View>
           ),
-        }}
+          tabBarStyle: {
+            display: getTabBarVisibility(route) ? "none" : "flex",
+            borderTopLeftRadius: 28,
+            borderTopRightRadius: 28,
+            height: 52,
+          },
+        })}
       />
 
       <Tab.Screen
@@ -86,7 +93,7 @@ const NavigationTab = () => {
                 w={focused ? 29 : 25}
               />
 
-              <View
+              {/* <View
                 style={
                   focused
                     ? {
@@ -120,9 +127,9 @@ const NavigationTab = () => {
                     right: -2,
                   }}
                 >
-                  3 {/* Dynamic badge count */}
+                  3 
                 </Text>
-              </View>
+              </View> */}
             </View>
           ),
           //   tabBarBadge: 3,
@@ -158,7 +165,7 @@ const NavigationTab = () => {
               }
             >
               <ProfileIcon
-                fill={focused ? "#FF0000" : "black"}
+                fill={focused ? "#FECE8C" : "black"}
                 stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
@@ -202,6 +209,11 @@ const NavigationTab = () => {
     </Tab.Navigator>
   );
 };
+function getTabBarVisibility(route) {
+  // You might need a more robust way to check the route name depending on your navigation structure
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+  return routeName === "Camera";
+}
 
 const styles = StyleSheet.create({
   container: {

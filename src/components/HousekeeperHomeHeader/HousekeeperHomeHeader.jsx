@@ -19,6 +19,7 @@ const HousekeeperHomeHeader = ({
         locations={[0.0812, 0.7935, 0.8469, 1.1039]} // Approximated locations based on your percentages
         style={styles.container}
       >
+        {/* <Text>{taskProgress}</Text> */}
         <View style={styles.leftProfileContainer}>
           <Image
             //source={require("./path-to-your-image.jpg")} // Replace with the path to your image
@@ -33,7 +34,7 @@ const HousekeeperHomeHeader = ({
           <Text>{message}</Text>
           <View style={styles.progressContainer}>
             <Text>Task Progress</Text>
-            <ProgressBar progress={0.5} color="#469AA2" />
+            <ProgressBar progress={Number(taskProgress)} color="#469AA2" />
           </View>
         </View>
         <View style={styles.rightContainer}>

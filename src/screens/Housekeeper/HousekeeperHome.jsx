@@ -12,17 +12,31 @@ import axios from "axios";
 import { useItemsStore } from "../../store/itemsStore";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "../LoadingScreen";
+import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
+import { useFocusEffect } from "@react-navigation/native";
 
 const HousekeeperHome = ({ navigation }) => {
   const baseUrl = useBaseUrl();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
+  const [taskProgress, setTaskProgress] = useState([0.1]);
 
   const itemsStore = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
+  const roomDetailsStore = useRoomDetailsStore(
+    (state) => state.roomDetailsStore,
+  );
+  const updateRoomDetailsStore = useRoomDetailsStore(
+    (state) => state.updateRoomDetailsStore,
+  );
+
+  const roomsStore = useRoomsStore((state) => state.roomsStore);
+  const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
 
   useEffect(() => {
     // console.log(baseUrl);
+    // console.log("roomDetailsStore");
+    // console.log(roomDetailsStore);
     const apiUrl = baseUrl + "/api/assignedrooms/all";
     const apiItemsUrl = baseUrl + "/api/items/all";
 
@@ -34,6 +48,14 @@ const HousekeeperHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setRooms(data);
+          updateRoomsStore(data);
+          if (data.length > 0) {
+            const completedCount = data.filter(
+              (item) => item.isCompleted,
+            ).length;
+            const totalCount = data.length;
+            setTaskProgress((completedCount / totalCount).toFixed(1));
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -53,7 +75,39 @@ const HousekeeperHome = ({ navigation }) => {
 
     onFetchRooms();
     onFetchItems();
-  }, []);
+  }, [roomDetailsStore]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("back");
+      const apiUrl = `${baseUrl}/api/assignedrooms/all`;
+      const apiItemsUrl = `${baseUrl}/api/items/all`;
+
+      const fetchRooms = async () => {
+        try {
+          const response = await axios.get(apiUrl);
+          const data = response.data;
+          console.log(data);
+          setRooms(data);
+          updateRoomsStore(data);
+          if (data.length > 0) {
+            const completedCount = data.filter(
+              (item) => item.isCompleted,
+            ).length;
+            const totalCount = data.length;
+            setTaskProgress((completedCount / totalCount).toFixed(1));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchRooms();
+
+      // Return a no-op function if no clean-up is needed
+      return () => {};
+    }, [baseUrl, roomDetailsStore]),
+  );
 
   return (
     <>
@@ -63,12 +117,13 @@ const HousekeeperHome = ({ navigation }) => {
             <HousekeeperHomeHeader
               name="Pujan"
               message="Time to shine at work!"
-              taskProgress={0.4}
+              taskProgress={taskProgress}
               scheduleTime="10:00-18:00"
             />
             {/* <Text>{itemsStore.length}</Text> */}
+            {/* <Text>{taskProgress}</Text> */}
             <HousekeeperHomeMain
-              rooms={rooms}
+              rooms={roomsStore}
               items={items}
               navigation={navigation}
             />

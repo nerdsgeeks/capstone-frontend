@@ -48,10 +48,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
 
   const updateSelectedItemWithNote = () => {
     const updatedSelectedItem = { ...selectedItem, note: modalNoteText };
-
-    // Update your state or context with the updated object
-    // This step depends on how selectedItem is being managed (useState, useContext, etc.)
-    setSelectedItem(updatedSelectedItem); // Assuming setSelectedItem is your state updater function
+    setSelectedItem(updatedSelectedItem);
   };
 
   const handleIncrement = () => {
@@ -92,10 +89,10 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   };
 
   const onRequestAddToCartModalSubmitPressed = () => {
-    console.log("selectedItem");
-    console.log(selectedItem);
-    console.log("roomDetails");
-    console.log(roomDetails);
+    // console.log("selectedItem");
+    // console.log(selectedItem);
+    // console.log("roomDetails");
+    // console.log(roomDetails);
     const requestedItem = {
       RequestedItemID: selectedItem.ID,
       ImageUrl: selectedItem.ImageUrl,

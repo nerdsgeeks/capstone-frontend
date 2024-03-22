@@ -36,7 +36,7 @@ const RequestItemDetail = ({
   const handleDecrement = (index) => {
     console.log(index);
     console.log("handleDecrement");
-    console.log(requestedItemsCartStore);
+    // console.log(requestedItemsCartStore);
     setCount(count - 1);
     const updatedItems = requestedItemsCartStore.map((item, idx) => {
       if (idx === index) {

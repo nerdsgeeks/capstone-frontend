@@ -17,7 +17,7 @@ import BackgroundImage from "../../../assets/Rooms-Card.png";
 
 const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
   const StatusSvg = () => {
-    switch (room.Rooms_RoomStatus.toUpperCase()) {
+    switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
         return <DueOutIcon />;
       case "DueIn".toUpperCase():
@@ -56,7 +56,7 @@ const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
           {room.RoomName}
         </Typography>
         <View style={styles.bottomLine}>
-          <TextChip text={room.type} />
+          <TextChip text={room.roomTypeName} />
           <Text style={styles.svg}>{StatusSvg()}</Text>
         </View>
       </View>

@@ -30,7 +30,7 @@ const HousekeeperHomeStack = () => {
       <Stack.Screen
         name="RoomDetail"
         component={RoomDetail}
-        options={{ title: "" }}
+        options={{ title: "", headerShown: false }}
       />
       <Stack.Screen
         name="RequestItemSupplies"
@@ -56,7 +56,7 @@ const HousekeeperHomeStack = () => {
       <Stack.Screen
         name="Camera"
         component={CameraComponent}
-        options={{ title: "Camera" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="StaffCleanedRoomScreen"

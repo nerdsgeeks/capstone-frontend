@@ -24,7 +24,7 @@ const NavigationTabSupervisor = () => {
       screenOptions={{
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "#F89C7B",
+          // backgroundColor: "#F89C7B",
           borderTopLeftRadius: 28,
           borderTopRightRadius: 28,
           height: 50,
@@ -42,11 +42,11 @@ const NavigationTabSupervisor = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -55,8 +55,8 @@ const NavigationTabSupervisor = () => {
               }
             >
               <HomeIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               ></HomeIcon>
@@ -74,11 +74,11 @@ const NavigationTabSupervisor = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -87,8 +87,8 @@ const NavigationTabSupervisor = () => {
               }
             >
               <BedIcon
-                fill={focused ? "#FECE8C" : "white"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               ></BedIcon>
@@ -106,11 +106,11 @@ const NavigationTabSupervisor = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -119,13 +119,13 @@ const NavigationTabSupervisor = () => {
               }
             >
               <RequestIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               />
 
-              <View
+              {/* <View
                 style={
                   focused
                     ? {
@@ -159,9 +159,9 @@ const NavigationTabSupervisor = () => {
                     right: -2,
                   }}
                 >
-                  3 {/* Dynamic badge count */}
+                  3 
                 </Text>
-              </View>
+              </View> */}
             </View>
           ),
           //   tabBarBadge: 3,
@@ -185,11 +185,11 @@ const NavigationTabSupervisor = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -198,8 +198,8 @@ const NavigationTabSupervisor = () => {
               }
             >
               <PersonIcon
-                fill={focused ? "#FECE8C" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FECE8C" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               />
@@ -217,11 +217,11 @@ const NavigationTabSupervisor = () => {
               style={
                 focused
                   ? {
-                      backgroundColor: "#F89C7B",
+                      // backgroundColor: "#F89C7B",
                       height: 72,
                       width: 60,
                       borderRadius: 30,
-                      borderWidth: 1,
+                      // borderWidth: 1,
                       borderColor: "#F89C7B",
                       justifyContent: "center",
                       alignItems: "center",
@@ -230,8 +230,8 @@ const NavigationTabSupervisor = () => {
               }
             >
               <ProfileIcon
-                fill={focused ? "#FF0000" : "none"}
-                stroke={focused ? "#FECE8C" : "white"}
+                fill={focused ? "#FF0000" : "black"}
+                stroke={focused ? "#FECE8C" : "black"}
                 h={focused ? 26 : 22}
                 w={focused ? 29 : 25}
               />

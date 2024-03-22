@@ -22,6 +22,7 @@ const SupervisorHome = () => {
   const [rooms, setRooms] = useState([]);
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [employee, setEmployee] = useState("");
+  const [employeeList, setEmployeeList] = useState([]);
   const baseUrl = useBaseUrl();
 
   const toggleAssignRoomModal = () => {
@@ -29,9 +30,9 @@ const SupervisorHome = () => {
   };
 
   const handleCheckboxChange = (roomId) => {
-    setSelectedRooms(prevSelectedRooms => {
+    setSelectedRooms((prevSelectedRooms) => {
       if (prevSelectedRooms.includes(roomId)) {
-        return prevSelectedRooms.filter(ID => ID !== roomId);
+        return prevSelectedRooms.filter((ID) => ID !== roomId);
       } else {
         return [...prevSelectedRooms, roomId];
       }
@@ -46,44 +47,47 @@ const SupervisorHome = () => {
         .then((response) => {
           const data = response.data;
           setEmployees(data);
+          // console.log("employees");
+          // console.log(data);
+          const tempEmployeeList = data
+            .filter((employee) => employee.employeeType === 2)
+            .map((employee) => ({
+              key: employee.ID,
+              value: `${employee.firstName} ${employee.lastName}`,
+            }));
+          // console.log("tempEmployeeList");
+          // console.log(tempEmployeeList);
+          setEmployeeList(tempEmployeeList);
         })
         .catch((error) => {
           console.error("Error fetching employees:", error);
         });
-    onFetchEmployees();
-  }, []);
 
-  useEffect(() => {
-    const apiUrl = baseUrl + "/api/rooms/all";
+    const apiRoomsUrl = baseUrl + "/api/rooms/all";
     const onFetchRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiRoomsUrl)
         .then((response) => {
           const data = response.data;
           setRooms(data);
+          // console.log("rooms");
+          // console.log(data);
         })
         .catch((error) => {
           console.error("Error fetching rooms:", error);
         });
+
+    onFetchEmployees();
     onFetchRooms();
   }, []);
 
-  const employeeList = employees
-  .filter(employee => employee.EmployeeType === 2)
-  .map((employee) => ({
-    key: employee.ID,
-    value: `${employee.FirstName} ${employee.LastName}`,
-  }));
-
   const assignRoom = () => {
-    console.log("employee")
-    console.log(employee)
+    console.log("employee");
+    console.log(employee);
     selectedRooms.forEach((roomId) => {
       const assignedRoom = rooms.find((roo) => roo.ID === roomId);
-      const assignedEmployee = employees.find(
-        (emp) => emp.ID === employee,
-      );
-  
+      const assignedEmployee = employees.find((emp) => emp.ID === employee);
+
       const newAssignedRoom = {
         RoomID: assignedRoom.ID,
         RoomStatus: assignedRoom.RoomStatus,
@@ -94,21 +98,21 @@ const SupervisorHome = () => {
         verifiedPhotoUrl: "",
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
-        cleaningDuration: new Date().toISOString(),
+        cleaningDuration: "2024-03-22T00:00:00.000Z",
         isHelperRequested: false,
         reguestedHelperID: "",
-        AdditionalNotes: "N/A",
+        AdditionalNotes: "",
         inspectionFeedback: "",
         rating: 0,
         inspectionPhotos: "",
         inspectionNotes: "",
       };
 
-      console.log("newAssignedRoom")
-      console.log(newAssignedRoom)
+      console.log("newAssignedRoom");
+      console.log(newAssignedRoom);
 
       const apiUrl = baseUrl + "/api/assignedrooms/addAssignedRoom";
-      
+
       axios
         .post(apiUrl, newAssignedRoom)
         .then((response) => {
@@ -212,8 +216,13 @@ const SupervisorHome = () => {
             name="Assign Room"
             icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
             style={{ width: "90%" }}
-            onPress={toggleAssignRoomModal}
+            onPress={() => {
+              toggleAssignRoomModal();
+              console.log(employeeList);
+              console.log(employees);
+            }}
           />
+          {/* {employeeList[0].ID} */}
           {isAssignRoomModalOpen && (
             <Modal
               onRequestClose={toggleAssignRoomModal}
@@ -231,12 +240,21 @@ const SupervisorHome = () => {
                     </Typography>
                     {rooms &&
                       rooms.map((room) => (
-                        <View key={room.ID} style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                        <View
+                          key={room.ID}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
                           <Checkbox
                             value={selectedRooms.includes(room.ID)}
                             onValueChange={() => handleCheckboxChange(room.ID)}
                           />
-                          <Typography variant="xs-medium">{room.RoomName}</Typography>
+                          <Typography variant="xs-medium">
+                            {room.RoomName}
+                          </Typography>
                         </View>
                       ))}
                   </View>

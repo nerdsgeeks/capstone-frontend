@@ -26,7 +26,7 @@ const AssignedRoomListItem = ({ room }) => {
   };
 
   const StatusSvg = () => {
-    switch (room.Rooms_RoomStatus.toUpperCase()) {
+    switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
         return <DueOutIcon />;
       case "DueIn".toUpperCase():
@@ -54,8 +54,8 @@ const AssignedRoomListItem = ({ room }) => {
 
   const formatDateRange = (checkinDate, checkoutDate) => {
     // Convert the ISO strings to Date objects
-    console.log(`checkinDate : ${checkinDate}`);
-    console.log(`checkoutDate : ${checkoutDate}`);
+    // console.log(`checkinDate : ${checkinDate}`);
+    // console.log(`checkoutDate : ${checkoutDate}`);
     const checkinDateSplitted = checkinDate.split("T");
     const checkoutDateSplitted = checkoutDate.split("T");
     const checkin = new Date(checkinDateSplitted[0]);
