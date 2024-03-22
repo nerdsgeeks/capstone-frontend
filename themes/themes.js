@@ -18,6 +18,7 @@ export const colors = {
   n30: "#9f9f9f",
   n20: "#d9d9d9",
   n10: "#F2F2F2",
+  n1: "#F9F9F9",
   n0: "#FFFFFF",
 };
 

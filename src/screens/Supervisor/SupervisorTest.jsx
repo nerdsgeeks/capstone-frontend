@@ -12,77 +12,26 @@ import SupervisorRequestHistory from "./SupervisorRequestHistory";
 import { colors } from "../../../themes/themes";
 import LoginScreen from "../LoginScreen";
 import LoadingScreen from "../LoadingScreen";
+import SupervisorRoomDetail from "./SupervisorRoomDetail";
 
-export function BearCounter() {
-  const bears = useTestStore((state) => state.bears);
-  return <Text>{bears} bears around here...</Text>;
-}
+// export function BearCounter() {
+//   const bears = useTestStore((state) => state.bears);
+//   return <Text>{bears} bears around here...</Text>;
+// }
 
-// Controls component
-export function Controls() {
-  const increasePopulation = useTestStore((state) => state.increasePopulation);
+// // Controls component
+// export function Controls() {
+//   const increasePopulation = useTestStore((state) => state.increasePopulation);
 
-  return <Button onPress={increasePopulation} title="one up" />;
-}
+//   return <Button onPress={increasePopulation} title="one up" />;
+// }
 
 const SupervisorTest = ({ navigation }) => {
-  const baseUrl = useBaseUrl();
-  // console.log(process.env);
-  // const baseUrl = "http://10.0.2.2:5000";
-  const request = {
-    date: "2021-09-24",
-    itemType: "pillow",
-    roomNumber: "A123",
-    requester: "John Doe",
-    requesterId: "12345",
-    comments: "I need a pillow",
-  };
 
-  const [items, setItems] = useState([]);
-
-  // useEffect(() => {
-  //   console.log(baseUrl);
-  //   const apiUrl = baseUrl + "/api/items/all";
-
-  //   console.log(baseUrl + "/api/items/all");
-  //   // const onFetchItems = () =>
-  //   //   axios
-  //   //     .get(apiUrl)
-  //   //     .then((response) => {
-  //   //       const data = response.data;
-  //   //       setItems(data);
-  //   //     })
-  //   //     .catch((error) => {
-  //   //       console.log(error);
-  //   //     });
-
-  //   onFetchItems();
-  // }, []);
 
   return (
     <ScrollView style={styles.container}>
-      <CameraComponent navigation={navigation} />
-
-      <Text>SupervisorTest Screen</Text>
-      <HousekeeperPerformance />
-      {/* <InspectionReview /> */}
-      {/* {items && (
-        <ScrollView style={styles.scrollViewcontainer}>
-          <View style={styles.row}>
-            <Text style={styles.header}>Item Name</Text>
-            <Text style={styles.header}>Available</Text>
-            <Text style={styles.header}>Type</Text>
-          </View>
-          {items.map((item) => (
-            <View key={item.ID} style={styles.row}>
-              <Text style={styles.cell}>{item.ItemName}</Text>
-              <Text style={styles.cell}>{item.AvailableNum}</Text>
-              <Text style={styles.cell}>{item.ItemType}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      )} */}
-      <LoadingScreen></LoadingScreen>
+     <SupervisorRoomDetail/>
     </ScrollView>
   );
 };
