@@ -57,30 +57,27 @@ const HousekeeperHomeHeader = ({
           />
         </View>
         <View style={styles.middleContainer}>
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>Hi {name}</Text>
-          <Text>{message}</Text>
           <View style={styles.progressContainer}>
-            <Text>Task Progress</Text>
-            <ProgressBar progress={Number(taskProgress)} color="#469AA2" />
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Typography variant="title-black">Hi {name}</Typography>
-            <TouchableOpacity onPress={displayInformation}>
-              <InformationIcon />
-            </TouchableOpacity>
-          </View>
-          <Typography variant="small-regular">{message}</Typography>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <View style={styles.progressContainer}>
-              <Typography variant="xs-regular">Task Progress</Typography>
-              <ProgressBar progress={0.5} color={colors.teal} />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Typography variant="title-black">Hi {name}</Typography>
+              <TouchableOpacity onPress={displayInformation}>
+                <InformationIcon />
+              </TouchableOpacity>
+            </View>
+            <Typography variant="small-regular">{message}</Typography>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <View style={styles.progressContainer}>
+                <Typography variant="xs-regular">Task Progress</Typography>
+                <ProgressBar progress={0.5} color={colors.teal} />
+              </View>
             </View>
             <View style={styles.rightInnerContainer}>
               <ClockShiftIcon />
@@ -100,46 +97,57 @@ const HousekeeperHomeHeader = ({
             <View style={styles.itemDetailModal}>
               <View>
                 <CloseIcon onPress={toggleInformationModal} />
-                <View style={{ gap: 8}}>
-                  <Typography variant="body-black" style={{ paddingBottom: 8}}>Room Status</Typography>
-                  <View style={{ flexDirection: "row", gap:6}}>
-                    <DueOutIcon/>
+                <View style={{ gap: 8 }}>
+                  <Typography variant="body-black" style={{ paddingBottom: 8 }}>
+                    Room Status
+                  </Typography>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
+                    <DueOutIcon />
                     <Typography variant="xs-regular">Due Out</Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
-                    <DueInIcon/>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
+                    <DueInIcon />
                     <Typography variant="xs-regular">Due In</Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
-                    <DueOutIcon/>
-                    <DueInIcon/>
-                    <Typography variant="xs-regular">Due Out - Due In</Typography>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
+                    <DueOutIcon />
+                    <DueInIcon />
+                    <Typography variant="xs-regular">
+                      Due Out - Due In
+                    </Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
-                    <CheckedOutIcon/>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
+                    <CheckedOutIcon />
                     <Typography variant="xs-regular">Checked Out</Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
-                  <CheckedOutIcon/>
-                  <DueInIcon/>
-                    <Typography variant="xs-regular">Checked Out - Due In</Typography>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
+                    <CheckedOutIcon />
+                    <DueInIcon />
+                    <Typography variant="xs-regular">
+                      Checked Out - Due In
+                    </Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
                     <CheckIcon stroke={colors.teal} />
                     <Typography variant="xs-regular">Checked In</Typography>
                   </View>
                 </View>
                 <View style={{ gap: 8, marginTop: 16 }}>
-                  <Typography variant="body-black" style={{ paddingVertical: 8}}>Room Tier</Typography>
-                  <View style={{ flexDirection: "row", gap:6}}>
+                  <Typography
+                    variant="body-black"
+                    style={{ paddingVertical: 8 }}
+                  >
+                    Room Tier
+                  </Typography>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
                     <TierSilverIcon />
                     <Typography variant="xs-regular">Silver</Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
                     <TierGoldIcon />
                     <Typography variant="xs-regular">Gold</Typography>
                   </View>
-                  <View style={{ flexDirection: "row", gap:6}}>
+                  <View style={{ flexDirection: "row", gap: 6 }}>
                     <TierDiamondIcon />
                     <Typography variant="xs-regular">Platinum</Typography>
                   </View>

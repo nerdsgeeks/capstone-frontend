@@ -108,7 +108,8 @@ const SupervisorHome = ({ navigation }) => {
         .catch((error) => {
           console.error("Error fetching employees:", error);
         });
-
+    onFetchEmployees();
+  }, []);
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedRooms/all";
     const onFetchAssignedRooms = () =>
@@ -128,7 +129,7 @@ const SupervisorHome = ({ navigation }) => {
     const apiUrl = baseUrl + "/api/rooms/all";
     const onFetchRooms = () =>
       axios
-        .get(apiRoomsUrl)
+        .get(apiUrl)
         .then((response) => {
           const data = response.data;
           setRooms(data);
@@ -139,7 +140,6 @@ const SupervisorHome = ({ navigation }) => {
           console.error("Error fetching rooms:", error);
         });
 
-    onFetchEmployees();
     onFetchRooms();
   }, []);
 
@@ -148,12 +148,12 @@ const SupervisorHome = ({ navigation }) => {
     value: room.RoomName,
   }));
 
-  const employeeList = employees
-    .filter((employee) => employee.EmployeeType === 2)
-    .map((employee) => ({
-      key: employee.ID,
-      value: `${employee.FirstName} ${employee.LastName}`,
-    }));
+  // const employeeList = employees
+  //   .filter((employee) => employee.EmployeeType === 2)
+  //   .map((employee) => ({
+  //     key: employee.ID,
+  //     value: `${employee.FirstName} ${employee.LastName}`,
+  //   }));
 
   const assignRoom = () => {
     console.log("employee");
@@ -319,7 +319,7 @@ const SupervisorHome = ({ navigation }) => {
               onPress={toggleUpdateRoomStatusModal}
             />
           </View>
-          <BigButton
+          {/* <BigButton
             name="Assign Room"
             icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
             style={{ width: "90%" }}
@@ -328,7 +328,7 @@ const SupervisorHome = ({ navigation }) => {
               console.log(employeeList);
               console.log(employees);
             }}
-          />
+          /> */}
           {/* {employeeList[0].ID} */}
           {isAssignRoomModalOpen && (
             <Modal
