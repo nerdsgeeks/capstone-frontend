@@ -1,7 +1,15 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Platform,
+} from "react-native";
 import Typography from "../Typography/Typography";
 import { colors } from "../../../themes/themes";
+
+const windowWidth = Dimensions.get("window").width;
 
 const BigButton = ({
   name,
@@ -9,22 +17,29 @@ const BigButton = ({
   text,
   variant = "title-medium",
   onPress,
-  disabled,
-  width = 160,
+  disabled = false,
+  width = windowWidth / 2 - 39,
+  height = 105,
+  ...props
 }) => {
+  const shadowStyle = !disabled
+    ? Platform.OS === "ios"
+      ? styles.shadowIOS
+      : styles.shadowAndroid
+    : null;
+
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={disabled ? undefined : onPress}
+      style={[styles.touchableOpacity, { width: width }, shadowStyle]}
       disabled={disabled}
-      style={{
-        marginBottom: 24,
-        borderRadius: 20,
-        alignItems: "flex-start",
-        height: 80,
-        width: { width },
-      }}
     >
-      <View style={styles.buttonContainer}>
+      <View
+        style={[
+          disabled ? styles.buttonContainer : styles.disabledStyle,
+          { height: height },
+        ]}
+      >
         <Typography variant="small-medium">{name}</Typography>
         <View
           style={{
@@ -49,20 +64,56 @@ const BigButton = ({
 };
 
 const styles = StyleSheet.create({
+  touchableOpacity: {
+    marginBottom: 24,
+    borderRadius: 20,
+    alignItems: "flex-start",
+    // height: 80,
+  },
   buttonContainer: {
     width: "100%",
     flexDirection: "column",
     gap: 20,
     alignItems: "flex-start",
-    padding: 25,
+    justifyContent: "center",
+    padding: 13,
+    borderRadius: 20,
+    borderColor: colors.n20,
+    backgroundColor: colors.n1,
+    borderWidth: 1,
+  },
+  disabledStyle: {
+    width: "100%",
+    flexDirection: "column",
+    gap: 20,
+    alignItems: "flex-start",
+    justifyContent: "center",
+    padding: 13,
     borderRadius: 20,
     borderColor: colors.yellow1,
     backgroundColor: colors.n0,
     borderWidth: 1,
-    // justifyContent: "center"
   },
-  clickable: {},
-  notClickable: {},
+  shadowIOS: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // For Android
+  },
+  shadowAndroid: {
+    elevation: 5, // For Android
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+  },
 });
 
 export default BigButton;
