@@ -13,19 +13,27 @@ import { LinearGradient } from "expo-linear-gradient";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
 import RoomDetail from "../../screens/RoomDetail/RoomDetail";
+import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
 
 const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
   const [activeChip, setActiveChip] = useState("All");
   const [assignedRoomNumber, setAssignedRoomNumber] = useState(0);
-
+  const roomDetailsStore = useRoomDetailsStore(
+    (state) => state.roomDetailsStore,
+  );
+  const updateRoomDetailsStore = useRoomDetailsStore(
+    (state) => state.updateRoomDetailsStore,
+  );
+  const roomsStore = useRoomsStore((state) => state.roomsStore);
+  const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
+  // console.log(" HousekeeperHomeMain rooms");
+  // console.log(rooms);
   useEffect(() => {
-    // console.log("rooms");
-    // console.log(rooms);
     const filteredRooms = rooms.filter((room) => room.isCompleted === false);
     setRoomToDisplay(filteredRooms);
     setAssignedRoomNumber(filteredRooms.length);
-  }, []);
+  }, [roomsStore]);
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
 
@@ -35,7 +43,13 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
     } else {
-      const filteredRooms = rooms.filter((room) => room.type === type);
+      // console.log("room");
+      // console.log(rooms);
+      console.log(type);
+
+      const filteredRooms = rooms.filter(
+        (room) => room.roomTypeName.toUpperCase() === type.toUpperCase(),
+      );
       // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
@@ -80,90 +94,97 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        horizontal={true}
-        style={[
-          styles.chipContainer,
-          { maxHeight: activeChip === "All" ? 60 : 44 }, // Apply dynamic style inline
-        ]}
-      >
-        <Chip
-          style={{
-            backgroundColor: activeChip === "All" ? "#1E1E1E" : "#FFFFFF",
-            height: 30, // Set an appropriate height for chips
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 4,
-          }}
-          textStyle={{ color: activeChip === "All" ? "#FFFFFF" : "#9F9F9F" }} // Ensures text is white
-          onPress={() => setRoomTypeRooms("All")}
+      <View>
+        <ScrollView
+          horizontal={true}
+          style={[
+            styles.chipContainer,
+            { maxHeight: activeChip === "All" ? 60 : 44 }, // Apply dynamic style inline
+          ]}
         >
-          All
-        </Chip>
+          <Chip
+            style={{
+              backgroundColor: activeChip === "All" ? "#1E1E1E" : "#FFFFFF",
+              height: 30, // Set an appropriate height for chips
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 4,
+            }}
+            textStyle={{ color: activeChip === "All" ? "#FFFFFF" : "#9F9F9F" }} // Ensures text is white
+            onPress={() => setRoomTypeRooms("All")}
+          >
+            All
+          </Chip>
 
-        <Chip
-          style={{
-            backgroundColor: activeChip === "Suite" ? "#1E1E1E" : "#FFFFFF",
-            height: 30, // Set an appropriate height for chips
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 4,
-          }}
-          textStyle={{ color: activeChip === "Suite" ? "#FFFFFF" : "#9F9F9F" }} // Ensures text is white
-          onPress={() => setRoomTypeRooms("Suite")}
-        >
-          Suite
-        </Chip>
+          <Chip
+            style={{
+              backgroundColor: activeChip === "Suite" ? "#1E1E1E" : "#FFFFFF",
+              height: 30, // Set an appropriate height for chips
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 4,
+            }}
+            textStyle={{
+              color: activeChip === "Suite" ? "#FFFFFF" : "#9F9F9F",
+            }} // Ensures text is white
+            onPress={() => setRoomTypeRooms("Suite")}
+          >
+            Suite
+          </Chip>
 
-        <Chip
-          style={{
-            backgroundColor: activeChip === "King Bed" ? "#1E1E1E" : "#FFFFFF",
-            height: 30, // Set an appropriate height for chips
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 4,
-          }}
-          textStyle={{
-            color: activeChip === "King Bed" ? "#FFFFFF" : "#9F9F9F",
-          }} // Ensures text is white
-          onPress={() => setRoomTypeRooms("King Bed")}
-        >
-          King Bed
-        </Chip>
+          <Chip
+            style={{
+              backgroundColor:
+                activeChip === "King Bed" ? "#1E1E1E" : "#FFFFFF",
+              height: 30, // Set an appropriate height for chips
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 4,
+            }}
+            textStyle={{
+              color: activeChip === "King Bed" ? "#FFFFFF" : "#9F9F9F",
+            }} // Ensures text is white
+            onPress={() => setRoomTypeRooms("King Bed")}
+          >
+            King Bed
+          </Chip>
 
-        <Chip
-          style={{
-            backgroundColor: activeChip === "Queen Bed" ? "#1E1E1E" : "#FFFFFF",
-            height: 30, // Set an appropriate height for chips
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 4,
-          }}
-          textStyle={{
-            color: activeChip === "Queen Bed" ? "#FFFFFF" : "#9F9F9F",
-          }} // Ensures text is white
-          onPress={() => setRoomTypeRooms("Queen Bed")}
-        >
-          Queen Bed
-        </Chip>
+          <Chip
+            style={{
+              backgroundColor:
+                activeChip === "Queen Bed" ? "#1E1E1E" : "#FFFFFF",
+              height: 30, // Set an appropriate height for chips
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 4,
+            }}
+            textStyle={{
+              color: activeChip === "Queen Bed" ? "#FFFFFF" : "#9F9F9F",
+            }} // Ensures text is white
+            onPress={() => setRoomTypeRooms("Queen Bed")}
+          >
+            Queen Bed
+          </Chip>
 
-        <Chip
-          style={{
-            backgroundColor:
-              activeChip === "Double Bed" ? "#1E1E1E" : "#FFFFFF",
-            height: 30, // Set an appropriate height for chips
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 4,
-          }}
-          textStyle={{
-            color: activeChip === "Double Bed" ? "#FFFFFF" : "#9F9F9F",
-          }} // Ensures text is white
-          onPress={() => setRoomTypeRooms("Double Bed")}
-        >
-          Double Bed
-        </Chip>
-      </ScrollView>
+          <Chip
+            style={{
+              backgroundColor:
+                activeChip === "Double Bed" ? "#1E1E1E" : "#FFFFFF",
+              height: 30, // Set an appropriate height for chips
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 4,
+            }}
+            textStyle={{
+              color: activeChip === "Double Bed" ? "#FFFFFF" : "#9F9F9F",
+            }} // Ensures text is white
+            onPress={() => setRoomTypeRooms("Double Bed")}
+          >
+            Double Bed
+          </Chip>
+        </ScrollView>
+      </View>
+
       <View style={styles.assignedRoomListContainer}>
         <View style={styles.NavTabRowContainer}>
           <View
@@ -205,12 +226,13 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
           {roomToDisplay.map((room, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() =>
+              onPress={() => {
+                updateRoomDetailsStore(room);
                 navigation.navigate("RoomDetail", {
                   roomDetails: room,
                   items: items,
-                })
-              }
+                });
+              }}
             >
               <AssignedRoomListItem room={room} />
             </TouchableOpacity>
@@ -225,6 +247,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
+    // rowGap: 10,
   },
   chipContainer: {
     flexDirection: "row",
@@ -233,6 +256,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   assignedRoomListContainer: {
+    top: -20,
     flexDirection: "column",
     marginTop: 10,
     paddingLeft: 26,

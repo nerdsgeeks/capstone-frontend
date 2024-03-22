@@ -33,6 +33,7 @@ const SupervisorHome = ({ navigation }) => {
   // For updateRooms Modal
   const [updateRoom, setUpdateRoom] = useState([]);
   const [updateStatus, setUpdateStatus] = useState("");
+  const [employeeList, setEmployeeList] = useState([]);
   const baseUrl = useBaseUrl();
 
   const toggleAssignRoomModal = () => {
@@ -92,12 +93,21 @@ const SupervisorHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setEmployees(data);
+          // console.log("employees");
+          // console.log(data);
+          const tempEmployeeList = data
+            .filter((employee) => employee.employeeType === 2)
+            .map((employee) => ({
+              key: employee.ID,
+              value: `${employee.firstName} ${employee.lastName}`,
+            }));
+          // console.log("tempEmployeeList");
+          // console.log(tempEmployeeList);
+          setEmployeeList(tempEmployeeList);
         })
         .catch((error) => {
           console.error("Error fetching employees:", error);
         });
-    onFetchEmployees();
-  }, []);
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedRooms/all";
@@ -118,14 +128,18 @@ const SupervisorHome = ({ navigation }) => {
     const apiUrl = baseUrl + "/api/rooms/all";
     const onFetchRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiRoomsUrl)
         .then((response) => {
           const data = response.data;
           setRooms(data);
+          // console.log("rooms");
+          // console.log(data);
         })
         .catch((error) => {
           console.error("Error fetching rooms:", error);
         });
+
+    onFetchEmployees();
     onFetchRooms();
   }, []);
 
@@ -142,6 +156,8 @@ const SupervisorHome = ({ navigation }) => {
     }));
 
   const assignRoom = () => {
+    console.log("employee");
+    console.log(employee);
     console.log("employee");
     console.log(assignedEmployee);
     selectedRooms.forEach((roomId) => {
@@ -160,10 +176,10 @@ const SupervisorHome = ({ navigation }) => {
         verifiedPhotoUrl: "",
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
-        cleaningDuration: new Date().toISOString(),
+        cleaningDuration: "2024-03-22T00:00:00.000Z",
         isHelperRequested: false,
         reguestedHelperID: "",
-        AdditionalNotes: "N/A",
+        AdditionalNotes: "",
         inspectionFeedback: "",
         rating: 0,
         inspectionPhotos: "",
@@ -303,7 +319,17 @@ const SupervisorHome = ({ navigation }) => {
               onPress={toggleUpdateRoomStatusModal}
             />
           </View>
-
+          <BigButton
+            name="Assign Room"
+            icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
+            style={{ width: "90%" }}
+            onPress={() => {
+              toggleAssignRoomModal();
+              console.log(employeeList);
+              console.log(employees);
+            }}
+          />
+          {/* {employeeList[0].ID} */}
           {isAssignRoomModalOpen && (
             <Modal
               onRequestClose={toggleAssignRoomModal}
@@ -386,12 +412,28 @@ const SupervisorHome = ({ navigation }) => {
 
                   <Typography variant="h5-black">Update Room Status</Typography>
                   <View style={{ gap: 4 }}>
-                    <Typography variant="xs-medium">Room Number</Typography>
-                    <SelectList
-                      setSelected={(key) => setUpdateRoom(key)}
-                      data={roomsList}
-                      save="key"
-                    />
+                    <Typography variant="xs-medium">
+                      Select Room Number
+                    </Typography>
+                    {rooms &&
+                      rooms.map((room) => (
+                        <View
+                          key={room.ID}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
+                          <Checkbox
+                            value={selectedRooms.includes(room.ID)}
+                            onValueChange={() => handleCheckboxChange(room.ID)}
+                          />
+                          <Typography variant="xs-medium">
+                            {room.RoomName}
+                          </Typography>
+                        </View>
+                      ))}
                   </View>
                   <View style={{ gap: 4 }}>
                     <Typography variant="xs-medium">Room Status</Typography>

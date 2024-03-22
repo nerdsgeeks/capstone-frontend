@@ -28,11 +28,15 @@ import SearchInput from "../../components/SearchInput/SearchInput";
 import RequestItemSearch from "../../components/RequestItemSearch/RequestItemSearch";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import CartIcon from "../../SVG/CartIcon";
-import { useRequestCartStore } from "../../store/requestStore";
+import {
+  useRequestCartRoomSuppliesStore,
+  useRequestCartStore,
+  useRequestCartSuppliesStore,
+} from "../../store/requestStore";
 import { useItemsStore } from "../../store/itemsStore";
 import { useBaseScreenStore } from "../../store/screensStore";
 
-const RequestItemSupplies = ({ route, navigation }) => {
+const RequestItemCartSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
   // const { items } = route.params;
   const [itemsFiltered, setItemsFiltered] = useState([]);
@@ -42,8 +46,8 @@ const RequestItemSupplies = ({ route, navigation }) => {
   // console.log("items");
   // console.log(items);
 
-  const requestedItemsCartStore = useRequestCartStore(
-    (state) => state.requestedItemsCartStore,
+  const requestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
+    (state) => state.requestedItemsCartSuppliesStore,
   );
 
   const baseScreenStore = useBaseScreenStore((state) => state.baseScreenStore);
@@ -73,13 +77,13 @@ const RequestItemSupplies = ({ route, navigation }) => {
             }}
           >
             <Typography variant="xs-regular">
-              {requestedItemsCartStore.length}
+              {requestedItemsCartSuppliesStore.length}
             </Typography>
           </View>
         </TouchableOpacity>
       ),
     });
-  }, [navigation, requestedItemsCartStore]);
+  }, [navigation, requestedItemsCartSuppliesStore]);
 
   useEffect(() => {
     console.log(route.params.screenTitle);
@@ -104,7 +108,7 @@ const RequestItemSupplies = ({ route, navigation }) => {
   }, []);
 
   const onCartIconPressed = () => {
-    navigation.navigate("RequestItemSuppliesOrder", {
+    navigation.navigate("RequestItemCartSuppliesOrder", {
       roomDetails: roomDetails,
     });
   };
@@ -112,7 +116,8 @@ const RequestItemSupplies = ({ route, navigation }) => {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        {/* <Text> {requestedItemsCartStore.length}</Text> */}
+        {/* <Text> {requestedItemsCartSuppliesStore.length}</Text> */}
+        {/* <Text>RequestItemCartSupplies</Text> */}
         <RequestItemSearch
           headerText="Items"
           roomDetails={roomDetails}
@@ -124,7 +129,7 @@ const RequestItemSupplies = ({ route, navigation }) => {
   );
 };
 
-export default RequestItemSupplies;
+export default RequestItemCartSupplies;
 
 const styles = StyleSheet.create({
   container: {

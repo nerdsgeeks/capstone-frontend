@@ -13,3 +13,26 @@ export const useRequestCartStore = create((set) => ({
   updateRequestedItemsCartStore: (newRequestedItemsCartStore) =>
     set({ requestedItemsCartStore: newRequestedItemsCartStore }),
 }));
+
+export const useRequestCartRoomSuppliesStore = create((set) => ({
+  requestedItemsCartRoomSuppliesStore: [],
+  removeAllRequestedItemsCartRoomSuppliesStore: () =>
+    set({ requestedItemsCartRoomSuppliesStore: [] }),
+  updateRequestedItemsCartRoomSuppliesStore: (
+    newRequestedItemsCartRoomSuppliesStore,
+  ) =>
+    set({
+      requestedItemsCartRoomSuppliesStore:
+        newRequestedItemsCartRoomSuppliesStore,
+    }),
+}));
+
+export const useRequestCartSuppliesStore = create((set) => ({
+  requestedItemsCartSuppliesStore: [],
+  removeAllRequestedItemsCartSuppliesStore: () =>
+    set({ requestedItemsCartSuppliesStore: [] }),
+  updateRequestedItemsCartSuppliesStore: (newRequestedItemsCartSuppliesStore) =>
+    set({
+      requestedItemsCartSuppliesStore: newRequestedItemsCartSuppliesStore,
+    }),
+}));
