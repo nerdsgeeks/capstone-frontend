@@ -15,25 +15,21 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [activeChip, setActiveChip] = useState("All");
   const [rooms, setRooms] = useState([]);
-  const [isInformationModalOpen, setInformationModalOpen] = useState(false);
+  
 
-  const displayInformation = () => {
-    setInformationModalOpen(true);
-  };
 
-  const toggleInformationModal = () => {
-    setInformationModalOpen(!isInformationModalOpen);
-  };
 
   const baseUrl = useBaseUrl();
 
   useEffect(() => {
     axios.get(`${baseUrl}/api/assignedRooms/all`).then((res) => {
-      setRooms(res.data);
-      console.log(res.data);
-      setRoomToDisplay(res.data);
+      const today = new Date().toISOString().split('T')[0];
+      const filteredRooms = res.data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
+      setRooms(filteredRooms);
+      setRoomToDisplay(filteredRooms);
     });
   }, []);
+
   const tabs = [
     { label: "Pending" },
     { label: "Cleaned" },
@@ -50,27 +46,38 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
     setRoomToDisplay(filteredRooms);
     setActiveChip(status);
   };
+
   const handleTabPress = (index) => {
     let statusRooms = [];
     let status = tabs[index].label;
-    console.log(status);
-    //there are 3 status In Progress , To Do, Completed
-    if (status === "Pending") {
+    if (status === "Pending" ) {
       statusRooms = roomToDisplay.filter(
-        (room) => room.cleaningStatus === "In Progress",
+        (room) => room.cleaningStatus === "In Progress" || room.cleaningStatus === "To Do",
       );
     } else if (status === "Cleaned") {
       statusRooms = roomToDisplay.filter(
-        (room) => room.cleaningStatus === "To Do",
+        (room) => room.cleaningStatus === "Cleaned",
       );
     } else if (status === "Approved") {
       statusRooms = roomToDisplay.filter(
-        (room) => room.cleaningStatus === "Completed",
+        (room) => room.cleaningStatus === "Approved",
       );
     }
     setRoomToDisplay(statusRooms);
     setActiveTab(index);
   };
+
+  const calculateRoomCount = (status) => {
+    if (status === "Pending") {
+      return rooms.filter(room => room.cleaningStatus === "In Progress" || room.cleaningStatus === "To Do").length;
+    } else if (status === "Cleaned") {
+      return rooms.filter(room => room.cleaningStatus === "Cleaned").length;
+    } else if (status === "Approved") {
+      return rooms.filter(room => room.cleaningStatus === "Approved").length;
+    }
+    return 0;
+  };
+
 
   return (
     <View style={styles.container}>
@@ -92,7 +99,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             textStyle={{ color: activeChip === "All" ? colors.n0 : colors.n40 }}
             onPress={() => setRoomStatus("All")}
           >
-            All
+            <Typography variant="small-medium">All</Typography>
           </Chip>
           <Chip
             style={[
@@ -107,7 +114,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("DueIn")}
           >
-            Due In
+            <Typography variant="small-medium">Due In</Typography>
           </Chip>
           <Chip
             style={[
@@ -122,7 +129,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("DueOut")}
           >
-            Due Out
+            <Typography variant="small-medium">Due Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -137,7 +144,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("CheckedIn")}
           >
-            Checked In
+            <Typography variant="small-medium">Checked In</Typography>
           </Chip>
           <Chip
             style={[
@@ -152,7 +159,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("CheckedOut")}
           >
-            Checked Out
+            <Typography variant="small-medium">Checked Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -167,7 +174,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("DueOut-DueIn")}
           >
-            DueOut-DueIn
+            <Typography variant="small-medium">Due In - Due Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -185,51 +192,35 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("CheckedOut-CheckedIn")}
           >
-            CheckedOut-DueIn
+            <Typography variant="small-medium">Checked In - Checked Out</Typography>
           </Chip>
         </ScrollView>
       </View>
-      <ScrollView>
-        <View style={styles.bodyContainer}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginHorizontal: 27,
-              gap: 8,
-            }}
-          >
-            
-            <View style={styles.numberContainer}>
-              <Typography variant="small-medium">20</Typography>
-            </View>
-            <NavTabs
-              tabs={tabs}
-              activeTab={activeTab}
-              onTabPress={handleTabPress}
-              style={styles.NavContainer}
-            />
-            <TouchableOpacity onPress={displayInformation} style={{ justifySelf: "flex-end"}}>
-              <InformationIcon />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.floorAccordion}>
-            <View style={{ width: "100%" }}>
-              <Accordion
-                rooms={roomToDisplay}
-                onPressRoomDetail={onPressRoomDetail}
-              />
-            </View>
-          </View>
-        </View>
-      </ScrollView>
 
-      {isInformationModalOpen && (
-        <SupervisorInformationModal
-          isInformationModalOpen={isInformationModalOpen}
-          toggleInformationModal={toggleInformationModal}
+      <ScrollView style={styles.bodyContainer}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 27,
+            gap: 8,
+          }}
+        >
+          <View style={styles.numberContainer}>
+            <Typography variant="small-medium">{calculateRoomCount(tabs[activeTab].label)}</Typography>
+          </View>
+          <NavTabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabPress={handleTabPress}
+          />
+        </View>
+        <Accordion
+          rooms={roomToDisplay}
+          onPressRoomDetail={onPressRoomDetail}
         />
-      )}
+      </ScrollView>
+      
     </View>
   );
 };
@@ -237,15 +228,14 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.n0,
+    backgroundColor: colors.n10,
   },
   chipContainer: {
     flexDirection: "row",
-    marginLeft: 27,
-    marginVertical: 10,
+    marginLeft: 26,
+    marginVertical: 6,
   },
   chip: {
-    height: 30,
     justifyContent: "center",
     alignItems: "center",
     margin: 4,
@@ -258,11 +248,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyContainer: {
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    marginBottom: 170,
+    backgroundColor: colors.n0,
   },
-
   numberContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -270,13 +261,6 @@ const styles = StyleSheet.create({
     height: 30,
     backgroundColor: colors.main,
     borderRadius: 100,
-  },
-  floorAccordion: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
   },
 });
 

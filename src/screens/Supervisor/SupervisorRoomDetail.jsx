@@ -12,13 +12,42 @@ import BedIcon from "../../SVG/BedIcon";
 import CheckIcon from "../../SVG/CheckIcon";
 import CloseIcon from "../../SVG/CloseIcon";
 import { SelectList } from "react-native-dropdown-select-list";
+import axios from "axios";
+import useBaseUrl from "../../hooks/useBaseUrl";
 
 const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const [isModalOpen, setModalState] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const toggleModal = () => setModalState(!isModalOpen);
-  const room  = route.params.room;
-  const fullName = room.FirstName + " " + room.LastName;
+  const room = route.params.room;
+  const baseUrl = useBaseUrl();
+
+  const updateRoomStatus = () => {
+    const updateRoomItem = {
+      ID: room.roomID,
+      RoomName: room.RoomName,
+      RoomTypeID: room.RoomTypeID,
+      Floor: room.Floor,
+      RoomStatus: selectedStatus,
+      RoomImageUrl: room.RoomImageUrl,
+      RoomTier: room.RoomTier,
+    };
+
+    console.log(updateRoomItem);
+    const apiUrl = baseUrl + "/api/rooms/updateroom";
+
+    axios
+      .put(apiUrl, updateRoomItem)
+      .then((response) => {
+        console.log("Room updated successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error creating updating room:", error);
+      });
+
+      toggleModal();
+  };
+
   const roomStatus = [
     { key: "DUEOUT", value: "Due Out" },
     { key: "DUEIN", value: "Due In" },
@@ -27,13 +56,24 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
     { key: "CHECKEDOUT-CHECKEDIN", value: "Checked Out - Checked In" },
     { key: "CHECKIN", value: "Checked In" },
   ];
-  
+
   return (
     <SafeAreaProvider>
-        <RoomDetailHeader room={room} taskStatus="pending" navigation={navigation} />
-        <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ gap: 16 }}>
+        <RoomDetailHeader
+          room={room}
+          taskStatus="pending"
+          navigation={navigation}
+        />
         <RoomDetailInfo reservation={room} room={room} />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            // alignItems: "center",
+            marginHorizontal: 26,
+            gap: 6,
+          }}
+        >
           <Image
             style={{ borderRadius: 15, width: 30, height: 30 }}
             source={{
@@ -41,15 +81,19 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
             }}
           />
           <View>
-            <Typography variant="xs-regular">{fullName}</Typography>
-            <Typography variant="xs-regular">{room.position}</Typography>
+            <Typography variant="xs-regular">
+              {room.firstName} {room.lastName}
+            </Typography>
           </View>
         </View>
-        <TextChip
-          text="Help Requested"
-          backgroundColor={colors.pale_teal1}
-          style={{ marginHorizontal: 25 }}
-        />
+        {room.isHelperRequested && (
+          <TextChip
+            text="Help Requested"
+            backgroundColor={colors.pale_teal1}
+            style={{ marginHorizontal: 25 }}
+          />
+        )}
+
         <View
           style={{
             flexDirection: "row",
@@ -76,44 +120,34 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
                 <Typography variant="title-regular">
                   Room {room.RoomName}
                 </Typography>
-                <Typography variant="xs-medium">Room Status</Typography>
-                <SelectList
-                  setSelected={(val) => setSelected(val)}
-                  data={roomStatus}
-                  save="value"
-                />
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image
-                    style={{ borderRadius: 15, width: 30, height: 30 }}
-                    source={{
-                      uri: "https://reactnative.dev/img/tiny_logo.png",
-                    }}
-                  />
-                  <View>
-                    <Typography variant="xs-regular">
-                      {fullName}
-                    </Typography>
-                    <Typography variant="xs-regular">
-                      {room.position}
-                    </Typography>
+                <View style={{ marginTop: 45, gap: 16 }}>
+                  <View style={{ gap: 6 }}>
+                    <Typography variant="xs-medium">Room Status</Typography>
+                    <SelectList
+                      setSelected={(val) => setSelectedStatus(val)}
+                      data={roomStatus}
+                      save="value"
+                    />
                   </View>
+
+                  <Button name="Assign" type="primary" onPress={updateRoomStatus} />
                 </View>
-                <Typography variant="xs-medium">Assign Staff</Typography>
-                <SelectList
-                  setSelected={(val) => setSelected(val)}
-                  data={staff}
-                  save="value"
-                />
-                <Button name="Assign" type="Primary" onPress={onPress} />
               </View>
             </View>
           </Modal>
           <BigButton
             name="Inspect"
-            icon={<CheckIcon w="40" h="28" stroke={colors.orange} />}
+            disabled={room.cleaningStatus === "Cleaned" ? false : true}
+            icon={
+              room.cleaningStatus === "Cleaned" ? (
+                <CheckIcon w="40" h="28" stroke={colors.orange} />
+              ) : (
+                <CheckIcon w="40" h="40" stroke={colors.n30} />
+              )
+            }
           />
         </View>
-      </SafeAreaView>
+      </View>
     </SafeAreaProvider>
   );
 };
@@ -157,7 +191,7 @@ const styles = StyleSheet.create({
   },
   openButton: {
     borderWidth: 1,
-  borderColor: "gray",
+    borderColor: "gray",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
