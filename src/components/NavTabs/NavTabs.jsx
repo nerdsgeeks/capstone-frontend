@@ -2,7 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Typography from "../Typography/Typography";
 
-const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
+const NavTabs = ({ tabs, activeTab, onTabPress, justifyContent }) => {
   return (
     <View
       style={[styles.container, { justifyContent: justifyContent || "flex-start", }]}
@@ -27,16 +27,16 @@ const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    // justifyContent: "flex-start",
     gap:8,
   },
   tab: {
     alignItems: "center",
     paddingVertical: 5,
+    paddingHorizontal: 3,
     borderBottomColor: "transparent",
   },
   activeTab: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 3,
     borderBottomWidth: 3,
     borderBottomColor: "black",
   },

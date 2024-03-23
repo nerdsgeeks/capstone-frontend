@@ -11,15 +11,15 @@ import TextChip from "../TextChip/TextChip";
 
 const RoomDetailInfo = ({ reservation, room }) => {
   let tierIcon;
-  switch (room.tier) {
+  switch (room.RoomTier) {
     case "gold":
-      tierIcon = <TierGoldIcon />;
+      tierIcon = <TierGoldIcon w="30" h="30" />;
       break;
     case "silver":
-      tierIcon = <TierSilverIcon />;
+      tierIcon = <TierSilverIcon w="30" h="30" />;
       break;
     case "diamond":
-      tierIcon = <TierDiamondIcon />;
+      tierIcon = <TierDiamondIcon w="30" h="30" />;
       break;
     default:
       tierIcon = <TextChip text="NO INFO" />;
@@ -60,21 +60,21 @@ const RoomDetailInfo = ({ reservation, room }) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="body-regular">{reservation.guestName}</Typography>
+        <Typography variant="h5-regular">{reservation.guestName}</Typography>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           {tierIcon}
           <View style={{ paddingLeft: 10 }}>
             <PersonIcon fill="black" />
           </View>
-          <Typography variant="small-regular" style={{ paddingLeft: 3 }}>
+          <Typography variant="h5-medium" style={{ paddingLeft: 3 }}>
             {reservation.noOfGuest}
           </Typography>
         </View>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CalendarIcon />
-        <Typography variant="xs-medium" style={{ paddingLeft: 10 }}>
+        <Typography variant="body-medium" style={{ paddingLeft: 10 }}>
           {formatDateRange(reservation.CheckinDate, reservation.CheckoutDate)}
         </Typography>
       </View>
@@ -88,8 +88,8 @@ const RoomDetailInfo = ({ reservation, room }) => {
             borderRadius: 8,
           }}
         >
-          <Typography variant="xs-medium">Requests:</Typography>
-          <Typography variant="xs-regular">
+          <Typography variant="small-medium">Requests:</Typography>
+          <Typography variant="small-regular">
             {"\u2022"} {reservation.additionalNotes}
           </Typography>
         </View>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     marginHorizontal: 26,
-    marginVertical: 20,
+    // marginVertical: 20,
     gap: 10,
   },
 });

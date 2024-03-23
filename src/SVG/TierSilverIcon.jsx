@@ -1,9 +1,9 @@
 import Svg, { Path, Circle } from "react-native-svg";
 
-const TierSilverIcon = () => (
+const TierSilverIcon = ( { w=21, h=21}) => (
   <Svg
-    width="21"
-    height="21"
+    width={w}
+    height={h}
     viewBox="0 0 21 21"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

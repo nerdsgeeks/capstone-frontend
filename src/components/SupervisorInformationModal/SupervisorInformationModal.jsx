@@ -85,10 +85,10 @@ const SupervisorInformationModal = ({
                     <Typography variant="xs-regular">King</Typography>
                   </View><View style={{ flexDirection: "row", gap:6}}>
                     <View style={[styles.colorButton, {backgroundColor: colors.yellow2}]}></View>
-                    <Typography variant="xs-regular">Suite</Typography>
+                    <Typography variant="xs-regular">Queen</Typography>
                   </View><View style={{ flexDirection: "row", gap:6}}>
                     <View style={[styles.colorButton, {backgroundColor: colors.n0, borderWidth: 1, borderColor: colors.main}]}></View>
-                    <Typography variant="xs-regular">Suite</Typography>
+                    <Typography variant="xs-regular">Regular</Typography>
                   </View>
                 </View>
               </View>

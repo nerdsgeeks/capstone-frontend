@@ -14,28 +14,29 @@ import BackIcon from "../../SVG/BackIcon";
 import TextChip from "../TextChip/TextChip";
 import Typography from "../Typography/Typography";
 import BackgroundImage from "../../../assets/Rooms-Card.png";
+import { colors } from "../../../themes/themes";
 
-const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
+const RoomDetailHeader = ({ room, navigation }) => {
   const StatusSvg = () => {
     switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
-        return <DueOutIcon />;
+        return <DueOutIcon w="28" h="28"/>;
       case "DueIn".toUpperCase():
-        return <DueInIcon />;
+        return <DueInIcon w="28" h="28"/>;
       case "CheckedOut".toUpperCase():
-        return <CheckedOutIcon />;
+        return <CheckedOutIcon w="28" h="28"/>;
       case "CheckedIn".toUpperCase():
-        return <CheckIcon stroke="green" />;
+        return <CheckIcon stroke={colors.teal} fill={colors.n0} w="28" h="28" />;
       case "DueOut-DueIn".toUpperCase():
         return (
           <>
-            <DueOutIcon /> <DueInIcon />
+            <DueOutIcon w="28" h="28"/> <DueInIcon w="28" h="28" />
           </>
         );
       case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon /> <DueInIcon />{" "}
+            <CheckedOutIcon w="28" h="28" /> <DueInIcon w="28" h="28"/>{" "}
           </>
         );
       default:
@@ -43,21 +44,36 @@ const RoomDetailHeader = ({ room, taskStatus, navigation }) => {
     }
   };
 
+  switch (room.roomTypeName) {
+    case 'Suite':
+      backgroundColor = colors.pink_yellow;
+      break;
+    case 'King Bed':
+      backgroundColor = colors.yellow1;
+      break;
+    case 'Queen Bed':
+      backgroundColor = colors.yellow2;
+      break;
+    default:
+      backgroundColor = colors.n0;
+      break;
+  }
+
   return (
-    <ImageBackground source={BackgroundImage} style={styles.container}>
+    <ImageBackground source={{uri: room.RoomImageUrl}} style={styles.container}>
       <View style={styles.line1}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackIcon />
         </TouchableOpacity>
-        <TextChip text={taskStatus} backgroundColor="#F89C7B" />
+        <TextChip text={room.cleaningStatus} backgroundColor={colors.main} />
       </View>
       <View>
-        <Typography variant="h4-medium" style={{ color: "white" }}>
+        <Typography variant="h3-medium" style={{ color: "white" }}>
           {room.RoomName}
         </Typography>
         <View style={styles.bottomLine}>
-          <TextChip text={room.roomTypeName} />
-          <Text style={styles.svg}>{StatusSvg()}</Text>
+          <TextChip text={room.roomTypeName} backgroundColor={backgroundColor}/>
+          <View style={styles.svg}>{StatusSvg()}</View>
         </View>
       </View>
     </ImageBackground>

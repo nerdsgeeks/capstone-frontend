@@ -69,6 +69,7 @@ const SupervisorHome = ({ navigation }) => {
       }
     });
   };
+  
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/requestItems/requestItemsTblAll";
@@ -143,10 +144,20 @@ const SupervisorHome = ({ navigation }) => {
     onFetchRooms();
   }, []);
 
-  const roomsList = rooms.map((room) => ({
-    key: room.ID,
-    value: room.RoomName,
-  }));
+  const today = new Date().toISOString().split('T')[0];
+  
+  const unassignedRooms = rooms.filter(room => {
+    return !assignedRooms.some(assignedRoom => {
+      return assignedRoom.roomID === room.ID && assignedRoom.assignedDateTime.startsWith(today);
+    });
+  });
+
+  // const roomsList = availableRooms.map((room) => ({
+  //   key: room.ID,
+  //   value: room.RoomName,
+  // }));
+
+  console.log("available rooms:", unassignedRooms);
 
   // const employeeList = employees
   //   .filter((employee) => employee.EmployeeType === 2)
@@ -156,8 +167,6 @@ const SupervisorHome = ({ navigation }) => {
   //   }));
 
   const assignRoom = () => {
-    console.log("employee");
-    console.log(employee);
     console.log("employee");
     console.log(assignedEmployee);
     selectedRooms.forEach((roomId) => {
@@ -221,12 +230,12 @@ const SupervisorHome = ({ navigation }) => {
   });
 
   const roomStatus = [
-    { key: "DUEOUT", value: "Due Out" },
-    { key: "DUEIN", value: "Due In" },
-    { key: "DUEOUT-DUEIN", value: "Due Out - Due In" },
-    { key: "CHECKEDOUT", value: "Checked Out" },
-    { key: "CHECKEDOUT-CHECKEDIN", value: "Checked Out - Checked In" },
-    { key: "CHECKIN", value: "Checked In" },
+    { key: "DueOut", value: "Due Out" },
+    { key: "DueIn", value: "Due In" },
+    { key: "DueOut-DueIn", value: "Due Out - Due In" },
+    { key: "CheckedOut", value: "Checked Out" },
+    { key: "CheckedOut-CheckedIn", value: "Checked Out - Checked In" },
+    { key: "CheckedIn", value: "Checked In" },
   ];
 
   const updateRoomStatus = () => {
@@ -313,7 +322,7 @@ const SupervisorHome = ({ navigation }) => {
               variant="h5-medium"
               onPress={toRequests}
             />
-            <BigButton name="Assign Rooms" onPress={toggleAssignRoomModal} />
+            <BigButton name="Assign Rooms" onPress={toggleAssignRoomModal} disabled={unassignedRooms.length === 0}/>
             <BigButton
               name="Update Room Status"
               onPress={toggleUpdateRoomStatusModal}
@@ -345,8 +354,8 @@ const SupervisorHome = ({ navigation }) => {
                       <Typography variant="xs-medium">
                         Select Room Number
                       </Typography>
-                      {rooms &&
-                        rooms.map((room) => (
+                      {unassignedRooms &&
+                        unassignedRooms.map((room) => (
                           <View
                             key={room.ID}
                             style={{
@@ -357,9 +366,10 @@ const SupervisorHome = ({ navigation }) => {
                           >
                             <Checkbox
                               value={selectedRooms.includes(room.ID)}
-                              onValueChange={() =>
-                                handleCheckboxChange(room.ID)
-                              }
+                              onValueChange={() => {
+                                console.log("Checkbox clicked for room ID:", room.ID);
+                                handleCheckboxChange(room.ID);
+                              }}
                               color={
                                 selectedRooms.includes(room.ID)
                                   ? colors.teal

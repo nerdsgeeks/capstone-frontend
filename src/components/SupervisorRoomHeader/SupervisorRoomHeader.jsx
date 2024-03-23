@@ -10,7 +10,7 @@ const SupervisorRoomHeader = ({ title, icon, text }) => {
 
   return (
     <View style={styles.container}>
-      <Typography variant="h5-black"> {title} </Typography>
+      <Typography variant="h4-medium"> {title} </Typography>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
         {icon ? icon : null}
         {text ? <Typography variant="xs-medium">{text}</Typography> : null}
