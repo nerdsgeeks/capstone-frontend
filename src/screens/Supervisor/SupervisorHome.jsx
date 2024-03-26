@@ -234,6 +234,7 @@ const SupervisorHome = ({ navigation }) => {
         .post(apiUrl, newAssignedRoom)
         .then((response) => {
           console.log("Assignment created successfully:", response.data);
+          setAssignedRooms([...assignedRooms, newAssignedRoom]);
         })
         .catch((error) => {
           console.error("Error creating assignment:", error);
