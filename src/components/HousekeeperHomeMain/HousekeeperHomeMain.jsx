@@ -6,14 +6,12 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import HousekeeperHomeHeader from "../../components/HousekeeperHomeHeader/HousekeeperHomeHeader";
 import AssignedRoomListItem from "../../components/AssignedRoom/AssignedRoomListItem";
 import { Chip } from "react-native-paper";
-import { LinearGradient } from "expo-linear-gradient";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
-import RoomDetail from "../../screens/RoomDetail/RoomDetail";
 import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
+import { colors } from "../../../themes/themes";
 
 const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
@@ -30,16 +28,25 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   // console.log(" HousekeeperHomeMain rooms");
   // console.log(rooms);
   useEffect(() => {
-    const filteredRooms = rooms.filter((room) => room.isCompleted === false);
+    const today = new Date().toISOString().split('T')[0];
+    const filteredRooms = rooms.filter(room => 
+      room.cleaningStatus.toUpperCase() !== "CLEANED" &&
+      room.assignedDateTime &&
+      room.assignedDateTime.startsWith(today)
+    );
     setRoomToDisplay(filteredRooms);
     setAssignedRoomNumber(filteredRooms.length);
   }, [roomsStore]);
+
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
 
   const setRoomTypeRooms = (type) => {
+    const today = new Date().toISOString().split('T')[0];
     if (type === "All") {
-      const filteredRooms = rooms.filter((room) => room.isCompleted === false);
+      const filteredRooms = rooms.filter((room) => room.cleaningStatus.toUpperCase() !== "CLEANED" &&
+      room.assignedDateTime &&
+      room.assignedDateTime.startsWith(today));
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
     } else {
@@ -48,7 +55,9 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
       console.log(type);
 
       const filteredRooms = rooms.filter(
-        (room) => room.roomTypeName.toUpperCase() === type.toUpperCase(),
+        (room) => room.roomTypeName.toUpperCase() === type.toUpperCase() &&
+        room.assignedDateTime &&
+        room.assignedDateTime.startsWith(today),
       );
       // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
@@ -78,14 +87,20 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 
   const handleTabPress = (index) => {
     setActiveTab(index);
+    const today = new Date().toISOString().split('T')[0];
+
 
     if (index === 0) {
-      const filteredRooms = rooms.filter((room) => room.isCompleted === false);
+      const filteredRooms = rooms.filter((room) => room.cleaningStatus.toUpperCase() !== "CLEANED" &&
+      room.assignedDateTime &&
+      room.assignedDateTime.startsWith(today));
       // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
     } else {
-      const filteredRooms = rooms.filter((room) => room.isCompleted === true);
+      const filteredRooms = rooms.filter((room) => room.cleaningStatus.toUpperCase() === "CLEANED" &&
+      room.assignedDateTime &&
+      room.assignedDateTime.startsWith(today));
       // console.log(filteredRooms);
       setRoomToDisplay(filteredRooms);
       setAssignedRoomNumber(filteredRooms.length);
@@ -95,134 +110,106 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   return (
     <View style={styles.container}>
       <View>
-        <ScrollView
-          horizontal={true}
-          style={[
-            styles.chipContainer,
-            { maxHeight: activeChip === "All" ? 60 : 44 }, // Apply dynamic style inline
-          ]}
-        >
+        <ScrollView horizontal={true} style={[styles.chipContainer]}>
           <Chip
-            style={{
-              backgroundColor: activeChip === "All" ? "#1E1E1E" : "#FFFFFF",
-              height: 30, // Set an appropriate height for chips
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
+            style={[
+              styles.chip,
+              {
+                backgroundColor: activeChip === "All" ? colors.n40 : colors.n0,
+              },
+            ]}
+            textStyle={{
+              color: activeChip === "All" ? colors.n0 : colors.n40,
             }}
-            textStyle={{ color: activeChip === "All" ? "#FFFFFF" : "#9F9F9F" }} // Ensures text is white
             onPress={() => setRoomTypeRooms("All")}
           >
-            All
+            <Typography variant="small-medium">All</Typography>
           </Chip>
-
           <Chip
-            style={{
-              backgroundColor: activeChip === "Suite" ? "#1E1E1E" : "#FFFFFF",
-              height: 30, // Set an appropriate height for chips
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "Suite" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "Suite" ? "#FFFFFF" : "#9F9F9F",
-            }} // Ensures text is white
+              color: activeChip === "Suite" ? colors.n0 : colors.n40,
+            }}
             onPress={() => setRoomTypeRooms("Suite")}
           >
-            Suite
+            <Typography variant="small-medium">Suite</Typography>
           </Chip>
-
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "King Bed" ? "#1E1E1E" : "#FFFFFF",
-              height: 30, // Set an appropriate height for chips
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "King Bed" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "King Bed" ? "#FFFFFF" : "#9F9F9F",
-            }} // Ensures text is white
+              color: activeChip === "King Bed" ? colors.n0 : colors.n40,
+            }}
             onPress={() => setRoomTypeRooms("King Bed")}
           >
-            King Bed
+            <Typography variant="small-medium">King Bed</Typography>
           </Chip>
-
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "Queen Bed" ? "#1E1E1E" : "#FFFFFF",
-              height: 30, // Set an appropriate height for chips
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "Queen Bed" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "Queen Bed" ? "#FFFFFF" : "#9F9F9F",
-            }} // Ensures text is white
+              color: activeChip === "Queen Bed" ? colors.n0 : colors.n40,
+            }}
             onPress={() => setRoomTypeRooms("Queen Bed")}
           >
-            Queen Bed
+            <Typography variant="small-medium">Queen Bed</Typography>
           </Chip>
-
           <Chip
-            style={{
-              backgroundColor:
-                activeChip === "Double Bed" ? "#1E1E1E" : "#FFFFFF",
-              height: 30, // Set an appropriate height for chips
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 4,
-            }}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  activeChip === "Double Bed" ? colors.n40 : colors.n0,
+              },
+            ]}
             textStyle={{
-              color: activeChip === "Double Bed" ? "#FFFFFF" : "#9F9F9F",
-            }} // Ensures text is white
+              color: activeChip === "Double Bed" ? colors.n0 : colors.n40,
+            }}
             onPress={() => setRoomTypeRooms("Double Bed")}
           >
-            Double Bed
+            <Typography variant="small-medium">Double Bed</Typography>
           </Chip>
         </ScrollView>
       </View>
 
       <View style={styles.assignedRoomListContainer}>
-        <View style={styles.NavTabRowContainer}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <View
             style={{
-              backgroundColor: "#F89C7B",
+              backgroundColor: colors.main,
               borderRadius: 20,
               width: 40,
               height: 40,
               justifyContent: "center",
               alignItems: "center",
-              right: 8,
             }}
           >
-            <Typography
-              variant="body-regular"
-              style={{
-                color: "#000",
-                fontSize: 18,
-                // right: -2,
-              }}
-            >
-              {assignedRoomNumber}
-            </Typography>
+            <Typography variant="h5-medium">{assignedRoomNumber}</Typography>
           </View>
-          <View style={styles.NavTabContainer}>
-            <NavTabs
-              tabs={tabs}
-              activeTab={activeTab}
-              onTabPress={handleTabPress}
-            />
-          </View>
+          <NavTabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabPress={handleTabPress}
+          />
         </View>
 
-        <ScrollView
-          contentContainerStylecontentContainerStyle={
-            styles.scrollViewAssignedRoomListContainerContent
-          }
-        >
+        <ScrollView>
           {roomToDisplay.map((room, index) => (
             <TouchableOpacity
               key={index}
@@ -246,40 +233,30 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
-    // rowGap: 10,
+    backgroundColor: colors.n10,
   },
   chipContainer: {
     flexDirection: "row",
-    height: 60,
-    marginLeft: 40,
-    marginTop: 10,
+    marginLeft: 26,
+    paddingVertical: 10,
+  },
+  chip: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 4,
+    borderRadius: 20,
   },
   assignedRoomListContainer: {
-    top: -20,
+    flexGrow: 1,
+    backgroundColor: colors.n0,
     flexDirection: "column",
-    marginTop: 10,
-    paddingLeft: 26,
-    paddingVertical: 15,
-    height: 510,
+    paddingHorizontal: 26,
+    paddingVertical: 16,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     borderWidth: 1,
-    borderColor: "#D9D9D9",
-  },
-  NavTabRowContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  scrollViewAssignedRoomListContainerContent: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "black",
-  },
-  NavTabContainer: {
-    // borderColor: "black",
-    // borderWidth: 1,
+    borderColor: colors.n20,
+    paddingBottom: 100,
   },
 });
 

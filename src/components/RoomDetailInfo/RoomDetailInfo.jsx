@@ -48,7 +48,7 @@ const RoomDetailInfo = ({ reservation, room }) => {
     );
 
     // Combine the parts into the final string
-    return `${formattedCheckin} - ${formattedCheckout} ${year}`;
+    return `${formattedCheckin} - ${formattedCheckout}`;
   };
 
   return (

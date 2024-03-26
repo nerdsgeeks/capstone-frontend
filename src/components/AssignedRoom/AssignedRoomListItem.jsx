@@ -9,6 +9,7 @@ import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 import TierGoldIcon from "../../SVG/TierGoldIcon";
 import TierSilverIcon from "../../SVG/TierSilverIcon";
 import TierDiamondIcon from "../../SVG/TierDiamondIcon";
+import { colors } from "../../../themes/themes";
 const AssignedRoomListItem = ({ room }) => {
   // console.log(room);
   const roomTier = () => {
@@ -34,7 +35,7 @@ const AssignedRoomListItem = ({ room }) => {
       case "CheckedOut".toUpperCase():
         return <CheckedOutIcon />;
       case "CheckedIn".toUpperCase():
-        return <CheckIcon stroke="green" />;
+        return <CheckIcon stroke={colors.teal} />;
       case "DueOut-DueIn".toUpperCase():
         return (
           <>
@@ -44,7 +45,8 @@ const AssignedRoomListItem = ({ room }) => {
       case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon /> <DueInIcon />{" "}
+            <CheckedOutIcon />
+            <DueInIcon />{" "}
           </>
         );
       default:
@@ -79,21 +81,29 @@ const AssignedRoomListItem = ({ room }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Typography variant="h5-regular" style={styles.text}>
-          {room.RoomName}
-        </Typography>
-        <View style={styles.dateContainer}>
-          <CalendarIcon />
-          <Text style={styles.text}>
-            {formatDateRange(room.CheckinDate, room.CheckoutDate)}
-          </Text>
+    <View style={styles.shadowWrapper}>
+      <View style={styles.container}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4-regular" style={styles.text}>
+            {room.RoomName}
+          </Typography>
+          <View style={{ flexDirection: "row", gap: 5 }}>
+            <CalendarIcon />
+            <Typography variant="small-regular">
+              {formatDateRange(room.CheckinDate, room.CheckoutDate)}
+            </Typography>
+          </View>
         </View>
-      </View>
-      <View style={styles.bodyContainer}>
-        <Text style={styles.svg}>{StatusSvg()}</Text>
-        <Text style={styles.text}>{roomTier()}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.svg}>{StatusSvg()}</Text>
+          <Text style={styles.text}>{roomTier()}</Text>
+        </View>
       </View>
     </View>
   );
@@ -102,35 +112,34 @@ const AssignedRoomListItem = ({ room }) => {
 export default AssignedRoomListItem;
 
 const styles = StyleSheet.create({
+  shadowWrapper: {
+    borderRadius: 20,
+    shadowColor: colors.n20,
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    // For Android
+    elevation: 4,
+  },
   container: {
     flexDirection: "column",
     justifyContent: "center",
-    gap: 10,
     borderWidth: 1,
-    maxWidth: 314,
-    maxHeight: 84,
+    borderColor: colors.n20,
     borderRadius: 20,
-    padding: 10,
-    margin: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    gap: 12,
+    marginVertical: 8,
+    backgroundColor: 'white',
   },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  bodyContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  dateContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 5,
-  },
-  text: {
-    textAlign: "center",
   },
 });
 
