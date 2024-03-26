@@ -17,8 +17,6 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
   const [rooms, setRooms] = useState([]);
   
 
-
-
   const baseUrl = useBaseUrl();
 
   useEffect(() => {

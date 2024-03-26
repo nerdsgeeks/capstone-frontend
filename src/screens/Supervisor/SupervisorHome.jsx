@@ -60,6 +60,24 @@ const SupervisorHome = ({ navigation }) => {
     navigation.navigate("SupervisorRequest");
   };
 
+  // const handleCheckboxChange = (roomId) => {
+  //   console.log('Previous selected rooms:', selectedRooms);
+
+  //   setSelectedRooms((prevSelectedRooms) => {
+  //     if (prevSelectedRooms.includes(roomId)) {
+  //       console.log(`Room ${roomId} is already selected, removing...`);
+  //       const updatedRooms = prevSelectedRooms.filter((ID) => ID !== roomId);
+  //       console.log('Updated selected rooms:', updatedRooms);
+  //       return updatedRooms;
+  //     } else {
+  //       console.log(`Room ${roomId} is not selected, adding...`);
+  //       const updatedRooms = [...prevSelectedRooms, roomId];
+  //       console.log('Updated selected rooms:', updatedRooms);
+  //       return updatedRooms;
+  //     }
+  //   });
+  // };
+
   const handleCheckboxChange = (roomId) => {
     setSelectedRooms((prevSelectedRooms) => {
       if (prevSelectedRooms.includes(roomId)) {
@@ -69,7 +87,16 @@ const SupervisorHome = ({ navigation }) => {
       }
     });
   };
-  
+
+  const handleRoomStatusCheckboxChange = (roomId) => {
+    setUpdateRoom((prevSelectedRooms) => {
+      if (prevSelectedRooms.includes(roomId)) {
+        return prevSelectedRooms.filter((ID) => ID !== roomId);
+      } else {
+        return [...prevSelectedRooms, roomId];
+      }
+    });
+  };
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/requestItems/requestItemsTblAll";
@@ -144,11 +171,14 @@ const SupervisorHome = ({ navigation }) => {
     onFetchRooms();
   }, []);
 
-  const today = new Date().toISOString().split('T')[0];
-  
-  const unassignedRooms = rooms.filter(room => {
-    return !assignedRooms.some(assignedRoom => {
-      return assignedRoom.roomID === room.ID && assignedRoom.assignedDateTime.startsWith(today);
+  const today = new Date().toISOString().split("T")[0];
+
+  const unassignedRooms = rooms.filter((room) => {
+    return !assignedRooms.some((assignedRoom) => {
+      return (
+        assignedRoom.roomID === room.ID &&
+        assignedRoom.assignedDateTime.startsWith(today)
+      );
     });
   });
 
@@ -157,7 +187,7 @@ const SupervisorHome = ({ navigation }) => {
   //   value: room.RoomName,
   // }));
 
-  console.log("available rooms:", unassignedRooms);
+  // console.log("available rooms:", unassignedRooms);
 
   // const employeeList = employees
   //   .filter((employee) => employee.EmployeeType === 2)
@@ -239,30 +269,32 @@ const SupervisorHome = ({ navigation }) => {
   ];
 
   const updateRoomStatus = () => {
-    console.log(updateRoom);
-    const roomToUpdate = rooms.find((roo) => roo.ID === updateRoom);
-    const updateRoomItem = {
-      ID: roomToUpdate.ID,
-      RoomName: roomToUpdate.RoomName,
-      RoomTypeID: roomToUpdate.RoomTypeID,
-      Floor: roomToUpdate.Floor,
-      RoomStatus: updateStatus,
-      RoomImageUrl: roomToUpdate.RoomImageUrl,
-      RoomTier: roomToUpdate.RoomTier,
-    };
+    updateRoom.forEach((roomId) => {
+      const roomToUpdate = rooms.find((roo) => roo.ID === roomId);
 
-    console.log(updateRoomItem);
-    const apiUrl = baseUrl + "/api/rooms/updateroom";
+      const updateRoomItem = {
+        ID: roomToUpdate.ID,
+        RoomName: roomToUpdate.RoomName,
+        RoomTypeID: roomToUpdate.RoomTypeID,
+        Floor: roomToUpdate.Floor,
+        RoomStatus: updateStatus,
+        RoomImageUrl: roomToUpdate.RoomImageUrl,
+        RoomTier: roomToUpdate.RoomTier,
+      };
 
-    axios
-      .put(apiUrl, updateRoomItem)
-      .then((response) => {
-        console.log("Room updated successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error creating updating room:", error);
-      });
+      console.log(updateRoomItem);
 
+      const apiUrl = baseUrl + "/api/rooms/updateroom";
+
+      axios
+        .put(apiUrl, updateRoomItem)
+        .then((response) => {
+          console.log("Room updated successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error creating updating room:", error);
+        });
+    });
     toggleUpdateRoomStatusModal();
   };
 
@@ -322,7 +354,11 @@ const SupervisorHome = ({ navigation }) => {
               variant="h5-medium"
               onPress={toRequests}
             />
-            <BigButton name="Assign Rooms" onPress={toggleAssignRoomModal} disabled={unassignedRooms.length === 0}/>
+            <BigButton
+              name="Assign Rooms"
+              onPress={toggleAssignRoomModal}
+              disabled={unassignedRooms.length === 0}
+            />
             <BigButton
               name="Update Room Status"
               onPress={toggleUpdateRoomStatusModal}
@@ -367,7 +403,10 @@ const SupervisorHome = ({ navigation }) => {
                             <Checkbox
                               value={selectedRooms.includes(room.ID)}
                               onValueChange={() => {
-                                console.log("Checkbox clicked for room ID:", room.ID);
+                                console.log(
+                                  "Checkbox clicked for room ID:",
+                                  room.ID,
+                                );
                                 handleCheckboxChange(room.ID);
                               }}
                               color={
@@ -436,8 +475,10 @@ const SupervisorHome = ({ navigation }) => {
                           }}
                         >
                           <Checkbox
-                            value={selectedRooms.includes(room.ID)}
-                            onValueChange={() => handleCheckboxChange(room.ID)}
+                            value={updateRoom.includes(room.ID)}
+                            onValueChange={() =>
+                              handleRoomStatusCheckboxChange(room.ID)
+                            }
                           />
                           <Typography variant="xs-medium">
                             {room.RoomName}

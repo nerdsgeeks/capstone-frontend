@@ -14,6 +14,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "../LoadingScreen";
 import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
 import { useFocusEffect } from "@react-navigation/native";
+import { colors } from "../../../themes/themes";
 
 const HousekeeperHome = ({ navigation }) => {
   const baseUrl = useBaseUrl();
@@ -113,15 +114,22 @@ const HousekeeperHome = ({ navigation }) => {
     <>
       {rooms.length > 0 && items.length > 0 ? (
         <SafeAreaProvider>
+          
           <SafeAreaView style={styles.container}>
-            <HousekeeperHomeHeader
-              name="Pujan"
-              message="Time to shine at work!"
-              taskProgress={taskProgress}
-              scheduleTime="10:00-18:00"
-            />
-            {/* <Text>{itemsStore.length}</Text> */}
-            {/* <Text>{taskProgress}</Text> */}
+          <LinearGradient
+              colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
+              start={{ x: 0.0, y: 0.0 }}
+              end={{ x: 1.0, y: 1.0 }}
+              locations={[0.01, 0.7, 0.92, 1.0]}
+              style={styles.headerContainer}
+            >
+              <HousekeeperHomeHeader
+                name="Pujan"
+                message="Time to shine at work!"
+                taskProgress={taskProgress}
+                scheduleTime="10:00-18:00"
+              />
+            </LinearGradient>
             <HousekeeperHomeMain
               rooms={roomsStore}
               items={items}
@@ -146,13 +154,17 @@ const HousekeeperHome = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: colors.n10 ,
+  },
+  headerContainer: {
+    borderBottomLeftRadius: 70,
+    paddingHorizontal: 26,
+    paddingVertical: 16,
   },
   chipContainer: {
     flexDirection: "row",
-    height: 60,
-    marginLeft: 40,
-    marginTop: 10,
+    marginLeft: 26,
+    marginTop: 16,
   },
   assignedRoomListContainer: {
     flexDirection: "column",

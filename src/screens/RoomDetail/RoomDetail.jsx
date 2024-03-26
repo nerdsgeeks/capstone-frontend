@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
   ScrollView,
   Modal,
@@ -21,7 +20,6 @@ import CheckIcon from "../../SVG/CheckIcon";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
 import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
 import CloseIcon from "../../SVG/CloseIcon";
-import AddNote from "../../components/AddNote/AddNote";
 import PlusIcon from "../../SVG/PlusIcon";
 import { useRequestCartStore, useRequestStore } from "../../store/requestStore";
 import useBaseUrl from "../../hooks/useBaseUrl";
@@ -29,6 +27,7 @@ import axios from "axios";
 import { useBaseScreenStore } from "../../store/screensStore";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
+import Button from "../../components/Button/Button";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -329,12 +328,12 @@ const RoomDetail = ({ route, navigation }) => {
               <View style={styles.modalView}>
                 <CloseIcon onPress={toggleRequestHelpModal} />
                 <View style={styles.requestHelpModalContainer}>
-                  <Typography variant="title-black">
+                  <Typography variant="h5-black">
                     Need extra hands?
                   </Typography>
-                  <Text style={styles.requestHelpModalSubHeaderText}>
-                    Room: {roomDetailsStore.roomNumber}
-                  </Text>
+                  <Typography variant="title-medium">
+                  Room: {roomDetailsStore.RoomName}
+                  </Typography>
                   <View style={styles.requestHelpModalImageContainer}>
                     <Image
                       source={require("./../../../assets/request-help-modal-image.png")}
@@ -377,14 +376,7 @@ const RoomDetail = ({ route, navigation }) => {
                     </View>
                   </View>
 
-                  <TouchableOpacity
-                    style={styles.requestHelpModalButton}
-                    onPress={onRequestHelpModalSubmitPressed}
-                  >
-                    <Text style={styles.requestHelpModalButtonText}>
-                      Request Help
-                    </Text>
-                  </TouchableOpacity>
+                  <Button type="primary" onPress={onRequestHelpModalSubmitPressed} name="Request Help"/>
                 </View>
               </View>
             </View>
@@ -561,8 +553,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   commonButton: {
-    width: 54,
-    height: 54,
+    width: 60,
+    height: 60,
     borderWidth: 1,
     borderColor: "#D9D9D9",
     alignItems: "center",
@@ -576,8 +568,8 @@ const styles = StyleSheet.create({
     rowGap: 2,
   },
   startButton: {
-    width: 54,
-    height: 54,
+    width: 60,
+    height: 60,
     borderWidth: 1,
     backgroundColor: "#F89C7B",
     borderColor: "#D9D9D9",

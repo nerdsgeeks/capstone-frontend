@@ -45,109 +45,115 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
         console.error("Error creating updating room:", error);
       });
 
-      toggleModal();
+    toggleModal();
   };
 
   const roomStatus = [
-    { key: "DUEOUT", value: "Due Out" },
-    { key: "DUEIN", value: "Due In" },
-    { key: "DUEOUT-DUEIN", value: "Due Out - Due In" },
-    { key: "CHECKEDOUT", value: "Checked Out" },
-    { key: "CHECKEDOUT-CHECKEDIN", value: "Checked Out - Checked In" },
-    { key: "CHECKIN", value: "Checked In" },
+    { key: "DueOut", value: "Due Out" },
+    { key: "DueIn", value: "Due In" },
+    { key: "DueOut-DueIn", value: "Due Out - Due In" },
+    { key: "CheckedOut", value: "Checked Out" },
+    { key: "CheckedOut-CheckedIn", value: "Checked Out - Checked In" },
+    { key: "CheckIn", value: "Checked In" },
   ];
 
   return (
     <SafeAreaProvider>
-      <View style={{ gap: 16 }}>
-        <RoomDetailHeader
-          room={room}
-          taskStatus="pending"
-          navigation={navigation}
-        />
-        <RoomDetailInfo reservation={room} room={room} />
-        <View
-          style={{
-            flexDirection: "row",
-            // alignItems: "center",
-            marginHorizontal: 26,
-            gap: 6,
-          }}
-        >
-          <Image
-            style={{ borderRadius: 15, width: 30, height: 30 }}
-            source={{
-              uri: "https://reactnative.dev/img/tiny_logo.png",
+      <SafeAreaView>
+        <View style={{ gap: 16 }}>
+          <RoomDetailHeader
+            room={room}
+            taskStatus="pending"
+            navigation={navigation}
+          />
+          <RoomDetailInfo reservation={room} room={room} />
+          <View
+            style={{
+              flexDirection: "row",
+              // alignItems: "center",
+              marginHorizontal: 26,
+              gap: 6,
             }}
-          />
-          <View>
-            <Typography variant="xs-regular">
-              {room.firstName} {room.lastName}
-            </Typography>
-          </View>
-        </View>
-        {room.isHelperRequested && (
-          <TextChip
-            text="Help Requested"
-            backgroundColor={colors.pale_teal1}
-            style={{ marginHorizontal: 25 }}
-          />
-        )}
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginHorizontal: 25,
-          }}
-        >
-          <BigButton
-            name="Update Rooms"
-            icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-            onPress={toggleModal}
-          />
-          <Modal
-            visible={isModalOpen}
-            onRequestClose={toggleModal}
-            animationType="fade"
-            transparent={true}
           >
-            <View style={styles.overlay}>
-              <View style={styles.modalView}>
-                <CloseIcon onPress={toggleModal} />
-                <Typography variant="h5-black">Update Room Status</Typography>
-                <Typography variant="title-regular">
-                  Room {room.RoomName}
-                </Typography>
-                <View style={{ marginTop: 45, gap: 16 }}>
-                  <View style={{ gap: 6 }}>
-                    <Typography variant="xs-medium">Room Status</Typography>
-                    <SelectList
-                      setSelected={(val) => setSelectedStatus(val)}
-                      data={roomStatus}
-                      save="value"
+            <Image
+              style={{ borderRadius: 15, width: 30, height: 30 }}
+              source={{
+                uri: "https://reactnative.dev/img/tiny_logo.png",
+              }}
+            />
+            <View>
+              <Typography variant="xs-regular">
+                {room.firstName} {room.lastName}
+              </Typography>
+            </View>
+          </View>
+          {room.isHelperRequested && (
+            <TextChip
+              text="Help Requested"
+              backgroundColor={colors.pale_teal1}
+              style={{ marginHorizontal: 25 }}
+            />
+          )}
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginHorizontal: 25,
+            }}
+          >
+            <BigButton
+              name="Update Rooms"
+              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              onPress={toggleModal}
+            />
+            <Modal
+              visible={isModalOpen}
+              onRequestClose={toggleModal}
+              animationType="fade"
+              transparent={true}
+            >
+              <View style={styles.overlay}>
+                <View style={styles.modalView}>
+                  <CloseIcon onPress={toggleModal} />
+                  <Typography variant="h5-black">Update Room Status</Typography>
+                  <Typography variant="title-regular">
+                    Room {room.RoomName}
+                  </Typography>
+                  <View style={{ marginTop: 45, gap: 16 }}>
+                    <View style={{ gap: 6 }}>
+                      <Typography variant="xs-medium">Room Status</Typography>
+                      <SelectList
+                        setSelected={(val) => setSelectedStatus(val)}
+                        data={roomStatus}
+                        save="value"
+                      />
+                    </View>
+
+                    <Button
+                      name="Assign"
+                      type="primary"
+                      onPress={updateRoomStatus}
                     />
                   </View>
-
-                  <Button name="Assign" type="primary" onPress={updateRoomStatus} />
                 </View>
               </View>
-            </View>
-          </Modal>
-          <BigButton
-            name="Inspect"
-            disabled={room.cleaningStatus === "Cleaned" ? false : true}
-            icon={
-              room.cleaningStatus === "Cleaned" ? (
-                <CheckIcon w="40" h="28" stroke={colors.orange} />
-              ) : (
-                <CheckIcon w="40" h="40" stroke={colors.n30} />
-              )
-            }
-          />
+            </Modal>
+            <BigButton
+              name="Inspect"
+              disabled={room.cleaningStatus === "Cleaned" ? false : true}
+              icon={
+                room.cleaningStatus === "Cleaned" ? (
+                  <CheckIcon w="40" h="28" stroke={colors.orange} />
+                ) : (
+                  <CheckIcon w="40" h="40" stroke={colors.n30} />
+                )
+              }
+            />
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 };
