@@ -20,23 +20,25 @@ const RoomDetailHeader = ({ room, navigation }) => {
   const StatusSvg = () => {
     switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
-        return <DueOutIcon w="28" h="28"/>;
+        return <DueOutIcon w="28" h="28" />;
       case "DueIn".toUpperCase():
-        return <DueInIcon w="28" h="28"/>;
+        return <DueInIcon w="28" h="28" />;
       case "CheckedOut".toUpperCase():
-        return <CheckedOutIcon w="28" h="28"/>;
+        return <CheckedOutIcon w="28" h="28" />;
       case "CheckedIn".toUpperCase():
-        return <CheckIcon stroke={colors.teal} fill={colors.n0} w="28" h="28" />;
+        return (
+          <CheckIcon stroke={colors.teal} fill={colors.n0} w="28" h="28" />
+        );
       case "DueOut-DueIn".toUpperCase():
         return (
           <>
-            <DueOutIcon w="28" h="28"/> <DueInIcon w="28" h="28" />
+            <DueOutIcon w="28" h="28" /> <DueInIcon w="28" h="28" />
           </>
         );
       case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon w="28" h="28" /> <DueInIcon w="28" h="28"/>{" "}
+            <CheckedOutIcon w="28" h="28" /> <DueInIcon w="28" h="28" />{" "}
           </>
         );
       default:
@@ -45,13 +47,13 @@ const RoomDetailHeader = ({ room, navigation }) => {
   };
 
   switch (room.roomTypeName) {
-    case 'Suite':
+    case "Suite":
       backgroundColor = colors.pink_yellow;
       break;
-    case 'King Bed':
+    case "King Bed":
       backgroundColor = colors.yellow1;
       break;
-    case 'Queen Bed':
+    case "Queen Bed":
       backgroundColor = colors.yellow2;
       break;
     default:
@@ -60,7 +62,10 @@ const RoomDetailHeader = ({ room, navigation }) => {
   }
 
   return (
-    <ImageBackground source={{uri: room.RoomImageUrl}} style={styles.container}>
+    <ImageBackground
+      source={{ uri: room.RoomImageUrl }}
+      style={styles.container}
+    >
       <View style={styles.line1}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackIcon />
@@ -72,8 +77,11 @@ const RoomDetailHeader = ({ room, navigation }) => {
           {room.RoomName}
         </Typography>
         <View style={styles.bottomLine}>
-          <TextChip text={room.roomTypeName} backgroundColor={backgroundColor}/>
-          <View style={styles.svg}>{StatusSvg()}</View>
+          <TextChip
+            text={room.roomTypeName}
+            backgroundColor={backgroundColor}
+          />
+          <Text style={styles.svg}>{StatusSvg()}</Text>
         </View>
       </View>
     </ImageBackground>

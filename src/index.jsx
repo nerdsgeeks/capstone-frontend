@@ -8,6 +8,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import NavigationTab from "./Navigation/NavigationTab";
 import NavigationTabSupervisor from "./Navigation/NavigationTabSupervisor";
@@ -17,7 +18,7 @@ import { colors } from "../themes/themes";
 import Typography from "./components/Typography/Typography";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import { Ionicons } from "@expo/vector-icons";
-import Button from "./components/Button/Button";
+// import Button from "./components/Button/Button";
 
 const App = () => {
   const [isFontLoaded, setIsFontLoaded] = React.useState(false);
@@ -91,16 +92,16 @@ const App = () => {
     <>
       {!isDashboardSelected && (
         <View style={styles.mainContainer}>
-          {/* <Button
+          <Button
             title="Housekeeper Dashboard"
             onPress={handleHousekeeperDashboardClick}
           ></Button>
           <Button
             title="Supervisor Dashboard Dashboard"
             onPress={handleSupervisorDashboardClick}
-          ></Button> */}
+          ></Button>
 
-          <ImageBackground
+          {/* <ImageBackground
             source={require("../assets/background.png")}
             style={styles.background}
             resizeMode="cover"
@@ -169,7 +170,7 @@ const App = () => {
               </View>
             </View>
           </View>
-          <Button name="Login" type="primary" onPress={handleLogin} />
+          <Button name="Login" type="primary" onPress={handleLogin} /> */}
         </View>
       )}
 
@@ -189,56 +190,56 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  // mainContainer: {
-  //   flex: 1,
-  //   backgroundColor: "#8fcbbc",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   rowGap: 10,
-  // },
   mainContainer: {
     flex: 1,
-    justifyContent: "flex-start",
+    backgroundColor: "#8fcbbc",
     alignItems: "center",
-    marginHorizontal: 55,
-    gap: 16,
-    paddingTop: 100,
+    justifyContent: "center",
+    rowGap: 10,
   },
-  background: {
-    width: "100%",
-    alignItems: "center",
-    justifySelf: "flex-end",
-  },
-  image: {
-    marginVertical: 16,
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderColor: colors.n20,
-    borderWidth: 1,
-    borderRadius: 12,
-    marginBottom: 20,
-    padding: 10,
-  },
-  credentialsContainer: {
-    gap: 4,
-  },
-  logInContainer: {
-    alignItems: "flex-start",
-  },
-  passwordContainer: {
-    position: "relative",
-    width: "100%",
-  },
-  passwordInput: {
-    paddingRight: 40, // Make space for the icon
-  },
-  eyeIcon: {
-    position: "absolute",
-    top: 10, // Adjust as needed
-    right: 10,
-  },
+  // mainContainer: {
+  //   flex: 1,
+  //   justifyContent: "flex-start",
+  //   alignItems: "center",
+  //   marginHorizontal: 55,
+  //   gap: 16,
+  //   paddingTop: 100,
+  // },
+  // background: {
+  //   width: "100%",
+  //   alignItems: "center",
+  //   justifySelf: "flex-end",
+  // },
+  // image: {
+  //   marginVertical: 16,
+  // },
+  // input: {
+  //   width: "100%",
+  //   height: 40,
+  //   borderColor: colors.n20,
+  //   borderWidth: 1,
+  //   borderRadius: 12,
+  //   marginBottom: 20,
+  //   padding: 10,
+  // },
+  // credentialsContainer: {
+  //   gap: 4,
+  // },
+  // logInContainer: {
+  //   alignItems: "flex-start",
+  // },
+  // passwordContainer: {
+  //   position: "relative",
+  //   width: "100%",
+  // },
+  // passwordInput: {
+  //   paddingRight: 40, // Make space for the icon
+  // },
+  // eyeIcon: {
+  //   position: "absolute",
+  //   top: 10, // Adjust as needed
+  //   right: 10,
+  // },
 });
 
 export default App;
