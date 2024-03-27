@@ -23,10 +23,10 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
 
 useEffect(() => {
   fetchRooms().then((data) => {
-    const today = new Date().toISOString().split('T')[0];
-      const filteredRooms = res.data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
-    setRooms(filteredRooms);
-    setDisplayRoomAfterFilter(filteredRooms);
+    // const today = new Date().toISOString().split('T')[0];
+    // const filteredRooms = data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
+    setRooms(data);
+    setDisplayRoomAfterFilter(data);
     }
   );
 }, []);
@@ -57,6 +57,17 @@ useEffect(() => {
     console.log("activeTab",activeTab)
     displayFilterWithTabPress(activeTab,filteredRooms)
     setActiveChip(status);
+  };
+
+  const calculateRoomCount = (status) => {
+    if (status === "Pending") {
+      return rooms.filter(room => room.cleaningStatus === "In Progress" || room.cleaningStatus === "To Do").length;
+    } else if (status === "Cleaned") {
+      return rooms.filter(room => room.cleaningStatus === "Cleaned").length;
+    } else if (status === "Approved") {
+      return rooms.filter(room => room.cleaningStatus === "Approved").length;
+    }
+    return 0;
   };
 
   const displayFilterWithTabPress = (index, rooms) => {
@@ -216,7 +227,7 @@ useEffect(() => {
           />
         </View>
         <Accordion
-          rooms={roomToDisplay}
+          rooms={displayRoomAfterFilter}
           onPressRoomDetail={onPressRoomDetail}
         />
       </ScrollView>
