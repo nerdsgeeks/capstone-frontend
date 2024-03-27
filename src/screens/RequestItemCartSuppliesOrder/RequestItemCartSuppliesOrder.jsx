@@ -48,7 +48,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
     requestedItemsCartSuppliesStore.forEach((item, index) => {
       // Your logic here
       const tempRequestedItem = {
-        assignedRoomID: item.assignedRoomID,
+        assignedRoomID: 0,
         RequestedItemID: item.RequestedItemID,
         Quantity: item.count,
         Note: item.Note,

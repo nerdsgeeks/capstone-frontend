@@ -10,27 +10,34 @@ import {
   Image,
   Modal,
   Button,
-  KeyboardAvoidingView,
 } from "react-native";
 import Typography from "../Typography/Typography";
 import SearchIcon from "../../SVG/SearchIcon";
 import ImageDisplay from "../ImageDisplay/ImageDisplay";
-import { useRequestCartStore } from "../../store/requestStore";
+import {
+  useRequestCartStore,
+  useRequestCartSuppliesStore,
+} from "../../store/requestStore";
 import CloseIcon from "../../SVG/CloseIcon";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import RequestedItemsList from "../RequestedItemsList/RequestedItemsList";
 
-const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
-  const requestedItemsCartStore = useRequestCartStore(
-    (state) => state.requestedItemsCartStore,
+const RequestItemSearchCartSupplies = ({
+  headerText,
+  roomDetails,
+  items,
+  navigation,
+}) => {
+  const requestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
+    (state) => state.requestedItemsCartSuppliesStore,
   );
-  const updateRequestedItemsCartStore = useRequestCartStore(
-    (state) => state.updateRequestedItemsCartStore,
+  const updateRequestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
+    (state) => state.updateRequestedItemsCartSuppliesStore,
   );
   const [selectedItem, setSelectedItem] = useState({});
   const [requestedItemsCart, setRequestedItemsCart] = useState(
-    requestedItemsCartStore,
+    requestedItemsCartSuppliesStore,
   );
   // console.log("items:");
   // console.log(items);
@@ -84,7 +91,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
 
   const onOrderPressed = () => {
     console.log("onOrderPressed");
-    updateRequestedItemsCartStore(requestedItemsCart);
+    updateRequestedItemsCartSuppliesStore(requestedItemsCart);
     // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
     navigation.goBack();
   };
@@ -131,7 +138,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     console.log("requestedItemsCart");
     console.log(requestedItemsCart);
     console.log(tempRequestedItemsCart);
-    updateRequestedItemsCartStore(tempRequestedItemsCart);
+    updateRequestedItemsCartSuppliesStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
     setModalNoteText("");
@@ -216,26 +223,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                 >
                   {selectedItem.ItemName}
                 </Typography>
-              </View>
-              <View style={styles.requestAddToCartModalRoomNumberSection}>
-                <Text style={styles.requestAddToCartModalNoteLabel}>
-                  Room Number
-                </Text>
-                <TextInput
-                  editable={false}
-                  style={[
-                    {
-                      borderWidth: 1,
-                      borderColor: "grey",
-                      borderRadius: 5,
-                      marginTop: 5,
-                      padding: 10,
-                      paddingLeft: 20,
-                      height: 40,
-                    },
-                  ]}
-                  value={roomDetails.RoomName}
-                />
               </View>
               <View style={styles.requestAddToCartModalNoteSection}>
                 <Text style={styles.requestAddToCartModalNoteLabel}>
@@ -385,7 +372,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   modalView: {
-    // height: "76%",
+    height: "76%",
     width: "76%",
     margin: 20,
     backgroundColor: "white",
@@ -429,9 +416,6 @@ const styles = StyleSheet.create({
   requestAddToCartModalNoteSection: {
     width: "100%",
   },
-  requestAddToCartModalRoomNumberSection: {
-    width: "100%",
-  },
   requestAddToCartModalNoteLabel: {
     fontSize: 14,
   },
@@ -466,4 +450,4 @@ const styles = StyleSheet.create({
   requestedItemsCartContainer: {},
 });
 
-export default RequestItemSearch;
+export default RequestItemSearchCartSupplies;

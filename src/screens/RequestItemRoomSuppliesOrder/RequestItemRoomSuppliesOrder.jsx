@@ -44,9 +44,9 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
     console.log("onOrderPressed");
     const currentDateTimeStamp = new Date().toISOString();
     const apiUrl = baseUrl + "/api/requestItems/addRequestItem";
-    console.log(requestedItemsCartStore);
+    console.log(requestedItemsCartRoomSuppliesStore);
 
-    requestedItemsCartStore.forEach((item, index) => {
+    requestedItemsCartRoomSuppliesStore.forEach((item, index) => {
       // Your logic here
       const tempRequestedItem = {
         assignedRoomID: item.assignedRoomID,
@@ -79,11 +79,11 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        {/* <Text> {requestedItemsCartStore.length}</Text> */}
+        {/* <Text> {requestedItemsCartRoomSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemRoomSuppliesOrder</Text> */}
         <View style={{ flexDirection: "column", rowGap: 20 }}>
           <RequestedItemsList
-            items={requestedItemsCartStore}
+            items={requestedItemsCartRoomSuppliesStore}
             showRequestedItemText={false}
           ></RequestedItemsList>
 

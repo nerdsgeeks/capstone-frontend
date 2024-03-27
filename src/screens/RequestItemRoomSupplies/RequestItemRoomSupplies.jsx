@@ -34,6 +34,7 @@ import {
 } from "../../store/requestStore";
 import { useItemsStore } from "../../store/itemsStore";
 import { useBaseScreenStore } from "../../store/screensStore";
+import RequestItemSearchRoomSupplies from "../../components/RequestItemSearchRoomSupplies/RequestItemSearchRoomSupplies";
 
 const RequestItemRoomSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
@@ -117,12 +118,12 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
       <View style={styles.container}>
         {/* <Text> {requestedItemsCartRoomSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemRoomSupplies</Text> */}
-        <RequestItemSearch
+        <RequestItemSearchRoomSupplies
           headerText="Items"
           roomDetails={roomDetails}
           navigation={navigation}
           items={itemsFiltered}
-        ></RequestItemSearch>
+        ></RequestItemSearchRoomSupplies>
       </View>
     </SafeAreaProvider>
   );
