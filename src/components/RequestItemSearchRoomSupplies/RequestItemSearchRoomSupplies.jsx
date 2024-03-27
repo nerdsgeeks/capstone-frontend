@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -10,27 +10,39 @@ import {
   Image,
   Modal,
   Button,
-  KeyboardAvoidingView,
 } from "react-native";
 import Typography from "../Typography/Typography";
 import SearchIcon from "../../SVG/SearchIcon";
 import ImageDisplay from "../ImageDisplay/ImageDisplay";
-import { useRequestCartStore } from "../../store/requestStore";
+import {
+  useRequestCartRoomSuppliesStore,
+  useRequestCartStore,
+} from "../../store/requestStore";
 import CloseIcon from "../../SVG/CloseIcon";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import RequestedItemsList from "../RequestedItemsList/RequestedItemsList";
+import useBaseUrl from "../../hooks/useBaseUrl";
+import axios from "axios";
+import { SelectList } from "react-native-dropdown-select-list";
+import { colors } from "../../../themes/themes";
 
-const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
-  const requestedItemsCartStore = useRequestCartStore(
-    (state) => state.requestedItemsCartStore,
+const RequestItemSearchRoomSupplies = ({
+  headerText,
+  roomDetails,
+  items,
+  navigation,
+}) => {
+  const requestedItemsCartRoomSuppliesStore = useRequestCartRoomSuppliesStore(
+    (state) => state.requestedItemsCartRoomSuppliesStore,
   );
-  const updateRequestedItemsCartStore = useRequestCartStore(
-    (state) => state.updateRequestedItemsCartStore,
-  );
+  const updateRequestedItemsCartRoomSuppliesStore =
+    useRequestCartRoomSuppliesStore(
+      (state) => state.updateRequestedItemsCartRoomSuppliesStore,
+    );
   const [selectedItem, setSelectedItem] = useState({});
   const [requestedItemsCart, setRequestedItemsCart] = useState(
-    requestedItemsCartStore,
+    requestedItemsCartRoomSuppliesStore,
   );
   // console.log("items:");
   // console.log(items);
@@ -42,6 +54,9 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   const [showItemsList, setShowItemsList] = useState(true);
   const [count, setCount] = useState(0);
   const [modalNoteText, setModalNoteText] = useState("");
+  const baseUrl = useBaseUrl();
+  const [assignedRooms, setAssignedRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState("");
 
   const handlemodalNoteTextChange = (text) => {
     setModalNoteText(text);
@@ -84,7 +99,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
 
   const onOrderPressed = () => {
     console.log("onOrderPressed");
-    updateRequestedItemsCartStore(requestedItemsCart);
+    updateRequestedItemsCartRoomSuppliesStore(requestedItemsCart);
     // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
     navigation.goBack();
   };
@@ -99,7 +114,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
       ImageUrl: selectedItem.ImageUrl,
       ItemName: selectedItem.ItemName,
       count: count,
-      assignedRoomID: roomDetails.ID,
+      assignedRoomID: selectedRoom,
       Note: modalNoteText,
     };
 
@@ -131,7 +146,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     console.log("requestedItemsCart");
     console.log(requestedItemsCart);
     console.log(tempRequestedItemsCart);
-    updateRequestedItemsCartStore(tempRequestedItemsCart);
+    updateRequestedItemsCartRoomSuppliesStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
     setModalNoteText("");
@@ -160,6 +175,39 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
       return [...currentItems, requestedItem];
     }
   };
+
+  useEffect(() => {
+    const apiUrl = baseUrl + "/api/assignedRooms/all";
+    const onFetchAssignedRooms = () =>
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          const data = response.data;
+
+          if (data.length > 0) {
+            const today = new Date().toISOString().split("T")[0];
+            const filteredRooms = data.filter(
+              (room) =>
+                room.cleaningStatus.toUpperCase() !== "CLEANED" &&
+                room.assignedDateTime &&
+                room.assignedDateTime.startsWith(today),
+            );
+
+            const tempAssignedRooms = filteredRooms.map((assignedRoom) => ({
+              key: assignedRoom.ID,
+              value: `${assignedRoom.RoomName}`,
+            }));
+
+            setAssignedRooms(tempAssignedRooms);
+            console.log("filteredRooms");
+            console.log(filteredRooms);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching assigned rooms:", error);
+        });
+    onFetchAssignedRooms();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -221,7 +269,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                 <Text style={styles.requestAddToCartModalNoteLabel}>
                   Room Number
                 </Text>
-                <TextInput
+                {/* <TextInput
                   editable={false}
                   style={[
                     {
@@ -235,6 +283,18 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                     },
                   ]}
                   value={roomDetails.RoomName}
+                /> */}
+                <SelectList
+                  setSelected={(key) => setSelectedRoom(key)}
+                  data={assignedRooms}
+                  save="key"
+                  boxStyles={{
+                    borderColor: colors.n30,
+                    borderRadius: 12,
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                  dropdownStyles={{ borderRadius: 12 }}
                 />
               </View>
               <View style={styles.requestAddToCartModalNoteSection}>
@@ -385,7 +445,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   modalView: {
-    // height: "76%",
+    height: "76%",
     width: "76%",
     margin: 20,
     backgroundColor: "white",
@@ -466,4 +526,4 @@ const styles = StyleSheet.create({
   requestedItemsCartContainer: {},
 });
 
-export default RequestItemSearch;
+export default RequestItemSearchRoomSupplies;
