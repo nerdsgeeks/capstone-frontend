@@ -9,7 +9,7 @@ const RequestHelpComponent = ({
   onPress,
   updateRequestCompletion,
 }) => {
-  const { AdditionalNotes, Quantity, RoomName, startTime, isCompleted } =
+  const { helperRequestedAdditionalNotes, Quantity, RoomName, startTime, isCompleted } =
     request;
   const [completed, setCompleted] = useState(isCompleted);
 
@@ -43,7 +43,9 @@ const RequestHelpComponent = ({
             onValueChange={changeStatus}
           />
           <Typography variant="small-regular" style={styles.itemStyle}>
-            {AdditionalNotes}
+            {helperRequestedAdditionalNotes
+            
+            }
           </Typography>
           <Typography variant="small-regular">{RoomName}</Typography>
         </View>

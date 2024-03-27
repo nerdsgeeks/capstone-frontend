@@ -9,55 +9,70 @@ import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
 
 const SupervisorRoomMain = ({onPressRoomDetail} ) => {
-  const [roomToDisplay, setRoomToDisplay] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [activeChip, setActiveChip] = useState("All");
+  const [displayRoomAfterFilter, setDisplayRoomAfterFilter] = useState([]);
 
   const [rooms, setRooms] = useState([]);
 
 const baseUrl = useBaseUrl();
 
 useEffect(() => {
-  axios.get(`${baseUrl}/api/assignedRooms/all`).then((res) => {
-    setRooms(res.data);
-    console.log(res.data);
-    setRoomToDisplay(res.data);
-  }
+  fetchRooms().then((data) => {
+    setRooms(data);
+    setDisplayRoomAfterFilter(data);
+    }
   );
 }, []);
+
+ const fetchRooms = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/assignedRooms/all`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+      throw error;
+    }
+  };
   const tabs = [
     { label: "Pending" },
     { label: "Cleaned" },
     { label: "Approved" },
   ];
 
-  const setRoomStatus = (status) => {  
+  const setRoomStatus = (status,activeTab) => {  
     let filteredRooms = [];
     if (status === "All") {
       filteredRooms = rooms;
     } else {
-      filteredRooms = rooms.filter((room) => room.Rooms_RoomStatus === status);
+      filteredRooms = rooms.filter((room) => room.RoomStatus.toUpperCase() === status.toUpperCase());
     } 
-    setRoomToDisplay(filteredRooms);
+
+    console.log("activeTab",activeTab)
+    displayFilterWithTabPress(activeTab,filteredRooms)
     setActiveChip(status);
   };
-  const handleTabPress = (index) => {
-    let statusRooms = []
-    let status = tabs[index].label;
-    console.log(status);
-    //there are 3 status In Progress , To Do, Completed
-    if(status === "Pending"){
-      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "In Progress");
-    }else if(status === "Cleaned"){
-      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "To Do");
-    }else if(status === "Approved"){
-      statusRooms = roomToDisplay.filter((room) => room.cleaningStatus === "Completed");
+
+  const displayFilterWithTabPress = (index, rooms) => {
+    compareValue = tabs[index].label;
+    console.log(compareValue)
+    let statusRooms = [];
+
+    if(compareValue === "Pending"){
+       statusRooms = rooms.filter((room) => room.cleaningStatus === "To Do");
+    }else if(compareValue === "Cleaned"){
+      console.log("Cleaned")
+       statusRooms = rooms.filter((room) => room.cleaningStatus === "Cleaned");
+       console.log("statusRooms",statusRooms)
+    }else if(compareValue === "Approved"){
+       statusRooms = rooms.filter((room) => room.cleaningStatus === "Approved");
     }
-    setRoomToDisplay(statusRooms)
-    setActiveTab(index);
-  };
-
-
+    setDisplayRoomAfterFilter(statusRooms);
+  }
+  const handleTabPress =  (activeTab) => { 
+    setActiveTab(activeTab);
+    setRoomStatus(activeChip,activeTab);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -76,7 +91,7 @@ useEffect(() => {
               },
             ]}
             textStyle={{ color: activeChip === "All" ? colors.n0 : colors.n40 }}
-            onPress={() => setRoomStatus("All")}
+            onPress={() => setRoomStatus("All",activeTab)}
           >
             All
           </Chip>
@@ -91,7 +106,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "DueIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("DueIn")}
+            onPress={() => setRoomStatus("DueIn",activeTab)}
           >
             Due In
           </Chip>
@@ -106,7 +121,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "DueOut" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("DueOut")}
+            onPress={() => setRoomStatus("DueOut",activeTab)}
           >
             Due Out
           </Chip>
@@ -121,7 +136,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "CheckedIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("CheckedIn")}
+            onPress={() => setRoomStatus("CheckedIn",activeTab)}
           >
             Checked In
           </Chip>
@@ -136,7 +151,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "CheckedOut" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("CheckedOut")}
+            onPress={() => setRoomStatus("CheckedOut",activeTab)}
           >
             Checked Out
           </Chip>
@@ -151,7 +166,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "DueOut-DueIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("DueOut-DueIn")}
+            onPress={() => setRoomStatus("DueOut-DueIn",activeTab)}
           >
             DueOut-DueIn
           </Chip>
@@ -167,7 +182,7 @@ useEffect(() => {
               color:
                 activeChip === "CheckedOut-CheckedIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("CheckedOut-CheckedIn")}
+            onPress={() => setRoomStatus("CheckedOut-CheckedIn",activeTab)}
           >
             CheckedOut-DueIn
           </Chip>
@@ -195,7 +210,7 @@ useEffect(() => {
           </View>
           <View style={styles.floorAccordion}>
             <View style={{ width: "100%" }}>
-              <Accordion rooms={roomToDisplay} onPressRoomDetail={onPressRoomDetail} />
+              <Accordion rooms={displayRoomAfterFilter} onPressRoomDetail={onPressRoomDetail} />
             </View>
           </View>
         </View>

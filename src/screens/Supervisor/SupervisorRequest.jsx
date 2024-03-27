@@ -38,6 +38,8 @@ const SupervisorRequest = ({ navigation }) => {
     useState(false);
   const [isRequestHelpModalOpen, setIsRequestHelpModalOpen] = useState(false);
     const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
+    const [toggleFetch, setToggleFetch] = useState(false);
+
 
   
 
@@ -79,7 +81,7 @@ const SupervisorRequest = ({ navigation }) => {
       setRooms(data);
     })
     
-  },updateValue, []);
+  },[toggleFetch], []);
 
   const fetchRooms = async () => {
     try {
@@ -100,7 +102,7 @@ const SupervisorRequest = ({ navigation }) => {
   const fetchRequestItems = async () => {
     try {
         const response = await axios.get(`${baseUrl}/api/requestItems/all`);
-        console.log(response.data);
+        console.log(response.data.filter((item) => item.isCompleted === false));
         return response.data;
     } catch (error) {
         console.error("Error fetching request items:", error);
@@ -109,7 +111,6 @@ const SupervisorRequest = ({ navigation }) => {
 };
 
   const acceptRequest = () => {
-    console.log(requestItems)
     const requestData = requestItems.map(item => ({
       ID: item.ID,
       assignedRoomID: item.assignedRoomID,
@@ -123,7 +124,8 @@ const SupervisorRequest = ({ navigation }) => {
     axios
       .put(`${baseUrl}/api/requestItems/updateRequestItem`, requestData)
       .then((response) => {
-        setUpdateValue(updateValue + 1);
+        setToggleFetch(prevState => !prevState); 
+        console.log(toggleFetch)
         setIsConfimationModalOpen(false);
       })
       .catch((error) => {

@@ -47,6 +47,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
   const fetchRequestItems = async () => {
     try {
         const response = await axios.get(`${baseUrl}/api/requestItems/all`);
+        console.log("Request items:", response.data.filter((item) => item.status === "Approved"));
         return response.data;
     } catch (error) {
         console.error("Error fetching request items:", error);

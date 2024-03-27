@@ -6,6 +6,7 @@ import { colors } from "../../../themes/themes";
 import Typography from "../Typography/Typography";
 
 const Accordion = ({ rooms, onPressRoomDetail }) => {
+  console.log("Accordion rooms", rooms);
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
 
