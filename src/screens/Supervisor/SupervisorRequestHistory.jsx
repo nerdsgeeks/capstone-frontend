@@ -81,7 +81,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />
                   </TouchableOpacity>
-                  <Typography variant="h5-black">History</Typography>
+                  <Typography variant="h4-medium">History</Typography>
                 </View>
               }
             />

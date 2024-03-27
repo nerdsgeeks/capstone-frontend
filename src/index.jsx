@@ -18,6 +18,7 @@ import { colors } from "../themes/themes";
 import Typography from "./components/Typography/Typography";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import { Ionicons } from "@expo/vector-icons";
+// import Button from "./components/Button/Button";
 
 const App = () => {
   const [isFontLoaded, setIsFontLoaded] = React.useState(false);

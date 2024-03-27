@@ -1,10 +1,10 @@
 import { Svg, Path, Rect, G, Defs, ClipPath } from 'react-native-svg';
 
-const DueOutIcon = () => (
-  <Svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+const DueOutIcon = ({ w=18, h=18}) => (
+  <Svg width={w} height={h} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <Defs>
       <ClipPath id="clip0_1770_3106">
-        <Rect width="18" height="18" fill="white" />
+        <Rect width={w} height={h} fill="white" />
       </ClipPath>
     </Defs>
     <G clipPath="url(#clip0_1770_3106)">

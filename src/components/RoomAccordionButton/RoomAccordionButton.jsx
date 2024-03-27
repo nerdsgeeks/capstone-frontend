@@ -9,23 +9,23 @@ import CheckedOutIcon from "../../SVG/CheckedOutIcon";
 
 const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
   let roomStyle;
-  switch (room.RoomTypeID) {
-    case 1:
+  switch (room.roomTypeName) {
+    case "Suite":
       roomStyle = {
         backgroundColor: colors.main,
       };
       break;
-    case 2:
+    case "King Bed":
       roomStyle = {
         backgroundColor: colors.yellow1,
       };
       break;
-    case 3:
+    case "Queen Bed":
       roomStyle = {
         backgroundColor: colors.yellow2,
       };
       break;
-    case 4:
+    default:
       roomStyle = {
         backgroundColor: colors.n0,
         borderColor: colors.main,
@@ -34,16 +34,16 @@ const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
       break;
   }
   const StatusSvg = () => {
-    switch (room.Rooms_RoomStatus) {
-      case "DueOut":
+    switch (room.RoomStatus.toUpperCase()) {
+      case "DueOut".toUpperCase():
         return <DueOutIcon />;
-      case "DueIn":
+      case "DueIn".toUpperCase():
         return <DueInIcon />;
-      case "CheckedOut":
+      case "CheckedOut".toUpperCase():
         return <CheckedOutIcon />;
-      case "CheckedIn":
-        return <CheckIcon stroke="green" />;
-      case "DueOut-DueIn":
+      case "CheckedIn".toUpperCase():
+        return <CheckIcon stroke={colors.teal} fill={colors.n0} />;
+      case "DueOut-DueIn".toUpperCase():
         return (
           <>
             <DueOutIcon /> <DueInIcon />
@@ -56,12 +56,15 @@ const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
           </>
         );
       default:
-        return <></>;
+        return <Text>Checked In</Text>;
     }
   };
 
   return (
-    <TouchableOpacity style={[styles.container, roomStyle]} onPress={onPressRoomDetail}>
+    <TouchableOpacity
+      style={[styles.container, roomStyle]}
+      onPress={onPressRoomDetail}
+    >
       <Typography variant="body-black">{room.RoomName}</Typography>
       <Typography>{StatusSvg()}</Typography>
     </TouchableOpacity>

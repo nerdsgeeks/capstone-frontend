@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
   ScrollView,
   Modal,
@@ -21,24 +20,57 @@ import CheckIcon from "../../SVG/CheckIcon";
 import Stopwatch from "../../components/Stopwatch/Stopwatch";
 import RequestedItemsList from "../../components/RequestedItemsList/RequestedItemsList";
 import CloseIcon from "../../SVG/CloseIcon";
-import AddNote from "../../components/AddNote/AddNote";
 import PlusIcon from "../../SVG/PlusIcon";
 import { useRequestCartStore, useRequestStore } from "../../store/requestStore";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
 import { useBaseScreenStore } from "../../store/screensStore";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
+import Button from "../../components/Button/Button";
 
 const RoomDetail = ({ route, navigation }) => {
-  const { roomDetails } = route.params;
+  // const { roomDetails } = route.params;
+  const roomDetailsStore = useRoomDetailsStore(
+    (state) => state.roomDetailsStore,
+  );
+  const updateRoomDetailsStore = useRoomDetailsStore(
+    (state) => state.updateRoomDetailsStore,
+  );
   const { items } = route.params;
+  // const { navigation } = route.params;
   const baseUrl = useBaseUrl();
+  console.log("roomDetailsStore");
+  console.log(roomDetailsStore);
 
   const [showStart, setShowStart] = useState(true);
   const [showPause, setShowPause] = useState(false);
-  const [isStarted, setIsStarted] = useState(false);
+  const [isStarted, setIsStarted] = useState(
+    roomDetailsStore.cleaningStatus.toUpperCase() === "Cleaned".toUpperCase() ||
+      roomDetailsStore.cleaningStatus.toUpperCase() === "Approved".toUpperCase()
+      ? true
+      : false,
+  );
+  const [firstTimeStart, setFirstTimeStart] = useState(true);
+  const [doneDisabled, setDoneDisabled] = useState(
+    roomDetailsStore.cleaningStatus.toUpperCase() === "Cleaned".toUpperCase() ||
+      roomDetailsStore.cleaningStatus.toUpperCase() === "Approved".toUpperCase()
+      ? true
+      : false,
+  );
+  const [startDisabled, setStartDisabled] = useState(
+    roomDetailsStore.cleaningStatus.toUpperCase() === "Cleaned".toUpperCase() ||
+      roomDetailsStore.cleaningStatus.toUpperCase() === "Approved".toUpperCase()
+      ? true
+      : false,
+  );
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [isHelperRequested, setIsHelperRequested] = useState(false);
-  const [isHelpButtonDisabled, setIsHelpButtonDisabled] = useState(false);
+  const [isHelperRequested, setIsHelperRequested] = useState(
+    roomDetailsStore.isHelperRequested,
+  );
+  const [isHelpButtonDisabled, setIsHelpButtonDisabled] = useState(
+    roomDetailsStore.isHelperRequested,
+  );
   const [isRequestHelpModalTextFocused, setIsRequestHelpModalTextFocused] =
     useState(false);
 
@@ -60,27 +92,44 @@ const RoomDetail = ({ route, navigation }) => {
     (state) => state.updateBaseScreenStore,
   );
 
+  const roomsStore = useRoomsStore((state) => state.roomsStore);
+  const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
+
+  const [modalNoteText, setModalNoteText] = useState("");
+
+  const handlemodalNoteTextChange = (text) => {
+    setModalNoteText(text);
+  };
+
+  const updateSelectedItemWithNote = () => {
+    const updatedRoomDetails = {
+      ...roomDetailsStore,
+      helperRequestedAdditionalNotes: modalNoteText,
+    };
+    updateRoomDetailsStore(updatedRoomDetails);
+  };
+
   const toggleRequestHelpModal = () => {
     console.log(isRequestHelpModalOpen);
     setRequestHelpModalState(!isRequestHelpModalOpen);
   };
 
   const roomGoldCheckedOutcheckedIn = {
-    tier: roomDetails.RoomTier,
-    type: roomDetails.roomTypeName,
-    status: roomDetails.Rooms_RoomStatus,
-    roomNumber: roomDetails.RoomName,
-    date: roomDetails.CheckinDate,
+    tier: roomDetailsStore.RoomTier,
+    type: roomDetailsStore.roomTypeName,
+    status: roomDetailsStore.Rooms_RoomStatus,
+    roomNumber: roomDetailsStore.RoomName,
+    date: roomDetailsStore.CheckinDate,
   };
 
   const reservation = {
-    roomId: roomDetails.RoomName,
-    checkIn: roomDetails.CheckinDate,
-    checkOut: roomDetails.CheckinDate,
-    guestName: roomDetails.guestName,
-    noOfGuest: roomDetails.noOfGuest,
-    additionalNotes: roomDetails.AdditionalNotes,
-    isCompleted: roomDetails.isCompleted,
+    roomId: roomDetailsStore.RoomName,
+    CheckinDate: roomDetailsStore.CheckinDate,
+    CheckoutDate: roomDetailsStore.CheckinDate,
+    guestName: roomDetailsStore.guestName,
+    noOfGuest: roomDetailsStore.noOfGuest,
+    additionalNotes: roomDetailsStore.AdditionalNotes,
+    isCompleted: roomDetailsStore.isCompleted,
   };
 
   const onHelpPressed = () => {
@@ -94,11 +143,22 @@ const RoomDetail = ({ route, navigation }) => {
 
   const onStartPressed = () => {
     console.log("Start pressed");
+    console.log(roomDetailsStore);
+
+    if (firstTimeStart) {
+      roomDetailsStore.startTime = new Date().toISOString();
+      updateRoomDetailsStore(roomDetailsStore);
+      console.log("firstTimeStart");
+      console.log(roomDetailsStore);
+    }
+
     setShowStart(false);
     setShowPause(true);
     setIsStarted(true);
     setIsBottomTextContainerEnabled(true);
     setIsTimerRunning(true);
+    setDoneDisabled(true);
+    setFirstTimeStart(false);
   };
 
   const onPausePressed = () => {
@@ -106,6 +166,13 @@ const RoomDetail = ({ route, navigation }) => {
     setShowStart(true);
     setShowPause(false);
     setIsTimerRunning(false);
+    setDoneDisabled(false);
+    console.log("onPausePressed");
+    console.log(roomDetailsStore);
+    roomDetailsStore.endTime = new Date().toISOString();
+    updateRoomDetailsStore(roomDetailsStore);
+    console.log("endTime");
+    console.log(roomDetailsStore);
   };
 
   const onDonePressed = () => {
@@ -114,16 +181,88 @@ const RoomDetail = ({ route, navigation }) => {
 
   const onRequestHelpModalSubmitPressed = () => {
     console.log("RequestHelpModalSubmitPressed");
-    setIsHelperRequested(true);
-    setIsHelpButtonDisabled(true);
-    setIsBottomTextContainerEnabled(true);
+
+    const tempAssignedRoomObject = {
+      ID: roomDetailsStore.ID,
+      roomID: roomDetailsStore.roomID,
+      assignedDateTime: roomDetailsStore.assignedDateTime,
+      assignedEmployeeID: roomDetailsStore.assignedEmployeeID,
+      cleaningStatus: roomDetailsStore.cleaningStatus,
+      isCompleted: roomDetailsStore.isCompleted,
+      verifiedPhotoUrl: roomDetailsStore.verifiedPhotoUrl,
+      startTime: roomDetailsStore.startTime,
+      endTime: roomDetailsStore.endTime,
+      cleaningDuration: roomDetailsStore.cleaningDuration,
+      isHelperRequested: true,
+      reguestedHelperID: roomDetailsStore.reguestedHelperID,
+      AdditionalNotes: roomDetailsStore.AdditionalNotes,
+      inspectionFeedback: roomDetailsStore.inspectionFeedback,
+      rating: roomDetailsStore.rating,
+      inspectionPhotos: roomDetailsStore.inspectionPhotos,
+      inspectionNotes: roomDetailsStore.inspectionNotes,
+      isHelperRequestedApproved: roomDetailsStore.isHelperRequestedApproved,
+      helperRequestedAdditionalNotes: modalNoteText,
+    };
+
+    onUpdateAssignedRoom(tempAssignedRoomObject);
     toggleRequestHelpModal();
+  };
+
+  const onUpdateAssignedRoom = (tempAssignedRoom) => {
+    const apiUrl = baseUrl + "/api/assignedrooms/updateAssignedRoom";
+    console.log(apiUrl);
+    axios
+      .put(apiUrl, tempAssignedRoom)
+      .then((response) => {
+        const data = response.data;
+        // console.log("onUpdateAssignedRoom");
+        // console.log(roomDetailsStore);
+
+        const updatedRoomDetails = {
+          ...roomDetailsStore,
+          helperRequestedAdditionalNotes: modalNoteText,
+          isHelperRequested: true,
+        };
+
+        // console.log("updatedRoomDetails");
+        // console.log(updatedRoomDetails);
+        let tempRoomStore = roomsStore;
+        // Find the index of the room in the array
+        const index = tempRoomStore.findIndex(
+          (room) => room.ID === tempAssignedRoom.ID,
+        );
+
+        // Check if the room was found
+        if (index !== -1) {
+          // Update the room details in the array
+          tempRoomStore[index] = {
+            ...tempRoomStore[index],
+            ...tempAssignedRoom,
+          };
+        } else {
+          console.log("Room not found");
+        }
+
+        updateRoomsStore(tempRoomStore);
+        // console.log("roomsStore");
+        // console.log(roomsStore);
+
+        updateRoomDetailsStore(updatedRoomDetails);
+        setIsHelperRequested(true);
+        setIsHelpButtonDisabled(true);
+        setIsBottomTextContainerEnabled(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     // console.log(baseUrl);
+    // console.log("roomDetailsStore");
+    // console.log(roomDetailsStore);
     const apiUrl =
-      baseUrl + `/api/requestItems/getRequestItemView/${roomDetails.ID}`;
+      baseUrl + `/api/requestItems/getRequestItemView/${roomDetailsStore.ID}`;
 
     console.log(apiUrl);
     const onFetchRequestItemsByAssignedRoomId = () =>
@@ -150,190 +289,232 @@ const RoomDetail = ({ route, navigation }) => {
 
     onFetchRequestItemsByAssignedRoomId();
     updateBaseScreenStore("RoomDetail");
-  }, [requestedItemsCartStore]);
+  }, [requestedItemsCartStore, roomDetailsStore]);
 
   return (
-    <View style={styles.container}>
-      <RoomDetailHeader
-        room={roomDetails}
-        taskStatus={"Cleaning"}
-      ></RoomDetailHeader>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <RoomDetailHeader
+          room={roomDetailsStore}
+          taskStatus={roomDetailsStore.cleaningStatus}
+          navigation={navigation}
+        ></RoomDetailHeader>
+        {/* <Text>{startDisabled.toString()}</Text> */}
+        <View style={styles.mainAndButtonContainer}>
+          <ScrollView
+            style={{ flex: isBottomTextContainerEnabled ? 9.44 : 9.63 }}
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
+          >
+            <RoomDetailInfo
+              room={roomGoldCheckedOutcheckedIn}
+              reservation={reservation}
+            ></RoomDetailInfo>
+            <Text>{doneDisabled}</Text>
+            {requestedItems.length > 0 && (
+              <RequestedItemsList
+                items={requestedItems}
+                disabled={true}
+              ></RequestedItemsList>
+            )}
+          </ScrollView>
 
-      <View style={styles.mainAndButtonContainer}>
-        <ScrollView
-          style={{ flex: isBottomTextContainerEnabled ? 9.44 : 9.63 }}
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
-        >
-          <RoomDetailInfo
-            room={roomGoldCheckedOutcheckedIn}
-            reservation={reservation}
-          ></RoomDetailInfo>
-
-          {requestedItems.length > 0 && (
-            <RequestedItemsList
-              items={requestedItems}
-              disabled={true}
-            ></RequestedItemsList>
-          )}
-        </ScrollView>
-
-        <Modal
-          visible={isRequestHelpModalOpen}
-          onRequestClose={toggleRequestHelpModal}
-          animationType="fade"
-          transparent={true}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalView}>
-              <CloseIcon onPress={toggleRequestHelpModal} />
-              <View style={styles.requestHelpModalContainer}>
-                <Typography variant="title-black">Need extra hands?</Typography>
-                <Text style={styles.requestHelpModalSubHeaderText}>
-                  Room: {roomDetails.roomNumber}
-                </Text>
-                <View style={styles.requestHelpModalImageContainer}>
-                  <Image
-                    source={require("./../../../assets/request-help-modal-image.png")}
-                    style={styles.requestHelpModalImage}
-                  />
-                </View>
-                <View style={styles.requestHelpModalNoteSection}>
-                  <Text style={styles.requestHelpModalNoteLabel}>Add Note</Text>
-                  <View>
-                    {!isRequestHelpModalTextFocused && (
-                      <View style={{ position: "absolute", top: 15, left: 10 }}>
-                        <PlusIcon />
-                      </View>
-                    )}
-
-                    <TextInput
-                      multiline
-                      style={[
-                        styles.requestHelpModalInput,
-                        {
-                          padding: isRequestHelpModalTextFocused ? 2 : 10,
-                          paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
-                          height: isRequestHelpModalTextFocused ? 80 : 40,
-                        },
-                      ]}
-                      placeholder="Note"
-                      onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                      onBlur={() => setIsRequestHelpModalTextFocused(false)}
+          <Modal
+            visible={isRequestHelpModalOpen}
+            onRequestClose={toggleRequestHelpModal}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalView}>
+                <CloseIcon onPress={toggleRequestHelpModal} />
+                <View style={styles.requestHelpModalContainer}>
+                  <Typography variant="h5-black">
+                    Need extra hands?
+                  </Typography>
+                  <Typography variant="title-medium">
+                  Room: {roomDetailsStore.RoomName}
+                  </Typography>
+                  <View style={styles.requestHelpModalImageContainer}>
+                    <Image
+                      source={require("./../../../assets/request-help-modal-image.png")}
+                      style={styles.requestHelpModalImage}
                     />
                   </View>
-                </View>
+                  <View style={styles.requestHelpModalNoteSection}>
+                    <Text style={styles.requestHelpModalNoteLabel}>
+                      Add Note
+                    </Text>
+                    <View>
+                      {!isRequestHelpModalTextFocused && (
+                        <View
+                          style={{ position: "absolute", top: 15, left: 10 }}
+                        >
+                          <PlusIcon />
+                        </View>
+                      )}
 
-                <TouchableOpacity
-                  style={styles.requestHelpModalButton}
-                  onPress={onRequestHelpModalSubmitPressed}
-                >
-                  <Text style={styles.requestHelpModalButtonText}>
-                    Request Help
-                  </Text>
-                </TouchableOpacity>
+                      <TextInput
+                        style={[
+                          styles.requestHelpModalInput,
+                          {
+                            padding: isRequestHelpModalTextFocused ? 2 : 10,
+                            paddingLeft: isRequestHelpModalTextFocused
+                              ? 20
+                              : 36,
+                            height: isRequestHelpModalTextFocused ? 80 : 40,
+                          },
+                        ]}
+                        placeholder="Note"
+                        onFocus={() => setIsRequestHelpModalTextFocused(true)}
+                        onBlur={() => {
+                          setIsRequestHelpModalTextFocused(false);
+                          updateSelectedItemWithNote();
+                        }}
+                        onChangeText={handlemodalNoteTextChange} // Update state on text change
+                        value={modalNoteText}
+                      />
+                    </View>
+                  </View>
+
+                  <Button type="primary" onPress={onRequestHelpModalSubmitPressed} name="Request Help"/>
+                </View>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
 
-        <View
-          style={[
-            styles.bottomContainer,
-            { flex: isBottomTextContainerEnabled ? 0.56 : 0.37 },
-          ]}
-        >
-          <View style={styles.bottomTextContainer}>
-            {isHelpButtonDisabled && isHelperRequested && (
-              <View
-                style={{
-                  backgroundColor: "#8FDEDE",
-                  height: 30,
-                  borderRadius: 8,
-                  padding: 4,
-                }}
-              >
-                <Typography variant="small-medium">Requested Helper</Typography>
-              </View>
-            )}
-            {isStarted && <Stopwatch isRunning={isTimerRunning} />}
-          </View>
-          <View style={[styles.bottomButtonsContainer]}>
-            <TouchableOpacity
-              disabled={isHelpButtonDisabled}
-              onPress={onHelpPressed}
-              style={[
-                styles.commonButton,
-                isHelpButtonDisabled && { backgroundColor: "#F2F2F2" },
-              ]}
-            >
-              <HelpIcon
-                fill={isHelpButtonDisabled ? "#9F9F9F" : "#1E1E1E"}
-                stroke={isHelpButtonDisabled ? "#9F9F9F" : "#1E1E1E"}
-              ></HelpIcon>
-              <Typography
-                variant="xs-regular"
+          <View
+            style={[
+              styles.bottomContainer,
+              { flex: isBottomTextContainerEnabled ? 0.56 : 0.37 },
+            ]}
+          >
+            <View style={styles.bottomTextContainer}>
+              {isHelpButtonDisabled && isHelperRequested && (
+                <View
+                  style={{
+                    backgroundColor: "#8FDEDE",
+                    height: 30,
+                    borderRadius: 8,
+                    padding: 4,
+                  }}
+                >
+                  <Typography variant="small-medium">
+                    Requested Helper
+                  </Typography>
+                </View>
+              )}
+              {isStarted && <Stopwatch isRunning={isTimerRunning} />}
+            </View>
+            <View style={[styles.bottomButtonsContainer]}>
+              <TouchableOpacity
+                disabled={isHelpButtonDisabled}
+                onPress={onHelpPressed}
                 style={[
-                  styles.buttonTextStyle,
-                  isHelpButtonDisabled && { color: "#9F9F9F" },
+                  styles.commonButton,
+                  isHelpButtonDisabled && { backgroundColor: "#F2F2F2" },
                 ]}
               >
-                Help
-              </Typography>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("RequestItemSupplies", {
-                  roomDetails: roomDetails,
-                  items: items,
-                  screenTitle: "Room Supplies",
-                })
-              }
-              style={styles.commonButton}
-            >
-              <RequestIcon></RequestIcon>
-              <Typography variant="xs-regular" style={{}}>
-                Request
-              </Typography>
-            </TouchableOpacity>
-
-            {showStart && (
-              <TouchableOpacity
-                onPress={onStartPressed}
-                style={styles.startButton}
-              >
-                <PlayIcon></PlayIcon>
-                <Typography variant="xs-regular" style={{ marginTop: 4 }}>
-                  Start
+                <HelpIcon
+                  fill={isHelpButtonDisabled ? "#9F9F9F" : "#1E1E1E"}
+                  stroke={isHelpButtonDisabled ? "#9F9F9F" : "#1E1E1E"}
+                ></HelpIcon>
+                <Typography
+                  variant="xs-regular"
+                  style={[
+                    styles.buttonTextStyle,
+                    isHelpButtonDisabled && { color: "#9F9F9F" },
+                  ]}
+                >
+                  Help
                 </Typography>
               </TouchableOpacity>
-            )}
 
-            {showPause && (
               <TouchableOpacity
-                onPress={onPausePressed}
+                onPress={() =>
+                  navigation.navigate("RequestItemSupplies", {
+                    roomDetails: roomDetailsStore,
+                    items: items,
+                    screenTitle: "Room Supplies",
+                  })
+                }
                 style={styles.commonButton}
               >
-                <PauseIcon></PauseIcon>
-                <Typography variant="xs-regular" style={{ marginTop: 4 }}>
-                  Pause
+                <RequestIcon></RequestIcon>
+                <Typography variant="xs-regular" style={{}}>
+                  Request
                 </Typography>
               </TouchableOpacity>
-            )}
 
-            <TouchableOpacity
-              onPress={onDonePressed}
-              style={styles.commonButton}
-            >
-              <CheckIcon></CheckIcon>
-              <Typography variant="xs-regular" style={{}}>
-                Done
-              </Typography>
-            </TouchableOpacity>
+              {showStart && (
+                <TouchableOpacity
+                  disabled={
+                    roomDetailsStore.cleaningStatus.toUpperCase() ===
+                      "Cleaned".toUpperCase() ||
+                    roomDetailsStore.cleaningStatus.toUpperCase() ===
+                      "Approved".toUpperCase()
+                      ? true
+                      : false
+                  }
+                  onPress={onStartPressed}
+                  style={[
+                    styles.startButton,
+                    startDisabled && { backgroundColor: "#F2F2F2" },
+                  ]}
+                >
+                  <PlayIcon
+                    fill={startDisabled ? "#9F9F9F" : "#1E1E1E"}
+                  ></PlayIcon>
+                  <Typography
+                    variant="xs-regular"
+                    style={[
+                      { marginTop: 4 },
+                      startDisabled && { color: "#9F9F9F" },
+                    ]}
+                  >
+                    Start
+                  </Typography>
+                </TouchableOpacity>
+              )}
+
+              {showPause && (
+                <TouchableOpacity
+                  onPress={onPausePressed}
+                  style={styles.commonButton}
+                >
+                  <PauseIcon></PauseIcon>
+                  <Typography variant="xs-regular" style={{ marginTop: 4 }}>
+                    Pause
+                  </Typography>
+                </TouchableOpacity>
+              )}
+
+              <TouchableOpacity
+                disabled={doneDisabled}
+                onPress={() => {
+                  setStartDisabled(true);
+                  setIsStarted(true);
+                  navigation.navigate("Camera", {
+                    roomDetails: roomDetailsStore,
+                  });
+                }}
+                style={styles.commonButton}
+              >
+                <CheckIcon
+                  // fill={doneDisabled ? "#9F9F9F" : "none"}
+                  stroke={doneDisabled ? "#9F9F9F" : "black"}
+                ></CheckIcon>
+                <Typography
+                  variant="xs-regular"
+                  style={[doneDisabled && { color: "#9F9F9F" }]}
+                >
+                  Done
+                </Typography>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
@@ -372,8 +553,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   commonButton: {
-    width: 54,
-    height: 54,
+    width: 60,
+    height: 60,
     borderWidth: 1,
     borderColor: "#D9D9D9",
     alignItems: "center",
@@ -387,8 +568,8 @@ const styles = StyleSheet.create({
     rowGap: 2,
   },
   startButton: {
-    width: 54,
-    height: 54,
+    width: 60,
+    height: 60,
     borderWidth: 1,
     backgroundColor: "#F89C7B",
     borderColor: "#D9D9D9",

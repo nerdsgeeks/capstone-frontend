@@ -59,7 +59,7 @@ const CameraComponent = ({ navigation }) => {
     );
   }
 
-  const confirmImages = () => {   
+  const confirmImages = () => {
     navigation.navigate("StaffCleanedRoomScreen", { images });
   };
 
@@ -81,12 +81,14 @@ const CameraComponent = ({ navigation }) => {
             </View>
           </ScrollView>
           <View style={styles.button}>
-            <BackIcon w={26} h={26} onPress={() => navigation.goBack()} />
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <BackIcon />
+            </TouchableOpacity>
             <TouchableOpacity onPress={takeImage}>
               <CameraButtonSvg onPress={takeImage} />
             </TouchableOpacity>
-            <TouchableOpacity >
-              <CheckIcon w={50} h={50} fill="white" onPress={confirmImages} />
+            <TouchableOpacity>
+              <CheckIcon w={30} h={30} fill="white" onPress={confirmImages} />
             </TouchableOpacity>
           </View>
         </View>
@@ -118,6 +120,9 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-around",
     gap: 100,
+    bottom: 10,
+    // borderWidth: 2,
+    // borderColor: "red",
   },
   imageContainer: {
     flexDirection: "row",

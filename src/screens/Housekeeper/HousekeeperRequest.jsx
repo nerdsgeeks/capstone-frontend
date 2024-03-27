@@ -40,8 +40,8 @@ const HousekeeperRequest = ({ navigation }) => {
   //   { id: "6", itemName: "Sponge", date: "2024-03-20" },
   // ];
   const onRoomSuppliesPressed = () => {
-    console.log("onRoomSuppliesPressed");
-    navigation.navigate("RequestItemSupplies", {
+    // console.log("onRoomSuppliesPressed");
+    navigation.navigate("RequestItemRoomSupplies", {
       roomDetails: [],
       items: [],
       screenTitle: "Room Supplies",
@@ -50,7 +50,7 @@ const HousekeeperRequest = ({ navigation }) => {
 
   const onCartSuppliesPressed = () => {
     console.log("onCartSuppliesPressed");
-    navigation.navigate("RequestItemSupplies", {
+    navigation.navigate("RequestItemCartSupplies", {
       roomDetails: [],
       items: [],
       screenTitle: "Cart Supplies",
@@ -109,10 +109,10 @@ const HousekeeperRequest = ({ navigation }) => {
             });
           }
 
-          console.log("data");
-          console.log(data);
-          console.log(tempPendingItems);
-          console.log(tempPendingItems);
+          // console.log("data");
+          // console.log(data);
+          // console.log(tempPendingItems);
+          // console.log(tempPendingItems);
           setItems(tempPendingItems);
           setPendingItems(tempPendingItems);
           setHistoryItems(tempHistoryItems);

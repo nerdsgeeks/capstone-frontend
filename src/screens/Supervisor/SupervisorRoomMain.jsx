@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Chip } from "react-native-paper";
 import NavTabs from "../../components/NavTabs/NavTabs";
 import Typography from "../../components/Typography/Typography";
@@ -7,20 +7,26 @@ import { colors } from "../../../themes/themes";
 import Accordion from "../../components/Accordion/Accordion";
 import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import InformationIcon from "../../SVG/InformationIcon";
+import SupervisorInformationModal from "../../components/SupervisorInformationModal/SupervisorInformationModal";
 
-const SupervisorRoomMain = ({onPressRoomDetail} ) => {
+const SupervisorRoomMain = ({ onPressRoomDetail }) => {
+  const [roomToDisplay, setRoomToDisplay] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [activeChip, setActiveChip] = useState("All");
   const [displayRoomAfterFilter, setDisplayRoomAfterFilter] = useState([]);
 
   const [rooms, setRooms] = useState([]);
+  
 
-const baseUrl = useBaseUrl();
+  const baseUrl = useBaseUrl();
 
 useEffect(() => {
   fetchRooms().then((data) => {
-    setRooms(data);
-    setDisplayRoomAfterFilter(data);
+    const today = new Date().toISOString().split('T')[0];
+      const filteredRooms = res.data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
+    setRooms(filteredRooms);
+    setDisplayRoomAfterFilter(filteredRooms);
     }
   );
 }, []);
@@ -93,7 +99,7 @@ useEffect(() => {
             textStyle={{ color: activeChip === "All" ? colors.n0 : colors.n40 }}
             onPress={() => setRoomStatus("All",activeTab)}
           >
-            All
+            <Typography variant="small-medium">All</Typography>
           </Chip>
           <Chip
             style={[
@@ -108,7 +114,7 @@ useEffect(() => {
             }}
             onPress={() => setRoomStatus("DueIn",activeTab)}
           >
-            Due In
+            <Typography variant="small-medium">Due In</Typography>
           </Chip>
           <Chip
             style={[
@@ -123,7 +129,7 @@ useEffect(() => {
             }}
             onPress={() => setRoomStatus("DueOut",activeTab)}
           >
-            Due Out
+            <Typography variant="small-medium">Due Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -138,7 +144,7 @@ useEffect(() => {
             }}
             onPress={() => setRoomStatus("CheckedIn",activeTab)}
           >
-            Checked In
+            <Typography variant="small-medium">Checked In</Typography>
           </Chip>
           <Chip
             style={[
@@ -153,7 +159,7 @@ useEffect(() => {
             }}
             onPress={() => setRoomStatus("CheckedOut",activeTab)}
           >
-            Checked Out
+            <Typography variant="small-medium">Checked Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -168,14 +174,16 @@ useEffect(() => {
             }}
             onPress={() => setRoomStatus("DueOut-DueIn",activeTab)}
           >
-            DueOut-DueIn
+            <Typography variant="small-medium">Due In - Due Out</Typography>
           </Chip>
           <Chip
             style={[
               styles.chip,
               {
                 backgroundColor:
-                  activeChip === "CheckedOut-CheckedIn" ? colors.n40 : colors.n0,
+                  activeChip === "CheckedOut-CheckedIn"
+                    ? colors.n40
+                    : colors.n0,
               },
             ]}
             textStyle={{
@@ -184,37 +192,35 @@ useEffect(() => {
             }}
             onPress={() => setRoomStatus("CheckedOut-CheckedIn",activeTab)}
           >
-            CheckedOut-DueIn
+            <Typography variant="small-medium">Checked In - Checked Out</Typography>
           </Chip>
         </ScrollView>
       </View>
-      <ScrollView>
-        <View style={styles.bodyContainer}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginHorizontal: 27,
-              gap: 8,
-            }}
-          >
-            <View style={styles.numberContainer}>
-              <Typography variant="small-medium">20</Typography>
-            </View>
-            <NavTabs
-              tabs={tabs}
-              activeTab={activeTab}
-              onTabPress={handleTabPress}
-              style={styles.NavContainer}
-            />
+
+      <ScrollView style={styles.bodyContainer}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 27,
+            gap: 8,
+          }}
+        >
+          <View style={styles.numberContainer}>
+            <Typography variant="small-medium">{calculateRoomCount(tabs[activeTab].label)}</Typography>
           </View>
-          <View style={styles.floorAccordion}>
-            <View style={{ width: "100%" }}>
-              <Accordion rooms={displayRoomAfterFilter} onPressRoomDetail={onPressRoomDetail} />
-            </View>
-          </View>
+          <NavTabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabPress={handleTabPress}
+          />
         </View>
+        <Accordion
+          rooms={roomToDisplay}
+          onPressRoomDetail={onPressRoomDetail}
+        />
       </ScrollView>
+      
     </View>
   );
 };
@@ -222,15 +228,14 @@ useEffect(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.n0,
+    backgroundColor: colors.n10,
   },
   chipContainer: {
     flexDirection: "row",
-    marginLeft: 27,
-    marginVertical: 10,
+    marginLeft: 26,
+    marginVertical: 6,
   },
   chip: {
-    height: 30,
     justifyContent: "center",
     alignItems: "center",
     margin: 4,
@@ -243,11 +248,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyContainer: {
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    marginBottom: 170,
+    backgroundColor: colors.n0,
   },
-
   numberContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -255,13 +261,6 @@ const styles = StyleSheet.create({
     height: 30,
     backgroundColor: colors.main,
     borderRadius: 100,
-  },
-  floorAccordion: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
   },
 });
 

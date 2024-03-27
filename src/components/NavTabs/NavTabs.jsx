@@ -2,10 +2,10 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Typography from "../Typography/Typography";
 
-const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
+const NavTabs = ({ tabs, activeTab, onTabPress, justifyContent }) => {
   return (
     <View
-      style={[styles.container, { width: screen === "home" ? 200 : "100%", justifyContent: justifyContent || "flex-start", }]}
+      style={[styles.container, { justifyContent: justifyContent || "flex-start", }]}
     >
       {tabs.map((tab, index) => (
         <TouchableOpacity
@@ -17,7 +17,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
           onPress={() => onTabPress(index)}
           disabled={activeTab === index}
         >
-          <Typography variant="body-regular">{tab.label}</Typography>
+          <Typography variant={activeTab === index ? "body-black" : "body-regular"}>{tab.label}</Typography>
         </TouchableOpacity>
       ))}
     </View>
@@ -27,24 +27,21 @@ const NavTabs = ({ tabs, activeTab, onTabPress, screen, justifyContent }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    // justifyContent: "flex-start",
     gap:8,
   },
   tab: {
     alignItems: "center",
     paddingVertical: 5,
+    paddingHorizontal: 3,
     borderBottomColor: "transparent",
   },
   activeTab: {
-    borderBottomWidth: 2,
+    paddingHorizontal: 3,
+    borderBottomWidth: 3,
     borderBottomColor: "black",
   },
   inactiveTab: {
     opacity: 0.5,
-  },
-  tabText: {
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });
 

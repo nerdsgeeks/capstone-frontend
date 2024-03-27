@@ -33,6 +33,7 @@ const SupervisorHome = ({ navigation }) => {
   // For updateRooms Modal
   const [updateRoom, setUpdateRoom] = useState([]);
   const [updateStatus, setUpdateStatus] = useState("");
+  const [employeeList, setEmployeeList] = useState([]);
   const baseUrl = useBaseUrl();
 
   const toggleAssignRoomModal = () => {
@@ -59,8 +60,36 @@ const SupervisorHome = ({ navigation }) => {
     navigation.navigate("SupervisorRequest");
   };
 
+  // const handleCheckboxChange = (roomId) => {
+  //   console.log('Previous selected rooms:', selectedRooms);
+
+  //   setSelectedRooms((prevSelectedRooms) => {
+  //     if (prevSelectedRooms.includes(roomId)) {
+  //       console.log(`Room ${roomId} is already selected, removing...`);
+  //       const updatedRooms = prevSelectedRooms.filter((ID) => ID !== roomId);
+  //       console.log('Updated selected rooms:', updatedRooms);
+  //       return updatedRooms;
+  //     } else {
+  //       console.log(`Room ${roomId} is not selected, adding...`);
+  //       const updatedRooms = [...prevSelectedRooms, roomId];
+  //       console.log('Updated selected rooms:', updatedRooms);
+  //       return updatedRooms;
+  //     }
+  //   });
+  // };
+
   const handleCheckboxChange = (roomId) => {
     setSelectedRooms((prevSelectedRooms) => {
+      if (prevSelectedRooms.includes(roomId)) {
+        return prevSelectedRooms.filter((ID) => ID !== roomId);
+      } else {
+        return [...prevSelectedRooms, roomId];
+      }
+    });
+  };
+
+  const handleRoomStatusCheckboxChange = (roomId) => {
+    setUpdateRoom((prevSelectedRooms) => {
       if (prevSelectedRooms.includes(roomId)) {
         return prevSelectedRooms.filter((ID) => ID !== roomId);
       } else {
@@ -92,13 +121,23 @@ const SupervisorHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setEmployees(data);
+          // console.log("employees");
+          // console.log(data);
+          const tempEmployeeList = data
+            .filter((employee) => employee.employeeType === 2)
+            .map((employee) => ({
+              key: employee.ID,
+              value: `${employee.firstName} ${employee.lastName}`,
+            }));
+          // console.log("tempEmployeeList");
+          // console.log(tempEmployeeList);
+          setEmployeeList(tempEmployeeList);
         })
         .catch((error) => {
           console.error("Error fetching employees:", error);
         });
     onFetchEmployees();
   }, []);
-
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedRooms/all";
     const onFetchAssignedRooms = () =>
@@ -122,24 +161,40 @@ const SupervisorHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setRooms(data);
+          // console.log("rooms");
+          // console.log(data);
         })
         .catch((error) => {
           console.error("Error fetching rooms:", error);
         });
+
     onFetchRooms();
   }, []);
 
-  const roomsList = rooms.map((room) => ({
-    key: room.ID,
-    value: room.RoomName,
-  }));
+  const today = new Date().toISOString().split("T")[0];
 
-  const employeeList = employees
-    .filter((employee) => employee.EmployeeType === 2)
-    .map((employee) => ({
-      key: employee.ID,
-      value: `${employee.FirstName} ${employee.LastName}`,
-    }));
+  const unassignedRooms = rooms.filter((room) => {
+    return !assignedRooms.some((assignedRoom) => {
+      return (
+        assignedRoom.roomID === room.ID &&
+        assignedRoom.assignedDateTime.startsWith(today)
+      );
+    });
+  });
+
+  // const roomsList = availableRooms.map((room) => ({
+  //   key: room.ID,
+  //   value: room.RoomName,
+  // }));
+
+  // console.log("available rooms:", unassignedRooms);
+
+  // const employeeList = employees
+  //   .filter((employee) => employee.EmployeeType === 2)
+  //   .map((employee) => ({
+  //     key: employee.ID,
+  //     value: `${employee.FirstName} ${employee.LastName}`,
+  //   }));
 
   const assignRoom = () => {
     console.log("employee");
@@ -160,10 +215,10 @@ const SupervisorHome = ({ navigation }) => {
         verifiedPhotoUrl: "",
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
-        cleaningDuration: new Date().toISOString(),
+        cleaningDuration: "2024-03-22T00:00:00.000Z",
         isHelperRequested: false,
         reguestedHelperID: "",
-        AdditionalNotes: "N/A",
+        AdditionalNotes: "",
         inspectionFeedback: "",
         rating: 0,
         inspectionPhotos: "",
@@ -179,6 +234,7 @@ const SupervisorHome = ({ navigation }) => {
         .post(apiUrl, newAssignedRoom)
         .then((response) => {
           console.log("Assignment created successfully:", response.data);
+          setAssignedRooms([...assignedRooms, newAssignedRoom]);
         })
         .catch((error) => {
           console.error("Error creating assignment:", error);
@@ -205,39 +261,41 @@ const SupervisorHome = ({ navigation }) => {
   });
 
   const roomStatus = [
-    { key: "DUEOUT", value: "Due Out" },
-    { key: "DUEIN", value: "Due In" },
-    { key: "DUEOUT-DUEIN", value: "Due Out - Due In" },
-    { key: "CHECKEDOUT", value: "Checked Out" },
-    { key: "CHECKEDOUT-CHECKEDIN", value: "Checked Out - Checked In" },
-    { key: "CHECKIN", value: "Checked In" },
+    { key: "DueOut", value: "Due Out" },
+    { key: "DueIn", value: "Due In" },
+    { key: "DueOut-DueIn", value: "Due Out - Due In" },
+    { key: "CheckedOut", value: "Checked Out" },
+    { key: "CheckedOut-CheckedIn", value: "Checked Out - Checked In" },
+    { key: "CheckedIn", value: "Checked In" },
   ];
 
   const updateRoomStatus = () => {
-    console.log(updateRoom);
-    const roomToUpdate = rooms.find((roo) => roo.ID === updateRoom);
-    const updateRoomItem = {
-      ID: roomToUpdate.ID,
-      RoomName: roomToUpdate.RoomName,
-      RoomTypeID: roomToUpdate.RoomTypeID,
-      Floor: roomToUpdate.Floor,
-      RoomStatus: updateStatus,
-      RoomImageUrl: roomToUpdate.RoomImageUrl,
-      RoomTier: roomToUpdate.RoomTier,
-    };
+    updateRoom.forEach((roomId) => {
+      const roomToUpdate = rooms.find((roo) => roo.ID === roomId);
 
-    console.log(updateRoomItem);
-    const apiUrl = baseUrl + "/api/rooms/updateroom";
+      const updateRoomItem = {
+        ID: roomToUpdate.ID,
+        RoomName: roomToUpdate.RoomName,
+        RoomTypeID: roomToUpdate.RoomTypeID,
+        Floor: roomToUpdate.Floor,
+        RoomStatus: updateStatus,
+        RoomImageUrl: roomToUpdate.RoomImageUrl,
+        RoomTier: roomToUpdate.RoomTier,
+      };
 
-    axios
-      .put(apiUrl, updateRoomItem)
-      .then((response) => {
-        console.log("Room updated successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error creating updating room:", error);
-      });
+      console.log(updateRoomItem);
 
+      const apiUrl = baseUrl + "/api/rooms/updateroom";
+
+      axios
+        .put(apiUrl, updateRoomItem)
+        .then((response) => {
+          console.log("Room updated successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error creating updating room:", error);
+        });
+    });
     toggleUpdateRoomStatusModal();
   };
 
@@ -297,13 +355,27 @@ const SupervisorHome = ({ navigation }) => {
               variant="h5-medium"
               onPress={toRequests}
             />
-            <BigButton name="Assign Rooms" onPress={toggleAssignRoomModal} />
+            <BigButton
+              name="Assign Rooms"
+              onPress={toggleAssignRoomModal}
+              disabled={unassignedRooms.length === 0}
+            />
             <BigButton
               name="Update Room Status"
               onPress={toggleUpdateRoomStatusModal}
             />
           </View>
-
+          {/* <BigButton
+            name="Assign Room"
+            icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
+            style={{ width: "90%" }}
+            onPress={() => {
+              toggleAssignRoomModal();
+              console.log(employeeList);
+              console.log(employees);
+            }}
+          /> */}
+          {/* {employeeList[0].ID} */}
           {isAssignRoomModalOpen && (
             <Modal
               onRequestClose={toggleAssignRoomModal}
@@ -319,8 +391,8 @@ const SupervisorHome = ({ navigation }) => {
                       <Typography variant="xs-medium">
                         Select Room Number
                       </Typography>
-                      {rooms &&
-                        rooms.map((room) => (
+                      {unassignedRooms &&
+                        unassignedRooms.map((room) => (
                           <View
                             key={room.ID}
                             style={{
@@ -331,9 +403,13 @@ const SupervisorHome = ({ navigation }) => {
                           >
                             <Checkbox
                               value={selectedRooms.includes(room.ID)}
-                              onValueChange={() =>
-                                handleCheckboxChange(room.ID)
-                              }
+                              onValueChange={() => {
+                                console.log(
+                                  "Checkbox clicked for room ID:",
+                                  room.ID,
+                                );
+                                handleCheckboxChange(room.ID);
+                              }}
                               color={
                                 selectedRooms.includes(room.ID)
                                   ? colors.teal
@@ -386,12 +462,30 @@ const SupervisorHome = ({ navigation }) => {
 
                   <Typography variant="h5-black">Update Room Status</Typography>
                   <View style={{ gap: 4 }}>
-                    <Typography variant="xs-medium">Room Number</Typography>
-                    <SelectList
-                      setSelected={(key) => setUpdateRoom(key)}
-                      data={roomsList}
-                      save="key"
-                    />
+                    <Typography variant="xs-medium">
+                      Select Room Number
+                    </Typography>
+                    {rooms &&
+                      rooms.map((room) => (
+                        <View
+                          key={room.ID}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
+                          <Checkbox
+                            value={updateRoom.includes(room.ID)}
+                            onValueChange={() =>
+                              handleRoomStatusCheckboxChange(room.ID)
+                            }
+                          />
+                          <Typography variant="xs-medium">
+                            {room.RoomName}
+                          </Typography>
+                        </View>
+                      ))}
                   </View>
                   <View style={{ gap: 4 }}>
                     <Typography variant="xs-medium">Room Status</Typography>

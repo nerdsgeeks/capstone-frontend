@@ -1,14 +1,34 @@
 import * as React from "react";
 import { List } from "react-native-paper";
 import RoomAccordionButton from "../RoomAccordionButton/RoomAccordionButton";
-import { View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import { colors } from "../../../themes/themes";
 import Typography from "../Typography/Typography";
 
 const Accordion = ({ rooms, onPressRoomDetail }) => {
-  console.log("Accordion rooms", rooms);
-  const [expanded, setExpanded] = React.useState(true);
-  const handlePress = () => setExpanded(!expanded);
+  const [expanded, setExpanded] = React.useState(() => {
+    const initialState = {};
+  
+    rooms.forEach((room) => {
+      const { Floor } = room;
+      initialState[Floor] = false;
+    });
+  
+    if (rooms.length > 0) {
+      initialState[rooms[0].Floor] = true;
+    }
+  
+    return initialState;
+  });
+
+  const handlePress = (floor) => {
+    setExpanded((prevState) => ({
+      ...prevState,
+      [floor]: !prevState[floor],
+    }));
+  };
+
+
 
   const groupedRooms = rooms.reduce((acc, room) => {
     const { Floor } = room;
@@ -20,15 +40,17 @@ const Accordion = ({ rooms, onPressRoomDetail }) => {
   }, {});
 
   return (
-    <View>
+    <ScrollView style={{ width: "100%" }}>
       <List.Section style={[styles.container]}>
         {Object.keys(groupedRooms).map((floor) => (
           <List.Accordion
-            theme={{}}
             title={<Typography variant="xs-medium">Floor {floor}</Typography>}
             key={floor}
-            style={expanded ? styles.expandedAccordion : defaultAccordion}
-            titleStyle={expanded ? styles.expandedTitle : defaultTitle}
+            expanded={expanded[floor]}
+            onPress={() => handlePress(floor)}
+            style={expanded[floor] ? styles.expandedAccordion : styles.defaultAccordion}
+            titleStyle={expanded[floor] ? styles.expandedTitle : styles.defaultTitle}
+            rippleColor={colors.n1}
           >
             <View style={styles.RoomCard}>
               {groupedRooms[floor].map((room) => (
@@ -41,7 +63,7 @@ const Accordion = ({ rooms, onPressRoomDetail }) => {
           </List.Accordion>
         ))}
       </List.Section>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -59,6 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: colors.n30,
+    backgroundColor: colors.n0,
     borderRadius: 12,
     overflow: "scroll",
     height: 34,
@@ -71,6 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: colors.n50,
+    backgroundColor: colors.n0,
     borderRadius: 12,
     overflow: "scroll",
     height: 34,
@@ -83,7 +107,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flex: 1,
     gap: 10,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 6,
   },
 });
