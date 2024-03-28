@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, StyleSheet, ScrollView, View } from "react-native";
+import { Image, StyleSheet, ScrollView, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import Typography from "../../components/Typography/Typography";
@@ -15,7 +15,30 @@ import {
 
 const SupervisorStaff = () => {
   const [employees, setEmployees] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const baseUrl = useBaseUrl();
+
+  useEffect(() => {
+    const apiUrl = baseUrl + "/api/assignedRooms/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
+    const onFetchAssignedRooms = () =>
+      axios
+        .get(apiUrl, config)
+        .then((response) => {
+          const data = response.data;
+          setRooms(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching assigned rooms:", error);
+        });
+    onFetchAssignedRooms();
+  }, []);
+
+  console.log("rooms:", rooms);
 
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
@@ -72,7 +95,7 @@ const SupervisorStaff = () => {
             <Typography variant="xs-black">Schedule</Typography>
           </View>
           {employees
-            .filter((employee) => employee.EmployeeType === 2)
+            .filter((employee) => employee.employeeType === 2)
             .map((employee, index) => (
               <View key={index} style={styles.tableRow}>
                 <View
@@ -90,43 +113,67 @@ const SupervisorStaff = () => {
                       gap: 6,
                     }}
                   >
-                    <View
-                      style={{
-                        width: 35,
-                        height: 35,
-                        borderRadius: 35,
-                        borderColor: colors.teal,
-                        borderWidth: 3,
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <ProfileIcon
-                        stroke={colors.teal}
-                        fill={colors.teal}
-                        w="24"
-                        h="24"
+                    {employee.imageURL ? (
+                      <Image
+                        style={{
+                          width: 35,
+                          height: 35,
+                          borderRadius: 35,
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                          overflow: "hidden",
+                        }}
+                        source={{
+                          uri: employee.imageURL,
+                        }}
                       />
-                    </View>
+                    ) : (
+                      <View
+                        style={{
+                          width: 35,
+                          height: 35,
+                          borderRadius: 35,
+                          borderColor: colors.teal,
+                          borderWidth: 3,
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <ProfileIcon
+                          stroke={colors.teal}
+                          fill={colors.teal}
+                          w="24"
+                          h="24"
+                        />
+                      </View>
+                    )}
+
                     <View>
                       <Typography variant="xs-medium">
-                        {employee.FirstName}
+                        {employee.firstName}
                       </Typography>
                       <Typography variant="xs-medium">
-                        {employee.LastName}
+                        {employee.lastName}
                       </Typography>
                     </View>
                   </View>
-                  <Typography variant="xs-medium">Current Room</Typography>
+                  <Typography variant="xs-medium">
+                    { rooms.find(
+                        (room) =>
+                          room.cleaningStatus.toUpperCase() === "PENDING" &&
+                          room.assignedEmployeeID === employee.ID,
+                      )?.RoomName || "Not Available"
+                    }
+                  </Typography>
                 </View>
 
                 <View style={{ alignItems: "flex-end", flex: 1 }}>
                   <Typography variant="xs-medium">
-                    {employee.ShiftSchadule.split(" ")[0]}
+                    {employee.shiftSchadule.split(" ")[0]}
                   </Typography>
                   <Typography variant="xs-medium">
-                    {employee.ShiftSchadule.split(" ")[1]}
+                    {employee.shiftSchadule.split(" ")[1]}
                   </Typography>
                 </View>
               </View>
