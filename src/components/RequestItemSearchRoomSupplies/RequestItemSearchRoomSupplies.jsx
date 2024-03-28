@@ -26,6 +26,10 @@ import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
 import { SelectList } from "react-native-dropdown-select-list";
 import { colors } from "../../../themes/themes";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const RequestItemSearchRoomSupplies = ({
   headerText,
@@ -57,6 +61,20 @@ const RequestItemSearchRoomSupplies = ({
   const baseUrl = useBaseUrl();
   const [assignedRooms, setAssignedRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState("");
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const handlemodalNoteTextChange = (text) => {
     setModalNoteText(text);
@@ -178,9 +196,14 @@ const RequestItemSearchRoomSupplies = ({
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedRooms/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchAssignedRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
 

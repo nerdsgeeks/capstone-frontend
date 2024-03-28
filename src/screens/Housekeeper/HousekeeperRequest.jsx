@@ -9,6 +9,10 @@ import NavTabs from "../../components/NavTabs/NavTabs";
 import { useBaseScreenStore } from "../../store/screensStore";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const HousekeeperRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -22,6 +26,19 @@ const HousekeeperRequest = ({ navigation }) => {
     (state) => state.updateBaseScreenStore,
   );
   const baseUrl = useBaseUrl();
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
   // const pendingItems = [
   //   { id: "1", itemName: "Toilet Paper", date: "2024-03-01" },
   //   { id: "2", itemName: "Small Towel", date: "2024-03-05" },
@@ -92,9 +109,14 @@ const HousekeeperRequest = ({ navigation }) => {
     const apiUrl = baseUrl + `/api/requestItems/all`;
 
     console.log(apiUrl);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchRequestItemsViewAll = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           let data = response.data;
           let tempPendingItems = [];

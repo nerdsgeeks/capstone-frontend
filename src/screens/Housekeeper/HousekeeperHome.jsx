@@ -15,6 +15,10 @@ import LoadingScreen from "../LoadingScreen";
 import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
 import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../../themes/themes";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const HousekeeperHome = ({ navigation }) => {
   const baseUrl = useBaseUrl();
@@ -34,6 +38,20 @@ const HousekeeperHome = ({ navigation }) => {
   const roomsStore = useRoomsStore((state) => state.roomsStore);
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
 
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
+
   useEffect(() => {
     // console.log(baseUrl);
     // console.log("roomDetailsStore");
@@ -43,11 +61,22 @@ const HousekeeperHome = ({ navigation }) => {
 
     console.log(baseUrl + "/api/assignedrooms/all");
     console.log(baseUrl + "/api/items/all");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
+    // console.log("config");
+    // console.log(config);
+
     const onFetchRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
+          // console.log("rooms");
+          // console.log(data);
+
           setRooms(data);
           updateRoomsStore(data);
           if (data.length > 0) {
@@ -64,9 +93,11 @@ const HousekeeperHome = ({ navigation }) => {
 
     const onFetchItems = () =>
       axios
-        .get(apiItemsUrl)
+        .get(apiItemsUrl, config)
         .then((response) => {
           const data = response.data;
+          // console.log("items");
+          // console.log(data);
           setItems(data);
           updateItemsStore(data);
         })
@@ -83,10 +114,17 @@ const HousekeeperHome = ({ navigation }) => {
       console.log("back");
       const apiUrl = `${baseUrl}/api/assignedrooms/all`;
       const apiItemsUrl = `${baseUrl}/api/items/all`;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
+      // console.log("config");
+      // console.log(config);
 
       const fetchRooms = async () => {
         try {
-          const response = await axios.get(apiUrl);
+          const response = await axios.get(apiUrl, config);
           const data = response.data;
           console.log(data);
           setRooms(data);
@@ -114,15 +152,15 @@ const HousekeeperHome = ({ navigation }) => {
     <>
       {rooms.length > 0 && items.length > 0 ? (
         <SafeAreaProvider>
-          
           <SafeAreaView style={styles.container}>
-          <LinearGradient
+            <LinearGradient
               colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
               start={{ x: 0.0, y: 0.0 }}
               end={{ x: 1.0, y: 1.0 }}
               locations={[0.01, 0.7, 0.92, 1.0]}
               style={styles.headerContainer}
             >
+              {/* <Text>{accessTokenStore}</Text> */}
               <HousekeeperHomeHeader
                 name="Pujan"
                 message="Time to shine at work!"
@@ -154,7 +192,7 @@ const HousekeeperHome = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.n10 ,
+    backgroundColor: colors.n10,
   },
   headerContainer: {
     borderBottomLeftRadius: 70,

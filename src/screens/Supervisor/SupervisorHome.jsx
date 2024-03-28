@@ -16,6 +16,10 @@ import useBaseUrl from "../../hooks/useBaseUrl";
 import { Checkbox } from "expo-checkbox";
 import Typography from "../../components/Typography/Typography";
 import ProfileIcon from "../../SVG/ProfileIcon";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const SupervisorHome = ({ navigation }) => {
   const [isAssignRoomModalOpen, setIsAssignRoomModalOpen] = useState(false);
@@ -35,6 +39,20 @@ const SupervisorHome = ({ navigation }) => {
   const [updateStatus, setUpdateStatus] = useState("");
   const [employeeList, setEmployeeList] = useState([]);
   const baseUrl = useBaseUrl();
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const toggleAssignRoomModal = () => {
     setIsAssignRoomModalOpen(!isAssignRoomModalOpen);
@@ -100,9 +118,14 @@ const SupervisorHome = ({ navigation }) => {
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/requestItems/requestItemsTblAll";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchRequests = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
           setPendingRequests(data);
@@ -115,9 +138,14 @@ const SupervisorHome = ({ navigation }) => {
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/employees/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchEmployees = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
           setEmployees(data);
@@ -140,9 +168,14 @@ const SupervisorHome = ({ navigation }) => {
   }, []);
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedRooms/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchAssignedRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
           setAssignedRooms(data);
@@ -155,9 +188,14 @@ const SupervisorHome = ({ navigation }) => {
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/rooms/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
           setRooms(data);
@@ -229,9 +267,13 @@ const SupervisorHome = ({ navigation }) => {
       console.log(newAssignedRoom);
 
       const apiUrl = baseUrl + "/api/assignedrooms/addAssignedRoom";
-
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
       axios
-        .post(apiUrl, newAssignedRoom)
+        .post(apiUrl, newAssignedRoom, config)
         .then((response) => {
           console.log("Assignment created successfully:", response.data);
           setAssignedRooms([...assignedRooms, newAssignedRoom]);
@@ -286,9 +328,13 @@ const SupervisorHome = ({ navigation }) => {
       console.log(updateRoomItem);
 
       const apiUrl = baseUrl + "/api/rooms/updateroom";
-
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
       axios
-        .put(apiUrl, updateRoomItem)
+        .put(apiUrl, updateRoomItem, config)
         .then((response) => {
           console.log("Room updated successfully:", response.data);
         })

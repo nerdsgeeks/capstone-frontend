@@ -14,6 +14,10 @@ import CloseIcon from "../../SVG/CloseIcon";
 import { SelectList } from "react-native-dropdown-select-list";
 import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const [isModalOpen, setModalState] = useState(false);
@@ -21,6 +25,19 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const toggleModal = () => setModalState(!isModalOpen);
   const room = route.params.room;
   const baseUrl = useBaseUrl();
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const updateRoomStatus = () => {
     const updateRoomItem = {
@@ -35,9 +52,13 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
 
     console.log(updateRoomItem);
     const apiUrl = baseUrl + "/api/rooms/updateroom";
-
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     axios
-      .put(apiUrl, updateRoomItem)
+      .put(apiUrl, updateRoomItem, config)
       .then((response) => {
         console.log("Room updated successfully:", response.data);
       })

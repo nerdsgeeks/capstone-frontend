@@ -24,6 +24,10 @@ import axios from "axios";
 import RequestModalSupervisor from "../../components/RequestModalSupervisor/RequestModalSupervisor";
 import RequestHelpComponent from "../../components/RequestHelpComponent/RequestHelpComponent";
 import RequestHelpHeaderComponent from "../../components/RequestHelpHeader/RequestHelpHeaderComponent";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -37,11 +41,22 @@ const SupervisorRequest = ({ navigation }) => {
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
   const [isRequestHelpModalOpen, setIsRequestHelpModalOpen] = useState(false);
-    const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
-    const [toggleFetch, setToggleFetch] = useState(false);
+  const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
+  const [toggleFetch, setToggleFetch] = useState(false);
 
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
 
-  
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const toggleRequestDetailModal = () =>
     setIsRequestDetailModalOpen(!isRequestDetailModalOpen);
@@ -72,46 +87,66 @@ const SupervisorRequest = ({ navigation }) => {
     setActiveTab(index);
   };
 
-  useEffect(() => {
-    fetchRequestItems().then((data) => {
-      setRequestItems(data);
-
-    },)
-    fetchRooms().then((data) => {
-      setRooms(data);
-    })
-    
-  },[toggleFetch], []);
+  useEffect(
+    () => {
+      fetchRequestItems().then((data) => {
+        setRequestItems(data);
+      });
+      fetchRooms().then((data) => {
+        setRooms(data);
+      });
+    },
+    [toggleFetch],
+    [],
+  );
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/api/assignedRooms/all`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
+      const response = await axios.get(
+        `${baseUrl}/api/assignedRooms/all`,
+        config,
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching rooms:", error);
       throw error;
     }
-  }
+  };
 
   const updateRequestCompletion = (updatedRequest) => {
-    const updateRequest = requestItems.findIndex((request) => request.ID === updatedRequest.ID);
+    const updateRequest = requestItems.findIndex(
+      (request) => request.ID === updatedRequest.ID,
+    );
     const updatedRequestItems = [...requestItems];
     updatedRequestItems[updateRequest] = updatedRequest;
     setRequestItems(updatedRequestItems);
   };
   const fetchRequestItems = async () => {
     try {
-        const response = await axios.get(`${baseUrl}/api/requestItems/all`);
-        console.log(response.data.filter((item) => item.isCompleted === false));
-        return response.data;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
+      const response = await axios.get(
+        `${baseUrl}/api/requestItems/all`,
+        config,
+      );
+      console.log(response.data.filter((item) => item.isCompleted === false));
+      return response.data;
     } catch (error) {
-        console.error("Error fetching request items:", error);
-        throw error;
+      console.error("Error fetching request items:", error);
+      throw error;
     }
-};
+  };
 
   const acceptRequest = () => {
-    const requestData = requestItems.map(item => ({
+    const requestData = requestItems.map((item) => ({
       ID: item.ID,
       assignedRoomID: item.assignedRoomID,
       RequestedItemID: item.requestItemId,
@@ -119,13 +154,18 @@ const SupervisorRequest = ({ navigation }) => {
       Note: item.Note,
       RequestedDateTime: item.RequestedDateTime,
       isCompleted: item.isCompleted,
-      approvedBySupervisorID: item.approvedBySupervisorID
+      approvedBySupervisorID: item.approvedBySupervisorID,
     }));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     axios
-      .put(`${baseUrl}/api/requestItems/updateRequestItem`, requestData)
+      .put(`${baseUrl}/api/requestItems/updateRequestItem`, requestData, config)
       .then((response) => {
-        setToggleFetch(prevState => !prevState); 
-        console.log(toggleFetch)
+        setToggleFetch((prevState) => !prevState);
+        console.log(toggleFetch);
         setIsConfimationModalOpen(false);
       })
       .catch((error) => {
@@ -175,35 +215,34 @@ const SupervisorRequest = ({ navigation }) => {
             />
 
             <View style={styles.bodyContent}>
-            <ScrollView style={styles.ScrollView}>
-
-              {activeTab === 0 ? (
-                <View>
-                  <RequestItemHeaderComponent />
-                  {requestItems &&
-                    requestItems.map((request, index) => (
-                      <RequestItemComponent
-                        key={index}
-                        request={request}
-                        onPress={() => onPress({ request: request })}
-                        updateRequestCompletion={updateRequestCompletion}
-                      />
-                    ))}
-                </View>
-              ) : (
-                <View>
-                  <RequestHelpHeaderComponent />
-                  {rooms &&
-                    rooms.map((request, index) => (
-                      <RequestHelpComponent
-                        key={index}
-                        request={request}
-                        onPress={() => onPress({ request: request })}
-                      />
-                    ))}
-                </View>
-              )}
-                      </ScrollView>
+              <ScrollView style={styles.ScrollView}>
+                {activeTab === 0 ? (
+                  <View>
+                    <RequestItemHeaderComponent />
+                    {requestItems &&
+                      requestItems.map((request, index) => (
+                        <RequestItemComponent
+                          key={index}
+                          request={request}
+                          onPress={() => onPress({ request: request })}
+                          updateRequestCompletion={updateRequestCompletion}
+                        />
+                      ))}
+                  </View>
+                ) : (
+                  <View>
+                    <RequestHelpHeaderComponent />
+                    {rooms &&
+                      rooms.map((request, index) => (
+                        <RequestHelpComponent
+                          key={index}
+                          request={request}
+                          onPress={() => onPress({ request: request })}
+                        />
+                      ))}
+                  </View>
+                )}
+              </ScrollView>
               <View style={styles.buttonStyles}>
                 <Button
                   name="Approve"
@@ -242,12 +281,7 @@ const SupervisorRequest = ({ navigation }) => {
                     type="secondary"
                     onPress={toggleConfimationModal}
                   />
-                  <Button
-                    name="Yes"
-                    type="primary"
-                    onPress={acceptRequest
-                    }
-                  />
+                  <Button name="Yes" type="primary" onPress={acceptRequest} />
                 </View>
               </View>
             </View>
@@ -256,17 +290,18 @@ const SupervisorRequest = ({ navigation }) => {
       )}
       {isRequestDetailModalOpen && (
         <RequestModalSupervisor
-  isRequestDetailModalOpen={isRequestDetailModalOpen}
-  toggleRequestDetailModal={toggleRequestDetailModal}
-  requestDetailObject={requestDetailObject}
-/>      )}
+          isRequestDetailModalOpen={isRequestDetailModalOpen}
+          toggleRequestDetailModal={toggleRequestDetailModal}
+          requestDetailObject={requestDetailObject}
+        />
+      )}
 
-  {isRequestHelpModalOpen && (
+      {isRequestHelpModalOpen && (
         <RequestModalSupervisor
-           isRequestDetailModalOpen={isRequestHelpModalOpen}
-            toggleRequestDetailModal={setIsRequestHelpModalOpen}
-            requestDetailObject={requestDetailObject}
-          />
+          isRequestDetailModalOpen={isRequestHelpModalOpen}
+          toggleRequestDetailModal={setIsRequestHelpModalOpen}
+          requestDetailObject={requestDetailObject}
+        />
       )}
     </SafeAreaProvider>
   );

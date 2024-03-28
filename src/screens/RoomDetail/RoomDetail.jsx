@@ -28,6 +28,10 @@ import { useBaseScreenStore } from "../../store/screensStore";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useRoomDetailsStore, useRoomsStore } from "../../store/roomStore";
 import Button from "../../components/Button/Button";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -96,6 +100,20 @@ const RoomDetail = ({ route, navigation }) => {
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
 
   const [modalNoteText, setModalNoteText] = useState("");
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const handlemodalNoteTextChange = (text) => {
     setModalNoteText(text);
@@ -211,8 +229,13 @@ const RoomDetail = ({ route, navigation }) => {
   const onUpdateAssignedRoom = (tempAssignedRoom) => {
     const apiUrl = baseUrl + "/api/assignedrooms/updateAssignedRoom";
     console.log(apiUrl);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     axios
-      .put(apiUrl, tempAssignedRoom)
+      .put(apiUrl, tempAssignedRoom, config)
       .then((response) => {
         const data = response.data;
         // console.log("onUpdateAssignedRoom");
@@ -265,9 +288,14 @@ const RoomDetail = ({ route, navigation }) => {
       baseUrl + `/api/requestItems/getRequestItemView/${roomDetailsStore.ID}`;
 
     console.log(apiUrl);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     const onFetchRequestItemsByAssignedRoomId = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           let data = response.data;
 
@@ -328,11 +356,9 @@ const RoomDetail = ({ route, navigation }) => {
               <View style={styles.modalView}>
                 <CloseIcon onPress={toggleRequestHelpModal} />
                 <View style={styles.requestHelpModalContainer}>
-                  <Typography variant="h5-black">
-                    Need extra hands?
-                  </Typography>
+                  <Typography variant="h5-black">Need extra hands?</Typography>
                   <Typography variant="title-medium">
-                  Room: {roomDetailsStore.RoomName}
+                    Room: {roomDetailsStore.RoomName}
                   </Typography>
                   <View style={styles.requestHelpModalImageContainer}>
                     <Image
@@ -376,7 +402,11 @@ const RoomDetail = ({ route, navigation }) => {
                     </View>
                   </View>
 
-                  <Button type="primary" onPress={onRequestHelpModalSubmitPressed} name="Request Help"/>
+                  <Button
+                    type="primary"
+                    onPress={onRequestHelpModalSubmitPressed}
+                    name="Request Help"
+                  />
                 </View>
               </View>
             </View>

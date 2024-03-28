@@ -14,6 +14,10 @@ import CalendarIcon from "../../SVG/CalendarIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const SupervisorRequestHistory = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -22,9 +26,22 @@ const SupervisorRequestHistory = ({ navigation }) => {
 
   const baseUrl = useBaseUrl();
 
-
   const [isRequestDetailModalOpen, setIsRequestDetailModalOpen] =
     useState(false);
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const toggleRequestDetailModal = () =>
     setIsRequestDetailModalOpen(!isRequestDetailModalOpen);
@@ -46,15 +63,25 @@ const SupervisorRequestHistory = ({ navigation }) => {
 
   const fetchRequestItems = async () => {
     try {
-        const response = await axios.get(`${baseUrl}/api/requestItems/all`);
-        console.log("Request items:", response.data.filter((item) => item.status === "Approved"));
-        return response.data;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
+      const response = await axios.get(
+        `${baseUrl}/api/requestItems/all`,
+        config,
+      );
+      console.log(
+        "Request items:",
+        response.data.filter((item) => item.status === "Approved"),
+      );
+      return response.data;
     } catch (error) {
-        console.error("Error fetching request items:", error);
-        throw error;
+      console.error("Error fetching request items:", error);
+      throw error;
     }
-};
-
+  };
 
   const tabs = [{ label: " Supplies" }, { label: "Help" }];
 
@@ -87,8 +114,7 @@ const SupervisorRequestHistory = ({ navigation }) => {
             />
           </SafeAreaView>
         </LinearGradient>
-        <View style={{ flexDirection: "row"}}>
-
+        <View style={{ flexDirection: "row" }}>
           <View style={styles.tabContainer}>
             <NavTabs
               tabs={tabs}
