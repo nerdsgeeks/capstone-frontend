@@ -10,10 +10,28 @@ import SupervisorInformationModal from "../../components/SupervisorInformationMo
 import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
 import Typography from "../../components/Typography/Typography";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const SupervisorRoom = ({ navigation }) => {
-  const [isInformationModalOpen, setInformationModalOpen] = useState(false); 
+  const [isInformationModalOpen, setInformationModalOpen] = useState(false);
   const baseUrl = useBaseUrl();
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const onPressRoomDetail = (room) => {
     console.log("room", room);
@@ -46,7 +64,9 @@ const SupervisorRoom = ({ navigation }) => {
           <SafeAreaView>
             <SupervisorRoomHeader
               title={
-                <View style={{ flexDirection: "row", gap: 8, alignItems: "center"}}>
+                <View
+                  style={{ flexDirection: "row", gap: 8, alignItems: "center" }}
+                >
                   <Typography variant="h4-medium">Rooms</Typography>
                   <TouchableOpacity onPress={displayInformation}>
                     <InformationIcon />
@@ -82,7 +102,6 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    
   },
 });
 

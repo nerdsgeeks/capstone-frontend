@@ -7,6 +7,10 @@ import Button from "../Button/Button";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import { useRoomDetailsStore } from "../../store/roomStore";
 import axios from "axios";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const StaffCleanedRoomScreen = ({ navigation, route }) => {
   const { images } = route.params;
@@ -20,6 +24,20 @@ const StaffCleanedRoomScreen = ({ navigation, route }) => {
 
   const [noteText, setNoteText] = useState("");
   const [isNoteTextTextFocused, setIsNoteTextTextFocused] = useState(false);
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
   const handleNoteTextChange = (text) => {
     setNoteText(text);
   };
@@ -87,8 +105,13 @@ const StaffCleanedRoomScreen = ({ navigation, route }) => {
     console.log(apiUrl);
     console.log("tempAssignedRoom");
     console.log(tempAssignedRoom);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     axios
-      .put(apiUrl, tempAssignedRoom)
+      .put(apiUrl, tempAssignedRoom, config)
       .then((response) => {
         const data = response.data;
         // console.log("data");

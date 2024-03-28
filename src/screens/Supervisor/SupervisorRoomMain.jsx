@@ -9,6 +9,10 @@ import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import InformationIcon from "../../SVG/InformationIcon";
 import SupervisorInformationModal from "../../components/SupervisorInformationModal/SupervisorInformationModal";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const SupervisorRoomMain = ({ onPressRoomDetail }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
@@ -17,23 +21,43 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
   const [displayRoomAfterFilter, setDisplayRoomAfterFilter] = useState([]);
 
   const [rooms, setRooms] = useState([]);
-  
 
   const baseUrl = useBaseUrl();
 
-useEffect(() => {
-  fetchRooms().then((data) => {
-    // const today = new Date().toISOString().split('T')[0];
-    // const filteredRooms = data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
-    setRooms(data);
-    setDisplayRoomAfterFilter(data);
-    }
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
   );
-}, []);
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
 
- const fetchRooms = async () => {
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
+
+  useEffect(() => {
+    fetchRooms().then((data) => {
+      // const today = new Date().toISOString().split('T')[0];
+      // const filteredRooms = data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
+      setRooms(data);
+      setDisplayRoomAfterFilter(data);
+    });
+  }, []);
+
+  const fetchRooms = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/api/assignedRooms/all`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
+      const response = await axios.get(
+        `${baseUrl}/api/assignedRooms/all`,
+        config,
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching rooms:", error);
@@ -46,50 +70,56 @@ useEffect(() => {
     { label: "Approved" },
   ];
 
-  const setRoomStatus = (status,activeTab) => {  
+  const setRoomStatus = (status, activeTab) => {
     let filteredRooms = [];
     if (status === "All") {
       filteredRooms = rooms;
     } else {
-      filteredRooms = rooms.filter((room) => room.RoomStatus.toUpperCase() === status.toUpperCase());
-    } 
+      filteredRooms = rooms.filter(
+        (room) => room.RoomStatus.toUpperCase() === status.toUpperCase(),
+      );
+    }
 
-    console.log("activeTab",activeTab)
-    displayFilterWithTabPress(activeTab,filteredRooms)
+    console.log("activeTab", activeTab);
+    displayFilterWithTabPress(activeTab, filteredRooms);
     setActiveChip(status);
   };
 
   const calculateRoomCount = (status) => {
     if (status === "Pending") {
-      return rooms.filter(room => room.cleaningStatus === "In Progress" || room.cleaningStatus === "To Do").length;
+      return rooms.filter(
+        (room) =>
+          room.cleaningStatus === "In Progress" ||
+          room.cleaningStatus === "To Do",
+      ).length;
     } else if (status === "Cleaned") {
-      return rooms.filter(room => room.cleaningStatus === "Cleaned").length;
+      return rooms.filter((room) => room.cleaningStatus === "Cleaned").length;
     } else if (status === "Approved") {
-      return rooms.filter(room => room.cleaningStatus === "Approved").length;
+      return rooms.filter((room) => room.cleaningStatus === "Approved").length;
     }
     return 0;
   };
 
   const displayFilterWithTabPress = (index, rooms) => {
     compareValue = tabs[index].label;
-    console.log(compareValue)
+    console.log(compareValue);
     let statusRooms = [];
 
-    if(compareValue === "Pending"){
-       statusRooms = rooms.filter((room) => room.cleaningStatus === "To Do");
-    }else if(compareValue === "Cleaned"){
-      console.log("Cleaned")
-       statusRooms = rooms.filter((room) => room.cleaningStatus === "Cleaned");
-       console.log("statusRooms",statusRooms)
-    }else if(compareValue === "Approved"){
-       statusRooms = rooms.filter((room) => room.cleaningStatus === "Approved");
+    if (compareValue === "Pending") {
+      statusRooms = rooms.filter((room) => room.cleaningStatus === "To Do");
+    } else if (compareValue === "Cleaned") {
+      console.log("Cleaned");
+      statusRooms = rooms.filter((room) => room.cleaningStatus === "Cleaned");
+      console.log("statusRooms", statusRooms);
+    } else if (compareValue === "Approved") {
+      statusRooms = rooms.filter((room) => room.cleaningStatus === "Approved");
     }
     setDisplayRoomAfterFilter(statusRooms);
-  }
-  const handleTabPress =  (activeTab) => { 
+  };
+  const handleTabPress = (activeTab) => {
     setActiveTab(activeTab);
-    setRoomStatus(activeChip,activeTab);
-  }
+    setRoomStatus(activeChip, activeTab);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -108,7 +138,7 @@ useEffect(() => {
               },
             ]}
             textStyle={{ color: activeChip === "All" ? colors.n0 : colors.n40 }}
-            onPress={() => setRoomStatus("All",activeTab)}
+            onPress={() => setRoomStatus("All", activeTab)}
           >
             <Typography variant="small-medium">All</Typography>
           </Chip>
@@ -123,7 +153,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "DueIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("DueIn",activeTab)}
+            onPress={() => setRoomStatus("DueIn", activeTab)}
           >
             <Typography variant="small-medium">Due In</Typography>
           </Chip>
@@ -138,7 +168,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "DueOut" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("DueOut",activeTab)}
+            onPress={() => setRoomStatus("DueOut", activeTab)}
           >
             <Typography variant="small-medium">Due Out</Typography>
           </Chip>
@@ -153,7 +183,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "CheckedIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("CheckedIn",activeTab)}
+            onPress={() => setRoomStatus("CheckedIn", activeTab)}
           >
             <Typography variant="small-medium">Checked In</Typography>
           </Chip>
@@ -168,7 +198,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "CheckedOut" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("CheckedOut",activeTab)}
+            onPress={() => setRoomStatus("CheckedOut", activeTab)}
           >
             <Typography variant="small-medium">Checked Out</Typography>
           </Chip>
@@ -183,7 +213,7 @@ useEffect(() => {
             textStyle={{
               color: activeChip === "DueOut-DueIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("DueOut-DueIn",activeTab)}
+            onPress={() => setRoomStatus("DueOut-DueIn", activeTab)}
           >
             <Typography variant="small-medium">Due In - Due Out</Typography>
           </Chip>
@@ -201,9 +231,11 @@ useEffect(() => {
               color:
                 activeChip === "CheckedOut-CheckedIn" ? colors.n0 : colors.n40,
             }}
-            onPress={() => setRoomStatus("CheckedOut-CheckedIn",activeTab)}
+            onPress={() => setRoomStatus("CheckedOut-CheckedIn", activeTab)}
           >
-            <Typography variant="small-medium">Checked In - Checked Out</Typography>
+            <Typography variant="small-medium">
+              Checked In - Checked Out
+            </Typography>
           </Chip>
         </ScrollView>
       </View>
@@ -218,7 +250,9 @@ useEffect(() => {
           }}
         >
           <View style={styles.numberContainer}>
-            <Typography variant="small-medium">{calculateRoomCount(tabs[activeTab].label)}</Typography>
+            <Typography variant="small-medium">
+              {calculateRoomCount(tabs[activeTab].label)}
+            </Typography>
           </View>
           <NavTabs
             tabs={tabs}
@@ -231,7 +265,6 @@ useEffect(() => {
           onPressRoomDetail={onPressRoomDetail}
         />
       </ScrollView>
-      
     </View>
   );
 };

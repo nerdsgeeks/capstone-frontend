@@ -8,7 +8,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Button,
+  // Button,
 } from "react-native";
 import NavigationTab from "./Navigation/NavigationTab";
 import NavigationTabSupervisor from "./Navigation/NavigationTabSupervisor";
@@ -18,7 +18,13 @@ import { colors } from "../themes/themes";
 import Typography from "./components/Typography/Typography";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import { Ionicons } from "@expo/vector-icons";
-// import Button from "./components/Button/Button";
+import Button from "./components/Button/Button";
+import useBaseUrl from "./hooks/useBaseUrl";
+import axios from "axios";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "./store/employeeStore";
 
 const App = () => {
   const [isFontLoaded, setIsFontLoaded] = React.useState(false);
@@ -30,6 +36,22 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const baseUrl = useBaseUrl();
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   useEffect(() => {
     async function loadFonts() {
@@ -61,27 +83,58 @@ const App = () => {
     console.log("Username:", username);
     console.log("Password:", password);
     console.log("Type:", type);
+    const apiUrl = baseUrl + "/api/auth/login";
 
     if (username === "") {
-      alert("Username cant be empty");
+      alert("Username cannot be empty");
       return;
     }
 
     if (password === "") {
-      alert("Password cant be empty");
+      alert("Password cannot be empty");
       return;
     }
 
-    switch (type.toUpperCase()) {
-      case "Manager".toUpperCase():
-        setShowSupervisorDashboard(!showSupervisorDashboard);
-        setIsDashboardSelected(!isDashboardSelected);
-        break;
-      case "Staff".toUpperCase():
-        setShowHousekeeperDashboard(!showHousekeeperDashboard);
-        setIsDashboardSelected(!isDashboardSelected);
-        break;
-    }
+    const loginDetails = {
+      employeeid: username,
+      password: password,
+    };
+
+    const onLoginAuth = () =>
+      axios
+        .post(apiUrl, loginDetails)
+        .then((response) => {
+          const data = response.data;
+          console.log("data");
+          console.log(data);
+          const accessToken = data.accessToken;
+          updateAccessTokenStore(accessToken);
+
+          const employeeDetails = {
+            employeeType: data.EmployeeType,
+            firstName: data.FirstName,
+            lastName: data.LastName,
+            userId: data.userID,
+          };
+          updateEmployeeDetailsStore(employeeDetails);
+
+          switch (type.toUpperCase()) {
+            case "Manager".toUpperCase():
+              setShowSupervisorDashboard(!showSupervisorDashboard);
+              setIsDashboardSelected(!isDashboardSelected);
+              break;
+            case "Staff".toUpperCase():
+              setShowHousekeeperDashboard(!showHousekeeperDashboard);
+              setIsDashboardSelected(!isDashboardSelected);
+              break;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("Incorrect Employee Id or Password");
+        });
+
+    onLoginAuth();
   };
 
   const togglePasswordVisibility = () => {
@@ -92,16 +145,16 @@ const App = () => {
     <>
       {!isDashboardSelected && (
         <View style={styles.mainContainer}>
-          <Button
+          {/* <Button
             title="Housekeeper Dashboard"
             onPress={handleHousekeeperDashboardClick}
           ></Button>
           <Button
             title="Supervisor Dashboard Dashboard"
             onPress={handleSupervisorDashboardClick}
-          ></Button>
+          ></Button> */}
 
-          {/* <ImageBackground
+          <ImageBackground
             source={require("../assets/background.png")}
             style={styles.background}
             resizeMode="cover"
@@ -170,7 +223,7 @@ const App = () => {
               </View>
             </View>
           </View>
-          <Button name="Login" type="primary" onPress={handleLogin} /> */}
+          <Button name="Login" type="primary" onPress={handleLogin} />
         </View>
       )}
 
@@ -190,56 +243,56 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: "#8fcbbc",
-    alignItems: "center",
-    justifyContent: "center",
-    rowGap: 10,
-  },
   // mainContainer: {
   //   flex: 1,
-  //   justifyContent: "flex-start",
+  //   backgroundColor: "#8fcbbc",
   //   alignItems: "center",
-  //   marginHorizontal: 55,
-  //   gap: 16,
-  //   paddingTop: 100,
+  //   justifyContent: "center",
+  //   rowGap: 10,
   // },
-  // background: {
-  //   width: "100%",
-  //   alignItems: "center",
-  //   justifySelf: "flex-end",
-  // },
-  // image: {
-  //   marginVertical: 16,
-  // },
-  // input: {
-  //   width: "100%",
-  //   height: 40,
-  //   borderColor: colors.n20,
-  //   borderWidth: 1,
-  //   borderRadius: 12,
-  //   marginBottom: 20,
-  //   padding: 10,
-  // },
-  // credentialsContainer: {
-  //   gap: 4,
-  // },
-  // logInContainer: {
-  //   alignItems: "flex-start",
-  // },
-  // passwordContainer: {
-  //   position: "relative",
-  //   width: "100%",
-  // },
-  // passwordInput: {
-  //   paddingRight: 40, // Make space for the icon
-  // },
-  // eyeIcon: {
-  //   position: "absolute",
-  //   top: 10, // Adjust as needed
-  //   right: 10,
-  // },
+  mainContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginHorizontal: 55,
+    gap: 16,
+    paddingTop: 100,
+  },
+  background: {
+    width: "100%",
+    alignItems: "center",
+    justifySelf: "flex-end",
+  },
+  image: {
+    marginVertical: 16,
+  },
+  input: {
+    width: "100%",
+    height: 40,
+    borderColor: colors.n20,
+    borderWidth: 1,
+    borderRadius: 12,
+    marginBottom: 20,
+    padding: 10,
+  },
+  credentialsContainer: {
+    gap: 4,
+  },
+  logInContainer: {
+    alignItems: "flex-start",
+  },
+  passwordContainer: {
+    position: "relative",
+    width: "100%",
+  },
+  passwordInput: {
+    paddingRight: 40, // Make space for the icon
+  },
+  eyeIcon: {
+    position: "absolute",
+    top: 10, // Adjust as needed
+    right: 10,
+  },
 });
 
 export default App;

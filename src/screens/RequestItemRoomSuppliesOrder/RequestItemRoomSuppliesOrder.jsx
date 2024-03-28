@@ -20,6 +20,10 @@ import RequestedItemsList from "../../components/RequestedItemsList/RequestedIte
 import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
 import { useBaseScreenStore } from "../../store/screensStore";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
   const { roomDetails } = route.params;
@@ -35,6 +39,20 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
   const baseScreenStore = useBaseScreenStore((state) => state.baseScreenStore);
   const updateBaseScreenStore = useBaseScreenStore(
     (state) => state.updateBaseScreenStore,
+  );
+
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
   );
 
   console.log("baseScreenStore");
@@ -57,9 +75,14 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
         isCompleted: false,
         approvedBySupervisorID: 0,
       };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
       const onAddRequestItem = () =>
         axios
-          .post(apiUrl, tempRequestedItem)
+          .post(apiUrl, tempRequestedItem, config)
           .then((response) => {
             const data = response.data;
             console.log("data");

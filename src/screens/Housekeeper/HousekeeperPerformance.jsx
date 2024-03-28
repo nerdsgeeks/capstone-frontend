@@ -9,19 +9,42 @@ import { colors } from "../../../themes/themes";
 import useBaseUrl from "../../hooks/useBaseUrl";
 import axios from "axios";
 import PerformanceCard from "../../components/PerformanceCard/PerformanceCard";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const HousekeeperPerformance = ({ navigation }) => {
   const [assignedRooms, setAssignedRooms] = useState([]);
 
   const baseUrl = useBaseUrl();
 
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
+
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedrooms/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
 
     console.log(apiUrl);
     const onFetchAssignedRooms = () =>
       axios
-        .get(apiUrl)
+        .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
           setAssignedRooms(data);
@@ -73,7 +96,7 @@ const HousekeeperPerformance = ({ navigation }) => {
           </View>
           <Typography variant="small-black">Feedback</Typography>
         </View>
-        <ScrollView style={{ width: "100%"}}>
+        <ScrollView style={{ width: "100%" }}>
           {assignedRooms &&
             assignedRooms.map((feedbackroom) => (
               <PerformanceCard room={feedbackroom} />
