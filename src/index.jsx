@@ -107,6 +107,13 @@ const App = () => {
           const data = response.data;
           console.log("data");
           console.log(data);
+          const employeeType = data.EmployeeType === 1 ? "Manager" : "Staff";
+
+          if (employeeType.toUpperCase() !== type.toUpperCase()) {
+            alert("Incorrect Employee Id or Password");
+            return;
+          }
+
           const accessToken = data.accessToken;
           updateAccessTokenStore(accessToken);
 
@@ -115,6 +122,7 @@ const App = () => {
             firstName: data.FirstName,
             lastName: data.LastName,
             userId: data.userID,
+            imageURL: data.imageURL,
           };
           updateEmployeeDetailsStore(employeeDetails);
 

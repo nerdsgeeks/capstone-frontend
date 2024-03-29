@@ -51,10 +51,16 @@ const StaffCleanedRoomScreen = ({ navigation, route }) => {
   };
 
   const handleSubmit = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
     try {
       const response = await fetch(baseUrl + "/api/s3/upload", {
         method: "POST",
         headers: {
+          ...config.headers,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ images }),
