@@ -5,7 +5,7 @@ import Typography from "../Typography/Typography";
 import Button from "../Button/Button";
 
 
-const onDeclineModal = ({
+const OnDeclineModal = ({
   isOnDeclineModalOpen,
   toggleOnDeclineModal,
 }) => {
@@ -18,17 +18,17 @@ const onDeclineModal = ({
     >
       <View style={styles.modalOverlay}>
         <View style={styles.contentLayout}>
-          <View style={{ gap: 16, width: "100%" }}>
+          <View style={{ gap: 50, alignItems: "center" }}>
             <CloseIcon onPress={toggleOnDeclineModal} />
             <Typography variant="title-black">
-                Hurray!
+                Decline
               </Typography>
               <Image
                 source={require('../../../assets/illustrations/onDecline.png')}
-                style={{ width: 97, height: 140 }}
+                style={{ width: 130, height: 130}}
               />
-              <Typography variant="body-regular">The requests have been declined. We will notify your workers.</Typography>
-              <Button name="done" type="primary" onPress={toggleOnDeclineModal}/>
+              <Typography variant="body-regular" style={{marginHorizontal: 29,}}>The requests have been declined. We will notify your workers.</Typography>
+              <Button name="Done" type="primary" onPress={toggleOnDeclineModal}/>
             </View>
           </View>
         </View>
@@ -49,7 +49,8 @@ const styles = {
         paddingHorizontal: 30,
         paddingVertical: 16,
         borderRadius: 20,
+        paddingBottom: 50,
     },
     };
 
-export default onDeclineModal;
+export default OnDeclineModal;

@@ -22,8 +22,8 @@ import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/Supervis
 import CalendarIcon from "../../SVG/CalendarIcon";
 import axios from "axios";
 import RequestModalSupervisor from "../../components/RequestModalSupervisor/RequestModalSupervisor";
-import onApprovalModal from "../../components/OnApprovalModal/OnApprovalModal";
-import onDeclineModal from "../../components/OnDeclineModal/OnDeclineModal";
+import OnApprovalModal from "../../components/OnApprovalModal/OnApprovalModal";
+import OnDeclineModal from "../../components/OnDeclineModal/OnDeclineModal";
 import RequestHelpComponent from "../../components/RequestHelpComponent/RequestHelpComponent";
 import RequestHelpHeaderComponent from "../../components/RequestHelpHeader/RequestHelpHeaderComponent";
 import {
@@ -46,7 +46,7 @@ const SupervisorRequest = ({ navigation }) => {
   const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
   const [toggleFetch, setToggleFetch] = useState(false);
 
-  const [isOnApprovalModalOpen, setIsOnApprovalModalOpen] = useState(false);
+  const [isOnApprovalModalOpen, setIsOnApprovalModalOpen] = useState(true);
   const [isOnDeclineModalOpen, setIsOnDeclineModalOpen] = useState(false);
 
   const accessTokenStore = useAccessTokenStore(

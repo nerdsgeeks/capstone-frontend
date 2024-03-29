@@ -300,7 +300,7 @@ const SupervisorHome = ({ navigation }) => {
       .toISOString()
       .split("T")[0];
     const today = new Date().toISOString().split("T")[0];
-    return room.cleaningStatus === "Completed" && assignedDate === today;
+    return room.cleaningStatus === "Cleaned" && assignedDate === today;
   });
 
   const roomStatus = [
@@ -374,7 +374,7 @@ const SupervisorHome = ({ navigation }) => {
             />
             <BigButton
               name="Completed"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              icon={<BedIcon w="40" h="28" fill={colors.teal} />}
               text={cleanedRoomsToday.length.toString()}
               variant="h5-medium"
               onPress={toCompletedRooms}

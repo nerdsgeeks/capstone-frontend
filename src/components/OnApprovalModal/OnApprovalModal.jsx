@@ -5,7 +5,7 @@ import Typography from "../Typography/Typography";
 import Button from "../Button/Button";
 
 
-const onApprovalModal = ({
+const OnApprovalModal = ({
   isOnApprovalModalOpen,
   toggleOnApprovalModal,
 }) => {
@@ -18,17 +18,17 @@ const onApprovalModal = ({
     >
       <View style={styles.modalOverlay}>
         <View style={styles.contentLayout}>
-          <View style={{ gap: 16, width: "100%" }}>
+          <View style={{ gap: 20, alignItems: "center" }}>
             <CloseIcon onPress={toggleOnApprovalModal} />
             <Typography variant="title-black">
                 Hurray!
               </Typography>
               <Image
                 source={require('../../../assets/illustrations/onApproval.png')}
-                style={{ width: 97, height: 140 }}
+                style={{ width: 97, height: 140, marginVertical:13, }}
               />
               <Typography variant="body-regular">The requests have been accepted. We will notify your workers.</Typography>
-              <Button name="done" type="primary" onPress={toggleOnApprovalModal}/>
+              <Button name="Done" type="primary" onPress={toggleOnApprovalModal} style={{marginVertical: 30}}/>
             </View>
           </View>
         </View>
@@ -52,4 +52,4 @@ const styles = {
     },
     };
 
-export default onApprovalModal;
+export default OnApprovalModal;
