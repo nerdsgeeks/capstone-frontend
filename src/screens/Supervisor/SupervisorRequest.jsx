@@ -22,6 +22,8 @@ import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/Supervis
 import CalendarIcon from "../../SVG/CalendarIcon";
 import axios from "axios";
 import RequestModalSupervisor from "../../components/RequestModalSupervisor/RequestModalSupervisor";
+import onApprovalModal from "../../components/OnApprovalModal/OnApprovalModal";
+import onDeclineModal from "../../components/OnDeclineModal/OnDeclineModal";
 import RequestHelpComponent from "../../components/RequestHelpComponent/RequestHelpComponent";
 import RequestHelpHeaderComponent from "../../components/RequestHelpHeader/RequestHelpHeaderComponent";
 import {
@@ -44,6 +46,9 @@ const SupervisorRequest = ({ navigation }) => {
   const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
   const [toggleFetch, setToggleFetch] = useState(false);
 
+  const [isOnApprovalModalOpen, setIsOnApprovalModalOpen] = useState(false);
+  const [isOnDeclineModalOpen, setIsOnDeclineModalOpen] = useState(false);
+
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
   );
@@ -64,6 +69,14 @@ const SupervisorRequest = ({ navigation }) => {
   const toggleConfimationModal = () => {
     setIsConfimationModalOpen(!isConfimationModalOpen);
   };
+
+  const toggleOnApprovalModal = () => {
+    setIsOnApprovalModalOpen(!isOnApprovalModalOpen);
+  }
+
+  const toggleOnDeclineModal = () => {
+    setIsOnDeclineModalOpen(!isOnDeclineModalOpen);
+  }
 
   const onPressApprove = () => {
     setIsConfimationModalOpen(true);
@@ -177,6 +190,7 @@ const SupervisorRequest = ({ navigation }) => {
   const onPress = ({ request }) => {
     setRequestDetailObject(request);
     setIsRequestDetailModalOpen(true);
+    // console.log(requestDetailObject);
     // navigation.navigate("RequestDetail", { request });
   };
   const tabs = [{ label: "Supplies" }, { label: "Help" }];
@@ -269,19 +283,15 @@ const SupervisorRequest = ({ navigation }) => {
           <View style={styles.modalOverlay}>
             <View style={styles.modalView}>
               <CloseIcon onPress={toggleConfimationModal} />
-              <View style={styles.ConfimationModalContainer}>
-                <Typography variant="body-regular">
+              <View style={{alignItems: "center", paddingBottom: 20,}}>
+                <Typography variant="body-regular" >
                   {isCancelAllRequest
                     ? "Do you want to decline the request(s)?"
                     : "Do you want to approve the request(s)?"}
                 </Typography>
                 <View style={styles.buttonStyles}>
-                  <Button
-                    name="No"
-                    type="secondary"
-                    onPress={toggleConfimationModal}
-                  />
-                  <Button name="Yes" type="primary" onPress={acceptRequest} />
+                <Button name="Yes" type="primary" onPress={acceptRequest} />
+                  <Button name="No" type="secondary" onPress={toggleConfimationModal} />
                 </View>
               </View>
             </View>
@@ -328,13 +338,26 @@ const styles = StyleSheet.create({
   },
   buttonStyles: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     width: "100%",
     paddingTop: 20,
   },
   ScrollView: {
     maxHeight: "80%",
   },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+},
+modalView: {
+    backgroundColor: "white",
+    width: "90%",
+    paddingHorizontal: 30,
+    paddingVertical: 16,
+    borderRadius: 20,
+},
 });
 
 export default SupervisorRequest;

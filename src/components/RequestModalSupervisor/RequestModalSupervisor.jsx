@@ -24,11 +24,11 @@ const RequestModalSupervisor = ({
             <CloseIcon onPress={toggleRequestDetailModal} />
             <View style={styles.imageContainer}>
               <Image
-                source={require("./../../../assets/request-help-modal-image.png")}
+                source={{ uri: requestDetailObject.ImageUrl}}
                 style={{ height: 160, aspectRatio: 1 }}
               />
               <Typography variant="small-medium">
-                {requestDetailObject.itemName}
+                {requestDetailObject.ItemName}
               </Typography>
             </View>
 
@@ -51,7 +51,7 @@ const RequestModalSupervisor = ({
               <View style={{ flexDirection: "row", gap: 6 }}>
                 <CalendarIcon />
                 <Typography variant="xs-medium">
-                  {requestDetailObject.RequestedDateTime}
+                  {new Date(requestDetailObject.RequestedDateTime).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
                 </Typography>
               </View>
             </View>
@@ -107,7 +107,7 @@ const RequestModalSupervisor = ({
               />
 
               <Typography variant="xs-regular">
-                {requestDetailObject.requester}
+                {requestDetailObject.FirstName} {requestDetailObject.LastName} 
               </Typography>
             </View>
           </View>
@@ -126,9 +126,10 @@ const styles = {
     },
     itemDetailModal: {
         backgroundColor: "white",
-        padding: 16,
-        borderRadius: 8,
         width: "90%",
+        paddingHorizontal: 30,
+        paddingVertical: 16,
+        borderRadius: 8,
     },
     imageContainer: {
         alignItems: "center",
