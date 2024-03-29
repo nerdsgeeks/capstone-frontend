@@ -40,10 +40,10 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
 
   useEffect(() => {
     fetchRooms().then((data) => {
-      // const today = new Date().toISOString().split('T')[0];
-      // const filteredRooms = data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
-      setRooms(data);
-      setDisplayRoomAfterFilter(data);
+      const today = new Date().toISOString().split('T')[0];
+      const filteredRooms = data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
+      setRooms(filteredRooms);
+      setDisplayRoomAfterFilter(filteredRooms);
     });
   }, []);
 

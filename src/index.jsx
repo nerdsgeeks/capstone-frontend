@@ -163,75 +163,78 @@ const App = () => {
           ></Button> */}
 
           <ImageBackground
-            source={require("../assets/background.png")}
+            source={require("../assets/illustrations/Background.png")}
             style={styles.background}
             resizeMode="cover"
           >
             <View style={styles.content}>
               <Image
                 style={styles.image}
-                source={require("../assets/login.png")}
+                source={require("../assets/illustrations/Login.png")}
               />
             </View>
           </ImageBackground>
-          <View>
-            <RadioButtonGroup
-              containerStyle={{
-                marginBottom: 10,
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 30,
-              }}
-              selected={type}
-              onSelected={(value) => setType(value)}
-              radioBackground={colors.teal}
-            >
-              <RadioButtonItem
-                value="Manager"
-                label={<Typography variant="xs-regular">Manager</Typography>}
-              />
-              <RadioButtonItem
-                value="Staff"
-                label={<Typography variant="xs-regular">Staff</Typography>}
-              />
-            </RadioButtonGroup>
-          </View>
-          <View style={styles.logInContainer}>
-            <View style={styles.credentialsContainer}>
-              <Typography variant="xs-regular">Employee ID</Typography>
-              <View style={{ flexDirection: "row" }}>
-                <TextInput
-                  style={styles.input}
-                  value={username}
-                  onChangeText={setUsername}
-                  placeholder="Enter your username"
+
+          <View style={{marginHorizontal: 55,}}>
+            <View>
+              <RadioButtonGroup
+                containerStyle={{
+                  marginBottom: 10,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  gap: 30,
+                }}
+                selected={type}
+                onSelected={(value) => setType(value)}
+                radioBackground={colors.teal}
+              >
+                <RadioButtonItem
+                  value="Manager"
+                  label={<Typography variant="xs-regular">Manager</Typography>}
                 />
-              </View>
+                <RadioButtonItem
+                  value="Staff"
+                  label={<Typography variant="xs-regular">Staff</Typography>}
+                />
+              </RadioButtonGroup>
             </View>
-            <View style={styles.credentialsContainer}>
-              <Typography variant="xs-regular">Password</Typography>
-              <View style={{ flexDirection: "row" }}>
-                <TextInput
-                  style={[styles.input, styles.passwordInput]}
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="Enter your password"
-                  secureTextEntry={!isPasswordVisible}
-                />
-                <TouchableOpacity
-                  style={styles.eyeIcon}
-                  onPress={togglePasswordVisibility}
-                >
-                  <Ionicons
-                    name={isPasswordVisible ? "eye-off" : "eye"}
-                    size={24}
-                    color="gray"
+            <View style={styles.logInContainer}>
+              <View style={styles.credentialsContainer}>
+                <Typography variant="xs-regular">Employee ID</Typography>
+                <View style={{ flexDirection: "row" }}>
+                  <TextInput
+                    style={styles.input}
+                    value={username}
+                    onChangeText={setUsername}
+                    placeholder="Enter your username"
                   />
-                </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.credentialsContainer}>
+                <Typography variant="xs-regular">Password</Typography>
+                <View style={{ flexDirection: "row" }}>
+                  <TextInput
+                    style={[styles.input, styles.passwordInput]}
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Enter your password"
+                    secureTextEntry={!isPasswordVisible}
+                  />
+                  <TouchableOpacity
+                    style={styles.eyeIcon}
+                    onPress={togglePasswordVisibility}
+                  >
+                    <Ionicons
+                      name={isPasswordVisible ? "eye-off" : "eye"}
+                      size={24}
+                      color="gray"
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
+            <Button name="Login" type="primary" onPress={handleLogin} />
           </View>
-          <Button name="Login" type="primary" onPress={handleLogin} />
         </View>
       )}
 
@@ -259,20 +262,22 @@ const styles = StyleSheet.create({
   //   rowGap: 10,
   // },
   mainContainer: {
-    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    marginHorizontal: 55,
     gap: 16,
-    paddingTop: 100,
+    // paddingTop: 100,
   },
   background: {
     width: "100%",
     alignItems: "center",
     justifySelf: "flex-end",
+    paddingTop: 100,
   },
   image: {
     marginVertical: 16,
+    width: 138*1.2,
+    height: 137*1.2,
+    
   },
   input: {
     width: "100%",

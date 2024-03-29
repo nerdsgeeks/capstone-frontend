@@ -7,13 +7,14 @@ import { colors } from "../../../themes/themes";
 // onpress  if you want to do something on click
 // there are two types of buttons primary and secondary
 
-const Button = ({ name, type, onPress }) => {
+const Button = ({ name, type, onPress, style }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[
         styles.button,
         type === "primary" ? styles.primary : styles.secondary,
+        style,
       ]}
     >
       <Typography

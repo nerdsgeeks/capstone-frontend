@@ -13,7 +13,6 @@ import DueOutIcon from "../../SVG/DueOutIcon";
 import BackIcon from "../../SVG/BackIcon";
 import TextChip from "../TextChip/TextChip";
 import Typography from "../Typography/Typography";
-import BackgroundImage from "../../../assets/Rooms-Card.png";
 import { colors } from "../../../themes/themes";
 
 const RoomDetailHeader = ({ room, navigation }) => {
