@@ -56,10 +56,26 @@ const HousekeeperHome = ({ navigation }) => {
     // console.log(baseUrl);
     // console.log("roomDetailsStore");
     // console.log(roomDetailsStore);
-    const apiUrl = baseUrl + "/api/assignedrooms/all";
+    const localDate = new Date();
+    const today =
+      localDate.getFullYear() +
+      "-" +
+      String(localDate.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(localDate.getDate()).padStart(2, "0");
+    console.log(localDate);
+
+    console.log("today");
+    console.log(today);
+    const apiUrl =
+      baseUrl +
+      `/api/assignedrooms/getAssignedRoomView/${employeeDetailsStore.userId}/${today}`;
     const apiItemsUrl = baseUrl + "/api/items/all";
 
-    console.log(baseUrl + "/api/assignedrooms/all");
+    console.log(
+      baseUrl +
+        `/api/assignedrooms/getAssignedRoomView/${employeeDetailsStore.userId}/${today}`,
+    );
     console.log(baseUrl + "/api/items/all");
     const config = {
       headers: {
@@ -112,7 +128,20 @@ const HousekeeperHome = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       console.log("back");
-      const apiUrl = `${baseUrl}/api/assignedrooms/all`;
+      const localDate = new Date();
+      const today =
+        localDate.getFullYear() +
+        "-" +
+        String(localDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(localDate.getDate()).padStart(2, "0");
+      console.log(localDate);
+
+      console.log("today");
+      console.log(today);
+      const apiUrl =
+        baseUrl +
+        `/api/assignedrooms/getAssignedRoomView/${employeeDetailsStore.userId}/${today}`;
       const apiItemsUrl = `${baseUrl}/api/items/all`;
       const config = {
         headers: {

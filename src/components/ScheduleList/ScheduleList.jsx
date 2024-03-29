@@ -3,6 +3,8 @@ import { colors } from "../../../themes/themes";
 import { View, FlatList } from "react-native";
 
 const ScheduleList = ({ data }) => {
+  console.log("data");
+  console.log(data);
   const Item = ({ item }) => (
     <View
       style={{
@@ -37,7 +39,7 @@ const ScheduleList = ({ data }) => {
     <FlatList
       data={data}
       renderItem={({ item }) => <Item item={item} />}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.date}
     />
   );
 };

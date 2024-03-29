@@ -27,42 +27,41 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
   // console.log(" HousekeeperHomeMain rooms");
   // console.log(rooms);
-  useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    const filteredRooms = rooms.filter(room => 
-      room.cleaningStatus.toUpperCase() !== "CLEANED" &&
-      room.assignedDateTime &&
-      room.assignedDateTime.startsWith(today)
-    );
-    setRoomToDisplay(filteredRooms);
-    setAssignedRoomNumber(filteredRooms.length);
-  }, [roomsStore]);
 
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
+  // console.log("rooms");
+  // console.log(rooms);
 
   const setRoomTypeRooms = (type) => {
-    const today = new Date().toISOString().split('T')[0];
-    if (type === "All") {
-      const filteredRooms = rooms.filter((room) => room.cleaningStatus.toUpperCase() !== "CLEANED" &&
-      room.assignedDateTime &&
-      room.assignedDateTime.startsWith(today));
-      setRoomToDisplay(filteredRooms);
-      setAssignedRoomNumber(filteredRooms.length);
+    const today = new Date().toISOString().split("T")[0];
+    let filteredRooms = [];
+
+    if (activeTab === 0) {
+      filteredRooms = rooms.filter(
+        (room) => room.cleaningStatus.toUpperCase() !== "CLEANED",
+      );
     } else {
+      filteredRooms = rooms.filter(
+        (room) => room.cleaningStatus.toUpperCase() === "CLEANED",
+      );
+    }
+
+    if (type.toUpperCase() !== "All".toUpperCase()) {
       // console.log("room");
       // console.log(rooms);
+      console.log("type");
       console.log(type);
 
-      const filteredRooms = rooms.filter(
-        (room) => room.roomTypeName.toUpperCase() === type.toUpperCase() &&
-        room.assignedDateTime &&
-        room.assignedDateTime.startsWith(today),
+      filteredRooms = filteredRooms.filter(
+        (room) => room.roomTypeName.toUpperCase() === activeChip.toUpperCase(),
       );
-      // console.log(filteredRooms);
-      setRoomToDisplay(filteredRooms);
-      setAssignedRoomNumber(filteredRooms.length);
     }
+
+    console.log("filteredRooms");
+    console.log(filteredRooms);
+    setRoomToDisplay(filteredRooms);
+    setAssignedRoomNumber(filteredRooms.length);
     console.log("type: " + type);
     switch (type) {
       case "All":
@@ -87,25 +86,64 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 
   const handleTabPress = (index) => {
     setActiveTab(index);
-    const today = new Date().toISOString().split('T')[0];
-
+    let filteredRooms = [];
 
     if (index === 0) {
-      const filteredRooms = rooms.filter((room) => room.cleaningStatus.toUpperCase() !== "CLEANED" &&
-      room.assignedDateTime &&
-      room.assignedDateTime.startsWith(today));
-      // console.log(filteredRooms);
-      setRoomToDisplay(filteredRooms);
-      setAssignedRoomNumber(filteredRooms.length);
+      filteredRooms = rooms.filter(
+        (room) => room.cleaningStatus.toUpperCase() !== "CLEANED",
+      );
     } else {
-      const filteredRooms = rooms.filter((room) => room.cleaningStatus.toUpperCase() === "CLEANED" &&
-      room.assignedDateTime &&
-      room.assignedDateTime.startsWith(today));
-      // console.log(filteredRooms);
-      setRoomToDisplay(filteredRooms);
-      setAssignedRoomNumber(filteredRooms.length);
+      filteredRooms = rooms.filter(
+        (room) => room.cleaningStatus.toUpperCase() === "CLEANED",
+      );
     }
+
+    if (activeChip.toUpperCase() !== "All".toUpperCase()) {
+      // console.log("room");
+      // console.log(rooms);
+      console.log("activeChip");
+      console.log(activeChip);
+
+      filteredRooms = filteredRooms.filter(
+        (room) => room.roomTypeName.toUpperCase() === activeChip.toUpperCase(),
+      );
+    }
+
+    console.log("filteredRooms");
+    console.log(filteredRooms);
+    setRoomToDisplay(filteredRooms);
+    setAssignedRoomNumber(filteredRooms.length);
   };
+
+  useEffect(() => {
+    let filteredRooms = [];
+
+    if (activeTab === 0) {
+      filteredRooms = rooms.filter(
+        (room) => room.cleaningStatus.toUpperCase() !== "CLEANED",
+      );
+    } else {
+      filteredRooms = rooms.filter(
+        (room) => room.cleaningStatus.toUpperCase() === "CLEANED",
+      );
+    }
+
+    if (activeChip.toUpperCase() !== "All".toUpperCase()) {
+      // console.log("room");
+      // console.log(rooms);
+      console.log("activeChip");
+      console.log(activeChip);
+
+      filteredRooms = filteredRooms.filter(
+        (room) => room.roomTypeName.toUpperCase() === activeChip.toUpperCase(),
+      );
+    }
+
+    console.log("filteredRooms");
+    console.log(filteredRooms);
+    setRoomToDisplay(filteredRooms);
+    setAssignedRoomNumber(filteredRooms.length);
+  }, [roomsStore]);
 
   return (
     <View style={styles.container}>

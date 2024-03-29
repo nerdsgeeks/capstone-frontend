@@ -12,6 +12,10 @@ import BedIcon from "../../SVG/BedIcon";
 import ClockIcon from "../../SVG/ClockIcon";
 import { colors } from "../../../themes/themes";
 import StarIcon from "../../SVG/StarIcon";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const HousekeeperProfile = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -26,6 +30,19 @@ const HousekeeperProfile = ({ navigation }) => {
   ];
 
   const windowWidth = Dimensions.get("window").width;
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
 
   const handleTabPress = (index) => {
     setActiveTab(index);
@@ -55,22 +72,23 @@ const HousekeeperProfile = ({ navigation }) => {
               <View style={styles.profilePicAndNameContainer}>
                 <Image
                   source={{
-                    uri: "https://picsum.photos/2000/600?random=11",
+                    uri: `${employeeDetailsStore.imageURL}`,
                   }}
                   style={styles.profilePic}
                 />
                 <View style={styles.nameContainer}>
-                  <Typography variant="title-black">Molly Chen</Typography>
-                  <Typography variant="body-medium">
-                    Housekeeper, Senior
+                  <Typography variant="title-black">
+                    {employeeDetailsStore.firstName}{" "}
+                    {employeeDetailsStore.lastName}
                   </Typography>
+                  <Typography variant="body-medium">Housekeeper</Typography>
                 </View>
               </View>
             </View>
           </SafeAreaView>
         </LinearGradient>
 
-        <View style={{ flexDirection: "row", marginVertical: 26}}>
+        <View style={{ flexDirection: "row", marginVertical: 26 }}>
           <View style={styles.mainContainer}>
             <NavTabs
               screen="HousekeeperProfile"
@@ -79,7 +97,7 @@ const HousekeeperProfile = ({ navigation }) => {
               onTabPress={handleTabPress}
               justifyContent="space-around"
             />
-            <View style={{ paddingVertical: 16}}>
+            <View style={{ paddingVertical: 16 }}>
               {showScheduleTab ? (
                 <ScheduleList data={scheduleList} />
               ) : (
@@ -89,7 +107,7 @@ const HousekeeperProfile = ({ navigation }) => {
                       name="Total Rooms"
                       icon={<BedIcon w="40" h="28" fill={colors.orange} />}
                       text="30"
-                      width = {windowWidth / 2 - 34}
+                      width={windowWidth / 2 - 34}
                       disabled
                     />
                     <BigButton
@@ -97,7 +115,7 @@ const HousekeeperProfile = ({ navigation }) => {
                       icon={<ClockIcon w="40" h="28" fill={colors.orange} />}
                       text="28:16 mins"
                       variant="xs-medium"
-                      width = {windowWidth / 2 - 34}
+                      width={windowWidth / 2 - 34}
                       disabled
                     />
                   </View>
@@ -131,7 +149,12 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   scheduleContainer: { flexDirection: "row", columnGap: 10 },
-  profilePicAndNameContainer: { flexDirection: "row", top: 12, alignItems:"flex-start", gap: 20 },
+  profilePicAndNameContainer: {
+    flexDirection: "row",
+    top: 12,
+    alignItems: "flex-start",
+    gap: 20,
+  },
   profilePic: {
     width: 86,
     height: 86,
@@ -144,7 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flexGrow: 1,
   },
-  perfomanceContainer: { 
+  perfomanceContainer: {
     gap: 8,
     marginHorizontal: 26,
     marginVertical: 16,

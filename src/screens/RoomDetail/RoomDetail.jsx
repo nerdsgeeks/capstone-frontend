@@ -60,7 +60,7 @@ const RoomDetail = ({ route, navigation }) => {
     roomDetailsStore.cleaningStatus.toUpperCase() === "Cleaned".toUpperCase() ||
       roomDetailsStore.cleaningStatus.toUpperCase() === "Approved".toUpperCase()
       ? true
-      : false,
+      : true,
   );
   const [startDisabled, setStartDisabled] = useState(
     roomDetailsStore.cleaningStatus.toUpperCase() === "Cleaned".toUpperCase() ||

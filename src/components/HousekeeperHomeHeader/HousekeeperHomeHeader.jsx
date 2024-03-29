@@ -21,9 +21,29 @@ import TierSilverIcon from "../../SVG/TierSilverIcon";
 import TierGoldIcon from "../../SVG/TierGoldIcon";
 import TierDiamondIcon from "../../SVG/TierDiamondIcon";
 import { colors } from "../../../themes/themes";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
   const [isInformationModalOpen, setInformationModalOpen] = useState(false);
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
+
+  console.log("employeeDetailsStore");
+  console.log(employeeDetailsStore);
 
   const displayInformation = () => {
     setInformationModalOpen(true);
@@ -40,10 +60,11 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
       }}
     >
       <View style={styles.leftProfileContainer}>
+        {/* <Text>{employeeDetailsStore.imageURL}</Text> */}
         <Image
           //source={require("./path-to-your-image.jpg")} // Replace with the path to your image
           source={{
-            uri: "https://picsum.photos/2000/600?random=11",
+            uri: `${employeeDetailsStore.imageURL}`,
           }}
           style={styles.profilePic}
         />
@@ -53,7 +74,9 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Typography variant="title-black">Hi {name}</Typography>
+            <Typography variant="title-black">
+              Hi {employeeDetailsStore.firstName}
+            </Typography>
             <TouchableOpacity onPress={displayInformation}>
               <InformationIcon />
             </TouchableOpacity>
@@ -69,7 +92,11 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
             }}
           >
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between", paddingTop: 8 }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingTop: 8,
+              }}
             >
               <View style={styles.progressContainer}>
                 <Typography variant="xs-regular">Task Progress</Typography>
