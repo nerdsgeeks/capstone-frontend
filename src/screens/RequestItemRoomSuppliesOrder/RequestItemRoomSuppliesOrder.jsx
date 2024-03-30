@@ -142,8 +142,7 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
             showRequestedItemText={false}
           ></RequestedItemsList>
 
-          
-<Button type="primary" name="Order" onPress={onOrderPressed} />
+          <Button type="primary" name="Order" onPress={onOrderPressed} />
           {/* <TouchableOpacity
             style={{
               backgroundColor: "#8FDEDE",
@@ -170,7 +169,6 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
             </Text>
           </TouchableOpacity> */}
         </View>
-        
       </View>
     </SafeAreaProvider>
   );
@@ -190,6 +188,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
 });

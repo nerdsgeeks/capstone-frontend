@@ -181,7 +181,8 @@ const HousekeeperHome = ({ navigation }) => {
     <>
       {rooms.length > 0 && items.length > 0 ? (
         <SafeAreaProvider>
-          <SafeAreaView style={styles.container}>
+          {/* <SafeAreaView style={styles.container}> */}
+          <View style={styles.container}>
             <LinearGradient
               colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
               start={{ x: 0.0, y: 0.0 }}
@@ -202,7 +203,8 @@ const HousekeeperHome = ({ navigation }) => {
               items={items}
               navigation={navigation}
             />
-          </SafeAreaView>
+          </View>
+          {/* </SafeAreaView> */}
         </SafeAreaProvider>
       ) : (
         <SafeAreaProvider>
@@ -227,6 +229,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 70,
     paddingHorizontal: 26,
     paddingVertical: 16,
+    paddingTop: 32,
   },
   chipContainer: {
     flexDirection: "row",

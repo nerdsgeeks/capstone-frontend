@@ -146,7 +146,7 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-      <LinearGradient
+        <LinearGradient
           colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 1.0 }}
@@ -154,38 +154,54 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
           style={styles.headerContainer}
         >
           <SafeAreaView>
-          <SupervisorRoomHeader
+            <SupervisorRoomHeader
               title={
                 <View
-                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                  style={{
+                    flexDirection: "row",
+                    gap: 100,
+                    alignItems: "center",
+                  }}
                 >
-                  <TouchableOpacity onPress={goBack}>
+                  <TouchableOpacity
+                    onPress={goBack}
+                    // style={{ marginRight: 20 }}
+                  >
                     <BackIcon />
                   </TouchableOpacity>
-                  <Typography variant="h4-medium">Room Supplies</Typography>
+                  <Typography
+                    variant="screenHeader-medium"
+                    // style={{ borderWidth: 2 }}
+                  >
+                    Room Supplies
+                  </Typography>
                 </View>
               }
-              icon={  
-                      <TouchableOpacity onPress={onCartIconPressed} style={{}}>
-                        <CartIcon stroke={colors.n40}/>
-                        <View
-                          style={{
-                            position: "absolute",
-                            backgroundColor: colors.n40,
-                            height: 24,
-                            width: 24,
-                            borderRadius: 12,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            left: 14,
-                            bottom: 10,
-                          }}
-                        >
-                          <Typography variant="xs-regular" style={{color: colors.n0}}>
-                            {requestedItemsCartRoomSuppliesStore.length}
-                          </Typography>
-                        </View>
-                      </TouchableOpacity>}
+              icon={
+                <TouchableOpacity onPress={onCartIconPressed} style={{}}>
+                  <CartIcon stroke={colors.n40} />
+                  <View
+                    style={{
+                      position: "absolute",
+                      backgroundColor: colors.n40,
+                      height: 24,
+                      width: 24,
+                      borderRadius: 12,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      left: 14,
+                      bottom: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="xs-regular"
+                      style={{ color: colors.n0 }}
+                    >
+                      {requestedItemsCartRoomSuppliesStore.length}
+                    </Typography>
+                  </View>
+                </TouchableOpacity>
+              }
             />
           </SafeAreaView>
         </LinearGradient>
@@ -214,6 +230,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 18,
     paddingTop: 7,
   },
   searchBoxContainer: {

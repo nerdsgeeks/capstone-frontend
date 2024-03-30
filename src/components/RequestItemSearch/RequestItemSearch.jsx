@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -20,6 +20,8 @@ import CloseIcon from "../../SVG/CloseIcon";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import RequestedItemsList from "../RequestedItemsList/RequestedItemsList";
+import Close from "../../SVG/Close";
+import { useWindowDimensions } from "react-native";
 
 const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   const requestedItemsCartStore = useRequestCartStore(
@@ -42,6 +44,10 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   const [showItemsList, setShowItemsList] = useState(true);
   const [count, setCount] = useState(0);
   const [modalNoteText, setModalNoteText] = useState("");
+  const [itemsFiltered, setItemsFiltered] = useState(items);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { width } = useWindowDimensions();
+  const imageWidth = (width - 2 * 26 - 30) / 3;
 
   const handlemodalNoteTextChange = (text) => {
     setModalNoteText(text);
@@ -137,13 +143,29 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     setModalNoteText("");
   };
 
+  // const renderItem = ({ item }) => (
+  //   <TouchableOpacity
+  //     style={styles.itemContainer}
+  //     onPress={() => onPressItem(item)}
+  //   >
+  //     <Image source={{ uri: item.ImageUrl }} style={styles.image} />
+  //     <Typography variant="xs-medium">{item.ItemName}</Typography>
+  //   </TouchableOpacity>
+  // );
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      style={styles.itemContainer}
+      style={[styles.itemContainer, { width: imageWidth }]}
       onPress={() => onPressItem(item)}
     >
-      <Image source={{ uri: item.ImageUrl }} style={styles.image} />
-      <Typography variant="xs-medium">{item.ItemName}</Typography>
+      <Image
+        source={{ uri: item.ImageUrl }}
+        style={[styles.image, { width: imageWidth }]}
+      />
+      <View style={styles.itemTextContainer}>
+        <Typography variant="xs-medium" style={{ textAlign: "center" }}>
+          {item.ItemName}
+        </Typography>
+      </View>
     </TouchableOpacity>
   );
 
@@ -160,6 +182,17 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
       return [...currentItems, requestedItem];
     }
   };
+  const clearSearch = () => {
+    console.log("clearSearch");
+    setSearchQuery("");
+  };
+
+  useEffect(() => {
+    const filtered = items.filter((item) =>
+      item.ItemName.toUpperCase().includes(searchQuery.toUpperCase()),
+    );
+    setItemsFiltered(filtered);
+  }, [searchQuery, items]);
 
   return (
     <View style={styles.container}>
@@ -182,11 +215,21 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
             <SearchIcon />
           </View>
 
+          {searchQuery.length > 0 && (
+            <TouchableOpacity
+              style={{ position: "absolute", top: 16, right: 10, zIndex: 10 }}
+              onPress={clearSearch}
+            >
+              <Close></Close>
+            </TouchableOpacity>
+          )}
+
           <TextInput
             style={[styles.requestItemSearchInput]}
             placeholder="Search"
-            onFocus={() => onFocusSearchInput()}
-            // onBlur={() =>  onBlurSearchInput()}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onFocus={onFocusSearchInput}
           />
         </View>
       </View>
@@ -309,11 +352,12 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
         {/* <Typography variant="h6-black">{headerText}</Typography> */}
         {/* <ScrollView style={styles.listItems}> */}
         <FlatList
-          data={items}
+          data={itemsFiltered}
           renderItem={renderItem}
           keyExtractor={(item) => item.ID}
           numColumns={3}
           contentContainerStyle={styles.list}
+          columnWrapperStyle={styles.columnWrapper}
         />
         {/* </ScrollView> */}
       </View>
@@ -363,19 +407,30 @@ const styles = StyleSheet.create({
   listItems: {
     rowGap: 16,
   },
-  list: {
-    paddingHorizontal: 10,
+  // list: {
+  //   paddingHorizontal: 10,
+  // },
+  itemTextContainer: {
+    height: 36,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+    marginBottom: 8,
   },
   itemContainer: {
-    flex: 1,
-    flexDirection: "column",
-    margin: 10,
-    height: 100,
+    gap: 6,
+    alignItems: "center",
+    // margin: 10,
+    // height: 100,
   },
   image: {
     flex: 1,
     aspectRatio: 1,
     resizeMode: "cover",
+    borderRadius: 6,
+  },
+  listItemsContainer: {
+    marginBottom: 60,
   },
   modalOverlay: {
     flex: 1,
@@ -408,7 +463,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
-    rowGap: 32,
+    rowGap: 28,
     paddingTop: 0,
     top: -26,
   },

@@ -2,7 +2,7 @@ import React from "react";
 import TierGoldIcon from "../../SVG/TierGoldIcon";
 import TierSilverIcon from "../../SVG/TierSilverIcon";
 import TierDiamondIcon from "../../SVG/TierDiamondIcon";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Typography from "../Typography/Typography";
 import PersonIcon from "../../SVG/PersonIcon";
 import CalendarIcon from "../../SVG/CalendarIcon";
@@ -51,6 +51,19 @@ const RoomDetailInfo = ({ reservation, room }) => {
     return `${formattedCheckin} - ${formattedCheckout}`;
   };
 
+  const roomTier = () => {
+    switch (room.tier) {
+      case "gold":
+        return <TierGoldIcon />;
+      case "silver":
+        return <TierSilverIcon />;
+      case "diamond":
+        return <TierDiamondIcon />;
+      default:
+        return <Text>Checked In</Text>;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -63,7 +76,7 @@ const RoomDetailInfo = ({ reservation, room }) => {
         <Typography variant="h5-regular">{reservation.guestName}</Typography>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {tierIcon}
+          <Text style={styles.text}>{roomTier()}</Text>
           <View style={{ paddingLeft: 10 }}>
             <PersonIcon fill="black" />
           </View>

@@ -128,7 +128,7 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-      <LinearGradient
+        <LinearGradient
           colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 1.0 }}
@@ -136,7 +136,7 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
           style={styles.headerContainer}
         >
           <SafeAreaView>
-          <SupervisorRoomHeader
+            <SupervisorRoomHeader
               title={
                 <View
                   style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
@@ -147,27 +147,31 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
                   <Typography variant="h4-medium">Cart Supplies</Typography>
                 </View>
               }
-              icon={  
-                      <TouchableOpacity onPress={onCartIconPressed} style={{}}>
-                        <CartIcon stroke={colors.n40}></CartIcon>
-                        <View
-                          style={{
-                            position: "absolute",
-                            backgroundColor: colors.n40,
-                            height: 24,
-                            width: 24,
-                            borderRadius: 12,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            left: 14,
-                            bottom: 10,
-                          }}
-                        >
-                          <Typography variant="xs-regular" style={{color: colors.n0}}>
-                            {requestedItemsCartSuppliesStore.length}
-                          </Typography>
-                        </View>
-                      </TouchableOpacity>}
+              icon={
+                <TouchableOpacity onPress={onCartIconPressed} style={{}}>
+                  <CartIcon stroke={colors.n40}></CartIcon>
+                  <View
+                    style={{
+                      position: "absolute",
+                      backgroundColor: colors.n40,
+                      height: 24,
+                      width: 24,
+                      borderRadius: 12,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      left: 14,
+                      bottom: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="xs-regular"
+                      style={{ color: colors.n0 }}
+                    >
+                      {requestedItemsCartSuppliesStore.length}
+                    </Typography>
+                  </View>
+                </TouchableOpacity>
+              }
             />
           </SafeAreaView>
         </LinearGradient>
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
   searchBoxContainer: {

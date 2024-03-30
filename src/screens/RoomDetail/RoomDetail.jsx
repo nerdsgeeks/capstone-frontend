@@ -32,6 +32,7 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -74,6 +75,12 @@ const RoomDetail = ({ route, navigation }) => {
   );
   const [isHelpButtonDisabled, setIsHelpButtonDisabled] = useState(
     roomDetailsStore.isHelperRequested,
+  );
+  const [isRequestButtonDisabled, setIsRequestButtonDisabled] = useState(
+    roomDetailsStore.cleaningStatus.toUpperCase() === "Cleaned".toUpperCase() ||
+      roomDetailsStore.cleaningStatus.toUpperCase() === "Approved".toUpperCase()
+      ? true
+      : false,
   );
   const [isRequestHelpModalTextFocused, setIsRequestHelpModalTextFocused] =
     useState(false);
@@ -284,6 +291,7 @@ const RoomDetail = ({ route, navigation }) => {
     // console.log(baseUrl);
     // console.log("roomDetailsStore");
     // console.log(roomDetailsStore);
+    console.log("useEffect");
     const apiUrl =
       baseUrl + `/api/requestItems/getRequestItemView/${roomDetailsStore.ID}`;
 
@@ -318,6 +326,33 @@ const RoomDetail = ({ route, navigation }) => {
     onFetchRequestItemsByAssignedRoomId();
     updateBaseScreenStore("RoomDetail");
   }, [requestedItemsCartStore, roomDetailsStore]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("useFocusEffect");
+      // setDoneDisabled(
+      //   roomDetailsStore.cleaningStatus.toUpperCase() ===
+      //     "Cleaned".toUpperCase() ||
+      //     roomDetailsStore.cleaningStatus.toUpperCase() ===
+      //       "Approved".toUpperCase()
+      //     ? true
+      //     : true,
+      // );
+
+      if (
+        roomDetailsStore.cleaningStatus.toUpperCase() ===
+          "Cleaned".toUpperCase() ||
+        roomDetailsStore.cleaningStatus.toUpperCase() ===
+          "Approved".toUpperCase()
+      ) {
+        setDoneDisabled(true);
+        setIsHelpButtonDisabled(true);
+        setIsRequestButtonDisabled(true);
+      }
+      // Return a no-op function if no clean-up is needed
+      return () => {};
+    }, [baseUrl, roomDetailsStore]),
+  );
 
   return (
     <SafeAreaProvider>
@@ -460,6 +495,7 @@ const RoomDetail = ({ route, navigation }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={isRequestButtonDisabled}
                 onPress={() =>
                   navigation.navigate("RequestItemSupplies", {
                     roomDetails: roomDetailsStore,
@@ -467,10 +503,18 @@ const RoomDetail = ({ route, navigation }) => {
                     screenTitle: "Room Supplies",
                   })
                 }
-                style={styles.commonButton}
+                style={[
+                  styles.commonButton,
+                  isRequestButtonDisabled && { backgroundColor: "#F2F2F2" },
+                ]}
               >
-                <RequestIcon></RequestIcon>
-                <Typography variant="xs-regular" style={{}}>
+                <RequestIcon
+                  stroke={isRequestButtonDisabled ? "#9F9F9F" : "black"}
+                ></RequestIcon>
+                <Typography
+                  variant="xs-regular"
+                  style={[isRequestButtonDisabled && { color: "#9F9F9F" }]}
+                >
                   Request
                 </Typography>
               </TouchableOpacity>
@@ -624,7 +668,7 @@ const styles = StyleSheet.create({
     height: 600,
   },
   modalView: {
-    height: 500,
+    height: 540,
     width: 290,
     margin: 20,
     backgroundColor: "white",

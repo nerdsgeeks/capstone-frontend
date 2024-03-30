@@ -111,7 +111,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-      <LinearGradient
+        <LinearGradient
           colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 1.0 }}
@@ -141,7 +141,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
             showRequestedItemText={false}
           ></RequestedItemsList>
 
-<Button type="primary" name="Order" onPress={onOrderPressed} />
+          <Button type="primary" name="Order" onPress={onOrderPressed} />
 
           {/* <TouchableOpacity
             style={{
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
 });
