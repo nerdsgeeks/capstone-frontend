@@ -69,6 +69,13 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
     toggleModal();
   };
 
+  const onPressInspection = () => {
+    // Assuming you want to pass some data to the InspectionReview screen
+    navigation.navigate('InspectionReview', { room: room });
+  };
+
+ 
+
   const roomStatus = [
     { key: "DueOut", value: "Due Out" },
     { key: "DueIn", value: "Due In" },
@@ -171,6 +178,7 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
                   <CheckIcon w="40" h="40" stroke={colors.n30} />
                 )
               }
+              onPress={onPressInspection}
             />
           </View>
         </View>
