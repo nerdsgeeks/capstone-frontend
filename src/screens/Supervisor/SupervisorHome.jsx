@@ -571,6 +571,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
   statusContainer: {

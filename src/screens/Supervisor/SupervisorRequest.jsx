@@ -33,7 +33,7 @@ const SupervisorRequest = ({ navigation }) => {
   };
 
   const openHelpDetailModal = (request) => {
-    console.log(request)
+    console.log(request);
     setSelectedHelpDetail(request);
     setIsHelpDetailModalOpen(true);
   };
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
   tabContainer: {

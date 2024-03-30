@@ -159,12 +159,11 @@ const SupervisorStaff = () => {
                     </View>
                   </View>
                   <Typography variant="xs-medium">
-                    { rooms.find(
-                        (room) =>
-                          room.cleaningStatus.toUpperCase() === "PENDING" &&
-                          room.assignedEmployeeID === employee.ID,
-                      )?.RoomName || "Not Available"
-                    }
+                    {rooms.find(
+                      (room) =>
+                        room.cleaningStatus.toUpperCase() === "PENDING" &&
+                        room.assignedEmployeeID === employee.ID,
+                    )?.RoomName || "Not Available"}
                   </Typography>
                 </View>
 
@@ -194,6 +193,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
   table: {
