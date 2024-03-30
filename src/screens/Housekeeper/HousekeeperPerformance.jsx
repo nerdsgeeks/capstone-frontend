@@ -68,7 +68,7 @@ const HousekeeperPerformance = ({ navigation }) => {
         >
           <SafeAreaView>
             <PerformanceHeader
-              onPress={() => console.log("poop")}
+              onPress={() => navigation.goBack()}
               firstName="Molly"
               rating="4"
             />

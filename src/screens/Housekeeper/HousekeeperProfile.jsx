@@ -53,6 +53,10 @@ const HousekeeperProfile = ({ navigation }) => {
       setShowScheduleTab(false);
     }
   };
+
+  const onPressRatingAndFeedback = () => {
+    navigation.navigate("HousekeeperPerformance", {});
+  };
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -125,6 +129,7 @@ const HousekeeperProfile = ({ navigation }) => {
                       icon={<StarIcon w="40" h="28" fill={colors.teal} />}
                       text="12"
                       width="100%"
+                      onPress={onPressRatingAndFeedback}
                     />
                   </View>
                 </View>

@@ -10,6 +10,7 @@ import CartIcon from "../SVG/CartIcon";
 import HousekeeperTest from "../screens/Housekeeper/HousekeeperTest";
 import HousekeeperHomeStack from "../routes/HousekeeperHomeStack";
 import HousekeeperRequestStack from "../routes/HousekeeperRequestStack";
+import HousekeeperPerformanceStack from "../routes/HousekeeperPerformanceStack";
 
 const Tab = createBottomTabNavigator();
 const NavigationTab = () => {
@@ -145,7 +146,7 @@ const NavigationTab = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={HousekeeperProfile}
+        component={HousekeeperPerformanceStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
