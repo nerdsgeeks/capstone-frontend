@@ -16,6 +16,7 @@ import {
 
 const HousekeeperPerformance = ({ navigation }) => {
   const [assignedRooms, setAssignedRooms] = useState([]);
+  const [feedbackCount, setFeedbackCount] = useState();
 
   const baseUrl = useBaseUrl();
 
@@ -35,6 +36,7 @@ const HousekeeperPerformance = ({ navigation }) => {
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedrooms/all";
+    console.log(employeeDetailsStore);
     const config = {
       headers: {
         Authorization: `Bearer ${accessTokenStore}`,
@@ -47,7 +49,14 @@ const HousekeeperPerformance = ({ navigation }) => {
         .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
-          setAssignedRooms(data);
+          const filteredData = data.filter(
+            (assignedRoom) =>
+              assignedRoom.assignedEmployeeID === employeeDetailsStore.userId,
+          );
+          console.log("filteredData");
+          console.log(filteredData);
+          setFeedbackCount(filteredData.length);
+          setAssignedRooms(filteredData);
         })
         .catch((error) => {
           console.log(error);
@@ -69,7 +78,7 @@ const HousekeeperPerformance = ({ navigation }) => {
           <SafeAreaView>
             <PerformanceHeader
               onPress={() => navigation.goBack()}
-              firstName="Molly"
+              firstName={employeeDetailsStore.firstName}
               rating="4"
             />
           </SafeAreaView>
@@ -92,7 +101,7 @@ const HousekeeperPerformance = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <Typography variant="small-medium">1</Typography>
+            <Typography variant="small-medium">{feedbackCount}</Typography>
           </View>
           <Typography variant="small-black">Feedback</Typography>
         </View>

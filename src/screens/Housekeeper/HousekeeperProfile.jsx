@@ -127,7 +127,7 @@ const HousekeeperProfile = ({ navigation }) => {
                     <BigButton
                       name="Rating & Feedbacks"
                       icon={<StarIcon w="40" h="28" fill={colors.teal} />}
-                      text="12"
+                      text="15"
                       width="100%"
                       onPress={onPressRatingAndFeedback}
                     />
