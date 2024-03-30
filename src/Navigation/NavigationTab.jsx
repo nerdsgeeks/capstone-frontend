@@ -19,8 +19,8 @@ const NavigationTab = () => {
         tabBarStyle: {
           position: "absolute",
           // backgroundColor: "#F89C7B",
-          borderTopLeftRadius: 28,
-          borderTopRightRadius: 28,
+          // borderTopLeftRadius: 28,
+          // borderTopRightRadius: 28,
           height: 52,
         },
         tabBarShowLabel: false, // This hides the label
@@ -174,7 +174,7 @@ const NavigationTab = () => {
           ),
         }}
       />
-
+      {/* 
       <Tab.Screen
         name="HousekeeperTest"
         component={HousekeeperTest}
@@ -205,7 +205,7 @@ const NavigationTab = () => {
             </View>
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

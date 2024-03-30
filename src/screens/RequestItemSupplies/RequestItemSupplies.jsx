@@ -112,6 +112,7 @@ const RequestItemSupplies = ({ route, navigation }) => {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
+        {/* <CloseIcon></CloseIcon> */}
         {/* <Text> {requestedItemsCartStore.length}</Text> */}
         <RequestItemSearch
           headerText="Items"

@@ -208,7 +208,7 @@ const NavigationTabSupervisor = () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="SupervisorTestStack"
         component={SupervisorTestStack}
         options={{
@@ -238,7 +238,7 @@ const NavigationTabSupervisor = () => {
             </View>
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

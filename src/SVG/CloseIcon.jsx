@@ -1,9 +1,9 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-const CloseIcon = ({ onPress }) => (
+const CloseIcon = ({ onPress, width = "24", height = "24" }) => (
   <TouchableOpacity onPress={onPress} style={styles.closeIcon}>
-    <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <Svg width={width} height={height} viewBox="0 0 24 24" fill="none">
       <Path
         d="M6 6L18 18"
         stroke="black"

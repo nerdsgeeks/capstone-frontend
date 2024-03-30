@@ -54,6 +54,9 @@ const fontSizes = {
   xs: {
     fontSize: 14,
   },
+  screenHeader: {
+    fontSize: 27,
+  },
 };
 
 export default Typography;

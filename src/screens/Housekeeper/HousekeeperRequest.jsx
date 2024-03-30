@@ -99,7 +99,7 @@ const HousekeeperRequest = ({ navigation }) => {
       }}
     >
       <Typography variant="small-medium">{item.ItemName}</Typography>
-      <Typography variant="small-medium" style={{ color: colors.n40}}>
+      <Typography variant="small-medium" style={{ color: colors.n40 }}>
         {new Date(item.RequestedDateTime.split("T")[0]).toLocaleDateString(
           "en-US",
           { month: "short", day: "2-digit", year: "numeric" },
@@ -120,15 +120,13 @@ const HousekeeperRequest = ({ navigation }) => {
       }}
     >
       <View
-          style={[
-            styles.itemColor,
-            request.isCompleted
-              ? styles.approvedItem
-              : styles.declinedItem,
-          ]}
-        ></View>
+        style={[
+          styles.itemColor,
+          request.isCompleted ? styles.approvedItem : styles.declinedItem,
+        ]}
+      ></View>
       <Typography variant="small-medium">{item.ItemName}</Typography>
-      <Typography variant="small-medium" style={{ color: colors.n40}}>
+      <Typography variant="small-medium" style={{ color: colors.n40 }}>
         {new Date(item.RequestedDateTime.split("T")[0]).toLocaleDateString(
           "en-US",
           { month: "short", day: "2-digit", year: "numeric" },
@@ -194,43 +192,57 @@ const HousekeeperRequest = ({ navigation }) => {
             <SupervisorRoomHeader title="Request Items" />
           </SafeAreaView>
         </LinearGradient>
-        <View style={{ marginHorizontal:26}}>
-        <Typography variant='title-regular' style={{alignSelf: "flex-start", marginHorizontal: 26,paddingVertical: 20}}>All you need in one place!</Typography>
-        <View style={styles.topButtonsContainer}>
-          <BigButton
-            name="Room Supplies"
-            icon={<BedIcon w="40" h="28" fill={colors.main} />}
-            onPress={onRoomSuppliesPressed}
-          />
-
-          <BigButton
-            name="Cart Supplies"
-            icon={
-              <CartIcon w="28" h="28" stroke={colors.main} fill={colors.main} />
-            }
-            onPress={onCartSuppliesPressed}
-          />
-        </View>
-
-        <View style={styles.bottomContainer}>
-          <View style={styles.navTabContainer}>
-            <NavTabs
-              screen="HousekeeperRequest"
-              tabs={tabs}
-              activeTab={activeTab}
-              onTabPress={handleTabPress}
-              justifyContent="space-around"
+        <View style={{ marginHorizontal: 26 }}>
+          <Typography
+            variant="title-regular"
+            style={{
+              alignSelf: "flex-start",
+              marginHorizontal: 26,
+              paddingVertical: 20,
+            }}
+          >
+            All you need in one place!
+          </Typography>
+          <View style={styles.topButtonsContainer}>
+            <BigButton
+              name="Room Supplies"
+              icon={<BedIcon w="40" h="28" fill={colors.main} />}
+              onPress={onRoomSuppliesPressed}
             />
-            {items.length > 0 && (
-              <FlatList
-                data={items}
-                renderItem={({ item }) => <Item item={item} />}
-                keyExtractor={(item) => item.requestItemId}
-                style={{paddingVertical: 20,}}
-              />
-            )}
+
+            <BigButton
+              name="Cart Supplies"
+              icon={
+                <CartIcon
+                  w="28"
+                  h="28"
+                  stroke={colors.main}
+                  fill={colors.main}
+                />
+              }
+              onPress={onCartSuppliesPressed}
+            />
           </View>
-        </View>
+
+          <View style={styles.bottomContainer}>
+            <View style={styles.navTabContainer}>
+              <NavTabs
+                screen="HousekeeperRequest"
+                tabs={tabs}
+                activeTab={activeTab}
+                onTabPress={handleTabPress}
+                justifyContent="space-around"
+              />
+              {items.length > 0 && (
+                <FlatList
+                  data={items}
+                  renderItem={({ item }) => <Item item={item} />}
+                  keyExtractor={(item) => item.requestItemId}
+                  style={{ paddingVertical: 20 }}
+                />
+              )}
+            </View>
+          </View>
         </View>
       </View>
     </SafeAreaProvider>
@@ -248,16 +260,17 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
+    paddingVertical: 22,
     paddingTop: 7,
   },
   topButtonsContainer: {
-    marginHorizontal:26,
+    marginHorizontal: 26,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
   },
   bottomContainer: {
-    marginHorizontal:26,
+    marginHorizontal: 26,
   },
   itemColor: {
     width: 6,

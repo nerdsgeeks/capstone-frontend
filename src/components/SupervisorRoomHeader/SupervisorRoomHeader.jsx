@@ -10,12 +10,10 @@ const SupervisorRoomHeader = ({ title, icon, text, iconOnPress }) => {
 
   return (
     <View style={styles.container}>
-      <Typography variant="h4-medium"> {title} </Typography>
+      <Typography variant="screenHeader-medium"> {title} </Typography>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
         {iconOnPress ? (
-          <TouchableOpacity onPress={iconOnPress}>
-            {icon}
-          </TouchableOpacity>
+          <TouchableOpacity onPress={iconOnPress}>{icon}</TouchableOpacity>
         ) : (
           icon
         )}
