@@ -9,7 +9,6 @@ import {
   FlatList,
   Image,
   Modal,
-  Button,
 } from "react-native";
 import Typography from "../Typography/Typography";
 import SearchIcon from "../../SVG/SearchIcon";
@@ -22,6 +21,10 @@ import CloseIcon from "../../SVG/CloseIcon";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import RequestedItemsList from "../RequestedItemsList/RequestedItemsList";
+import { useWindowDimensions } from "react-native";
+import Button from "../Button/Button";
+import Counter from "../Counter/Counter";
+import { colors } from "../../../themes/themes";
 
 const RequestItemSearchCartSupplies = ({
   headerText,
@@ -29,6 +32,8 @@ const RequestItemSearchCartSupplies = ({
   items,
   navigation,
 }) => {
+  const { width } = useWindowDimensions();
+  const imageWidth = (width - 2 * 26 - 16) / 3;
   const requestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
     (state) => state.requestedItemsCartSuppliesStore,
   );
@@ -145,12 +150,19 @@ const RequestItemSearchCartSupplies = ({
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
+<TouchableOpacity
+      style={[styles.itemContainer, { width: imageWidth }]}
       onPress={() => onPressItem(item)}
     >
-      <Image source={{ uri: item.ImageUrl }} style={styles.image} />
-      <Typography variant="xs-medium">{item.ItemName}</Typography>
+      <Image
+        source={{ uri: item.ImageUrl }}
+        style={[styles.image, { width: imageWidth }]}
+      />
+      <View style={styles.itemTextContainer}>
+      <Typography variant="xs-medium" style={{textAlign: "center"}}>
+        {item.ItemName}
+      </Typography>
+    </View>
     </TouchableOpacity>
   );
 
@@ -176,7 +188,7 @@ const RequestItemSearchCartSupplies = ({
           console.log(requestedItems);
         }}
       ></Button> */}
-      <View style={styles.searchBoxContainer}>
+      {/* <View style={styles.searchBoxContainer}>
         <Typography variant="xs-regular">Search</Typography>
         <View>
           <View
@@ -196,52 +208,42 @@ const RequestItemSearchCartSupplies = ({
             // onBlur={() =>  onBlurSearchInput()}
           />
         </View>
-      </View>
+      </View> */}
 
-      <Modal
+<Modal
         visible={isRequestAddToCartModalOpen}
         onRequestClose={toggleRequestAddToCartModal}
         animationType="fade"
         transparent={true}
       >
         <View style={styles.modalOverlay}>
-          <View
-            style={[
-              styles.modalView,
-              { height: isRequestHelpModalTextFocused ? "100%" : "76%" },
-            ]}
-          >
-            <CloseIcon onPress={toggleRequestAddToCartModal} />
-            <View style={styles.requestAddToCartModalContainer}>
-              <Typography variant="h5-black">Request Items</Typography>
+          <View style={styles.modalView}>
+            <View style={{ gap: 16, width: "100%", alignItems: "center" }}>
+              <CloseIcon onPress={toggleRequestAddToCartModal} />
 
+              <Typography variant="h4-medium">Request Items</Typography>
               <View style={styles.requestAddToCartModalImageContainer}>
-                <ImageDisplay type="large" source={selectedItem.ImageUrl} />
-                <Typography
-                  variant="body-regular"
-                  style={{ textAlign: "center" }}
-                >
-                  {selectedItem.ItemName}
-                </Typography>
+                <ImageDisplay
+                  type="large"
+                  source={selectedItem.ImageUrl}
+                  text={selectedItem.ItemName}
+                />
               </View>
-              <View style={styles.requestAddToCartModalNoteSection}>
-                <Text style={styles.requestAddToCartModalNoteLabel}>
-                  Add Note
-                </Text>
+              <View style={styles.modalForm}>
+                <Typography variant="body-medium">Add Note</Typography>
                 <View>
                   {!isRequestHelpModalTextFocused && (
-                    <View style={{ position: "absolute", top: 15, left: 10 }}>
-                      <PlusIcon />
+                    <View style={{ position: "absolute", top: 12, left: 10 }}>
+                      <PlusIcon fill={colors.n50} />
                     </View>
                   )}
-
                   <TextInput
                     style={[
                       styles.requestAddToCartModalInput,
                       {
                         padding: isRequestHelpModalTextFocused ? 2 : 10,
                         paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
-                        height: isRequestHelpModalTextFocused ? 80 : 40,
+                        height: 44,
                       },
                     ]}
                     placeholder="Note"
@@ -255,37 +257,19 @@ const RequestItemSearchCartSupplies = ({
                   />
                 </View>
               </View>
-
               <View style={styles.requestAddToCartModalQuantityCounter}>
-                <Typography variant="body-medium">Quantity</Typography>
-
-                <View style={styles.counterContainer}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleDecrement}
-                  >
-                    <MinusIcon></MinusIcon>
-                  </TouchableOpacity>
-
-                  <Typography variant="body-medium">{count}</Typography>
-
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleIncrement}
-                  >
-                    <PlusIcon></PlusIcon>
-                  </TouchableOpacity>
-                </View>
+                <Counter
+                  handleIncrement={handleIncrement}
+                  handleDecrement={handleDecrement}
+                  count={count}
+                />
               </View>
-
-              <TouchableOpacity
-                style={styles.requestAddToCartModalButton}
+              <Button
+                name="Add to Cart"
+                type="primary"
                 onPress={onRequestAddToCartModalSubmitPressed}
-              >
-                <Text style={styles.requestAddToCartModalButtonText}>
-                  Add to Cart
-                </Text>
-              </TouchableOpacity>
+                style={{ marginTop: 30,}}
+              />
             </View>
           </View>
         </View>
@@ -301,6 +285,7 @@ const RequestItemSearchCartSupplies = ({
           keyExtractor={(item) => item.ID}
           numColumns={3}
           contentContainerStyle={styles.list}
+          columnWrapperStyle={styles.columnWrapper}
         />
         {/* </ScrollView> */}
       </View>
@@ -325,14 +310,20 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     width: "90%",
-    rowGap: 16,
+    paddingVertical:24,
   },
-  searchBoxContainer: {
-    width: "90%",
-    alignSelf: "center",
+  itemTextContainer: {
+    height: 36,
   },
-  requestHelpModalNoteLabel: {
-    fontSize: 14,
+  columnWrapper: {
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  itemContainer: {
+    gap:6,
+    alignItems: "center",
+    // margin: 10,
+    // height: 100,
   },
   requestItemSearchInput: {
     borderWidth: 1,
@@ -343,26 +334,14 @@ const styles = StyleSheet.create({
     paddingLeft: 36,
     height: 40,
   },
-  listItemsContainer: {
-    rowGap: 16,
-    marginBottom: 180,
-  },
-  listItems: {
-    rowGap: 16,
-  },
-  list: {
-    paddingHorizontal: 10,
-  },
-  itemContainer: {
-    flex: 1,
-    flexDirection: "column",
-    margin: 10,
-    height: 100,
-  },
   image: {
     flex: 1,
     aspectRatio: 1,
     resizeMode: "cover",
+    borderRadius: 6,
+  },
+  listItemsContainer: {
+    marginBottom: 60,
   },
   modalOverlay: {
     flex: 1,
@@ -370,35 +349,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+    paddingHorizontal: 26,
   },
   modalView: {
-    height: "76%",
-    width: "76%",
-    margin: 20,
     backgroundColor: "white",
+    width: "100%",
+    flexDirection: "row",
+    paddingHorizontal: 50,
+    paddingVertical: 24,
     borderRadius: 20,
-    paddingVertical: 35,
-    paddingHorizontal: 30,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
-  requestAddToCartModalContainer: {
-    width: 240,
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-    rowGap: 32,
-    paddingTop: 0,
-    top: -26,
+  modalForm: {
+    width: "100%",
+    gap: 6,
+    paddingTop: 10,
   },
+  // requestAddToCartModalContainer: {
+  //   width: 240,
+  //   backgroundColor: "white",
+  //   padding: 20,
+  //   borderRadius: 10,
+  //   alignItems: "center",
+  //   rowGap: 32,
+  //   paddingTop: 0,
+  //   top: -26,
+  // },
   requestAddToCartModalHeaderText: {
     fontSize: 18,
     fontWeight: "bold",
@@ -421,9 +396,8 @@ const styles = StyleSheet.create({
   },
   requestAddToCartModalInput: {
     borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 5,
-    marginTop: 5,
+    borderColor: colors.n30,
+    borderRadius: 12,
   },
   requestAddToCartModalButton: {
     backgroundColor: "#8FDEDE",

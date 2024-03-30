@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import Typography from "../../components/Typography/Typography";
+import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import BigButton from "../../components/BigButton/BigButton";
 import BedIcon from "../../SVG/BedIcon";
@@ -13,6 +14,8 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import CartIcon from "../../SVG/CartIcon";
+import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 
 const HousekeeperRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -91,14 +94,45 @@ const HousekeeperRequest = ({ navigation }) => {
         justifyContent: "space-between",
         alignItems: "center",
         borderBottomWidth: 1,
-        borderBottomColor: colors.n40,
+        borderBottomColor: colors.n30,
         paddingVertical: 16,
-        marginHorizontal: 36,
       }}
     >
       <Typography variant="small-medium">{item.ItemName}</Typography>
-      <Typography variant="small-medium">
-        {item.RequestedDateTime.split("T")[0]}
+      <Typography variant="small-medium" style={{ color: colors.n40}}>
+        {new Date(item.RequestedDateTime.split("T")[0]).toLocaleDateString(
+          "en-US",
+          { month: "short", day: "2-digit", year: "numeric" },
+        )}
+      </Typography>
+    </View>
+  );
+
+  const PastItem = ({ item }) => (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: colors.n30,
+        paddingVertical: 16,
+      }}
+    >
+      <View
+          style={[
+            styles.itemColor,
+            request.isCompleted
+              ? styles.approvedItem
+              : styles.declinedItem,
+          ]}
+        ></View>
+      <Typography variant="small-medium">{item.ItemName}</Typography>
+      <Typography variant="small-medium" style={{ color: colors.n40}}>
+        {new Date(item.RequestedDateTime.split("T")[0]).toLocaleDateString(
+          "en-US",
+          { month: "short", day: "2-digit", year: "numeric" },
+        )}
       </Typography>
     </View>
   );
@@ -148,26 +182,36 @@ const HousekeeperRequest = ({ navigation }) => {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.topContainer}>
-          <Typography variant="h5-black">Request Items</Typography>
-          <Typography variant="body-regular">
-            All you need in one Place!
-          </Typography>
-          <View style={styles.topButtonsContainer}>
-            <BigButton
-              name="Room Supplies"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-              onPress={onRoomSuppliesPressed}
-            />
+      <View style={styles.container}>
+        <LinearGradient
+          colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
+          start={{ x: 0.0, y: 0.0 }}
+          end={{ x: 1.0, y: 1.0 }}
+          locations={[0.01, 0.7, 0.92, 1.0]}
+          style={styles.headerContainer}
+        >
+          <SafeAreaView>
+            <SupervisorRoomHeader title="Request Items" />
+          </SafeAreaView>
+        </LinearGradient>
+        <View style={{ marginHorizontal:26}}>
+        <Typography variant='title-regular' style={{alignSelf: "flex-start", marginHorizontal: 26,paddingVertical: 20}}>All you need in one place!</Typography>
+        <View style={styles.topButtonsContainer}>
+          <BigButton
+            name="Room Supplies"
+            icon={<BedIcon w="40" h="28" fill={colors.main} />}
+            onPress={onRoomSuppliesPressed}
+          />
 
-            <BigButton
-              name="Cart Supplies"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-              onPress={onCartSuppliesPressed}
-            />
-          </View>
+          <BigButton
+            name="Cart Supplies"
+            icon={
+              <CartIcon w="28" h="28" stroke={colors.main} fill={colors.main} />
+            }
+            onPress={onCartSuppliesPressed}
+          />
         </View>
+
         <View style={styles.bottomContainer}>
           <View style={styles.navTabContainer}>
             <NavTabs
@@ -175,17 +219,20 @@ const HousekeeperRequest = ({ navigation }) => {
               tabs={tabs}
               activeTab={activeTab}
               onTabPress={handleTabPress}
+              justifyContent="space-around"
             />
             {items.length > 0 && (
               <FlatList
                 data={items}
                 renderItem={({ item }) => <Item item={item} />}
                 keyExtractor={(item) => item.requestItemId}
+                style={{paddingVertical: 20,}}
               />
             )}
           </View>
         </View>
-      </SafeAreaView>
+        </View>
+      </View>
     </SafeAreaProvider>
   );
 };
@@ -193,24 +240,34 @@ const HousekeeperRequest = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
-    flexDirection: "column",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: colors.n0,
   },
-  topContainer: {
-    rowGap: 6,
+  headerContainer: {
+    width: "100%",
+    borderBottomLeftRadius: 60,
+    paddingHorizontal: 26,
+    paddingTop: 7,
   },
   topButtonsContainer: {
+    marginHorizontal:26,
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   bottomContainer: {
-    marginTop: 40,
+    marginHorizontal:26,
   },
-  navTabContainer: {
-    // borderColor: "black",
-    // borderWidth: 1,
+  itemColor: {
+    width: 6,
+    height: 54,
+  },
+  approvedItem: {
+    backgroundColor: colors.pale_teal1,
+  },
+  declinedItem: {
+    backgroundColor: colors.red,
   },
   pendingContainer: {},
   historyContainer: {},

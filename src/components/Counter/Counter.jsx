@@ -22,7 +22,7 @@ const Counter = ({
           onPress={handleDecrement}
           disabled={disabled}
         >
-          <MinusIcon></MinusIcon>
+          <MinusIcon w="26" h="26"></MinusIcon>
         </TouchableOpacity>
 
         <Typography variant="body-medium">{count}</Typography>
@@ -32,7 +32,7 @@ const Counter = ({
           onPress={handleIncrement}
           disabled={disabled}
         >
-          <PlusIcon></PlusIcon>
+          <PlusIcon w="26" h="26"></PlusIcon>
         </TouchableOpacity>
       </View>
     </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   counterContainer: {
     flexDirection: "row",
-    gap: 10,
+    gap: 16,
     alignItems: "center",
     justifyContent: "space-between",
   },
