@@ -9,9 +9,9 @@ const RequestHelpComponent = ({
   onPress,
   updateRequestCompletion,
 }) => {
-  const { helperRequestedAdditionalNotes, Quantity, RoomName, startTime, isCompleted } =
+  const { helperRequestedAdditionalNotes, Quantity, RoomName, startTime, isHelperRequestedApproved } =
     request;
-  const [completed, setCompleted] = useState(isCompleted);
+  const [completed, setCompleted] = useState(isHelperRequestedApproved);
 
   const monthAbbreviations = new Intl.DateTimeFormat("en", {
     month: "short",
@@ -28,7 +28,7 @@ const RequestHelpComponent = ({
   const formattedTime = day + " " + monthAbbreviations + " " + hours;
 
   const changeStatus = () => {
-    const updatedRequest = { ...request, isCompleted: !completed };
+    const updatedRequest = { ...request, isHelperRequestedApproved: !completed };
     setCompleted(!completed);
     updateRequestCompletion(updatedRequest);
   };
