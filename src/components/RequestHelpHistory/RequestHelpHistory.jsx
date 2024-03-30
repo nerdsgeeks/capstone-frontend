@@ -3,8 +3,21 @@ import Typography from "../Typography/Typography";
 import { useState } from "react";
 import { colors } from "../../../themes/themes";
 
-const RequestItemComponent = ({ request,onPress }) => {
-  const { ItemName, Quantity, RoomName, RequestedDateTime } = request;
+const RequestHelpHistory = ({ request, onPress }) => {
+  const { helperRequestedAdditionalNotes, Quantity, RoomName, startTime,isHelperRequestedApproved } = request;
+  const monthAbbreviations = new Intl.DateTimeFormat("en", {
+    month: "short",
+  }).format(new Date(startTime));
+  const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
+    new Date(startTime),
+  );
+  const hours = new Intl.DateTimeFormat("en", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).format(new Date(startTime));
+
+  const formattedTime = day + " " + monthAbbreviations + " " + hours;
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -12,7 +25,7 @@ const RequestItemComponent = ({ request,onPress }) => {
         <View
           style={[
             styles.itemColor,
-            request.isCompleted
+            request.isHelperRequestedApproved
               ? styles.approvedItem
               : styles.declinedItem,
           ]}
@@ -20,13 +33,13 @@ const RequestItemComponent = ({ request,onPress }) => {
         <View style= {{ flexGrow: 1}}>
           <View style={styles.bodyTopContent}>
             <Typography variant="small-regular" style={styles.itemStyle}>
-              {ItemName}
+              {helperRequestedAdditionalNotes}
             </Typography>
             <Typography variant="small-regular">{Quantity}</Typography>
             <Typography variant="small-regular">{RoomName}</Typography>
           </View>
           <View style={styles.bodyContentBottom}>
-            <Typography variant="small-regular">{RequestedDateTime}</Typography>
+            <Typography variant="small-regular">{formattedTime}</Typography>
           </View>
         </View>
       </View>
@@ -67,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestItemComponent;
+export default RequestHelpHistory;

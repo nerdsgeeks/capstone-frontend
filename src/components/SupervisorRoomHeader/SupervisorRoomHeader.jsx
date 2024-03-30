@@ -1,7 +1,7 @@
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import Typography from "../Typography/Typography";
 
-const SupervisorRoomHeader = ({ title, icon, text }) => {
+const SupervisorRoomHeader = ({ title, icon, text, iconOnPress }) => {
   const date = new Date();
   const showDate =
     date.toLocaleString("default", { day: "numeric" }) +
@@ -12,7 +12,13 @@ const SupervisorRoomHeader = ({ title, icon, text }) => {
     <View style={styles.container}>
       <Typography variant="h4-medium"> {title} </Typography>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-        {icon ? icon : null}
+        {iconOnPress ? (
+          <TouchableOpacity onPress={iconOnPress}>
+            {icon}
+          </TouchableOpacity>
+        ) : (
+          icon
+        )}
         {text ? <Typography variant="xs-medium">{text}</Typography> : null}
       </View>
     </View>
