@@ -3,15 +3,20 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
   ScrollView,
   Modal,
   Image,
   TextInput,
 } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import CartIcon from "../../SVG/CartIcon";
+import BackIcon from "../../SVG/BackIcon";
+import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import Typography from "../../components/Typography/Typography";
+import { colors } from "../../../themes/themes";
+import Button from "../../components/Button/Button";
 import {
   useRequestCartStore,
   useRequestCartSuppliesStore,
@@ -98,9 +103,36 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
     navigation.navigate(baseScreenStore, { roomDetails: roomDetails });
     //navigation.goBack();
   };
+
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
+      <LinearGradient
+          colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
+          start={{ x: 0.0, y: 0.0 }}
+          end={{ x: 1.0, y: 1.0 }}
+          locations={[0.01, 0.7, 0.92, 1.0]}
+          style={styles.headerContainer}
+        >
+          <SafeAreaView>
+            <SupervisorRoomHeader
+              title={
+                <View
+                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                >
+                  <TouchableOpacity onPress={goBack}>
+                    <BackIcon />
+                  </TouchableOpacity>
+                  <Typography variant="h4-medium">Shopping Cart</Typography>
+                </View>
+              }
+            />
+          </SafeAreaView>
+        </LinearGradient>
         {/* <Text> {requestedItemsCartSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemCartSuppliesOrder</Text> */}
         <View style={{ flexDirection: "column", rowGap: 20 }}>
@@ -109,7 +141,9 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
             showRequestedItemText={false}
           ></RequestedItemsList>
 
-          <TouchableOpacity
+<Button type="primary" name="Order" onPress={onOrderPressed} />
+
+          {/* <TouchableOpacity
             style={{
               backgroundColor: "#8FDEDE",
               borderRadius: 20,
@@ -133,7 +167,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
             >
               Order
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </SafeAreaProvider>
@@ -148,6 +182,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 10,
     alignItems: "center",
-    paddingTop: 20,
+    backgroundColor: colors.n0,
+  },
+  headerContainer: {
+    width: "100%",
+    borderBottomLeftRadius: 60,
+    paddingHorizontal: 26,
+    paddingTop: 7,
   },
 });

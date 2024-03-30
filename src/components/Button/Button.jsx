@@ -18,7 +18,7 @@ const Button = ({ name, type, onPress, style }) => {
       ]}
     >
       <Typography
-        variant="small-black"
+        variant="title-medium"
         style={type === "primary" ? styles.primaryText : styles.secondaryText}
       >
         {name}

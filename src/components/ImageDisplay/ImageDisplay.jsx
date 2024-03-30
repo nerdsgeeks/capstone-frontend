@@ -22,23 +22,20 @@ const ImageDisplay = ({ type, source, text }) => {
 
 const styles = StyleSheet.create({
   largeImage: {
-    width: 160,
-    height: 160,
+    width: 220,
+    height: 220,
     borderRadius: 6,
   },
   smallImage: {
-    width: 75,
-    height: 75,
+    width: 100,
+    height: 100,
     borderRadius: 6,
   },
   largeText: {
-    width: 160,
-    height: 160,
     marginTop: 10,
   },
   smallText: {
-    width: 75,
-    height: 75,
+    
   },
 });
 

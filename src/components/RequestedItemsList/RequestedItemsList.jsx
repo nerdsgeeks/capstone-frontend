@@ -35,16 +35,16 @@ const RequestedItemsList = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "",
     rowGap: 10,
   },
   requestedItemsListContainer: {
-    borderTopWidth: 1,
+    // borderTopWidth: 1,
     borderBottomWidth: 1,
     // borderWidth: 2,
     borderColor: "#D9D9D9",
     paddingVertical: 20,
-    height: "82%",
+    height: "78%",
   },
 });
 

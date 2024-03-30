@@ -5,6 +5,7 @@ import TrashIcon from "../../SVG/TrashIcon";
 import Counter from "../Counter/Counter";
 import Typography from "../Typography/Typography";
 import { useRequestCartStore } from "../../store/requestStore";
+import { colors } from "../../../themes/themes";
 
 const RequestItemDetail = ({
   countProp = 0,
@@ -50,16 +51,15 @@ const RequestItemDetail = ({
   return (
     //react native code
     <View style={styles.container}>
-      <View>
-        <ImageDisplay type="small" source={imageSrc} />
-      </View>
-      <View>
+      <ImageDisplay type="small" source={imageSrc} />
+
+      <View style={{gap:23, flexGrow: 1}}>
         <View style={styles.topHeader}>
-          <Typography variant="small-medium">{itemName}</Typography>
+          <Typography variant="title-medium">{itemName}</Typography>
           {/* <Typography variant="small-medium">{index}</Typography> */}
-          <TrashIcon />
+          {/* <TrashIcon w="26" h="26"/> */}
         </View>
-        <View>
+        
           <Counter
             count={count}
             handleIncrement={() => handleIncrement(index)}
@@ -67,7 +67,7 @@ const RequestItemDetail = ({
             containerStyle={styles.Counter}
             disabled={disabled}
           />
-        </View>
+        
       </View>
     </View>
   );
@@ -77,15 +77,16 @@ export default RequestItemDetail;
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     flexDirection: "row",
-    gap: 10,
+    gap: 17,
     alignItems: "center",
+
     justifyContent: "center",
-    marginRight: 68,
-    marginBottom: 16,
+    borderColor: colors.n20,
     borderBottomWidth: 1,
-    borderColor: "#D9D9D9",
-    paddingVertical: 20,
+
+    paddingVertical: 16,
   },
   topHeader: {
     flexDirection: "row",
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
   },
   Counter: {
     flexDirection: "row",
-    gap: 20,
     alignItems: "center",
     justifyContent: "space-between",
   },
