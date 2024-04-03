@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
-import { useAccessTokenStore } from "../../store/employeeStore";
+import { useAccessTokenStore,useEmployeeDetailsStore } from "../../store/employeeStore";
 import { acceptRequestHelp, fetchRooms } from "../Utils/SupervisorApi"; // Corrected backend calls
 import useBaseUrl from "../../hooks/useBaseUrl";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
@@ -13,36 +13,44 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
   const [updatedRequestItems, setUpdatedRequestItems] = useState([]);
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [selectedRequest, setSelectedRequest] = useState();
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore
   );
   const baseUrl = useBaseUrl();
+  const [updated, setUpdated] = useState(false);
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
 
   useEffect(() => {
     fetchRooms(baseUrl, accessTokenStore).then((data) => { 
       const filteredData = data.filter((room) => room.isHelperRequested === true && room.isHelperRequestedApproved === false);
       setRequestItems(filteredData);
     });
-  }, []);
+  }, [updated]);
 
-  const onPressApprove = (request) => {
-    setSelectedRequest(request);
+  const onPressApprove = () => {
+    setSelectedRequest(true);
     setConfirmationModalVisible(true);
   };
 
-  const onPressDecline = (request) => {
-    setSelectedRequest(request);
+  const onPressDecline = () => {
+    setSelectedRequest(false);
     setConfirmationModalVisible(true);
   };
 
   const handleConfirm = () => {
-    if (selectedRequest) {
-      if (selectedRequest.approved) {
+    if (selectedRequest!==null) {
+      if (selectedRequest) {
+        console.log(updatedRequestItems)
         acceptRequestHelp(baseUrl, updatedRequestItems, accessTokenStore).then( // Corrected backend call
           () => {
             setUpdatedRequestItems([]);
+            setUpdated(!updated);
             // Additional logic after approval
+
           }
         );
       } else {
@@ -58,6 +66,7 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
   };
 
   const updateRequestCompletion = (updatedRequest) => {
+    console.log(updatedRequest);
     const indexToUpdate = requestItems.findIndex(
       (request) => request.ID === updatedRequest.ID
     );
