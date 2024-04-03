@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 30,
     paddingVertical: 10,
+    shadowColor: colors.n50,
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 2,
   },
   primary: {
     backgroundColor: colors.pale_teal1,

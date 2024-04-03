@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image, ScrollView, TextInput } from "react-native";
+import { View, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity } from "react-native";
 import Typography from "../Typography/Typography";
 import ClockIcon from "../../SVG/ClockIcon";
 import AddNote from "../AddNote/AddNote";
@@ -11,6 +11,10 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import BackIcon from "../../SVG/BackIcon";
+import PlusIcon from "../../SVG/PlusIcon";
+import { colors } from "../../../themes/themes";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const StaffCleanedRoomScreen = ({ navigation, route }) => {
   const { images } = route.params;
@@ -130,71 +134,95 @@ const StaffCleanedRoomScreen = ({ navigation, route }) => {
         console.log(error);
       });
   };
-  return (
-    <View style={styles.container}>
-      <View style={styles.headerStyle}>
-        <Typography variant="h5-black">Job Well Done</Typography>
-      </View>
-      <View style={styles.imageConatiner}>
-        <Image
-          source={require("./../../../assets/request-help-modal-image.png")}
-          style={styles.imageStyle}
-        />
-      </View>
-      <View style={styles.timeContainer}>
-        <ClockIcon w="22" h="22" />
-        <Typography variant="body-regular">
-          {
-            new Date(roomDetails.cleaningDuration)
-              .toISOString()
-              .split("T")[1]
-              .split(".")[0]
-          }
-        </Typography>
-      </View>
-      <ScrollView horizontal={true}>
-        <View style={styles.multipleImageContainer}>
-          {images.map((image, index) => (
-            <Image
-              key={index}
-              source={{ uri: `data:image/jpg;base64,${image}` }}
-              style={styles.imageStyle}
-            />
-          ))}
-        </View>
-      </ScrollView>
 
-      <View style={styles.addNoteContainer}>
-        <Typography variant="h5-black">Add Note</Typography>
-        {/* <AddNote /> */}
-        <TextInput
-          style={[
-            styles.textInputStyle,
+  const goBack = () => {
+    navigation.goBack();
+  };
+
+  return (
+    <SafeAreaProvider style={styles.container}>
+      <View style={{ flexGrow: 1,}}>
+        <SafeAreaView style={styles.headerStyle}>
+          <TouchableOpacity onPress={goBack} style={{ alignSelf: "flex-start", paddingBottom: 50}}>
+          <BackIcon w="30" h="30"/>
+          </TouchableOpacity>
+        
+          <Typography variant="h5-black">Nice Job!</Typography>
+        
+        <View style={styles.imageConatiner}>
+          <Image
+            source={require("./../../../assets/illustrations/Complete-Room.png")}
+            style={{width: 125.33,
+              height: 140}}
+          />
+        </View>
+        <View style={styles.timeContainer}>
+          <ClockIcon w="22" h="22" />
+          <Typography variant="body-regular">
             {
-              padding: isNoteTextTextFocused ? 2 : 10,
-              paddingLeft: isNoteTextTextFocused ? 20 : 36,
-              height: isNoteTextTextFocused ? 80 : 40,
-            },
-          ]}
-          placeholder="Note"
-          onFocus={() => setIsNoteTextTextFocused(true)}
-          onBlur={() => {
-            setIsNoteTextTextFocused(false);
-            updateSelectedItemWithNote();
-          }}
-          onChangeText={handleNoteTextChange} // Update state on text change
-          value={noteText}
-        />
+              new Date(roomDetails.cleaningDuration)
+                .toISOString()
+                .split("T")[1]
+                .split(".")[0]
+            }
+          </Typography>
+        </View>
+        <ScrollView horizontal={true}>
+          <View style={styles.multipleImageContainer}>
+            {images.map((image, index) => (
+              <Image
+                key={index}
+                source={{ uri: `data:image/jpg;base64,${image}` }}
+                style={styles.imageStyle}
+              />
+            ))}
+          </View>
+        </ScrollView>
+        <View style={{paddingTop: 20, width: "100%", gap: 4}}>
+          <Typography variant="small-medium">Add Room Observations</Typography>
+          {/* <AddNote /> */}
+          {!isNoteTextTextFocused && (
+                <View style={{ position: "absolute", bottom: 12, left: 10 }}>
+                  <PlusIcon fill={colors.n50} />
+                </View>
+              )}
+          <TextInput
+            style={[
+              styles.textInputStyle,
+              {
+                padding: 2,
+                paddingLeft: isNoteTextTextFocused ? 20 : 36,
+                height: 44,
+              },
+            ]}
+            placeholder="Note"
+            onFocus={() => setIsNoteTextTextFocused(true)}
+            onBlur={() => {
+              setIsNoteTextTextFocused(false);
+              updateSelectedItemWithNote();
+            }}
+            onChangeText={handleNoteTextChange} // Update state on text change
+            value={noteText}
+          />
+        </View>
+        <View style={{ paddingTop: 50}}>
+          <Button name="Request Inspection" type="primary" onPress={handleSubmit} />
+          </View>
+        </SafeAreaView>
       </View>
-      <Button name="Done" type="primary" onPress={handleSubmit} />
-    </View>
+    </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    gap: 20,
-    padding: 20,
+    paddingHorizontal:45,
+    alignItems: "flex-start",
+    flexDirection: "row",
+  },
+  headerStyle: {
+    gap: 16,
+    justifyContent: "center",
     alignItems: "center",
   },
 
@@ -215,8 +243,9 @@ const styles = StyleSheet.create({
     //need to  add width 75 and 75 once images areggetched
   },
   imageStyle: {
-    width: 140,
-    height: 110,
+    width: 100,
+    height: 100,
+    borderRadius: 6,
   },
   textInputStyle: {
     borderWidth: 1,

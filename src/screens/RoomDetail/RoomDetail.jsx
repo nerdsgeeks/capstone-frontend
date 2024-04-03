@@ -35,6 +35,8 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../../themes/themes";
 import TextChip from "../../components/TextChip/TextChip";
+import { Checkbox } from "expo-checkbox";
+import StopIcon from "../../SVG/StopIcon";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -95,12 +97,14 @@ const RoomDetail = ({ route, navigation }) => {
   const [requestedItems, setrequestedItems] = useState([]);
   const [helperNotes, setHelperNotes] = useState("");
 
-  const handleCheckboxChange = (roomId) => {
-    setSelectedRooms((prevSelectedRooms) => {
-      if (prevSelectedRooms.includes(roomId)) {
-        return prevSelectedRooms.filter((ID) => ID !== roomId);
+  const handleHelpTypeCheckboxChange = (key) => {
+    setHelperNotes(prevSelectedHelpTypes => {
+      if (prevSelectedHelpTypes.includes(key)) {
+        // If key is already selected, remove it
+        return prevSelectedHelpTypes.split(', ').filter(item => item !== key).join(', ');
       } else {
-        return [...prevSelectedRooms, roomId];
+        // Otherwise, add it
+        return prevSelectedHelpTypes ? `${prevSelectedHelpTypes}, ${key}` : key;
       }
     });
   };
@@ -129,7 +133,7 @@ const RoomDetail = ({ route, navigation }) => {
   const roomsStore = useRoomsStore((state) => state.roomsStore);
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
 
-  const [modalNoteText, setModalNoteText] = useState("");
+  // const [modalNoteText, setModalNoteText] = useState("");
 
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
@@ -145,17 +149,17 @@ const RoomDetail = ({ route, navigation }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  const handlemodalNoteTextChange = (text) => {
-    setModalNoteText(text);
-  };
+  // const handlemodalNoteTextChange = (text) => {
+  //   setModalNoteText(text);
+  // };
 
-  const updateSelectedItemWithNote = () => {
-    const updatedRoomDetails = {
-      ...roomDetailsStore,
-      helperRequestedAdditionalNotes: modalNoteText,
-    };
-    updateRoomDetailsStore(updatedRoomDetails);
-  };
+  // const updateSelectedItemWithNote = () => {
+  //   const updatedRoomDetails = {
+  //     ...roomDetailsStore,
+  //     helperRequestedAdditionalNotes: modalNoteText,
+  //   };
+  //   updateRoomDetailsStore(updatedRoomDetails);
+  // };
 
   const toggleRequestHelpModal = () => {
     console.log(isRequestHelpModalOpen);
@@ -249,7 +253,7 @@ const RoomDetail = ({ route, navigation }) => {
       inspectionPhotos: roomDetailsStore.inspectionPhotos,
       inspectionNotes: roomDetailsStore.inspectionNotes,
       isHelperRequestedApproved: roomDetailsStore.isHelperRequestedApproved,
-      helperRequestedAdditionalNotes: modalNoteText,
+      helperRequestedAdditionalNotes: helperNotes,
     };
 
     onUpdateAssignedRoom(tempAssignedRoomObject);
@@ -273,7 +277,7 @@ const RoomDetail = ({ route, navigation }) => {
 
         const updatedRoomDetails = {
           ...roomDetailsStore,
-          helperRequestedAdditionalNotes: modalNoteText,
+          helperRequestedAdditionalNotes: helperNotes,
           isHelperRequested: true,
         };
 
@@ -410,55 +414,73 @@ const RoomDetail = ({ route, navigation }) => {
           transparent={true}
         >
           <View style={styles.modalOverlay}>
-            <View style={styles.modalView}>
-              <CloseIcon onPress={toggleRequestHelpModal} />
-              <View style={styles.requestHelpModalContainer}>
-                <Typography variant="h5-black">Need extra hands?</Typography>
-                <Typography variant="title-medium">
-                  Room: {roomDetailsStore.RoomName}
-                </Typography>
-                <View style={styles.requestHelpModalImageContainer}>
-                  <Image
-                  source={require("./../../../assets/illustrations/Ask-for-Help.png")}
-                    style={styles.requestHelpModalImage}
-                  />
+            <View style={{ flexDirection: "row", marginHorizontal: 26}} >
+              <View style={styles.modalView}>
+                <CloseIcon onPress={toggleRequestHelpModal} />
+                <View style={styles.requestHelpModalContainer}>
+                  <Typography variant="h5-black">Need extra hands?</Typography>
+                  <Typography variant="title-medium">
+                    Room: {roomDetailsStore.RoomName}
+                  </Typography>
+                    <View style={{ gap: 30}}>
+                      <Image
+                      source={require("./../../../assets/illustrations/Ask-for-Help.png")}
+                        style={styles.requestHelpModalImage}
+                      />
+                                        <View style={styles.requestHelpModalNoteSection}>
+                      <Typography variant="body-medium">Select type of help: </Typography>
+                      {HelpTypes.map((helpType) => (
+                              <View
+                                key={helpType.key}
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  gap: 4,
+                                }}
+                              >
+                                <Checkbox
+                                  value={helperNotes.includes(helpType.key)}
+                                  onValueChange={() => handleHelpTypeCheckboxChange(helpType.key)}
+                                  color={helperNotes ? colors.teal : undefined}
+                                />
+                                <Typography variant="small-regular">
+                                  {helpType.value}
+                                </Typography>
+                              </View>
+                            ))}
+                      {/* <View>
+                        {!isRequestHelpModalTextFocused && (
+                          <View style={{ position: "absolute", top: 15, left: 10 }}>
+                            <PlusIcon />
+                          </View>
+                        )}
+                        <TextInput
+                          style={[
+                            styles.requestHelpModalInput,
+                            {
+                              padding: isRequestHelpModalTextFocused ? 2 : 10,
+                              paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
+                              height: isRequestHelpModalTextFocused ? 80 : 40,
+                            },
+                          ]}
+                          placeholder="Note"
+                          onFocus={() => setIsRequestHelpModalTextFocused(true)}
+                          onBlur={() => {
+                            setIsRequestHelpModalTextFocused(false);
+                            updateSelectedItemWithNote();
+                          }}
+                          onChangeText={handlemodalNoteTextChange} // Update state on text change
+                          value={modalNoteText}
+                        />
+                      </View> */}
+                                        </View>
+                                        <Button
+                      type="primary"
+                      onPress={onRequestHelpModalSubmitPressed}
+                      name="Request Help"
+                                        />
+                    </View>
                 </View>
-                <View style={styles.requestHelpModalNoteSection}>
-                  <Typography variant="xs-medium">Add Note</Typography>
-                  <Text style={styles.requestHelpModalNoteLabel}>Add Note</Text>
-                  <View>
-                    {!isRequestHelpModalTextFocused && (
-                      <View style={{ position: "absolute", top: 15, left: 10 }}>
-                        <PlusIcon />
-                      </View>
-                    )}
-
-                    <TextInput
-                      style={[
-                        styles.requestHelpModalInput,
-                        {
-                          padding: isRequestHelpModalTextFocused ? 2 : 10,
-                          paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
-                          height: isRequestHelpModalTextFocused ? 80 : 40,
-                        },
-                      ]}
-                      placeholder="Note"
-                      onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                      onBlur={() => {
-                        setIsRequestHelpModalTextFocused(false);
-                        updateSelectedItemWithNote();
-                      }}
-                      onChangeText={handlemodalNoteTextChange} // Update state on text change
-                      value={modalNoteText}
-                    />
-                  </View>
-                </View>
-
-                <Button
-                  type="primary"
-                  onPress={onRequestHelpModalSubmitPressed}
-                  name="Request Help"
-                />
               </View>
             </View>
           </View>
@@ -561,9 +583,9 @@ const RoomDetail = ({ route, navigation }) => {
                 onPress={onPausePressed}
                 style={styles.commonButton}
               >
-                <PauseIcon></PauseIcon>
+                <View style={{flexDirection:"row", alignItems: "center", gap: 4}}><PauseIcon/><StopIcon w="14" h="14"/></View>
                 <Typography variant="small-regular" style={{ marginTop: 4 }}>
-                  Pause
+                  Stop
                 </Typography>
               </TouchableOpacity>
             )}
@@ -689,8 +711,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    width: 290,
-    margin: 20,
+    flexGrow:1,
     backgroundColor: "white",
     borderRadius: 20,
     paddingVertical: 35,
@@ -710,7 +731,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
-    rowGap: 10,
+    gap: 16,
     // borderWidth: 1,
   },
   requestHelpModalHeaderText: {
@@ -723,16 +744,17 @@ const styles = StyleSheet.create({
   },
   requestHelpModalImageContainer: {},
   requestHelpModalImage: {
-    width: 100,
-    height: 100,
-    marginVertical: 10,
+    width: 169.31,
+    height: 140,
   },
   requestHelpModalNoteSection: {
+    alignSelf: "flex-start",
     width: "100%",
+    gap:12,
   },
-  requestHelpModalNoteLabel: {
-    fontSize: 14,
-  },
+  // requestHelpModalNoteLabel: {
+  //   fontSize: 14,
+  // },
   requestHelpModalInput: {
     borderWidth: 1,
     borderColor: "grey",

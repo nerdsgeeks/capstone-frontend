@@ -25,6 +25,7 @@ import { useWindowDimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import BackIcon from "../../SVG/BackIcon";
 import { colors } from "../../../themes/themes";
 
 const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
@@ -198,20 +199,35 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     setItemsFiltered(filtered);
   }, [searchQuery, items]);
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
-    <SafeAreaProvider style={{ flexDirection: "row"}}>
+    <SafeAreaProvider style={{ flexDirection: "row" }}>
       <View style={styles.container}>
         <LinearGradient
-            colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
-            start={{ x: 0.0, y: 0.0 }}
-            end={{ x: 1.0, y: 1.0 }}
-            locations={[0.01, 0.7, 0.92, 1.0]}
-            style={styles.headerContainer}
-          >
-            <SafeAreaView>
-              <SupervisorRoomHeader title="Request Items" />
-            </SafeAreaView>
-          </LinearGradient>
+          colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
+          start={{ x: 0.0, y: 0.0 }}
+          end={{ x: 1.0, y: 1.0 }}
+          locations={[0.01, 0.7, 0.92, 1.0]}
+          style={styles.headerContainer}
+        >
+          <SafeAreaView>
+            <SupervisorRoomHeader
+              title={
+                <View
+                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                >
+                  <TouchableOpacity onPress={goBack}>
+                    <BackIcon />
+                  </TouchableOpacity>
+                  <Typography variant="h4-medium">Request Item</Typography>
+                </View>
+              }
+            />
+          </SafeAreaView>
+        </LinearGradient>
         <View style={styles.searchBoxContainer}>
           <Typography variant="xs-regular">Search</Typography>
           <View>
@@ -222,7 +238,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                 left: 10,
               }}
             >
-              <SearchIcon w="24" h="24" fill={colors.n30}/>
+              <SearchIcon w="24" h="24" fill={colors.n30} />
             </View>
             {searchQuery.length > 0 && (
               <TouchableOpacity
