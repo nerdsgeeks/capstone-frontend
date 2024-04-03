@@ -191,12 +191,14 @@ const HousekeeperHome = ({ navigation }) => {
               style={styles.headerContainer}
             >
               {/* <Text>{accessTokenStore}</Text> */}
+              <SafeAreaView>
               <HousekeeperHomeHeader
                 name="Pujan"
                 message="Time to shine at work!"
                 taskProgress={taskProgress}
                 scheduleTime="10:00-18:00"
               />
+              </SafeAreaView>
             </LinearGradient>
             <HousekeeperHomeMain
               rooms={roomsStore}
@@ -228,8 +230,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     borderBottomLeftRadius: 70,
     paddingHorizontal: 26,
-    paddingVertical: 16,
-    paddingTop: 32,
+    paddingBottom: 16,
+    // paddingTop: 32,
   },
   chipContainer: {
     flexDirection: "row",

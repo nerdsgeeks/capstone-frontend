@@ -33,6 +33,10 @@ import {
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
 import { useFocusEffect } from "@react-navigation/native";
+import { colors } from "../../../themes/themes";
+import TextChip from "../../components/TextChip/TextChip";
+import { Checkbox } from "expo-checkbox";
+import StopIcon from "../../SVG/StopIcon";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -91,6 +95,29 @@ const RoomDetail = ({ route, navigation }) => {
 
   const [isRequestHelpModalOpen, setRequestHelpModalState] = useState(false);
   const [requestedItems, setrequestedItems] = useState([]);
+  const [helperNotes, setHelperNotes] = useState("");
+
+  const handleHelpTypeCheckboxChange = (key) => {
+    setHelperNotes(prevSelectedHelpTypes => {
+      if (prevSelectedHelpTypes.includes(key)) {
+        // If key is already selected, remove it
+        return prevSelectedHelpTypes.split(', ').filter(item => item !== key).join(', ');
+      } else {
+        // Otherwise, add it
+        return prevSelectedHelpTypes ? `${prevSelectedHelpTypes}, ${key}` : key;
+      }
+    });
+  };
+
+  const HelpTypes = [
+    { key: "Manager", value: "Manager" },
+    { key: "Electric", value: "Electric" },
+    { key: "Plumber", value: "Plumber" },
+    { key: "Housekeeper", value: "Housekeeper" },
+    { key: "Bell Hop", value: "Bell Hop" },
+    { key: "Guest Assistant", value: "Guest Assistant" },
+  ];
+
   const requestedItemsCartStore = useRequestCartStore(
     (state) => state.requestedItemsCartStore,
   );
@@ -106,7 +133,7 @@ const RoomDetail = ({ route, navigation }) => {
   const roomsStore = useRoomsStore((state) => state.roomsStore);
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
 
-  const [modalNoteText, setModalNoteText] = useState("");
+  // const [modalNoteText, setModalNoteText] = useState("");
 
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
@@ -122,17 +149,17 @@ const RoomDetail = ({ route, navigation }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  const handlemodalNoteTextChange = (text) => {
-    setModalNoteText(text);
-  };
+  // const handlemodalNoteTextChange = (text) => {
+  //   setModalNoteText(text);
+  // };
 
-  const updateSelectedItemWithNote = () => {
-    const updatedRoomDetails = {
-      ...roomDetailsStore,
-      helperRequestedAdditionalNotes: modalNoteText,
-    };
-    updateRoomDetailsStore(updatedRoomDetails);
-  };
+  // const updateSelectedItemWithNote = () => {
+  //   const updatedRoomDetails = {
+  //     ...roomDetailsStore,
+  //     helperRequestedAdditionalNotes: modalNoteText,
+  //   };
+  //   updateRoomDetailsStore(updatedRoomDetails);
+  // };
 
   const toggleRequestHelpModal = () => {
     console.log(isRequestHelpModalOpen);
@@ -226,7 +253,7 @@ const RoomDetail = ({ route, navigation }) => {
       inspectionPhotos: roomDetailsStore.inspectionPhotos,
       inspectionNotes: roomDetailsStore.inspectionNotes,
       isHelperRequestedApproved: roomDetailsStore.isHelperRequestedApproved,
-      helperRequestedAdditionalNotes: modalNoteText,
+      helperRequestedAdditionalNotes: helperNotes,
     };
 
     onUpdateAssignedRoom(tempAssignedRoomObject);
@@ -250,7 +277,7 @@ const RoomDetail = ({ route, navigation }) => {
 
         const updatedRoomDetails = {
           ...roomDetailsStore,
-          helperRequestedAdditionalNotes: modalNoteText,
+          helperRequestedAdditionalNotes: helperNotes,
           isHelperRequested: true,
         };
 
@@ -355,39 +382,39 @@ const RoomDetail = ({ route, navigation }) => {
   );
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <RoomDetailHeader
-          room={roomDetailsStore}
-          taskStatus={roomDetailsStore.cleaningStatus}
-          navigation={navigation}
-        ></RoomDetailHeader>
-        {/* <Text>{startDisabled.toString()}</Text> */}
-        <View style={styles.mainAndButtonContainer}>
-          <ScrollView
-            style={{ flex: isBottomTextContainerEnabled ? 9.44 : 9.63 }}
-            contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
-          >
-            <RoomDetailInfo
-              room={roomGoldCheckedOutcheckedIn}
-              reservation={reservation}
-            ></RoomDetailInfo>
-            <Text>{doneDisabled}</Text>
-            {requestedItems.length > 0 && (
-              <RequestedItemsList
-                items={requestedItems}
-                disabled={true}
-              ></RequestedItemsList>
-            )}
-          </ScrollView>
+    <SafeAreaProvider style={{ gap: 16, backgroundColor: colors.n0 }}>
+      <RoomDetailHeader
+        room={roomDetailsStore}
+        taskStatus={roomDetailsStore.cleaningStatus}
+        navigation={navigation}
+      ></RoomDetailHeader>
 
-          <Modal
-            visible={isRequestHelpModalOpen}
-            onRequestClose={toggleRequestHelpModal}
-            animationType="fade"
-            transparent={true}
-          >
-            <View style={styles.modalOverlay}>
+      <View style={styles.mainAndButtonContainer}>
+        <ScrollView
+          style={{ flex: isBottomTextContainerEnabled ? 9.44 : 9.63 }}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
+        >
+          <RoomDetailInfo
+            room={roomGoldCheckedOutcheckedIn}
+            reservation={reservation}
+          ></RoomDetailInfo>
+          <Text>{doneDisabled}</Text>
+          {requestedItems.length > 0 && (
+            <RequestedItemsList
+              items={requestedItems}
+              disabled={true}
+            ></RequestedItemsList>
+          )}
+        </ScrollView>
+
+        <Modal
+          visible={isRequestHelpModalOpen}
+          onRequestClose={toggleRequestHelpModal}
+          animationType="fade"
+          transparent={true}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={{ flexDirection: "row", marginHorizontal: 26}} >
               <View style={styles.modalView}>
                 <CloseIcon onPress={toggleRequestHelpModal} />
                 <View style={styles.requestHelpModalContainer}>
@@ -395,199 +422,204 @@ const RoomDetail = ({ route, navigation }) => {
                   <Typography variant="title-medium">
                     Room: {roomDetailsStore.RoomName}
                   </Typography>
-                  <View style={styles.requestHelpModalImageContainer}>
-                    <Image
-                      source={require("./../../../assets/request-help-modal-image.png")}
-                      style={styles.requestHelpModalImage}
-                    />
-                  </View>
-                  <View style={styles.requestHelpModalNoteSection}>
-                    <Text style={styles.requestHelpModalNoteLabel}>
-                      Add Note
-                    </Text>
-                    <View>
-                      {!isRequestHelpModalTextFocused && (
-                        <View
-                          style={{ position: "absolute", top: 15, left: 10 }}
-                        >
-                          <PlusIcon />
-                        </View>
-                      )}
-
-                      <TextInput
-                        style={[
-                          styles.requestHelpModalInput,
-                          {
-                            padding: isRequestHelpModalTextFocused ? 2 : 10,
-                            paddingLeft: isRequestHelpModalTextFocused
-                              ? 20
-                              : 36,
-                            height: isRequestHelpModalTextFocused ? 80 : 40,
-                          },
-                        ]}
-                        placeholder="Note"
-                        onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                        onBlur={() => {
-                          setIsRequestHelpModalTextFocused(false);
-                          updateSelectedItemWithNote();
-                        }}
-                        onChangeText={handlemodalNoteTextChange} // Update state on text change
-                        value={modalNoteText}
+                    <View style={{ gap: 30}}>
+                      <Image
+                      source={require("./../../../assets/illustrations/Ask-for-Help.png")}
+                        style={styles.requestHelpModalImage}
                       />
+                                        <View style={styles.requestHelpModalNoteSection}>
+                      <Typography variant="body-medium">Select type of help: </Typography>
+                      {HelpTypes.map((helpType) => (
+                              <View
+                                key={helpType.key}
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  gap: 4,
+                                }}
+                              >
+                                <Checkbox
+                                  value={helperNotes.includes(helpType.key)}
+                                  onValueChange={() => handleHelpTypeCheckboxChange(helpType.key)}
+                                  color={helperNotes ? colors.teal : undefined}
+                                />
+                                <Typography variant="small-regular">
+                                  {helpType.value}
+                                </Typography>
+                              </View>
+                            ))}
+                      {/* <View>
+                        {!isRequestHelpModalTextFocused && (
+                          <View style={{ position: "absolute", top: 15, left: 10 }}>
+                            <PlusIcon />
+                          </View>
+                        )}
+                        <TextInput
+                          style={[
+                            styles.requestHelpModalInput,
+                            {
+                              padding: isRequestHelpModalTextFocused ? 2 : 10,
+                              paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
+                              height: isRequestHelpModalTextFocused ? 80 : 40,
+                            },
+                          ]}
+                          placeholder="Note"
+                          onFocus={() => setIsRequestHelpModalTextFocused(true)}
+                          onBlur={() => {
+                            setIsRequestHelpModalTextFocused(false);
+                            updateSelectedItemWithNote();
+                          }}
+                          onChangeText={handlemodalNoteTextChange} // Update state on text change
+                          value={modalNoteText}
+                        />
+                      </View> */}
+                                        </View>
+                                        <Button
+                      type="primary"
+                      onPress={onRequestHelpModalSubmitPressed}
+                      name="Request Help"
+                                        />
                     </View>
-                  </View>
-
-                  <Button
-                    type="primary"
-                    onPress={onRequestHelpModalSubmitPressed}
-                    name="Request Help"
-                  />
                 </View>
               </View>
             </View>
-          </Modal>
+          </View>
+        </Modal>
 
-          <View
-            style={[
-              styles.bottomContainer,
-              { flex: isBottomTextContainerEnabled ? 0.56 : 0.37 },
-            ]}
-          >
-            <View style={styles.bottomTextContainer}>
-              {isHelpButtonDisabled && isHelperRequested && (
-                <View
-                  style={{
-                    backgroundColor: "#8FDEDE",
-                    height: 30,
-                    borderRadius: 8,
-                    padding: 4,
-                  }}
-                >
-                  <Typography variant="small-medium">
-                    Requested Helper
-                  </Typography>
-                </View>
-              )}
-              {isStarted && <Stopwatch isRunning={isTimerRunning} />}
-            </View>
-            <View style={[styles.bottomButtonsContainer]}>
-              <TouchableOpacity
-                disabled={isHelpButtonDisabled}
-                onPress={onHelpPressed}
-                style={[
-                  styles.commonButton,
-                  isHelpButtonDisabled && { backgroundColor: "#F2F2F2" },
-                ]}
+        <View style={[styles.bottomContainer]}>
+          <View style={styles.bottomTextContainer}>
+            {isStarted && <Stopwatch isRunning={isTimerRunning} />}
+            {isHelpButtonDisabled && isHelperRequested && (
+              <TextChip
+                text="Help Requested"
+                backgroundColor={colors.pale_teal1}
+                paddingVertical={12.5}
+                paddingHorizontal={16}
+              />
+            )}
+          </View>
+          <View style={[styles.bottomButtonsContainer]}>
+            <TouchableOpacity
+              disabled={isHelpButtonDisabled}
+              onPress={onHelpPressed}
+              style={[
+                styles.commonButton,
+                isHelpButtonDisabled && styles.disabledButton,
+              ]}
+            >
+              <HelpIcon
+                w="26"
+                h="19.68"
+                fill={isHelpButtonDisabled ? colors.n30 : "#1E1E1E"}
+                stroke={isHelpButtonDisabled ? colors.n30 : "#1E1E1E"}
+              ></HelpIcon>
+              <Typography
+                variant="small-regular"
+                style={[isHelpButtonDisabled && { color: colors.n30 }]}
               >
-                <HelpIcon
-                  fill={isHelpButtonDisabled ? "#9F9F9F" : "#1E1E1E"}
-                  stroke={isHelpButtonDisabled ? "#9F9F9F" : "#1E1E1E"}
-                ></HelpIcon>
-                <Typography
-                  variant="xs-regular"
-                  style={[
-                    styles.buttonTextStyle,
-                    isHelpButtonDisabled && { color: "#9F9F9F" },
-                  ]}
-                >
-                  Help
-                </Typography>
-              </TouchableOpacity>
+                Help
+              </Typography>
+            </TouchableOpacity>
 
+            <TouchableOpacity
+              disabled={isRequestButtonDisabled}
+              onPress={() =>
+                navigation.navigate("RequestItemSupplies", {
+                  roomDetails: roomDetailsStore,
+                  items: items,
+                  screenTitle: "Room Supplies",
+                })
+              }
+              style={[
+                styles.commonButton,
+                isRequestButtonDisabled && styles.disabledButton,
+              ]}
+            >
+              <RequestIcon
+                w="26"
+                h="21.27"
+                stroke={isRequestButtonDisabled ? colors.n30 : "black"}
+              ></RequestIcon>
+              <Typography
+                variant="small-regular"
+                style={[isRequestButtonDisabled && { color: colors.n30 }]}
+              >
+                Request
+              </Typography>
+            </TouchableOpacity>
+
+            {showStart && (
               <TouchableOpacity
-                disabled={isRequestButtonDisabled}
-                onPress={() =>
-                  navigation.navigate("RequestItemSupplies", {
-                    roomDetails: roomDetailsStore,
-                    items: items,
-                    screenTitle: "Room Supplies",
-                  })
+                disabled={
+                  roomDetailsStore.cleaningStatus.toUpperCase() ===
+                    "Cleaned".toUpperCase() ||
+                  roomDetailsStore.cleaningStatus.toUpperCase() ===
+                    "Approved".toUpperCase()
+                    ? true
+                    : false
                 }
+                onPress={onStartPressed}
                 style={[
-                  styles.commonButton,
-                  isRequestButtonDisabled && { backgroundColor: "#F2F2F2" },
+                  styles.startButton,
+                  startDisabled && styles.disabledButton,
                 ]}
               >
-                <RequestIcon
-                  stroke={isRequestButtonDisabled ? "#9F9F9F" : "black"}
-                ></RequestIcon>
+                <PlayIcon
+                  w="17"
+                  h="17"
+                  fill={startDisabled ? colors.n30 : "#1E1E1E"}
+                ></PlayIcon>
                 <Typography
-                  variant="xs-regular"
-                  style={[isRequestButtonDisabled && { color: "#9F9F9F" }]}
+                  variant="small-regular"
+                  style={[startDisabled && { color: colors.n30 }]}
                 >
-                  Request
+                  Start
                 </Typography>
               </TouchableOpacity>
+            )}
 
-              {showStart && (
-                <TouchableOpacity
-                  disabled={
-                    roomDetailsStore.cleaningStatus.toUpperCase() ===
-                      "Cleaned".toUpperCase() ||
-                    roomDetailsStore.cleaningStatus.toUpperCase() ===
-                      "Approved".toUpperCase()
-                      ? true
-                      : false
-                  }
-                  onPress={onStartPressed}
-                  style={[
-                    styles.startButton,
-                    startDisabled && { backgroundColor: "#F2F2F2" },
-                  ]}
-                >
-                  <PlayIcon
-                    fill={startDisabled ? "#9F9F9F" : "#1E1E1E"}
-                  ></PlayIcon>
-                  <Typography
-                    variant="xs-regular"
-                    style={[
-                      { marginTop: 4 },
-                      startDisabled && { color: "#9F9F9F" },
-                    ]}
-                  >
-                    Start
-                  </Typography>
-                </TouchableOpacity>
-              )}
-
-              {showPause && (
-                <TouchableOpacity
-                  onPress={onPausePressed}
-                  style={styles.commonButton}
-                >
-                  <PauseIcon></PauseIcon>
-                  <Typography variant="xs-regular" style={{ marginTop: 4 }}>
-                    Pause
-                  </Typography>
-                </TouchableOpacity>
-              )}
-
+            {showPause && (
               <TouchableOpacity
-                disabled={doneDisabled}
-                onPress={() => {
-                  setStartDisabled(true);
-                  setIsStarted(true);
-                  navigation.navigate("Camera", {
-                    roomDetails: roomDetailsStore,
-                  });
-                }}
+                onPress={onPausePressed}
                 style={styles.commonButton}
               >
-                <CheckIcon
-                  // fill={doneDisabled ? "#9F9F9F" : "none"}
-                  stroke={doneDisabled ? "#9F9F9F" : "black"}
-                ></CheckIcon>
-                <Typography
-                  variant="xs-regular"
-                  style={[doneDisabled && { color: "#9F9F9F" }]}
-                >
-                  Done
+                <View style={{flexDirection:"row", alignItems: "center", gap: 4}}><PauseIcon/><StopIcon w="14" h="14"/></View>
+                <Typography variant="small-regular" style={{ marginTop: 4 }}>
+                  Stop
                 </Typography>
               </TouchableOpacity>
-            </View>
+            )}
+
+            <TouchableOpacity
+              disabled={doneDisabled}
+              onPress={() => {
+                setStartDisabled(true);
+                setIsStarted(true);
+                navigation.navigate("Camera", {
+                  roomDetails: roomDetailsStore,
+                });
+              }}
+              style={[
+                styles.commonButton,
+                doneDisabled && styles.disabledButton,
+              ]}
+            >
+              <CheckIcon
+                w="26"
+                h="26"
+                // fill={doneDisabled ? colors.n20 : "none"}
+                stroke={doneDisabled ? colors.n30 : "black"}
+              ></CheckIcon>
+              <Typography
+                variant="small-regular"
+                style={[doneDisabled && { color: colors.n30 }]}
+              >
+                Done
+              </Typography>
+            </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     </SafeAreaProvider>
   );
 };
@@ -595,25 +627,19 @@ const RoomDetail = ({ route, navigation }) => {
 export default RoomDetail;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    gap: 10,
-  },
+  // container: {
+  //   flex: 1,
+  //   flexDirection: "column",
+
+  // },
   mainAndButtonContainer: {
     flex: 1,
     flexDirection: "column",
-    gap: 10,
-  },
-  mainContainer: {
-    height: 200,
   },
   bottomContainer: {
-    rowGap: 4,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderColor: "#D9D9D9",
-    marginHorizontal: 20,
+    gap: 25,
+    paddingVertical: 10,
+    marginHorizontal: 26,
   },
   bottomTextContainer: {
     flexDirection: "row",
@@ -627,35 +653,53 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   commonButton: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderWidth: 1,
-    borderColor: "#D9D9D9",
+    backgroundColor: "white",
+    borderColor: colors.n20,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
-    rowGap: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3.84,
+    gap: 6,
   },
   startButton: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderWidth: 1,
-    backgroundColor: "#F89C7B",
-    borderColor: "#D9D9D9",
+    backgroundColor: colors.yellow1,
+    borderColor: colors.n20,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
     elevation: 2,
-    rowGap: 2,
+
+    gap: 6,
+  },
+  disabledButton: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
+    shadowRadius: 3,
+    backgroundColor: colors.n1,
   },
   buttonTextStyle: {
     marginRight: 8,
@@ -665,12 +709,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
     justifyContent: "center",
     alignItems: "center",
-    height: 600,
   },
   modalView: {
-    height: 540,
-    width: 290,
-    margin: 20,
+    flexGrow:1,
     backgroundColor: "white",
     borderRadius: 20,
     paddingVertical: 35,
@@ -686,12 +727,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   requestHelpModalContainer: {
-    width: 240,
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
-    rowGap: 10,
+    gap: 16,
     // borderWidth: 1,
   },
   requestHelpModalHeaderText: {
@@ -704,16 +744,17 @@ const styles = StyleSheet.create({
   },
   requestHelpModalImageContainer: {},
   requestHelpModalImage: {
-    width: 100,
-    height: 100,
-    marginVertical: 10,
+    width: 169.31,
+    height: 140,
   },
   requestHelpModalNoteSection: {
+    alignSelf: "flex-start",
     width: "100%",
+    gap:12,
   },
-  requestHelpModalNoteLabel: {
-    fontSize: 14,
-  },
+  // requestHelpModalNoteLabel: {
+  //   fontSize: 14,
+  // },
   requestHelpModalInput: {
     borderWidth: 1,
     borderColor: "grey",

@@ -35,6 +35,7 @@ const HousekeeperHomeStack = () => {
       <Stack.Screen
         name="RequestItemSupplies"
         component={RequestItemSupplies}
+        // options={{ title: "", headerShown: false }}
         options={({ route }) => ({
           title: route.params.screenTitle || "Welcome",
           headerRight: () => (
@@ -61,6 +62,7 @@ const HousekeeperHomeStack = () => {
       <Stack.Screen
         name="StaffCleanedRoomScreen"
         component={StaffCleanedRoomScreen}
+        options={{ title: "", headerShown: false }}
       />
     </Stack.Navigator>
   );

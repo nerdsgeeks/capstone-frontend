@@ -1,6 +1,6 @@
 import Svg, { Path, G } from "react-native-svg";
 
-const Close = ({ w = 18, h = 20, fill = "#1E1E1E" }) => (
+const Close = ({ w = 18, h = 20, stroke = "#1E1E1E" }) => (
   <Svg
     width={w}
     height={h}
@@ -10,14 +10,14 @@ const Close = ({ w = 18, h = 20, fill = "#1E1E1E" }) => (
   >
     <Path
       d="M6 6L18 18"
-      stroke="black"
+      stroke={stroke}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
       d="M6 18L18 6"
-      stroke="black"
+      stroke={stroke}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

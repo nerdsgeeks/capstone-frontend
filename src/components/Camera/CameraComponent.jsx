@@ -82,7 +82,7 @@ const CameraComponent = ({ navigation }) => {
           </ScrollView>
           <View style={styles.button}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <BackIcon />
+              <BackIcon w="26" h="26"/>
             </TouchableOpacity>
             <TouchableOpacity onPress={takeImage}>
               <CameraButtonSvg onPress={takeImage} />
@@ -113,7 +113,8 @@ const styles = {
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.5)",
-    marginBottom: 20,
+    // backgroundColor: "hotpink",
+    paddingVertical: 20,
   },
   button: {
     flexDirection: "row",
@@ -130,10 +131,12 @@ const styles = {
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 26,
   },
   image: {
     width: 100,
     height: 100,
-    margin: 5,
+    borderRadius: 6,
+    marginHorizontal: 5,
   },
 };
