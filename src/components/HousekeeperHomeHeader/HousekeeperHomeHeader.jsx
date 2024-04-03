@@ -74,14 +74,14 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Typography variant="title-black">
+            <Typography variant="h4-medium">
               Hi {employeeDetailsStore.firstName}
             </Typography>
             <TouchableOpacity onPress={displayInformation}>
-              <InformationIcon />
+              <InformationIcon w="36" h="36"/>
             </TouchableOpacity>
           </View>
-          <Typography variant="small-regular">
+          <Typography variant="body-regular">
             Time to shine at work!
           </Typography>
           <View
@@ -95,16 +95,17 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: "flex-end",
                 paddingTop: 8,
               }}
             >
               <View style={styles.progressContainer}>
-                <Typography variant="xs-regular">Task Progress</Typography>
+                <Typography variant="small-regular">Task Progress</Typography>
                 <ProgressBar progress={0.5} color={colors.teal} />
               </View>
             </View>
-            <View style={styles.rightInnerContainer}>
-              <ClockShiftIcon />
+            <View style={{ gap: 6}}>
+              <View style={{flexDirection: "row", gap: 6}}><ClockShiftIcon /><Typography variant="small-regular">Shift</Typography></View>
               <Typography variant="xs-regular">{scheduleTime}</Typography>
             </View>
           </View>
@@ -188,9 +189,9 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
 const styles = StyleSheet.create({
   leftProfileContainer: {},
   profilePic: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     marginRight: 10,
   },
   middleContainer: {

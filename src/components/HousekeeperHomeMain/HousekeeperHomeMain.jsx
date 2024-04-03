@@ -286,10 +286,11 @@ const styles = StyleSheet.create({
   },
   assignedRoomListContainer: {
     flexGrow: 1,
+    gap:16,
     backgroundColor: colors.n0,
     flexDirection: "column",
     paddingHorizontal: 26,
-    paddingVertical: 16,
+    paddingVertical: 32,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     borderWidth: 1,

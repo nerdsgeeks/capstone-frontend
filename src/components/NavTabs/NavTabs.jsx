@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     alignItems: "center",
-    paddingVertical: 5,
+    paddingVertical: 1,
     paddingHorizontal: 3,
     borderBottomColor: "transparent",
   },

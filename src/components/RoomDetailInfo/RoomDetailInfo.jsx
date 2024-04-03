@@ -54,11 +54,11 @@ const RoomDetailInfo = ({ reservation, room }) => {
   const roomTier = () => {
     switch (room.tier) {
       case "gold":
-        return <TierGoldIcon />;
+        return <TierGoldIcon w="30" h="30"  />;
       case "silver":
-        return <TierSilverIcon />;
+        return <TierSilverIcon w="30" h="30"/>;
       case "diamond":
-        return <TierDiamondIcon />;
+        return <TierDiamondIcon w="30" h="30" />;
       default:
         return <Text>Checked In</Text>;
     }
@@ -70,7 +70,8 @@ const RoomDetailInfo = ({ reservation, room }) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: "flex-start",
+          paddingTop: 3,
         }}
       >
         <Typography variant="h5-regular">{reservation.guestName}</Typography>
@@ -78,7 +79,7 @@ const RoomDetailInfo = ({ reservation, room }) => {
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text style={styles.text}>{roomTier()}</Text>
           <View style={{ paddingLeft: 10 }}>
-            <PersonIcon fill="black" />
+            <PersonIcon fill="black" w="18.33" h="30"/>
           </View>
           <Typography variant="h5-medium" style={{ paddingLeft: 3 }}>
             {reservation.noOfGuest}

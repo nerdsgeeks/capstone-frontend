@@ -65,22 +65,24 @@ const RoomDetailHeader = ({ room, navigation }) => {
       source={{ uri: room.RoomImageUrl }}
       style={styles.container}
     >
-      <View style={styles.line1}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <BackIcon />
-        </TouchableOpacity>
-        <TextChip text={room.cleaningStatus} backgroundColor={colors.main} />
-      </View>
-      <View>
-        <Typography variant="h3-medium" style={{ color: "white" }}>
-          {room.RoomName}
-        </Typography>
-        <View style={styles.bottomLine}>
-          <TextChip
-            text={room.roomTypeName}
-            backgroundColor={backgroundColor}
-          />
-          <Text style={styles.svg}>{StatusSvg()}</Text>
+      <View style={{ gap: 40 }}>
+        <View style={styles.line1}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <BackIcon />
+          </TouchableOpacity>
+          <TextChip text={room.cleaningStatus} backgroundColor={colors.main} />
+        </View>
+        <View>
+          <Typography variant="h3-medium" style={{ color: "white" }}>
+            {room.RoomName}
+          </Typography>
+          <View style={styles.bottomLine}>
+            <TextChip
+              text={room.roomTypeName}
+              backgroundColor={backgroundColor}
+            />
+            <Text style={styles.svg}>{StatusSvg()}</Text>
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -92,7 +94,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     paddingHorizontal: 26,
-    paddingVertical: 12,
+    paddingTop: 60,
+    paddingBottom: 16,
+    // gap:50,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
     overflow: "hidden",

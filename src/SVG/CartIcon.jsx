@@ -12,7 +12,7 @@ const CartIcon = ({ w = 26, h = 23, fill = "none", stroke = "white" }) => (
       d="M18.579 49.0003C20.3911 49.0003 21.8601 47.3885 21.8601 45.4003C21.8601 43.4121 20.3911 41.8003 18.579 41.8003C16.7669 41.8003 15.2979 43.4121 15.2979 45.4003C15.2979 47.3885 16.7669 49.0003 18.579 49.0003Z"
       fill={fill}
       stroke={stroke}
-      strokeWidth="2"
+      strokeWidth="4"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -20,14 +20,14 @@ const CartIcon = ({ w = 26, h = 23, fill = "none", stroke = "white" }) => (
       d="M42.6502 49.0003C44.4624 49.0003 45.9314 47.3885 45.9314 45.4003C45.9314 43.4121 44.4624 41.8003 42.6502 41.8003C40.8381 41.8003 39.3691 43.4121 39.3691 45.4003C39.3691 47.3885 40.8381 49.0003 42.6502 49.0003Z"
       fill={fill}
       stroke={stroke}
-      strokeWidth="2"
+      strokeWidth="4"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
       d="M1 1H8.71282L14.4974 36.9654H45.3487"
       stroke={stroke}
-      strokeWidth="2"
+      strokeWidth="4"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -38,7 +38,7 @@ const CartIcon = ({ w = 26, h = 23, fill = "none", stroke = "white" }) => (
     <Path
       d="M14.5039 28.5047H44.5646C44.7876 28.5049 45.0037 28.4203 45.1762 28.2652C45.3487 28.1102 45.4669 27.8944 45.5106 27.6545L48.9814 8.61403C49.0094 8.4605 49.006 8.30206 48.9714 8.15014C48.9368 7.99823 48.8719 7.85663 48.7814 7.73557C48.6909 7.61451 48.5771 7.517 48.448 7.45009C48.319 7.38318 48.1781 7.34852 48.0354 7.34863H10.6475"
       stroke={stroke}
-      strokeWidth="2"
+      strokeWidth="4"
       strokeLinecap="round"
       strokeLinejoin="round"
     />

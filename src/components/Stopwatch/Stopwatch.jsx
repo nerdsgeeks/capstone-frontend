@@ -108,11 +108,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignSelf: "flex-start",
-    gap: 18,
+    gap: 16,
     alignItems: "center",
     padding: 10,
+    paddingHorizontal: 20,
     borderRadius: 6,
-    backgroundColor: colors.pale_teal2,
+    borderWidth: 2,
+    borderColor: colors.pale_teal1,
   },
 });
 

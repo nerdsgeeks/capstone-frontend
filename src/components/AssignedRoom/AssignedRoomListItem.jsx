@@ -14,13 +14,13 @@ const AssignedRoomListItem = ({ room }) => {
   // console.log(room);
   const roomTier = () => {
     // console.log(room.RoomTier);
-    switch (room.RoomTier) {
-      case "gold":
-        return <TierGoldIcon />;
-      case "silver":
-        return <TierSilverIcon />;
-      case "diamond":
-        return <TierDiamondIcon />;
+    switch (room.RoomTier.toUpperCase()) {
+      case "GOLD":
+        return <TierGoldIcon w="36" h="36"/>;
+      case "SILVER":
+        return <TierSilverIcon w="36" h="36"/>;
+      case "DIAMOND":
+        return <TierDiamondIcon w="36" h="36"/>;
       default:
         return <Text>Checked In</Text>;
     }
@@ -29,24 +29,23 @@ const AssignedRoomListItem = ({ room }) => {
   const StatusSvg = () => {
     switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
-        return <DueOutIcon />;
+        return <DueOutIcon w="26" h="26"/>;
       case "DueIn".toUpperCase():
-        return <DueInIcon />;
+        return <DueInIcon w="26" h="26"/>;
       case "CheckedOut".toUpperCase():
-        return <CheckedOutIcon />;
+        return <CheckedOutIcon w="26" h="26"/>;
       case "CheckedIn".toUpperCase():
-        return <CheckIcon stroke={colors.teal} />;
+        return <CheckIcon stroke={colors.teal} w="26" h="26"/>;
       case "DueOut-DueIn".toUpperCase():
         return (
           <>
-            <DueOutIcon /> <DueInIcon />
+            <DueOutIcon w="26" h="26" /> <DueInIcon w="26" h="26"/>
           </>
         );
       case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon />
-            <DueInIcon />{" "}
+            <CheckedOutIcon w="26" h="26"/> <DueInIcon w="26" h="26"/>
           </>
         );
       default:
@@ -100,7 +99,7 @@ const AssignedRoomListItem = ({ room }) => {
             </Typography>
           </View>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems:"flex-end" }}>
           <Text style={styles.svg}>{StatusSvg()}</Text>
           <Text style={styles.text}>{roomTier()}</Text>
         </View>
@@ -130,9 +129,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.n20,
     borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    gap: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 26,
+    gap: 16,
     marginVertical: 8,
     backgroundColor: "white",
   },
