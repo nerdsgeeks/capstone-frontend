@@ -35,7 +35,7 @@ const SupervisorRoom = ({ navigation }) => {
 
   const onPressRoomDetail = (room) => {
     console.log("room", room);
-    navigation.navigate("Supervi orRoomDetail", { room });
+    navigation.navigate("SupervisorRoomDetail", { room });
   };
   const displayInformation = () => {
     setInformationModalOpen(true);
