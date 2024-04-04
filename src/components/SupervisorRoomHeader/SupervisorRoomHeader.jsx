@@ -17,7 +17,7 @@ const SupervisorRoomHeader = ({ title, icon, text, iconOnPress }) => {
         ) : (
           icon
         )}
-        {text ? <Typography variant="xs-medium">{text}</Typography> : null}
+        {text ? <Typography variant="body-medium">{text}</Typography> : null}
       </View>
     </View>
   );

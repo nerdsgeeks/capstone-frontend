@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    marginBottom: 170,
+    marginBottom: 70,
     backgroundColor: colors.n0,
   },
   numberContainer: {
