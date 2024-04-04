@@ -16,6 +16,7 @@ import {
 } from "../../store/employeeStore";
 import CartIcon from "../../SVG/CartIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import NewCartIcon from "../../SVG/NewCartIcon";
 
 const HousekeeperRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -213,9 +214,9 @@ const HousekeeperRequest = ({ navigation }) => {
             <BigButton
               name="Cart Supplies"
               icon={
-                <CartIcon
-                  w="28"
-                  h="28"
+                <NewCartIcon
+                  w="34.5"
+                  h="32"
                   stroke={colors.main}
                   fill={colors.main}
                 />

@@ -18,6 +18,7 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import NewCartIcon from "../../SVG/NewCartIcon";
 
 const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
   const [isModalOpen, setModalState] = useState(false);
@@ -71,10 +72,8 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
 
   const onPressInspection = () => {
     // Assuming you want to pass some data to the InspectionReview screen
-    navigation.navigate('InspectionReview', { room: room });
+    navigation.navigate("InspectionReview", { room: room });
   };
-
- 
 
   const roomStatus = [
     { key: "DueOut", value: "Due Out" },
@@ -94,6 +93,7 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
             taskStatus="pending"
             navigation={navigation}
           />
+
           <RoomDetailInfo reservation={room} room={room} />
           <View
             style={{

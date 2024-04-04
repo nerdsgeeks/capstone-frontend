@@ -367,14 +367,14 @@ const SupervisorHome = ({ navigation }) => {
           <View style={styles.statusContainer}>
             <BigButton
               name="To Do"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              icon={<BedIcon w="54" h="37" fill={colors.main} />}
               text={toDoRoomsToday.length.toString()}
               variant="h5-medium"
               onPress={toToDoRooms}
             />
             <BigButton
               name="Completed"
-              icon={<BedIcon w="40" h="28" fill={colors.teal} />}
+              icon={<BedIcon w="54" h="37" fill={colors.teal} />}
               text={cleanedRoomsToday.length.toString()}
               variant="h5-medium"
               onPress={toCompletedRooms}
@@ -384,9 +384,9 @@ const SupervisorHome = ({ navigation }) => {
               icon={
                 <ProfileIcon
                   w="40"
-                  h="28"
-                  stroke={colors.orange}
-                  fill={colors.orange}
+                  h="37"
+                  stroke={colors.main}
+                  fill={colors.main}
                 />
               }
               text={employeeList.length.toString()}
@@ -395,7 +395,7 @@ const SupervisorHome = ({ navigation }) => {
             />
             <BigButton
               name="Pending"
-              icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
+              icon={<RequestIcon w="40" h="30" stroke={colors.main} />}
               text={pendingRequests
                 .filter((item) => !item.isCompleted)
                 .length.toString()}
@@ -404,12 +404,16 @@ const SupervisorHome = ({ navigation }) => {
             />
             <BigButton
               name="Assign Rooms"
+              variantTitle="h5-regular"
               onPress={toggleAssignRoomModal}
               disabled={unassignedRooms.length === 0}
+              width="100%"
             />
             <BigButton
               name="Update Room Status"
+              variantTitle="h5-regular"
               onPress={toggleUpdateRoomStatusModal}
+              width="100%"
             />
           </View>
           {/* <BigButton
@@ -571,19 +575,20 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    paddingVertical: 22,
     paddingTop: 7,
+    paddingVertical: 20,
   },
   statusContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 20,
+    columnGap: 20,
     justifyContent: "center",
     // alignItems: "center",
-    paddingVertical: 26,
+    paddingVertical: 40,
   },
   bodyContainer: {
     paddingHorizontal: 26,
+    
   },
   modalOverlay: {
     flex: 1,

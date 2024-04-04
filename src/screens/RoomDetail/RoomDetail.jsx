@@ -37,6 +37,8 @@ import { colors } from "../../../themes/themes";
 import TextChip from "../../components/TextChip/TextChip";
 import { Checkbox } from "expo-checkbox";
 import StopIcon from "../../SVG/StopIcon";
+import NewCartIcon from "../../SVG/NewCartIcon";
+import NewCartIconOutline from "../../SVG/NewCartIconOutline";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -98,10 +100,13 @@ const RoomDetail = ({ route, navigation }) => {
   const [helperNotes, setHelperNotes] = useState("");
 
   const handleHelpTypeCheckboxChange = (key) => {
-    setHelperNotes(prevSelectedHelpTypes => {
+    setHelperNotes((prevSelectedHelpTypes) => {
       if (prevSelectedHelpTypes.includes(key)) {
         // If key is already selected, remove it
-        return prevSelectedHelpTypes.split(', ').filter(item => item !== key).join(', ');
+        return prevSelectedHelpTypes
+          .split(", ")
+          .filter((item) => item !== key)
+          .join(", ");
       } else {
         // Otherwise, add it
         return prevSelectedHelpTypes ? `${prevSelectedHelpTypes}, ${key}` : key;
@@ -414,7 +419,7 @@ const RoomDetail = ({ route, navigation }) => {
           transparent={true}
         >
           <View style={styles.modalOverlay}>
-            <View style={{ flexDirection: "row", marginHorizontal: 26}} >
+            <View style={{ flexDirection: "row", marginHorizontal: 26 }}>
               <View style={styles.modalView}>
                 <CloseIcon onPress={toggleRequestHelpModal} />
                 <View style={styles.requestHelpModalContainer}>
@@ -422,32 +427,36 @@ const RoomDetail = ({ route, navigation }) => {
                   <Typography variant="title-medium">
                     Room: {roomDetailsStore.RoomName}
                   </Typography>
-                    <View style={{ gap: 30}}>
-                      <Image
+                  <View style={{ gap: 30 }}>
+                    <Image
                       source={require("./../../../assets/illustrations/Ask-for-Help.png")}
-                        style={styles.requestHelpModalImage}
-                      />
-                                        <View style={styles.requestHelpModalNoteSection}>
-                      <Typography variant="body-medium">Select type of help: </Typography>
+                      style={styles.requestHelpModalImage}
+                    />
+                    <View style={styles.requestHelpModalNoteSection}>
+                      <Typography variant="body-medium">
+                        Select type of help:{" "}
+                      </Typography>
                       {HelpTypes.map((helpType) => (
-                              <View
-                                key={helpType.key}
-                                style={{
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                  gap: 4,
-                                }}
-                              >
-                                <Checkbox
-                                  value={helperNotes.includes(helpType.key)}
-                                  onValueChange={() => handleHelpTypeCheckboxChange(helpType.key)}
-                                  color={helperNotes ? colors.teal : undefined}
-                                />
-                                <Typography variant="small-regular">
-                                  {helpType.value}
-                                </Typography>
-                              </View>
-                            ))}
+                        <View
+                          key={helpType.key}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
+                          <Checkbox
+                            value={helperNotes.includes(helpType.key)}
+                            onValueChange={() =>
+                              handleHelpTypeCheckboxChange(helpType.key)
+                            }
+                            color={helperNotes ? colors.teal : undefined}
+                          />
+                          <Typography variant="small-regular">
+                            {helpType.value}
+                          </Typography>
+                        </View>
+                      ))}
                       {/* <View>
                         {!isRequestHelpModalTextFocused && (
                           <View style={{ position: "absolute", top: 15, left: 10 }}>
@@ -473,13 +482,13 @@ const RoomDetail = ({ route, navigation }) => {
                           value={modalNoteText}
                         />
                       </View> */}
-                                        </View>
-                                        <Button
+                    </View>
+                    <Button
                       type="primary"
                       onPress={onRequestHelpModalSubmitPressed}
                       name="Request Help"
-                                        />
-                    </View>
+                    />
+                  </View>
                 </View>
               </View>
             </View>
@@ -583,7 +592,12 @@ const RoomDetail = ({ route, navigation }) => {
                 onPress={onPausePressed}
                 style={styles.commonButton}
               >
-                <View style={{flexDirection:"row", alignItems: "center", gap: 4}}><PauseIcon/><StopIcon w="14" h="14"/></View>
+                <View
+                  style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
+                >
+                  <PauseIcon />
+                  <StopIcon w="14" h="14" />
+                </View>
                 <Typography variant="small-regular" style={{ marginTop: 4 }}>
                   Stop
                 </Typography>
@@ -711,7 +725,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    flexGrow:1,
+    flexGrow: 1,
     backgroundColor: "white",
     borderRadius: 20,
     paddingVertical: 35,
@@ -750,7 +764,7 @@ const styles = StyleSheet.create({
   requestHelpModalNoteSection: {
     alignSelf: "flex-start",
     width: "100%",
-    gap:12,
+    gap: 12,
   },
   // requestHelpModalNoteLabel: {
   //   fontSize: 14,
