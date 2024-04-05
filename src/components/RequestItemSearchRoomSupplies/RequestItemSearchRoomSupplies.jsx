@@ -219,7 +219,13 @@ const RequestItemSearchRoomSupplies = ({
           const data = response.data;
 
           if (data.length > 0) {
-            const today = new Date().toISOString().split("T")[0];
+            const localDate = new Date();
+            const today =
+              localDate.getFullYear() +
+              "-" +
+              String(localDate.getMonth() + 1).padStart(2, "0") +
+              "-" +
+              String(localDate.getDate()).padStart(2, "0");
             const filteredRooms = data.filter(
               (room) =>
                 room.cleaningStatus.toUpperCase() !== "CLEANED" &&
@@ -361,7 +367,7 @@ const RequestItemSearchRoomSupplies = ({
                 name="Add to Cart"
                 type="primary"
                 onPress={onRequestAddToCartModalSubmitPressed}
-                style={{ marginTop: 30,}}
+                style={{ marginTop: 30 }}
               />
             </View>
           </View>

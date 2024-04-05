@@ -66,7 +66,10 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
 
   const onOrderPressed = () => {
     console.log("onOrderPressed");
-    const currentDateTimeStamp = new Date().toISOString();
+    const currentDateTimeStamp = toLocalISODate(
+      new Date(),
+      "America/Vancouver",
+    );
     const apiUrl = baseUrl + "/api/requestItems/addRequestItem";
     console.log(requestedItemsCartRoomSuppliesStore);
 
@@ -110,6 +113,35 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
   const goBack = () => {
     navigation.goBack();
   };
+
+  function toLocalISODate(date, timeZone) {
+    // Create a formatter for the date parts
+    const formatter = new Intl.DateTimeFormat("en-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      fractionalSecondDigits: 3,
+      timeZone: timeZone,
+      hour12: false,
+    });
+
+    // Format the date according to the given timezone and split into parts
+    const parts = formatter.formatToParts(date);
+
+    // Reduce parts to an easily accessible key-value map
+    const dateParts = parts.reduce((acc, part) => {
+      if (part.type !== "literal") {
+        acc[part.type] = part.value;
+      }
+      return acc;
+    }, {});
+
+    // Construct the ISO string
+    return `${dateParts.year}-${dateParts.month}-${dateParts.day}T${dateParts.hour}:${dateParts.minute}:${dateParts.second}Z`;
+  }
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
