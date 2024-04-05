@@ -192,12 +192,12 @@ const HousekeeperHome = ({ navigation }) => {
             >
               {/* <Text>{accessTokenStore}</Text> */}
               <SafeAreaView>
-              <HousekeeperHomeHeader
-                name="Pujan"
-                message="Time to shine at work!"
-                taskProgress={taskProgress}
-                scheduleTime="10:00-18:00"
-              />
+                <HousekeeperHomeHeader
+                  name="Pujan"
+                  message="Time to shine at work!"
+                  taskProgress={taskProgress}
+                  scheduleTime="10:00-18:00"
+                />
               </SafeAreaView>
             </LinearGradient>
             <HousekeeperHomeMain
