@@ -78,6 +78,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
         RequestedDateTime: currentDateTimeStamp,
         isCompleted: false,
         approvedBySupervisorID: 0,
+        requestItemStatus: "",
       };
       const config = {
         headers: {
