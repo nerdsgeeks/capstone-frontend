@@ -111,7 +111,7 @@ const RequestHelpModal = ({
                 }}
               />
               <Typography variant="xs-regular">
-                {helpRequestDetails.FirstName} {helpRequestDetails.LastName}
+                {helpRequestDetails.firstName} {helpRequestDetails.lastName}
               </Typography>
             </View>
           </View>

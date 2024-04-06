@@ -67,7 +67,7 @@ const SupervisorHome = ({ navigation }) => {
   };
 
   const toCompletedRooms = () => {
-    navigation.navigate("SupervisorRoom");
+    navigation.navigate("SupervisorRoom"  );
   };
 
   const toStaff = () => {
@@ -158,7 +158,6 @@ const SupervisorHome = ({ navigation }) => {
               value: `${employee.firstName} ${employee.lastName}`,
             }));
           // console.log("tempEmployeeList");
-          // console.log(tempEmployeeList);
           setEmployeeList(tempEmployeeList);
         })
         .catch((error) => {
@@ -357,10 +356,14 @@ const SupervisorHome = ({ navigation }) => {
           style={styles.headerContainer}
         >
           <SafeAreaView>
-            <MGRoomHeader
-              name="thalha"
+            {employeeDetailsStore.firstName && (
+              <MGRoomHeader
+              name={employeeDetailsStore.firstName}
               message="some quote is here just act as this is a quote"
+              image={employeeDetailsStore.imageURL}
             />
+            )}
+            
           </SafeAreaView>
         </LinearGradient>
         <View style={styles.bodyContainer}>

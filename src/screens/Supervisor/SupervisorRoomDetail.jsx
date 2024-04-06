@@ -85,6 +85,10 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
     { key: "CheckIn", value: "Checked In" },
   ];
 
+  const image = employeeDetailsStore.imageURL;
+  const employeeName = `${employeeDetailsStore.firstName} ${employeeDetailsStore.lastName}`;
+  console.log("employeeDetailsStore ere ahsdnas", employeeDetailsStore)
+
   return (
     <SafeAreaProvider>
       <SafeAreaView>
@@ -103,16 +107,20 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
               gap: 6,
             }}
           >
-            <Image
+            {image && (
+              <Image
               style={{ borderRadius: 15, width: 30, height: 30 }}
               source={{
-                uri: "https://reactnative.dev/img/tiny_logo.png",
+                uri: image
               }}
-            />
+            />)}
+            
             <View>
-              <Typography variant="xs-regular">
-                {room.firstName} {room.lastName}
-              </Typography>
+              {employeeName && (
+                <Typography variant="xs-regular">
+                {employeeName}
+              </Typography>)}
+              
             </View>
           </View>
           {room.isHelperRequested && (
