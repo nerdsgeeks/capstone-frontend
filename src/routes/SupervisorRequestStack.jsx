@@ -14,14 +14,14 @@ const SupervisorRequestStack = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="SupervisorRequestHistory"
-                component={SupervisorRequestHistory}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
                 name="RequestDetail"
                 component={RequestDetail}
                 options={{ title: "" }}
+            />
+              <Stack.Screen
+              name="SupervisorRequestHistory"
+                component={SupervisorRequestHistory}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
   );
