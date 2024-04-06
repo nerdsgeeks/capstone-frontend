@@ -209,7 +209,17 @@ const SupervisorHome = ({ navigation }) => {
     onFetchRooms();
   }, []);
 
-  const today = new Date().toISOString().split("T")[0];
+  const localDate = new Date();
+  const today =
+    localDate.getFullYear() +
+    "-" +
+    String(localDate.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(localDate.getDate()).padStart(2, "0");
+  console.log(localDate);
+
+  console.log("today");
+  console.log(today);
 
   const unassignedRooms = rooms.filter((room) => {
     return !assignedRooms.some((assignedRoom) => {
@@ -242,17 +252,19 @@ const SupervisorHome = ({ navigation }) => {
       const assignEmployee = employees.find(
         (emp) => emp.ID === assignedEmployee,
       );
+      console.log("assignedDateTime");
+      console.log(toLocalISODate(new Date(), "America/Vancouver"));
 
       const newAssignedRoom = {
         RoomID: assignedRoom.ID,
         RoomStatus: assignedRoom.RoomStatus,
-        assignedDateTime: new Date().toISOString(),
+        assignedDateTime: toLocalISODate(new Date(), "America/Vancouver"),
         assignedEmployeeID: assignEmployee.ID,
         cleaningStatus: "To Do",
         isCompleted: false,
         verifiedPhotoUrl: "",
-        startTime: new Date().toISOString(),
-        endTime: new Date().toISOString(),
+        startTime: toLocalISODate(new Date(), "America/Vancouver"),
+        endTime: toLocalISODate(new Date(), "America/Vancouver"),
         cleaningDuration: "2024-03-22T00:00:00.000Z",
         isHelperRequested: false,
         reguestedHelperID: "",
@@ -290,7 +302,14 @@ const SupervisorHome = ({ navigation }) => {
     const assignedDate = new Date(room.assignedDateTime)
       .toISOString()
       .split("T")[0];
-    const today = new Date().toISOString().split("T")[0];
+    const localDate = new Date();
+    const today =
+      localDate.getFullYear() +
+      "-" +
+      String(localDate.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(localDate.getDate()).padStart(2, "0");
+
     return room.cleaningStatus === "To Do" && assignedDate === today;
   });
 
@@ -298,7 +317,13 @@ const SupervisorHome = ({ navigation }) => {
     const assignedDate = new Date(room.assignedDateTime)
       .toISOString()
       .split("T")[0];
-    const today = new Date().toISOString().split("T")[0];
+    const localDate = new Date();
+    const today =
+      localDate.getFullYear() +
+      "-" +
+      String(localDate.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(localDate.getDate()).padStart(2, "0");
     return room.cleaningStatus === "Cleaned" && assignedDate === today;
   });
 
@@ -345,6 +370,35 @@ const SupervisorHome = ({ navigation }) => {
     toggleUpdateRoomStatusModal();
   };
 
+  function toLocalISODate(date, timeZone) {
+    // Create a formatter for the date parts
+    const formatter = new Intl.DateTimeFormat("en-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      fractionalSecondDigits: 3,
+      timeZone: timeZone,
+      hour12: false,
+    });
+
+    // Format the date according to the given timezone and split into parts
+    const parts = formatter.formatToParts(date);
+
+    // Reduce parts to an easily accessible key-value map
+    const dateParts = parts.reduce((acc, part) => {
+      if (part.type !== "literal") {
+        acc[part.type] = part.value;
+      }
+      return acc;
+    }, {});
+
+    // Construct the ISO string
+    return `${dateParts.year}-${dateParts.month}-${dateParts.day}T${dateParts.hour}:${dateParts.minute}:${dateParts.second}Z`;
+  }
+
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -370,14 +424,14 @@ const SupervisorHome = ({ navigation }) => {
           <View style={styles.statusContainer}>
             <BigButton
               name="To Do"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              icon={<BedIcon w="54" h="37" fill={colors.main} />}
               text={toDoRoomsToday.length.toString()}
               variant="h5-medium"
               onPress={toToDoRooms}
             />
             <BigButton
               name="Completed"
-              icon={<BedIcon w="40" h="28" fill={colors.teal} />}
+              icon={<BedIcon w="54" h="37" fill={colors.teal} />}
               text={cleanedRoomsToday.length.toString()}
               variant="h5-medium"
               onPress={toCompletedRooms}
@@ -387,9 +441,9 @@ const SupervisorHome = ({ navigation }) => {
               icon={
                 <ProfileIcon
                   w="40"
-                  h="28"
-                  stroke={colors.orange}
-                  fill={colors.orange}
+                  h="37"
+                  stroke={colors.main}
+                  fill={colors.main}
                 />
               }
               text={employeeList.length.toString()}
@@ -398,7 +452,7 @@ const SupervisorHome = ({ navigation }) => {
             />
             <BigButton
               name="Pending"
-              icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
+              icon={<RequestIcon w="40" h="30" stroke={colors.main} />}
               text={pendingRequests
                 .filter((item) => !item.isCompleted)
                 .length.toString()}
@@ -407,12 +461,16 @@ const SupervisorHome = ({ navigation }) => {
             />
             <BigButton
               name="Assign Rooms"
+              variantTitle="h5-regular"
               onPress={toggleAssignRoomModal}
               disabled={unassignedRooms.length === 0}
+              width="100%"
             />
             <BigButton
               name="Update Room Status"
+              variantTitle="h5-regular"
               onPress={toggleUpdateRoomStatusModal}
+              width="100%"
             />
           </View>
           {/* <BigButton
@@ -574,16 +632,16 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    paddingVertical: 22,
     paddingTop: 7,
+    paddingVertical: 20,
   },
   statusContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 20,
+    columnGap: 20,
     justifyContent: "center",
     // alignItems: "center",
-    paddingVertical: 26,
+    paddingVertical: 40,
   },
   bodyContainer: {
     paddingHorizontal: 26,

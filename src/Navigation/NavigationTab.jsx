@@ -8,6 +8,8 @@ import HousekeeperHomeStack from "../routes/HousekeeperHomeStack";
 import HousekeeperRequestStack from "../routes/HousekeeperRequestStack";
 import HousekeeperPerformanceStack from "../routes/HousekeeperPerformanceStack";
 import { colors } from "../../themes/themes";
+import NewCartIcon from "../SVG/NewCartIcon";
+import NewCartIconOutline from "../SVG/NewCartIconOutline";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,12 +25,12 @@ const NavigationTab = () => {
           borderWidth: 1,
           borderColor: colors.n20,
           shadowColor: colors.n50,
-                shadowOffset: {
-                  width: 0,
-                  height: -2,
-                },
-                shadowOpacity: 0.1,
-                shadowRadius: 10,
+          shadowOffset: {
+            width: 0,
+            height: -2,
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
         },
         tabBarShowLabel: false,
         headerShown: false,
@@ -40,13 +42,13 @@ const NavigationTab = () => {
         options={({ route }) => ({
           tabBarIcon: ({ focused }) => (
             <View
-              // style={{
-              //   height: 72,
-              //   width: 60,
-              //   borderColor: "#F89C7B",
-              //   justifyContent: "center",
-              //   alignItems: "center",
-              // }}
+            // style={{
+            //   height: 72,
+            //   width: 60,
+            //   borderColor: "#F89C7B",
+            //   justifyContent: "center",
+            //   alignItems: "center",
+            // }}
             >
               <HomeIcon
                 fill={focused ? colors.main : "none"}
@@ -65,20 +67,27 @@ const NavigationTab = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View
-              style={{
-                // height: 72,
-                // width: 60,
-                // borderColor: "#F89C7B",
-                // justifyContent: "center",
-                // alignItems: "center",
-              }}
+              style={
+                {
+                  // height: 72,
+                  // width: 60,
+                  // borderColor: "#F89C7B",
+                  // justifyContent: "center",
+                  // alignItems: "center",
+                }
+              }
             >
-              <CartIcon
+              {focused ? (
+                <NewCartIcon w="37.8" h="35" />
+              ) : (
+                <NewCartIconOutline  w="37.8" h="35"/>
+              )}
+              {/* <CartIcon
                 fill={focused ? colors.main : "none"}
                 stroke={focused ? colors.main : colors.n30}
                 h="28"
                 w="30.72"
-              />
+              /> */}
             </View>
           ),
         }}
@@ -90,13 +99,13 @@ const NavigationTab = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View
-              // style={{
-              //   height: 72,
-              //   width: 60,
-              //   borderColor: "#F89C7B",
-              //   justifyContent: "center",
-              //   alignItems: "center",
-              // }}
+            // style={{
+            //   height: 72,
+            //   width: 60,
+            //   borderColor: "#F89C7B",
+            //   justifyContent: "center",
+            //   alignItems: "center",
+            // }}
             >
               <ProfileIcon
                 fill={focused ? colors.main : "none"}

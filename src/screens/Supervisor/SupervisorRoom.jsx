@@ -69,11 +69,11 @@ const SupervisorRoom = ({ navigation }) => {
                 >
                   <Typography variant="h4-medium">Rooms</Typography>
                   <TouchableOpacity onPress={displayInformation}>
-                    <InformationIcon />
+                    <InformationIcon  w="30" h="30"/>
                   </TouchableOpacity>
                 </View>
               }
-              icon={<CalendarIcon />}
+              icon={<CalendarIcon/>}
               text={showDate}
             />
           </SafeAreaView>

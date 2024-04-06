@@ -15,11 +15,12 @@ const BigButton = ({
   name,
   icon,
   text,
-  variant = "title-medium",
+  variantTitle= "title-medium",
+  variantText = "h4-medium",
   onPress,
   disabled = false,
   width = windowWidth / 2 - 39,
-  height = 105,
+  // height = 120,
   ...props
 }) => {
   const shadowStyle = !disabled
@@ -34,29 +35,33 @@ const BigButton = ({
       style={[styles.touchableOpacity, { width: width }, shadowStyle]}
       disabled={disabled}
     >
-      <View
-        style={[
-          disabled ? styles.buttonContainer : styles.disabledStyle,
-          { height: height },
-        ]}
-      >
-        <Typography variant="small-medium">{name}</Typography>
+      <View style={{ flexDirection: "row"}}>
         <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            gap: 20,
-          }}
+          style={[
+            disabled ? styles.buttonContainer : styles.disabledStyle,
+            { flexGrow: 1},
+          ]}
         >
-          {icon ? icon : <View style={{ width: 40, height: 28 }}></View>}
-          {text ? (
-            <Typography variant={variant} style={{ width: 50 }}>
-              {text}
-            </Typography>
-          ) : (
-            <View style={{ width: 30, height: 28 }}></View>
-          )}
+          <Typography variant={variantTitle}>{name}</Typography>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              width: "100%",
+              // backgroundColor: "hotpink",
+            }}
+          >
+            {icon ? icon : <View style={{ width: 40, height: 28 }}></View>}
+            {text ? (
+              <Typography variant={variantText} >
+                {text}
+              </Typography>
+            ) : (
+              <View style={{ width: 30, height: 28 }}></View>
+            )}
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -71,24 +76,24 @@ const styles = StyleSheet.create({
     // height: 80,
   },
   buttonContainer: {
-    width: "100%",
     flexDirection: "column",
-    gap: 20,
     alignItems: "flex-start",
     justifyContent: "center",
-    padding: 13,
+    paddingHorizontal: 13,
+    paddingVertical: 20,
     borderRadius: 20,
     borderColor: colors.n20,
     backgroundColor: colors.n1,
     borderWidth: 1,
   },
   disabledStyle: {
-    width: "100%",
+    // width: "100%",
     flexDirection: "column",
-    gap: 20,
+    gap: 26,
     alignItems: "flex-start",
     justifyContent: "center",
-    padding: 13,
+    paddingHorizontal: 13,
+    paddingVertical: 20,
     borderRadius: 20,
     borderColor: colors.yellow1,
     backgroundColor: colors.n0,
@@ -100,20 +105,20 @@ const styles = StyleSheet.create({
       width: 2,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
     elevation: 5, // For Android
   },
-  shadowAndroid: {
-    elevation: 5, // For Android
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-  },
+  // shadowAndroid: {
+  //   elevation: 5, // For Android
+  //   shadowColor: "#000",
+  //   shadowOffset: {
+  //     width: 0,
+  //     height: 3,
+  //   },
+  //   shadowOpacity: 0.27,
+  //   shadowRadius: 4.65,
+  // },
 });
 
 export default BigButton;

@@ -23,13 +23,13 @@ const MGRoomHeader = ({ name, message, image }) => {
       
       <View style={styles.rightContainer}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Typography variant="title-black">Hi {name}</Typography>
+          <Typography variant="h4-regular">Hi {name}</Typography>
           <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
-            <CalendarIcon />
+            <CalendarIcon w="19.11" h="22"/>
             <Typography variant="body-medium">{formattedDate}</Typography>
           </View>
         </View>
-        <Typography variant="small-regular">
+        <Typography variant="body-regular">
           Teamwork makes the dream work
         </Typography>
       </View>
@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   profilePic: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 80,
+    height: 80,
+    borderRadius: 80,
   },
 });
 

@@ -40,8 +40,17 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
 
   useEffect(() => {
     fetchRooms().then((data) => {
-      const today = new Date().toISOString().split('T')[0];
-      const filteredRooms = data.filter(room => room.assignedDateTime && room.assignedDateTime.startsWith(today));
+      const localDate = new Date();
+      const today =
+        localDate.getFullYear() +
+        "-" +
+        String(localDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(localDate.getDate()).padStart(2, "0");
+      const filteredRooms = data.filter(
+        (room) =>
+          room.assignedDateTime && room.assignedDateTime.startsWith(today),
+      );
       setRooms(filteredRooms);
       setDisplayRoomAfterFilter(filteredRooms);
     });
@@ -295,7 +304,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    marginBottom: 170,
+    marginBottom: 70,
     backgroundColor: colors.n0,
   },
   numberContainer: {

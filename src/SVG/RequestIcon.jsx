@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-const RequestIcon = ({ w = 22, h = 18, stroke = "black" }) => (
+const RequestIcon = ({ w = 30, h = 22, stroke = "black" }) => (
   <Svg
     width={w}
     height={h}

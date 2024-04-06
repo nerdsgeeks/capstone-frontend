@@ -77,13 +77,14 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
             <Typography variant="h4-medium">
               Hi {employeeDetailsStore.firstName}
             </Typography>
-            <TouchableOpacity onPress={displayInformation}>
-              <InformationIcon w="36" h="36"/>
+            <TouchableOpacity
+              onPress={displayInformation}
+              style={{ top: 5, right: 4 }}
+            >
+              <InformationIcon w="30" h="30" />
             </TouchableOpacity>
           </View>
-          <Typography variant="body-regular">
-            Time to shine at work!
-          </Typography>
+          <Typography variant="body-regular">Time to shine at work!</Typography>
           <View
             style={{
               flexDirection: "row",
@@ -101,11 +102,18 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
             >
               <View style={styles.progressContainer}>
                 <Typography variant="small-regular">Task Progress</Typography>
-                <ProgressBar progress={0.5} color={colors.teal} />
+                <ProgressBar
+                  progress={Number(taskProgress)}
+                  color={colors.teal}
+                />
+                {/* <Text>{taskProgress}</Text> */}
               </View>
             </View>
-            <View style={{ gap: 6}}>
-              <View style={{flexDirection: "row", gap: 6}}><ClockShiftIcon /><Typography variant="small-regular">Shift</Typography></View>
+            <View style={{ gap: 6 }}>
+              <View style={{ flexDirection: "row", gap: 6 }}>
+                <ClockShiftIcon />
+                <Typography variant="small-regular">Shift</Typography>
+              </View>
               <Typography variant="xs-regular">{scheduleTime}</Typography>
             </View>
           </View>
@@ -189,9 +197,9 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
 const styles = StyleSheet.create({
   leftProfileContainer: {},
   profilePic: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     marginRight: 10,
   },
   middleContainer: {

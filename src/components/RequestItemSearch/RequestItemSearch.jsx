@@ -206,7 +206,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   return (
     <SafeAreaProvider style={{ flexDirection: "row" }}>
       <View style={styles.container}>
-        <LinearGradient
+        {/* <LinearGradient
           colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
           start={{ x: 0.0, y: 0.0 }}
           end={{ x: 1.0, y: 1.0 }}
@@ -227,7 +227,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
               }
             />
           </SafeAreaView>
-        </LinearGradient>
+        </LinearGradient> */}
         <View style={styles.searchBoxContainer}>
           <Typography variant="xs-regular">Search</Typography>
           <View>
@@ -398,6 +398,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: colors.n0,
+    rowGap: 16,
   },
   headerContainer: {
     width: "100%",
@@ -438,6 +439,7 @@ const styles = StyleSheet.create({
   columnWrapper: {
     justifyContent: "space-between",
     marginBottom: 8,
+    columnGap: 12,
   },
   itemContainer: {
     gap: 6,

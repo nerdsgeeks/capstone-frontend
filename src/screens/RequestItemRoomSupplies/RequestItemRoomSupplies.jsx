@@ -39,6 +39,7 @@ import RequestItemSearchRoomSupplies from "../../components/RequestItemSearchRoo
 import BackIcon from "../../SVG/BackIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import { colors } from "../../../themes/themes";
+import NewCartIconOutline from "../../SVG/NewCartIconOutline";
 
 const RequestItemRoomSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
@@ -159,7 +160,7 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
                 <View
                   style={{
                     flexDirection: "row",
-                    gap: 100,
+                    gap: 16,
                     alignItems: "center",
                   }}
                 >
@@ -179,7 +180,7 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
               }
               icon={
                 <TouchableOpacity onPress={onCartIconPressed} style={{}}>
-                  <CartIcon stroke={colors.n40} />
+                  <NewCartIconOutline fill={colors.n40} />
                   <View
                     style={{
                       position: "absolute",
@@ -189,7 +190,7 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
                       borderRadius: 12,
                       justifyContent: "center",
                       alignItems: "center",
-                      left: 14,
+                      left: 20,
                       bottom: 10,
                     }}
                   >
