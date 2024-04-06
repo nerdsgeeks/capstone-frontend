@@ -39,11 +39,13 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 
     if (activeTab === 0) {
       filteredRooms = rooms.filter(
-        (room) => room.cleaningStatus.toUpperCase() !== "CLEANED",
+        (room) => room.cleaningStatus.toUpperCase() === "TO DO",
       );
     } else {
       filteredRooms = rooms.filter(
-        (room) => room.cleaningStatus.toUpperCase() === "CLEANED",
+        (room) =>
+          room.cleaningStatus.toUpperCase() === "CLEANED" ||
+          room.cleaningStatus.toUpperCase() === "APPROVED",
       );
     }
 
@@ -90,11 +92,13 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 
     if (index === 0) {
       filteredRooms = rooms.filter(
-        (room) => room.cleaningStatus.toUpperCase() !== "CLEANED",
+        (room) => room.cleaningStatus.toUpperCase() === "TO DO",
       );
     } else {
       filteredRooms = rooms.filter(
-        (room) => room.cleaningStatus.toUpperCase() === "CLEANED",
+        (room) =>
+          room.cleaningStatus.toUpperCase() === "CLEANED" ||
+          room.cleaningStatus.toUpperCase() === "APPROVED",
       );
     }
 
@@ -120,11 +124,13 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
 
     if (activeTab === 0) {
       filteredRooms = rooms.filter(
-        (room) => room.cleaningStatus.toUpperCase() !== "CLEANED",
+        (room) => room.cleaningStatus.toUpperCase() === "TO DO",
       );
     } else {
       filteredRooms = rooms.filter(
-        (room) => room.cleaningStatus.toUpperCase() === "CLEANED",
+        (room) =>
+          room.cleaningStatus.toUpperCase() === "CLEANED" ||
+          room.cleaningStatus.toUpperCase() === "APPROVED",
       );
     }
 
@@ -286,7 +292,7 @@ const styles = StyleSheet.create({
   },
   assignedRoomListContainer: {
     flexGrow: 1,
-    gap:16,
+    gap: 16,
     backgroundColor: colors.n0,
     flexDirection: "column",
     paddingHorizontal: 26,

@@ -285,15 +285,15 @@ const SupervisorHome = ({ navigation }) => {
           Authorization: `Bearer ${accessTokenStore}`,
         },
       };
-      // axios
-      //   .post(apiUrl, newAssignedRoom, config)
-      //   .then((response) => {
-      //     console.log("Assignment created successfully:", response.data);
-      //     setAssignedRooms([...assignedRooms, newAssignedRoom]);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error creating assignment:", error);
-      //   });
+      axios
+        .post(apiUrl, newAssignedRoom, config)
+        .then((response) => {
+          console.log("Assignment created successfully:", response.data);
+          setAssignedRooms([...assignedRooms, newAssignedRoom]);
+        })
+        .catch((error) => {
+          console.error("Error creating assignment:", error);
+        });
 
       toggleAssignRoomModal();
     });
