@@ -26,11 +26,16 @@ import PlusIcon from "../../SVG/PlusIcon";
 import SearchIcon from "../../SVG/SearchIcon";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import RequestItemSearch from "../../components/RequestItemSearch/RequestItemSearch";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import CartIcon from "../../SVG/CartIcon";
 import { useRequestCartStore } from "../../store/requestStore";
 import { useItemsStore } from "../../store/itemsStore";
 import { useBaseScreenStore } from "../../store/screensStore";
+import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "../../../themes/themes";
+import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
+import BackIcon from "../../SVG/BackIcon";
+import NewCartIconOutline from "../../SVG/NewCartIconOutline";
 
 const RequestItemSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
@@ -108,12 +113,72 @@ const RequestItemSupplies = ({ route, navigation }) => {
       roomDetails: roomDetails,
     });
   };
+  const goBack = () => {
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        {/* <CloseIcon></CloseIcon> */}
-        {/* <Text> {requestedItemsCartStore.length}</Text> */}
+        <LinearGradient
+          colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
+          start={{ x: 0.0, y: 0.0 }}
+          end={{ x: 1.0, y: 1.0 }}
+          locations={[0.01, 0.7, 0.92, 1.0]}
+          style={styles.headerContainer}
+        >
+          <SafeAreaView>
+            <SupervisorRoomHeader
+              title={
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 16,
+                    alignItems: "center",
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={goBack}
+                    // style={{ marginRight: 20 }}
+                  >
+                    <BackIcon />
+                  </TouchableOpacity>
+                  <Typography
+                    variant="screenHeader-medium"
+                    // style={{ borderWidth: 2 }}
+                  >
+                    Room Supplies
+                  </Typography>
+                </View>
+              }
+              icon={
+                <TouchableOpacity onPress={onCartIconPressed} style={{}}>
+                  <NewCartIconOutline fill={colors.n40} />
+                  <View
+                    style={{
+                      position: "absolute",
+                      backgroundColor: colors.n40,
+                      height: 24,
+                      width: 24,
+                      borderRadius: 12,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      left: 20,
+                      bottom: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="xs-regular"
+                      style={{ color: colors.n0 }}
+                    >
+                      {requestedItemsCartStore.length}
+                    </Typography>
+                  </View>
+                </TouchableOpacity>
+              }
+            />
+          </SafeAreaView>
+        </LinearGradient>
         <RequestItemSearch
           headerText="Items"
           roomDetails={roomDetails}
@@ -133,7 +198,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 10,
     alignItems: "center",
-    paddingTop: 20,
+    backgroundColor: colors.n0,
+  },
+  headerContainer: {
+    width: "100%",
+    borderBottomLeftRadius: 60,
+    paddingHorizontal: 26,
+    paddingVertical: 18,
+    paddingTop: 7,
   },
   searchBoxContainer: {
     alignSelf: "flex-start",

@@ -24,7 +24,7 @@ const HousekeeperHome = ({ navigation }) => {
   const baseUrl = useBaseUrl();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
-  const [taskProgress, setTaskProgress] = useState([0.1]);
+  const [taskProgress, setTaskProgress] = useState([0]);
 
   const itemsStore = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
@@ -97,7 +97,9 @@ const HousekeeperHome = ({ navigation }) => {
           updateRoomsStore(data);
           if (data.length > 0) {
             const completedCount = data.filter(
-              (item) => item.isCompleted,
+              (room) =>
+                room.cleaningStatus.toUpperCase() === "CLEANED" ||
+                room.cleaningStatus.toUpperCase() === "APPROVED",
             ).length;
             const totalCount = data.length;
             setTaskProgress((completedCount / totalCount).toFixed(1));
@@ -160,7 +162,9 @@ const HousekeeperHome = ({ navigation }) => {
           updateRoomsStore(data);
           if (data.length > 0) {
             const completedCount = data.filter(
-              (item) => item.isCompleted,
+              (room) =>
+                room.cleaningStatus.toUpperCase() === "CLEANED" ||
+                room.cleaningStatus.toUpperCase() === "APPROVED",
             ).length;
             const totalCount = data.length;
             setTaskProgress((completedCount / totalCount).toFixed(1));
@@ -179,7 +183,7 @@ const HousekeeperHome = ({ navigation }) => {
 
   return (
     <>
-      {rooms.length > 0 && items.length > 0 ? (
+      {rooms && items.length > 0 ? (
         <SafeAreaProvider>
           {/* <SafeAreaView style={styles.container}> */}
           <View style={styles.container}>
@@ -190,7 +194,7 @@ const HousekeeperHome = ({ navigation }) => {
               locations={[0.01, 0.7, 0.92, 1.0]}
               style={styles.headerContainer}
             >
-              {/* <Text>{accessTokenStore}</Text> */}
+              <Text>{taskProgress}</Text>
               <SafeAreaView>
                 <HousekeeperHomeHeader
                   name="Pujan"
