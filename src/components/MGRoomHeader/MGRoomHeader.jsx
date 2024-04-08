@@ -9,7 +9,7 @@ import {
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
 
-const MGRoomHeader = ({ name, message }) => {
+const MGRoomHeader = ({ name, message, image }) => {
   const today = new Date();
   const shortMonthName = today.toLocaleString("default", { month: "short" });
   const formattedDate = `${today.getDate()} ${shortMonthName} `;
@@ -33,12 +33,15 @@ const MGRoomHeader = ({ name, message }) => {
 
   return (
     <View style={styles.container}>
-      <Image
+      {image && (
+        <Image
         source={{
           uri: `${employeeDetailsStore.imageURL}`,
         }}
         style={styles.profilePic}
       />
+      )}
+      
       <View style={styles.rightContainer}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Typography variant="h4-regular">Hi {employeeDetailsStore.firstName}</Typography>

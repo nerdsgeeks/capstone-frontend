@@ -107,7 +107,7 @@ const RequestModalSupervisor = ({
               />
 
               <Typography variant="xs-regular">
-                {requestDetailObject.FirstName} {requestDetailObject.LastName} 
+                {requestDetailObject.firstName} {requestDetailObject.lastName} 
               </Typography>
             </View>
           </View>
