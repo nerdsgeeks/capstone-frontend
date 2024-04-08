@@ -410,6 +410,9 @@ const SupervisorHome = ({ navigation }) => {
           style={styles.headerContainer}
         >
           <SafeAreaView>
+            <MGRoomHeader
+              // name="thalha"
+              // message="some quote is here just act as this is a quote"
             {employeeDetailsStore.firstName && (
               <MGRoomHeader
               name={employeeDetailsStore.firstName}

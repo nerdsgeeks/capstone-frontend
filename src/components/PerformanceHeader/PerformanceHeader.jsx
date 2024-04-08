@@ -7,20 +7,20 @@ import { colors } from "../../../themes/themes";
 const PerformanceHeader = ({ onPress, firstName, rating }) => {
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", gap: 12}}>
+      <View style={{ flexDirection: "row", gap: 16, alignItems: "center"}}>
         <TouchableOpacity onPress={onPress}>
         <BackIcon />
         </TouchableOpacity>
-        <View>
-          <Typography variant="small-black">Performance</Typography>
-          <Typography variant="small-regular">
-            Great work {firstName}
+        <View style={{gap: 6}}>
+          <Typography variant="h4-regular">Performance</Typography>
+          <Typography variant="body-regular">
+            Great work {firstName}!
           </Typography>
         </View>
       </View>
-      <View style={{ width: 55, height:55, borderRadius: 100, backgroundColor: colors.main, justifyContent: "center", alignItems: "center", position: "relative"}}>
-        <StarIcon w="43" h="43"/>
-        <Typography variant="xs-black" style={{ position: "absolute"}}>{rating}</Typography>
+      <View style={{ width: 65, height:65, borderRadius: 100, backgroundColor: colors.main, justifyContent: "center", alignItems: "center", position: "relative"}}>
+        <StarIcon w="50" h="50"/>
+        <Typography variant="title-black" style={{ position: "absolute"}}>{rating}</Typography>
       </View>
     </View>
   );
@@ -31,6 +31,9 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    // paddingVertical: 24,
+    alignItems: "flex-start",
+    // paddingHorizontal: 26,
   },
 };
 

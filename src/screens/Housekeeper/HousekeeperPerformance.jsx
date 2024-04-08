@@ -51,12 +51,13 @@ const HousekeeperPerformance = ({ navigation }) => {
           const data = response.data;
           const filteredData = data.filter(
             (assignedRoom) =>
-              assignedRoom.assignedEmployeeID === employeeDetailsStore.userId,
+              assignedRoom.assignedEmployeeID === employeeDetailsStore.userId &&
+              assignedRoom.cleaningStatus === "Approved",
           );
           console.log("filteredData");
           console.log(filteredData);
           setFeedbackCount(filteredData.length);
-          setAssignedRooms(filteredData);
+          setAssignedRooms(filteredData.reverse());
         })
         .catch((error) => {
           console.log(error);
@@ -64,6 +65,11 @@ const HousekeeperPerformance = ({ navigation }) => {
 
     onFetchAssignedRooms();
   }, []);
+
+  const totalRating = assignedRooms.reduce((acc, room) => {
+    return acc + room.rating;
+  }, 0);
+  const averageRating = (totalRating / assignedRooms.length).toFixed(2);
 
   return (
     <SafeAreaProvider>
@@ -79,7 +85,7 @@ const HousekeeperPerformance = ({ navigation }) => {
             <PerformanceHeader
               onPress={() => navigation.goBack()}
               firstName={employeeDetailsStore.firstName}
-              rating="4"
+              rating={averageRating}
             />
           </SafeAreaView>
         </LinearGradient>
@@ -95,15 +101,15 @@ const HousekeeperPerformance = ({ navigation }) => {
             style={{
               backgroundColor: colors.main,
               borderRadius: 20,
-              width: 29,
-              height: 29,
+              width: 35,
+              height: 35,
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Typography variant="small-medium">{feedbackCount}</Typography>
+            <Typography variant="title-medium">{feedbackCount}</Typography>
           </View>
-          <Typography variant="small-black">Feedback</Typography>
+          <Typography variant="title-black">Feedback</Typography>
         </View>
         <ScrollView style={{ width: "100%" }}>
           {assignedRooms &&
@@ -122,11 +128,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     gap: 16,
+    backgroundColor: "white",
   },
   headerContainer: {
     width: "100%",
+    borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    paddingTop: 10,
+    paddingVertical: 22,
+    paddingTop: 7,
   },
 });
 

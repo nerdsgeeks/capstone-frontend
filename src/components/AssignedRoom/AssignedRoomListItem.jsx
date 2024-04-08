@@ -113,13 +113,13 @@ export default AssignedRoomListItem;
 const styles = StyleSheet.create({
   shadowWrapper: {
     borderRadius: 20,
-    shadowColor: colors.n20,
+    shadowColor: colors.n30,
     shadowOffset: {
       width: 4,
       height: 4,
     },
     shadowOpacity: 0.5,
-    shadowRadius: 4,
+    shadowRadius: 2,
     // For Android
     elevation: 4,
   },

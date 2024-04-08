@@ -55,9 +55,9 @@ const RequestItemDetail = ({
 
       <View style={{gap:23, flexGrow: 1}}>
         <View style={styles.topHeader}>
-          <Typography variant="title-medium">{itemName}</Typography>
+          <Typography variant="body-medium">{itemName}</Typography>
           {/* <Typography variant="small-medium">{index}</Typography> */}
-          {/* <TrashIcon w="26" h="26"/> */}
+          <TrashIcon w="26" h="26"/>
         </View>
         
           <Counter
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   topHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   Counter: {
     flexDirection: "row",

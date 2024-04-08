@@ -156,7 +156,11 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
             <SupervisorRoomHeader
               title={
                 <View
-                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                  style={{
+                    flexDirection: "row",
+                    gap: 16,
+                    alignItems: "center",
+                  }}
                 >
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />
@@ -169,13 +173,28 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
         </LinearGradient>
         {/* <Text> {requestedItemsCartRoomSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemRoomSuppliesOrder</Text> */}
-        <View style={{ flexDirection: "column", rowGap: 20 }}>
+        
           <RequestedItemsList
             items={requestedItemsCartRoomSuppliesStore}
             showRequestedItemText={false}
           ></RequestedItemsList>
 
-          <Button type="primary" name="Order" onPress={onOrderPressed} />
+          <View
+            style={{
+              width: "100%",
+              borderTopWidth: 1,
+              borderColor: colors.n20,
+              alignItems: "center",
+              backgroundColor: colors.n10,
+            }}
+          >
+            <Button
+              name="Order"
+              type="primary"
+              onPress={onOrderPressed}
+              style={{ marginVertical: 20, width: "80%" }}
+            />
+          </View>
           {/* <TouchableOpacity
             style={{
               backgroundColor: "#8FDEDE",
@@ -201,7 +220,7 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
               Order
             </Text>
           </TouchableOpacity> */}
-        </View>
+        
       </View>
     </SafeAreaProvider>
   );
@@ -213,7 +232,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    gap: 10,
+    // gap: 10,
     alignItems: "center",
     backgroundColor: colors.n0,
   },

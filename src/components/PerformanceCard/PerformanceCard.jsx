@@ -60,15 +60,15 @@ const PerformanceCard = ( { room }) => {
 //   };
 
   let tierIcon;
-  switch (room.RoomTier) {
-    case "gold":
-      tierIcon = <TierGoldIcon />;
+  switch (room.RoomTier.toUpperCase()) {
+    case "gold".toUpperCase():
+      tierIcon = <TierGoldIcon w="36" h="36"/>;
       break;
-    case "silver":
-      tierIcon = <TierSilverIcon />;
+    case "silver".toUpperCase():
+      tierIcon = <TierSilverIcon w="36" h="36"/>;
       break;
-    case "diamond":
-      tierIcon = <TierDiamondIcon />;
+    case "diamond".toUpperCase():
+      tierIcon = <TierDiamondIcon w="36" h="36"/>;
       break;
     default:
       tierIcon = <TextChip text="NO INFO" />;
@@ -100,8 +100,8 @@ const PerformanceCard = ( { room }) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="small-medium">{room.RoomName}</Typography>
-          <Typography variant="small-regular">
+          <Typography variant="h4-medium">{room.RoomName}</Typography>
+          <Typography variant="body-regular">
             {formatDate(room.assignedDateTime)}
           </Typography>
         </View>
@@ -113,7 +113,7 @@ const PerformanceCard = ( { room }) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="small-regular">
+          <Typography variant="body-regular">
             {formatTime(room.startTime)} - {formatTime(room.endTime)}
           </Typography>
           {tierIcon}
@@ -121,17 +121,17 @@ const PerformanceCard = ( { room }) => {
 
         <View style={styles.clock}>
           <ClockIcon fill={colors.teal} />
-          <Typography variant="small-medium">
+          <Typography variant="body-medium">
             {new Date(room.cleaningDuration).toISOString().slice(11, 19)}
           </Typography>
         </View>
 
         <View style={styles.feedbackbox}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-            <Typography variant="small-medium">Review</Typography>
+            <Typography variant="body-medium">Review</Typography>
             <View style={{ flexDirection: "row", gap: 4 }}>{renderStars()}</View>
           </View>
-          <Typography variant="small-regular">
+          <Typography variant="body-regular">
             {room.inspectionNotes}
           </Typography>
         </View>
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     marginHorizontal: 26,
-    marginVertical: 20,
-    padding:10,
+    marginVertical: 10,
+    padding:16,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.n20,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     borderColor: colors.pale_teal1,
   },
   feedbackbox: {
-    padding: 10,
+    padding: 16,
     borderRadius: 8,
     backgroundColor: colors.pale_teal2,
   }
