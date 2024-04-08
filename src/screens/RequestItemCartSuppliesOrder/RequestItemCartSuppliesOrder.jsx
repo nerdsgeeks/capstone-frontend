@@ -30,6 +30,7 @@ import {
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
 
+
 const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
   const { roomDetails } = route.params;
   const requestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
@@ -154,7 +155,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
             <SupervisorRoomHeader
               title={
                 <View
-                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                  style={{ flexDirection: "row", gap: 16, alignItems: "center" }}
                 >
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />
@@ -167,13 +168,20 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
         </LinearGradient>
         {/* <Text> {requestedItemsCartSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemCartSuppliesOrder</Text> */}
-        <View style={{ flexDirection: "column", rowGap: 20 }}>
+        {/* <View style={{ flexDirection: "column", rowGap: 20 }}> */}
           <RequestedItemsList
             items={requestedItemsCartSuppliesStore}
             showRequestedItemText={false}
           ></RequestedItemsList>
 
-          <Button type="primary" name="Order" onPress={onOrderPressed} />
+<View style={{ width:"100%",borderTopWidth: 1, borderColor: colors.n20, alignItems: "center", backgroundColor: colors.n10}}>
+          <Button
+            name="Order"
+            type="primary"
+            onPress={onOrderPressed}
+            style={{ marginVertical: 20, width: "80%" }}
+          />
+        </View>
 
           {/* <TouchableOpacity
             style={{
@@ -200,7 +208,7 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
               Order
             </Text>
           </TouchableOpacity> */}
-        </View>
+        {/* </View> */}
       </View>
     </SafeAreaProvider>
   );

@@ -249,9 +249,9 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 5,
-    marginTop: 5,
+    borderColor: colors.n30,
+    borderRadius: 12,
+    marginTop: 6,
   },
 });
 

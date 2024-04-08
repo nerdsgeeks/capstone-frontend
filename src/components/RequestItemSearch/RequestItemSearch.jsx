@@ -9,7 +9,6 @@ import {
   FlatList,
   Image,
   Modal,
-  Button,
   KeyboardAvoidingView,
 } from "react-native";
 import Typography from "../Typography/Typography";
@@ -20,6 +19,7 @@ import CloseIcon from "../../SVG/CloseIcon";
 import PlusIcon from "../../SVG/PlusIcon";
 import MinusIcon from "../../SVG/MinusIcon";
 import RequestedItemsList from "../RequestedItemsList/RequestedItemsList";
+import Button from "../Button/Button";
 import Close from "../../SVG/Close";
 import { useWindowDimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -229,12 +229,12 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
           </SafeAreaView>
         </LinearGradient> */}
         <View style={styles.searchBoxContainer}>
-          <Typography variant="xs-regular">Search</Typography>
+          <Typography variant="body-regular">Search</Typography>
           <View>
             <View
               style={{
                 position: "absolute",
-                top: 13,
+                top: 16,
                 left: 10,
               }}
             >
@@ -245,7 +245,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                 style={{ position: "absolute", top: 16, right: 10, zIndex: 10 }}
                 onPress={clearSearch}
               >
-                <Close sroke={colors.n30}></Close>
+                <Close stroke={colors.n30}></Close>
               </TouchableOpacity>
             )}
             <TextInput
@@ -264,52 +264,53 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
           transparent={true}
         >
           <View style={styles.modalOverlay}>
-            <View
-              style={[
-                styles.modalView,
-                { height: isRequestHelpModalTextFocused ? "100%" : "76%" },
-              ]}
-            >
-              <CloseIcon onPress={toggleRequestAddToCartModal} />
-              <View style={styles.requestAddToCartModalContainer}>
-                <Typography variant="h5-black">Request Items</Typography>
+            <View style={styles.modalView}>
+              <View style={{ gap: 16, width: "100%", alignItems: "center" }}>
+                <CloseIcon onPress={toggleRequestAddToCartModal} />
+                <Typography variant="h4-medium">Request Items</Typography>
                 <View style={styles.requestAddToCartModalImageContainer}>
-                  <ImageDisplay type="large" source={selectedItem.ImageUrl} />
-                  <Typography
-                    variant="body-regular"
-                    style={{ textAlign: "center" }}
-                  >
-                    {selectedItem.ItemName}
-                  </Typography>
+                  <ImageDisplay
+                    type="large"
+                    source={selectedItem.ImageUrl}
+                    text={selectedItem.ItemName}
+                  />
+                  {/* <Typography
+                      variant="body-regular"
+                      style={{ textAlign: "center" }}
+                    >
+                      {selectedItem.ItemName}
+                    </Typography> */}
                 </View>
                 <View style={styles.requestAddToCartModalRoomNumberSection}>
-                  <Text style={styles.requestAddToCartModalNoteLabel}>
-                    Room Number
-                  </Text>
+                  {/* <Text style={styles.requestAddToCartModalNoteLabel}>
+                      Room Number
+                    </Text> */}
+                  <Typography variant="body-medium"> Room Number</Typography>
                   <TextInput
                     editable={false}
                     style={[
                       {
                         borderWidth: 1,
-                        borderColor: "grey",
-                        borderRadius: 5,
-                        marginTop: 5,
-                        padding: 10,
+                        borderColor: colors.n30,
+                        borderRadius: 12,
+                        marginTop: 6,
+                        // padding: 10,
                         paddingLeft: 20,
-                        height: 40,
+                        height: 44,
                       },
                     ]}
                     value={roomDetails.RoomName}
                   />
                 </View>
                 <View style={styles.requestAddToCartModalNoteSection}>
-                  <Text style={styles.requestAddToCartModalNoteLabel}>
-                    Add Note
-                  </Text>
+                  {/* <Text style={styles.requestAddToCartModalNoteLabel}>
+                      Add Note
+                    </Text> */}
+                  <Typography variant="body-medium">Add Note</Typography>
                   <View>
                     {!isRequestHelpModalTextFocused && (
-                      <View style={{ position: "absolute", top: 15, left: 10 }}>
-                        <PlusIcon />
+                      <View style={{ position: "absolute", top: 17, left: 10 }}>
+                        <PlusIcon fill={colors.n50} />
                       </View>
                     )}
                     <TextInput
@@ -318,7 +319,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                         {
                           padding: isRequestHelpModalTextFocused ? 2 : 10,
                           paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
-                          height: isRequestHelpModalTextFocused ? 80 : 40,
+                          height: 44,
                         },
                       ]}
                       placeholder="Note"
@@ -331,6 +332,32 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                       value={modalNoteText}
                     />
                   </View>
+
+                  {/* <View>
+                  {!isRequestHelpModalTextFocused && (
+                    <View style={{ position: "absolute", top: 12, left: 10 }}>
+                      <PlusIcon fill={colors.n50} />
+                    </View>
+                  )}
+                  <TextInput
+                    style={[
+                      styles.requestAddToCartModalInput,
+                      {
+                        padding: isRequestHelpModalTextFocused ? 2 : 10,
+                        paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
+                        height: 44,
+                      },
+                    ]}
+                    placeholder="Note"
+                    onFocus={() => setIsRequestHelpModalTextFocused(true)}
+                    onBlur={() => {
+                      setIsRequestHelpModalTextFocused(false);
+                      updateSelectedItemWithNote();
+                    }}
+                    onChangeText={handlemodalNoteTextChange} // Update state on text change
+                    value={modalNoteText}
+                  />
+                </View> */}
                 </View>
                 <View style={styles.requestAddToCartModalQuantityCounter}>
                   <Typography variant="body-medium">Quantity</Typography>
@@ -350,14 +377,20 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <TouchableOpacity
-                  style={styles.requestAddToCartModalButton}
+                {/* <TouchableOpacity
+                    style={styles.requestAddToCartModalButton}
+                    onPress={onRequestAddToCartModalSubmitPressed}
+                  >
+                    <Text style={styles.requestAddToCartModalButtonText}>
+                      Add to Cart
+                    </Text>
+                  </TouchableOpacity> */}
+                <Button
+                  name="Add to Cart"
+                  type="primary"
                   onPress={onRequestAddToCartModalSubmitPressed}
-                >
-                  <Text style={styles.requestAddToCartModalButtonText}>
-                    Add to Cart
-                  </Text>
-                </TouchableOpacity>
+                  style={{ marginTop: 30 }}
+                />
               </View>
             </View>
           </View>
@@ -416,16 +449,17 @@ const styles = StyleSheet.create({
   },
   requestItemSearchInput: {
     borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 10,
-    marginTop: 5,
+    borderColor: colors.n30,
+    borderRadius: 12,
+    marginTop: 6,
     padding: 10,
     paddingLeft: 36,
-    height: 40,
+    height: 44,
   },
   listItemsContainer: {
     rowGap: 16,
-    marginBottom: 180,
+    paddingBottom: 80,
+    // marginBottom: 180,
   },
   listItems: {
     rowGap: 16,
@@ -453,33 +487,24 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 6,
   },
-  listItemsContainer: {
-    marginBottom: 60,
-  },
+  // listItemsContainer: {
+  //   marginBottom: 60,
+  // },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+    paddingHorizontal: 26,
   },
   modalView: {
-    // height: "76%",
-    width: "76%",
-    margin: 20,
     backgroundColor: "white",
+    width: "100%",
+    flexDirection: "row",
+    paddingHorizontal: 50,
+    paddingVertical: 24,
     borderRadius: 20,
-    paddingVertical: 35,
-    paddingHorizontal: 30,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   requestAddToCartModalContainer: {
     width: 240,
@@ -509,6 +534,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   requestAddToCartModalRoomNumberSection: {
+    paddingTop: 14,
     width: "100%",
   },
   requestAddToCartModalNoteLabel: {
@@ -516,9 +542,9 @@ const styles = StyleSheet.create({
   },
   requestAddToCartModalInput: {
     borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 5,
-    marginTop: 5,
+    borderColor: colors.n30,
+    borderRadius: 12,
+    marginTop: 6,
   },
   requestAddToCartModalButton: {
     backgroundColor: "#8FDEDE",
@@ -533,11 +559,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   requestAddToCartModalQuantityCounter: {
-    rowGap: 6,
+    rowGap: 16,
+    alignItems: "center",
+    paddingTop: 14,
   },
   counterContainer: {
     flexDirection: "row",
-    gap: 10,
+    gap: 30,
     alignItems: "center",
     justifyContent: "space-between",
   },

@@ -25,6 +25,7 @@ import { useWindowDimensions } from "react-native";
 import Button from "../Button/Button";
 import Counter from "../Counter/Counter";
 import { colors } from "../../../themes/themes";
+import Close from "../../SVG/Close";
 
 const RequestItemSearchCartSupplies = ({
   headerText,
@@ -297,7 +298,7 @@ const RequestItemSearchCartSupplies = ({
             style={styles.requestAddToCartModalButton}
             onPress={onOrderPressed}
           >
-            <Text style={styles.requestAddToCartModalButtonText}>Order</Text>
+            <Text style={styles.requestAddToCartModalButtonText}>Order</T ext>
           </TouchableOpacity>
         </View>
       )} */}
@@ -340,9 +341,9 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 6,
   },
-  listItemsContainer: {
-    marginBottom: 60,
-  },
+  // listItemsContainer: {
+  //   marginBottom: 60,
+  // },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay

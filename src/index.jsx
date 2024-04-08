@@ -175,7 +175,7 @@ const App = () => {
             </View>
           </ImageBackground>
 
-          <View style={{marginHorizontal: 55,}}>
+          <View style={{marginHorizontal: 55, gap:30}}>
             <View>
               <RadioButtonGroup
                 containerStyle={{
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     justifyContent: "flex-start",
     alignItems: "center",
-    gap: 16,
+    gap: 30,
     // paddingTop: 100,
   },
   background: {

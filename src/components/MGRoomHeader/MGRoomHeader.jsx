@@ -4,23 +4,44 @@ import Typography from "../Typography/Typography";
 import { colors } from "../../../themes/themes";
 import { LinearGradient } from "expo-linear-gradient";
 import CalendarIcon from "../../SVG/CalendarIcon";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 
 const MGRoomHeader = ({ name, message }) => {
   const today = new Date();
   const shortMonthName = today.toLocaleString("default", { month: "short" });
   const formattedDate = `${today.getDate()} ${shortMonthName} `;
 
+  const accessTokenStore = useAccessTokenStore(
+    (state) => state.accessTokenStore,
+  );
+  const updateAccessTokenStore = useAccessTokenStore(
+    (state) => state.updateAccessTokenStore,
+  );
+
+  const employeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.employeeDetailsStore,
+  );
+  const updateEmployeeDetailsStore = useEmployeeDetailsStore(
+    (state) => state.updateEmployeeDetailsStore,
+  );
+
+  console.log("employeeDetailsStore");
+  console.log(employeeDetailsStore);
+
   return (
     <View style={styles.container}>
       <Image
         source={{
-          uri: "https://picsum.photos/2000/600?random=11",
+          uri: `${employeeDetailsStore.imageURL}`,
         }}
         style={styles.profilePic}
       />
       <View style={styles.rightContainer}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Typography variant="h4-regular">Hi {name}</Typography>
+          <Typography variant="h4-regular">Hi {employeeDetailsStore.firstName}</Typography>
           <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
             <CalendarIcon w="19.11" h="22"/>
             <Typography variant="body-medium">{formattedDate}</Typography>

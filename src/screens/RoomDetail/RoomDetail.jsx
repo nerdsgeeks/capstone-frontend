@@ -405,10 +405,12 @@ const RoomDetail = ({ route, navigation }) => {
           ></RoomDetailInfo>
           <Text>{doneDisabled}</Text>
           {requestedItems.length > 0 && (
-            <RequestedItemsList
-              items={requestedItems}
-              disabled={true}
-            ></RequestedItemsList>
+            <View style={{ paddingHorizontal: 26}}>
+              <RequestedItemsList
+                items={requestedItems}
+                disabled={true}
+              ></RequestedItemsList>
+            </View>
           )}
         </ScrollView>
 
@@ -651,7 +653,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   bottomContainer: {
-    gap: 25,
+    gap: 12,
     paddingVertical: 10,
     marginHorizontal: 26,
   },
@@ -665,6 +667,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     justifyContent: "space-between",
+    borderTopWidth: 1,
+    paddingTop: 20,
+    borderColor: colors.n20,
   },
   commonButton: {
     width: 80,

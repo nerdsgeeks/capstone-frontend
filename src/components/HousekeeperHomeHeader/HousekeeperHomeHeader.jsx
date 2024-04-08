@@ -72,14 +72,14 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
       <View style={styles.middleContainer}>
         <View style={styles.progressContainer}>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
           >
             <Typography variant="h4-medium">
               Hi {employeeDetailsStore.firstName}
             </Typography>
             <TouchableOpacity
               onPress={displayInformation}
-              style={{ top: 5, right: 4 }}
+
             >
               <InformationIcon w="30" h="30" />
             </TouchableOpacity>
@@ -105,6 +105,7 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
                 <ProgressBar
                   progress={Number(taskProgress)}
                   color={colors.teal}
+                  style={{ paddingVertical: 8, width: 180, borderRadius: 20}}
                 />
                 {/* <Text>{taskProgress}</Text> */}
               </View>
