@@ -95,7 +95,7 @@ const HousekeeperRequest = ({ navigation }) => {
         justifyContent: "space-between",
         alignItems: "center",
         borderBottomWidth: 1,
-        borderBottomColor: colors.n30,
+        borderBottomColor: colors.n20,
         paddingVertical: 16,
       }}
     >
