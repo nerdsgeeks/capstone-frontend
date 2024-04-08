@@ -11,7 +11,7 @@ const ImageDisplay = ({ type, source, text }) => {
       {text ? (
         <Typography
           style={type === "large" ? styles.largeText : styles.smallText}
-          variant={type === "large" ? "body-medium" : "xs-regular"}
+          variant={type === "large" ? "title-medium" : "xs-regular"}
         >
           {text}
         </Typography>

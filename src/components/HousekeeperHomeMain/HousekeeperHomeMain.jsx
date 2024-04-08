@@ -289,6 +289,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 4,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.n20,
   },
   assignedRoomListContainer: {
     flexGrow: 1,

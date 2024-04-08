@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, StyleSheet, Dimensions, View, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,18 +16,23 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import axios from "axios";
+import useBaseUrl from "../../hooks/useBaseUrl";
 
 const HousekeeperProfile = ({ navigation }) => {
+  const baseUrl = useBaseUrl();
   const [activeTab, setActiveTab] = useState(0);
-  const [showScheduleTab, setShowScheduleTab] = useState(true);
-  const tabs = [{ label: "Schedule" }, { label: "Perfomance" }];
+  const [showScheduleTab, setShowScheduleTab] = useState(false);
+  const tabs = [{ label: "Perfomance" }, { label: "Schedule" }];
   const scheduleList = [
-    { day: "Tue", date: "Feb 20", time: "10am-6pm" },
-    { day: "Wed", date: "Feb 21", time: "10am-6pm" },
-    { day: "Fri", date: "Feb 23", time: "8am-4pm" },
-    { day: "Sun", date: "Feb 25", time: "1pm-6pm" },
-    { day: "Mon", date: "Feb 26", time: "8am-4pm" },
+    { day: "Tue", date: "Apr 15", time: "10am-6pm" },
+    { day: "Wed", date: "Apr 16", time: "10am-6pm" },
+    { day: "Thu", date: "Apr 17", time: "8am-4pm" },
+    { day: "Fri", date: "Apr 18", time: "1pm-6pm" },
+    { day: "Sat", date: "Apr 20", time: "8am-4pm" },
   ];
+
+  const [rooms, setRooms] = useState([]);
 
   const windowWidth = Dimensions.get("window").width;
   const accessTokenStore = useAccessTokenStore(
@@ -44,10 +49,81 @@ const HousekeeperProfile = ({ navigation }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
+  useEffect(() => {
+    const apiUrl = baseUrl + "/api/assignedRooms/assignedRoomTblAll";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
+    const onFetchAssignedRooms = () =>
+      axios
+        .get(apiUrl, config)
+        .then((response) => {
+          const data = response.data;
+          const filteredData = data.filter(
+            (assignedRoom) =>
+              assignedRoom.assignedEmployeeID === employeeDetailsStore.userId &&
+              assignedRoom.cleaningStatus === "Approved",
+          );
+          setRooms(filteredData);
+        })
+        .catch((error) => {
+          console.error("Error fetching assigned rooms:", error);
+        });
+    onFetchAssignedRooms();
+  }, []);
+
+  // const filteredRooms = rooms.filter((room) => {
+  //   return (
+  //     room.assignedEmployeeID === employeeDetailsStore.userId &&
+  //     room.cleaningStatus === "Approved"
+  //   );
+  // });
+
+  // console.log("roooOooOOMS: ", filteredRooms)
+
+  const totalMilliseconds = rooms.reduce((acc, room) => {
+    const durationMilliseconds = new Date(room.cleaningDuration).getTime() - new Date("1970-01-01").getTime();
+    return acc + durationMilliseconds;
+}, 0);
+
+const averageMilliseconds = totalMilliseconds / rooms.length;
+
+const averageMinutes = Math.floor(averageMilliseconds / (1000 * 60));
+const averageSeconds = Math.floor((averageMilliseconds / 1000) % 60);
+
+
+const averageDuration = `${averageMinutes.toString().padStart(2, '0')}:${averageSeconds.toString().padStart(2, '0')}`;
+
+const totalRating = rooms.reduce((acc, room) => {
+  return acc + room.rating;
+}, 0);
+
+const averageRating = Math.ceil(totalRating / rooms.length);
+
+
+const renderStars = () => {
+
+  
+  const totalStars = 5;
+  const stars = [];
+
+  for (let i = 0; i < Math.ceil(averageRating); i++) {
+    stars.push(<StarIcon key={i} fill={colors.teal} />);
+  }
+
+  for (let i = Math.ceil(averageRating); i < totalStars; i++) {
+    stars.push(<StarIcon key={i} fill={colors.n30} />);
+  }
+
+  return stars;
+};
+
   const handleTabPress = (index) => {
     setActiveTab(index);
 
-    if (index === 0) {
+    if (index === 1) {
       setShowScheduleTab(true);
     } else {
       setShowScheduleTab(false);
@@ -57,6 +133,8 @@ const HousekeeperProfile = ({ navigation }) => {
   const onPressRatingAndFeedback = () => {
     navigation.navigate("HousekeeperPerformance", {});
   };
+
+
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -68,12 +146,12 @@ const HousekeeperProfile = ({ navigation }) => {
           style={styles.headerGradient}
         >
           <SafeAreaView>
-            <View style={styles.headerContainer}>
+            <View style={{ gap: 16 }}>
               <View style={styles.scheduleContainer}>
                 <CalendarIcon></CalendarIcon>
-                <Typography variant="xs-medium">Feb 20 - Feb 27</Typography>
+                <Typography variant="body-medium">Apr 14 - Apr 20</Typography>
               </View>
-              <View style={styles.profilePicAndNameContainer}>
+              <View style={{ alignItems: "center" }}>
                 <Image
                   source={{
                     uri: `${employeeDetailsStore.imageURL}`,
@@ -81,7 +159,7 @@ const HousekeeperProfile = ({ navigation }) => {
                   style={styles.profilePic}
                 />
                 <View style={styles.nameContainer}>
-                  <Typography variant="title-black">
+                  <Typography variant="h4-black">
                     {employeeDetailsStore.firstName}{" "}
                     {employeeDetailsStore.lastName}
                   </Typography>
@@ -109,15 +187,15 @@ const HousekeeperProfile = ({ navigation }) => {
                   <View style={styles.perfomanceTopButtonsContainer}>
                     <BigButton
                       name="Total Rooms"
-                      icon={<BedIcon w="40" h="28" fill={colors.orange} />}
-                      text="30"
+                      icon={<BedIcon w="54" h="37" fill={colors.main} />}
+                      text={rooms.length}
                       width={windowWidth / 2 - 34}
                       disabled
                     />
                     <BigButton
                       name="Average Time"
-                      icon={<ClockIcon w="40" h="28" fill={colors.orange} />}
-                      text="28:16 mins"
+                      icon={<ClockIcon w="35" h="35" fill={colors.main} />}
+                      text={averageDuration}
                       variant="xs-medium"
                       width={windowWidth / 2 - 34}
                       disabled
@@ -126,8 +204,8 @@ const HousekeeperProfile = ({ navigation }) => {
                   <View style={styles.perfomanceBottomButtonsContainer}>
                     <BigButton
                       name="Rating & Feedbacks"
-                      icon={<StarIcon w="40" h="28" fill={colors.teal} />}
-                      text="15"
+                      icon={renderStars()}
+                      text={averageRating}
                       width="100%"
                       onPress={onPressRatingAndFeedback}
                     />
@@ -153,20 +231,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 26,
     paddingTop: 8,
   },
-  scheduleContainer: { flexDirection: "row", columnGap: 10 },
-  profilePicAndNameContainer: {
+  scheduleContainer: {
     flexDirection: "row",
-    top: 12,
-    alignItems: "flex-start",
-    gap: 20,
+    columnGap: 10,
+    alignSelf: "flex-start",
   },
+  // profilePicAndNameContainer: {
+
+  //   alignItems: "flex-start",
+
+  // },
   profilePic: {
-    width: 86,
-    height: 86,
-    // position: "absolute",
-    borderRadius: 40,
-    borderWidth: 6,
-    borderColor: "#FAAB85",
+    width: 140,
+    height: 140,
+    // positin: "absolute",
+    borderRadius: 150,
   },
   mainContainer: {
     flexDirection: "column",
@@ -182,6 +261,11 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   perfomanceBottomButtonsContainer: {},
+  nameContainer: {
+    paddingTop: 16,
+    paddingBottom: 30,
+    alignItems: "center",
+  },
 });
 
 export default HousekeeperProfile;

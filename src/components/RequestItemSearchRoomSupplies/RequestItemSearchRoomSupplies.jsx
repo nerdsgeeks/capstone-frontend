@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     width: "90%",
-    paddingVertical: 24,
+    paddingVertical: 16,
   },
   itemTextContainer: {
     height: 36,
@@ -428,9 +428,9 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 6,
   },
-  listItemsContainer: {
-    marginBottom: 60,
-  },
+  // listItemsContainer: {
+  //   marginBottom: 5,
+  // },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay

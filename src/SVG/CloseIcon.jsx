@@ -25,7 +25,7 @@ const CloseIcon = ({ onPress, width = "24", height = "24" }) => (
 const styles = StyleSheet.create({
   closeIcon: {
     alignSelf: "flex-end",
-    marginBottom: 20,
+    // marginBottom: 20,
   },
 });
 

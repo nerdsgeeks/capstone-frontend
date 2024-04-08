@@ -412,8 +412,8 @@ const SupervisorHome = ({ navigation }) => {
         >
           <SafeAreaView>
             <MGRoomHeader
-              name="thalha"
-              message="some quote is here just act as this is a quote"
+              // name="thalha"
+              // message="some quote is here just act as this is a quote"
             />
           </SafeAreaView>
         </LinearGradient>
