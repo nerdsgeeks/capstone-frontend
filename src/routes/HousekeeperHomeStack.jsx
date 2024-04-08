@@ -52,7 +52,7 @@ const HousekeeperHomeStack = () => {
       <Stack.Screen
         name="RequestItemSuppliesOrder"
         component={RequestItemSuppliesOrder}
-        options={{ title: "Shopping Cart" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Camera"

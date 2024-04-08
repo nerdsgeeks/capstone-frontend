@@ -40,11 +40,33 @@ import BackIcon from "../../SVG/BackIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import { colors } from "../../../themes/themes";
 import NewCartIconOutline from "../../SVG/NewCartIconOutline";
+import Close from "../../SVG/Close";
 
 const RequestItemRoomSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
   // const { items } = route.params;
   const [itemsFiltered, setItemsFiltered] = useState([]);
+  const [isRequestHelpModalTextFocused, setIsRequestHelpModalTextFocused] =
+    useState(false);
+  const [showItemsList, setShowItemsList] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const onFocusSearchInput = () => {
+    setIsRequestHelpModalTextFocused(true);
+    setShowItemsList(true);
+  };
+
+  const clearSearch = () => {
+    console.log("clearSearch");
+    setSearchQuery("");
+  };
+
+  useEffect(() => {
+    const filtered = items.filter((item) =>
+      item.ItemName.toUpperCase().includes(searchQuery.toUpperCase()),
+    );
+    setItemsFiltered(filtered);
+  }, [searchQuery, items]);
 
   const items = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
@@ -206,6 +228,35 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
             />
           </SafeAreaView>
         </LinearGradient>
+        <View style={styles.searchBoxContainer}>
+          <Typography variant="body-regular">Search</Typography>
+          <View>
+            <View
+              style={{
+                position: "absolute",
+                top: 16,
+                left: 10,
+              }}
+            >
+              <SearchIcon w="24" h="24" fill={colors.n30} />
+            </View>
+            {searchQuery.length > 0 && (
+              <TouchableOpacity
+                style={{ position: "absolute", top: 16, right: 10, zIndex: 10 }}
+                onPress={clearSearch}
+              >
+                <Close stroke={colors.n30}></Close>
+              </TouchableOpacity>
+            )}
+            <TextInput
+              style={[styles.requestItemSearchInput]}
+              placeholder="Search"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              onFocus={onFocusSearchInput}
+            />
+          </View>
+        </View>
         <RequestItemSearchRoomSupplies
           headerText="Items"
           roomDetails={roomDetails}
@@ -235,7 +286,21 @@ const styles = StyleSheet.create({
     paddingTop: 7,
   },
   searchBoxContainer: {
-    alignSelf: "flex-start",
-    marginLeft: 100,
+    paddingHorizontal: 26,
+    paddingTop: 12,
+    width: "100%",
   },
+  requestItemSearchInput: {
+    borderWidth: 1,
+    borderColor: colors.n30,
+    borderRadius: 12,
+    marginTop: 6,
+    padding: 10,
+    paddingLeft: 36,
+    height: 44,
+  },
+  // searchBoxContainer: {
+  //   alignSelf: "flex-start",
+  //   marginLeft: 100,
+  // },
 });

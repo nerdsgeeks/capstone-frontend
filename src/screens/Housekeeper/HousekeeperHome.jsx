@@ -194,7 +194,7 @@ const HousekeeperHome = ({ navigation }) => {
               locations={[0.01, 0.7, 0.92, 1.0]}
               style={styles.headerContainer}
             >
-              <Text>{taskProgress}</Text>
+              {/* <Text>{taskProgress}</Text> */}
               <SafeAreaView>
                 <HousekeeperHomeHeader
                   name="Pujan"

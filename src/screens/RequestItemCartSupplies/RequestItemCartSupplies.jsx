@@ -47,6 +47,27 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
   // const { items } = route.params;
   const [itemsFiltered, setItemsFiltered] = useState([]);
+  const [isRequestHelpModalTextFocused, setIsRequestHelpModalTextFocused] =
+    useState(false);
+  const [showItemsList, setShowItemsList] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const onFocusSearchInput = () => {
+    setIsRequestHelpModalTextFocused(true);
+    setShowItemsList(true);
+  };
+
+  const clearSearch = () => {
+    console.log("clearSearch");
+    setSearchQuery("");
+  };
+
+  useEffect(() => {
+    const filtered = items.filter((item) =>
+      item.ItemName.toUpperCase().includes(searchQuery.toUpperCase()),
+    );
+    setItemsFiltered(filtered);
+  }, [searchQuery, items]);
 
   const items = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
@@ -141,7 +162,7 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
             <SupervisorRoomHeader
               title={
                 <View
-                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
+                  style={{ flexDirection: "row", gap: 16, alignItems: "center" }}
                 >
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />
@@ -177,6 +198,35 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
             />
           </SafeAreaView>
         </LinearGradient>
+        <View style={styles.searchBoxContainer}>
+          <Typography variant="body-regular">Search</Typography>
+          <View>
+            <View
+              style={{
+                position: "absolute",
+                top: 16,
+                left: 10,
+              }}
+            >
+              <SearchIcon w="24" h="24" fill={colors.n30} />
+            </View>
+            {searchQuery.length > 0 && (
+              <TouchableOpacity
+                style={{ position: "absolute", top: 16, right: 10, zIndex: 10 }}
+                onPress={clearSearch}
+              >
+                <Close stroke={colors.n30}></Close>
+              </TouchableOpacity>
+            )}
+            <TextInput
+              style={[styles.requestItemSearchInput]}
+              placeholder="Search"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              onFocus={onFocusSearchInput}
+            />
+          </View>
+        </View>
         {/* <Text> {requestedItemsCartSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemCartSupplies</Text> */}
         <RequestItemSearchCartSupplies
@@ -207,8 +257,22 @@ const styles = StyleSheet.create({
     paddingVertical: 22,
     paddingTop: 7,
   },
+  // searchBoxContainer: {
+  //   alignSelf: "flex-start",
+  //   marginLeft: 100,
+  // },
   searchBoxContainer: {
-    alignSelf: "flex-start",
-    marginLeft: 100,
+    paddingHorizontal: 26,
+    paddingTop: 12,
+    width: "100%",
+  },
+  requestItemSearchInput: {
+    borderWidth: 1,
+    borderColor: colors.n30,
+    borderRadius: 12,
+    marginTop: 6,
+    padding: 10,
+    paddingLeft: 36,
+    height: 44,
   },
 });

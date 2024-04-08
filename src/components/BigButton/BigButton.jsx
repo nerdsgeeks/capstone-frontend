@@ -53,7 +53,7 @@ const BigButton = ({
               // backgroundColor: "hotpink",
             }}
           >
-            {icon ? icon : <View style={{ width: 40, height: 28 }}></View>}
+            {icon ? <View style={{ flexDirection: "row"}}>{icon}</View> : <View style={{ width: 40, height: 28 }}></View>}
             {text ? (
               <Typography variant={variantText} >
                 {text}
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     borderColor: colors.n20,
     backgroundColor: colors.n1,
     borderWidth: 1,
+    gap: 26,
   },
   disabledStyle: {
     // width: "100%",

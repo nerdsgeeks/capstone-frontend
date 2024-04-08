@@ -12,12 +12,12 @@ const RequestedItemsList = ({
       {items.length > 0 && (
         <ScrollView style={styles.container}>
           {showRequestedItemText && (
-            <Typography variant="small-medium" style={{ marginLeft: 28 }}>
+            <Typography variant="title-medium">
               Requested Items
             </Typography>
           )}
           {items.map((item, index) => (
-            <View key={index} style={{}}>
+            <View key={index}>
               <RequestItemDetail
                 countProp={item.count}
                 imageSrc={item.ImageUrl}
@@ -35,16 +35,16 @@ const RequestedItemsList = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "",
-    rowGap: 10,
+    backgroundColor: "white",
+    // rowGap: 10,
   },
   requestedItemsListContainer: {
-    // borderTopWidth: 1,
-    borderBottomWidth: 1,
-    // borderWidth: 2,
-    borderColor: "#D9D9D9",
-    paddingVertical: 20,
-    height: "78%",
+    flex: 1,
+    // borderBottomWidth: 1,
+    // // borderWidth: 2,
+    // borderColor: "#D9D9D9",
+    paddingVertical: 16,
+    // height: "83%",
   },
 });
 
