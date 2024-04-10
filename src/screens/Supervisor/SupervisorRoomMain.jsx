@@ -13,6 +13,7 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import { useFocusEffect } from "@react-navigation/native";
 
 const SupervisorRoomMain = ({ onPressRoomDetail }) => {
   const [roomToDisplay, setRoomToDisplay] = useState([]);
@@ -38,23 +39,46 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  useEffect(() => {
-    fetchRooms().then((data) => {
-      const localDate = new Date();
-      const today =
-        localDate.getFullYear() +
-        "-" +
-        String(localDate.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(localDate.getDate()).padStart(2, "0");
-      const filteredRooms = data.filter(
-        (room) =>
-          room.assignedDateTime && room.assignedDateTime.startsWith(today),
-      );
-      setRooms(filteredRooms);
-      setDisplayRoomAfterFilter(filteredRooms);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchRooms().then((data) => {
+  //     const localDate = new Date();
+  //     const today =
+  //       localDate.getFullYear() +
+  //       "-" +
+  //       String(localDate.getMonth() + 1).padStart(2, "0") +
+  //       "-" +
+  //       String(localDate.getDate()).padStart(2, "0");
+  //     const filteredRooms = data.filter(
+  //       (room) =>
+  //         room.assignedDateTime && room.assignedDateTime.startsWith(today),
+  //     );
+  //     setRooms(filteredRooms);
+  //     setDisplayRoomAfterFilter(filteredRooms);
+  //   });
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchRooms().then((data) => {
+        const localDate = new Date();
+        const today =
+          localDate.getFullYear() +
+          "-" +
+          String(localDate.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(localDate.getDate()).padStart(2, "0");
+        const filteredRooms = data.filter(
+          (room) =>
+            room.assignedDateTime && room.assignedDateTime.startsWith(today),
+        );
+        setRooms(filteredRooms);
+        setDisplayRoomAfterFilter(filteredRooms);
+      });
+
+      // Return a no-op function if no clean-up is needed
+      return () => {};
+    }, []),
+  );
 
   const fetchRooms = async () => {
     try {

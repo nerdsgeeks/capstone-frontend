@@ -19,7 +19,8 @@ const NavigationTab = () => {
       screenOptions={{
         tabBarStyle: {
           overflow: "hidden",
-          paddingTop: 20, // Adjust padding top
+          height: 52,
+          // paddingTop: 20, // Adjust padding top
           borderTopLeftRadius: 20, // Add border radius
           borderTopRightRadius: 20,
           borderWidth: 1,
@@ -58,6 +59,12 @@ const NavigationTab = () => {
               />
             </View>
           ),
+          tabBarStyle: {
+            display: getTabBarVisibility(route) ? "none" : "flex",
+            borderTopLeftRadius: 28,
+            borderTopRightRadius: 28,
+            height: 52,
+          },
         })}
       />
 
@@ -80,7 +87,7 @@ const NavigationTab = () => {
               {focused ? (
                 <NewCartIcon w="37.8" h="35" />
               ) : (
-                <NewCartIconOutline  w="37.8" h="35"/>
+                <NewCartIconOutline w="37.8" h="35" />
               )}
               {/* <CartIcon
                 fill={focused ? colors.main : "none"}
@@ -120,5 +127,17 @@ const NavigationTab = () => {
     </Tab.Navigator>
   );
 };
+
+function getTabBarVisibility(route) {
+  // You might need a more robust way to check the route name depending on your navigation structure
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+  return (
+    routeName === "RoomDetail" ||
+    routeName === "RequestItemSupplies" ||
+    routeName === "RequestItemSuppliesOrder" ||
+    routeName === "Camera" ||
+    routeName === "StaffCleanedRoomScreen"
+  );
+}
 
 export default NavigationTab;

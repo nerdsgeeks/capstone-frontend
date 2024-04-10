@@ -204,6 +204,7 @@ const RoomDetail = ({ route, navigation }) => {
 
     if (firstTimeStart) {
       roomDetailsStore.startTime = new Date().toISOString();
+      roomDetailsStore.cleaningStatus = "In Progress";
       updateRoomDetailsStore(roomDetailsStore);
       console.log("firstTimeStart");
       console.log(roomDetailsStore);
@@ -405,7 +406,7 @@ const RoomDetail = ({ route, navigation }) => {
           ></RoomDetailInfo>
           <Text>{doneDisabled}</Text>
           {requestedItems.length > 0 && (
-            <View style={{ paddingHorizontal: 26}}>
+            <View style={{ paddingHorizontal: 26 }}>
               <RequestedItemsList
                 items={requestedItems}
                 disabled={true}

@@ -171,9 +171,17 @@ const RequestItemSuppliesOrder = ({ route, navigation }) => {
           items={requestedItemsCartStore}
           showRequestedItemText={false}
         ></RequestedItemsList>
-        <View style={{ width:"100%",borderTopWidth: 1, borderColor: colors.n20, alignItems: "center", backgroundColor: colors.n10}}>
+        <View
+          style={{
+            width: "100%",
+            borderTopWidth: 1,
+            borderColor: colors.n20,
+            alignItems: "center",
+            backgroundColor: colors.n10,
+          }}
+        >
           <Button
-            name="Order"
+            name="Request"
             type="primary"
             onPress={onOrderPressed}
             style={{ marginVertical: 20, width: "80%" }}

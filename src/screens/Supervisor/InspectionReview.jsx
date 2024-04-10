@@ -23,6 +23,7 @@ const InspectionReview = ({ route, navigation }) => {
   const [modalNoteText, setModalNoteText] = useState("");
   const baseUrl = useBaseUrl();
   const room = route.params.room;
+  console.log(" InspectionReview room");
   console.log(room);
 
   const accessTokenStore = useAccessTokenStore(
@@ -114,10 +115,17 @@ const InspectionReview = ({ route, navigation }) => {
         >
           <Typography variant="h5-black">Inspection Review</Typography>
           <Gallery images={images} />
-          <View style={styles.starsContainer}>{renderStars(rating)}</View>
+          <View style={styles.starsContainer}>{renderStars(room.rating)}</View>
           <View style={styles.timer}>
             <ClockIcon fill={colors.teal} />
-            <Typography variant="small-medium">GAAAAAAH</Typography>
+            <Typography variant="small-medium">
+              {
+                new Date(room.cleaningDuration)
+                  .toISOString()
+                  .split("T")[1]
+                  .split(".")[0]
+              }
+            </Typography>
             {/* <Typography variant="small-medium">{`${mins} mins ${secs} secs`}</Typography> */}
           </View>
           <View style={styles.modalForm}>
