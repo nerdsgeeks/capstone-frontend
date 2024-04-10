@@ -42,6 +42,7 @@ import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/Supervis
 import { colors } from "../../../themes/themes";
 import NewCartIcon from "../../SVG/NewCartIcon";
 import NewCartIconOutline from "../../SVG/NewCartIconOutline";
+import Close from "../../SVG/Close";
 
 const RequestItemCartSupplies = ({ route, navigation }) => {
   const { roomDetails } = route.params;
@@ -162,7 +163,11 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
             <SupervisorRoomHeader
               title={
                 <View
-                  style={{ flexDirection: "row", gap: 16, alignItems: "center" }}
+                  style={{
+                    flexDirection: "row",
+                    gap: 16,
+                    alignItems: "center",
+                  }}
                 >
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />

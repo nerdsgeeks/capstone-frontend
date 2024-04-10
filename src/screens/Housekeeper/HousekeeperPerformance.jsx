@@ -114,7 +114,7 @@ const HousekeeperPerformance = ({ navigation }) => {
         <ScrollView style={{ width: "100%" }}>
           {assignedRooms &&
             assignedRooms.map((feedbackroom) => (
-              <PerformanceCard room={feedbackroom} />
+              <PerformanceCard key={feedbackroom.ID} room={feedbackroom} />
             ))}
         </ScrollView>
       </View>

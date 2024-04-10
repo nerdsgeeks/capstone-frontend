@@ -151,7 +151,7 @@ const RequestItemSearchCartSupplies = ({
   };
 
   const renderItem = ({ item }) => (
-<TouchableOpacity
+    <TouchableOpacity
       style={[styles.itemContainer, { width: imageWidth }]}
       onPress={() => onPressItem(item)}
     >
@@ -160,10 +160,10 @@ const RequestItemSearchCartSupplies = ({
         style={[styles.image, { width: imageWidth }]}
       />
       <View style={styles.itemTextContainer}>
-      <Typography variant="xs-medium" style={{textAlign: "center"}}>
-        {item.ItemName}
-      </Typography>
-    </View>
+        <Typography variant="xs-medium" style={{ textAlign: "center" }}>
+          {item.ItemName}
+        </Typography>
+      </View>
     </TouchableOpacity>
   );
 
@@ -211,7 +211,7 @@ const RequestItemSearchCartSupplies = ({
         </View>
       </View> */}
 
-<Modal
+      <Modal
         visible={isRequestAddToCartModalOpen}
         onRequestClose={toggleRequestAddToCartModal}
         animationType="fade"
@@ -269,7 +269,7 @@ const RequestItemSearchCartSupplies = ({
                 name="Add to Cart"
                 type="primary"
                 onPress={onRequestAddToCartModalSubmitPressed}
-                style={{ marginTop: 30,}}
+                style={{ marginTop: 30 }}
               />
             </View>
           </View>
@@ -311,17 +311,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     width: "90%",
-    paddingVertical:24,
+    paddingVertical: 24,
   },
   itemTextContainer: {
     height: 36,
   },
   columnWrapper: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginBottom: 8,
   },
   itemContainer: {
-    gap:6,
+    gap: 6,
     alignItems: "center",
     // margin: 10,
     // height: 100,
