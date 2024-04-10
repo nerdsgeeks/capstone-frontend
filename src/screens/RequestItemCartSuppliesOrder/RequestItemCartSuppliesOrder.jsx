@@ -30,7 +30,6 @@ import {
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
 
-
 const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
   const { roomDetails } = route.params;
   const requestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
@@ -155,7 +154,11 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
             <SupervisorRoomHeader
               title={
                 <View
-                  style={{ flexDirection: "row", gap: 16, alignItems: "center" }}
+                  style={{
+                    flexDirection: "row",
+                    gap: 16,
+                    alignItems: "center",
+                  }}
                 >
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />
@@ -169,21 +172,29 @@ const RequestItemCartSuppliesOrder = ({ route, navigation }) => {
         {/* <Text> {requestedItemsCartSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemCartSuppliesOrder</Text> */}
         {/* <View style={{ flexDirection: "column", rowGap: 20 }}> */}
-          <RequestedItemsList
-            items={requestedItemsCartSuppliesStore}
-            showRequestedItemText={false}
-          ></RequestedItemsList>
+        <RequestedItemsList
+          items={requestedItemsCartSuppliesStore}
+          showRequestedItemText={false}
+        ></RequestedItemsList>
 
-<View style={{ width:"100%",borderTopWidth: 1, borderColor: colors.n20, alignItems: "center", backgroundColor: colors.n10}}>
+        <View
+          style={{
+            width: "100%",
+            borderTopWidth: 1,
+            borderColor: colors.n20,
+            alignItems: "center",
+            backgroundColor: colors.n10,
+          }}
+        >
           <Button
-            name="Order"
+            name="Request"
             type="primary"
             onPress={onOrderPressed}
             style={{ marginVertical: 20, width: "80%" }}
           />
         </View>
 
-          {/* <TouchableOpacity
+        {/* <TouchableOpacity
             style={{
               backgroundColor: "#8FDEDE",
               borderRadius: 20,

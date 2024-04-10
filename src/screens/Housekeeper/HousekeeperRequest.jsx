@@ -17,6 +17,7 @@ import {
 import CartIcon from "../../SVG/CartIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import NewCartIcon from "../../SVG/NewCartIcon";
+import { useFocusEffect } from "@react-navigation/native";
 
 const HousekeeperRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -136,48 +137,97 @@ const HousekeeperRequest = ({ navigation }) => {
     </View>
   );
 
-  useEffect(() => {
-    updateBaseScreenStore("HousekeeperRequest");
+  // useEffect(() => {
+  //   updateBaseScreenStore("HousekeeperRequest");
 
-    const apiUrl = baseUrl + `/api/requestItems/all`;
+  //   const apiUrl = baseUrl + `/api/requestItems/all`;
 
-    console.log(apiUrl);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessTokenStore}`,
-      },
-    };
-    const onFetchRequestItemsViewAll = () =>
-      axios
-        .get(apiUrl, config)
-        .then((response) => {
-          let data = response.data;
-          let tempPendingItems = [];
-          let tempHistoryItems = [];
-          if (data.length > 0) {
-            data.forEach((item) => {
-              if (item.isCompleted) {
-                tempHistoryItems.push(item);
-              } else {
-                tempPendingItems.push(item);
-              }
-            });
-          }
+  //   console.log(apiUrl);
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${accessTokenStore}`,
+  //     },
+  //   };
+  //   const onFetchRequestItemsViewAll = () =>
+  //     axios
+  //       .get(apiUrl, config)
+  //       .then((response) => {
+  //         let data = response.data;
+  //         let tempPendingItems = [];
+  //         let tempHistoryItems = [];
+  //         if (data.length > 0) {
+  //           data.forEach((item) => {
+  //             if (item.isCompleted) {
+  //               tempHistoryItems.push(item);
+  //             } else {
+  //               tempPendingItems.push(item);
+  //             }
+  //           });
+  //         }
 
-          // console.log("data");
-          // console.log(data);
-          // console.log(tempPendingItems);
-          // console.log(tempPendingItems);
-          setItems(tempPendingItems);
-          setPendingItems(tempPendingItems);
-          setHistoryItems(tempHistoryItems);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  //         // console.log("data");
+  //         // console.log(data);
+  //         // console.log(tempPendingItems);
+  //         // console.log(tempPendingItems);
+  //         setItems(tempPendingItems);
+  //         setPendingItems(tempPendingItems);
+  //         setHistoryItems(tempHistoryItems);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
 
-    onFetchRequestItemsViewAll();
-  }, []);
+  //   onFetchRequestItemsViewAll();
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("back Housekeeper request");
+      updateBaseScreenStore("HousekeeperRequest");
+
+      const apiUrl = baseUrl + `/api/requestItems/all`;
+
+      console.log(apiUrl);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessTokenStore}`,
+        },
+      };
+      const onFetchRequestItemsViewAll = () =>
+        axios
+          .get(apiUrl, config)
+          .then((response) => {
+            let data = response.data;
+            let tempPendingItems = [];
+            let tempHistoryItems = [];
+            if (data.length > 0) {
+              data.forEach((item) => {
+                if (item.isCompleted) {
+                  tempHistoryItems.push(item);
+                } else {
+                  tempPendingItems.push(item);
+                }
+              });
+            }
+
+            // console.log("data");
+            // console.log(data);
+            // console.log(tempPendingItems);
+            // console.log(tempPendingItems);
+            setItems(tempPendingItems);
+            setPendingItems(tempPendingItems);
+            setHistoryItems(tempHistoryItems);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+      onFetchRequestItemsViewAll();
+
+      // Return a no-op function if no clean-up is needed
+      return () => {};
+    }, []),
+  );
 
   return (
     <SafeAreaProvider>

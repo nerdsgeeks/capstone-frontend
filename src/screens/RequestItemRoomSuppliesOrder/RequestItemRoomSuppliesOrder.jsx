@@ -173,29 +173,29 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
         </LinearGradient>
         {/* <Text> {requestedItemsCartRoomSuppliesStore.length}</Text> */}
         {/* <Text>RequestItemRoomSuppliesOrder</Text> */}
-        
-          <RequestedItemsList
-            items={requestedItemsCartRoomSuppliesStore}
-            showRequestedItemText={false}
-          ></RequestedItemsList>
 
-          <View
-            style={{
-              width: "100%",
-              borderTopWidth: 1,
-              borderColor: colors.n20,
-              alignItems: "center",
-              backgroundColor: colors.n10,
-            }}
-          >
-            <Button
-              name="Order"
-              type="primary"
-              onPress={onOrderPressed}
-              style={{ marginVertical: 20, width: "80%" }}
-            />
-          </View>
-          {/* <TouchableOpacity
+        <RequestedItemsList
+          items={requestedItemsCartRoomSuppliesStore}
+          showRequestedItemText={false}
+        ></RequestedItemsList>
+
+        <View
+          style={{
+            width: "100%",
+            borderTopWidth: 1,
+            borderColor: colors.n20,
+            alignItems: "center",
+            backgroundColor: colors.n10,
+          }}
+        >
+          <Button
+            name="Request"
+            type="primary"
+            onPress={onOrderPressed}
+            style={{ marginVertical: 20, width: "80%" }}
+          />
+        </View>
+        {/* <TouchableOpacity
             style={{
               backgroundColor: "#8FDEDE",
               borderRadius: 20,
@@ -220,7 +220,6 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
               Order
             </Text>
           </TouchableOpacity> */}
-        
       </View>
     </SafeAreaProvider>
   );

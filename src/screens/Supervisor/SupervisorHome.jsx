@@ -38,6 +38,8 @@ const SupervisorHome = ({ navigation }) => {
   const [updateRoom, setUpdateRoom] = useState([]);
   const [updateStatus, setUpdateStatus] = useState("");
   const [employeeList, setEmployeeList] = useState([]);
+  const [toDoRoomsTodayCount, setToDoRoomsTodayCount] = useState(0);
+  const [cleanedRoomsTodayCount, setCleanedRoomsTodayCount] = useState(0);
   const baseUrl = useBaseUrl();
 
   const accessTokenStore = useAccessTokenStore(
@@ -67,7 +69,7 @@ const SupervisorHome = ({ navigation }) => {
   };
 
   const toCompletedRooms = () => {
-    navigation.navigate("SupervisorRoom"  );
+    navigation.navigate("SupervisorRoom");
   };
 
   const toStaff = () => {
@@ -167,6 +169,7 @@ const SupervisorHome = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
+    console.log("selectedRooms api/assignedRooms/all");
     const apiUrl = baseUrl + "/api/assignedRooms/all";
     const config = {
       headers: {
@@ -284,11 +287,12 @@ const SupervisorHome = ({ navigation }) => {
           Authorization: `Bearer ${accessTokenStore}`,
         },
       };
+
       axios
         .post(apiUrl, newAssignedRoom, config)
         .then((response) => {
           console.log("Assignment created successfully:", response.data);
-          setAssignedRooms([...assignedRooms, newAssignedRoom]);
+          // setAssignedRooms([...assignedRooms, newAssignedRoom]);
         })
         .catch((error) => {
           console.error("Error creating assignment:", error);
@@ -296,6 +300,27 @@ const SupervisorHome = ({ navigation }) => {
 
       toggleAssignRoomModal();
     });
+
+    console.log("selectedRooms api/assignedRooms/all");
+    const apiUrl = baseUrl + "/api/assignedRooms/all";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessTokenStore}`,
+      },
+    };
+    const onFetchAssignedRooms = () =>
+      axios
+        .get(apiUrl, config)
+        .then((response) => {
+          const data = response.data;
+          setAssignedRooms(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching assigned rooms:", error);
+        });
+    onFetchAssignedRooms();
+
+    setSelectedRooms([]);
   };
 
   const toDoRoomsToday = assignedRooms.filter((room) => {
@@ -324,7 +349,11 @@ const SupervisorHome = ({ navigation }) => {
       String(localDate.getMonth() + 1).padStart(2, "0") +
       "-" +
       String(localDate.getDate()).padStart(2, "0");
-    return room.cleaningStatus === "Cleaned" && assignedDate === today;
+    return (
+      (room.cleaningStatus === "Cleaned" ||
+        room.cleaningStatus === "Approved") &&
+      assignedDate === today
+    );
   });
 
   const roomStatus = [
@@ -399,6 +428,44 @@ const SupervisorHome = ({ navigation }) => {
     return `${dateParts.year}-${dateParts.month}-${dateParts.day}T${dateParts.hour}:${dateParts.minute}:${dateParts.second}Z`;
   }
 
+  useEffect(() => {
+    console.log("assigned Rooms Use Effect");
+    const cleanedRoomsTodayUseEffect = assignedRooms.filter((room) => {
+      const assignedDate = new Date(room.assignedDateTime)
+        .toISOString()
+        .split("T")[0];
+      const localDate = new Date();
+      const today =
+        localDate.getFullYear() +
+        "-" +
+        String(localDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(localDate.getDate()).padStart(2, "0");
+      return (
+        (room.cleaningStatus === "Cleaned" ||
+          room.cleaningStatus === "Approved") &&
+        assignedDate === today
+      );
+    });
+
+    const toDoRoomsTodayUseEffect = assignedRooms.filter((room) => {
+      const assignedDate = new Date(room.assignedDateTime)
+        .toISOString()
+        .split("T")[0];
+      const localDate = new Date();
+      const today =
+        localDate.getFullYear() +
+        "-" +
+        String(localDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(localDate.getDate()).padStart(2, "0");
+
+      return room.cleaningStatus === "To Do" && assignedDate === today;
+    });
+
+    setToDoRoomsTodayCount(toDoRoomsTodayUseEffect.length);
+    setCleanedRoomsTodayCount(cleanedRoomsTodayUseEffect.length);
+  }, [assignedRooms]);
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -412,12 +479,11 @@ const SupervisorHome = ({ navigation }) => {
           <SafeAreaView>
             {employeeDetailsStore.firstName && (
               <MGRoomHeader
-              name={employeeDetailsStore.firstName}
-              message="some quote is here just act as this is a quote"
-              image={employeeDetailsStore.imageURL}
-            />
+                name={employeeDetailsStore.firstName}
+                message="some quote is here just act as this is a quote"
+                image={employeeDetailsStore.imageURL}
+              />
             )}
-            
           </SafeAreaView>
         </LinearGradient>
         <View style={styles.bodyContainer}>
@@ -432,7 +498,7 @@ const SupervisorHome = ({ navigation }) => {
             <BigButton
               name="Completed"
               icon={<BedIcon w="54" h="37" fill={colors.teal} />}
-              text={cleanedRoomsToday.length.toString()}
+              text={cleanedRoomsTodayCount.toString()}
               variant="h5-medium"
               onPress={toCompletedRooms}
             />
