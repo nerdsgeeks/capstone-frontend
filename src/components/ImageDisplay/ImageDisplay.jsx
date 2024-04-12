@@ -3,7 +3,7 @@ import Typography from "../Typography/Typography";
 
 const ImageDisplay = ({ type, source, text }) => {
   return (
-    <View>
+    <View style={{ marginVertical:16}}>
       <Image
         style={type === "large" ? styles.largeImage : styles.smallImage}
         source={{ uri: source }}
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   },
   largeText: {
     marginTop: 10,
+    textAlign: "center",
   },
   smallText: {
     

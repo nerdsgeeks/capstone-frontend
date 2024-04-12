@@ -17,7 +17,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, justifyContent }) => {
           onPress={() => onTabPress(index)}
           disabled={activeTab === index}
         >
-          <Typography variant={activeTab === index ? "title-black" : "title-regular"}>{tab.label}</Typography>
+          <Typography variant={activeTab === index ? "h5-black" : "h5-regular"}>{tab.label}</Typography>
         </TouchableOpacity>
       ))}
     </View>

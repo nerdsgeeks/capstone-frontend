@@ -108,8 +108,8 @@ const RequestItemContainer = ({ openItemDetailModal }) => {
 
 
   return (
-    <>
-      <ScrollView>
+    <View>
+      <ScrollView style={{ height: "84%", paddingBottom: 24,}}>
         <RequestItemHeaderComponent />
         {requestItems.map((request, index) => (
           <RequestItemComponent
@@ -137,15 +137,15 @@ const RequestItemContainer = ({ openItemDetailModal }) => {
           type="secondary"
         />
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = {
   buttonStyles: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginVertical: 10,
+    justifyContent: "space-around",
+    paddingVertical: 24,
   },
 };
 

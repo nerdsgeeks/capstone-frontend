@@ -670,6 +670,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderTopWidth: 1,
     paddingTop: 20,
+    paddingBottom: 48,
     borderColor: colors.n20,
   },
   commonButton: {

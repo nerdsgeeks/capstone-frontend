@@ -19,8 +19,8 @@ const NavigationTab = () => {
       screenOptions={{
         tabBarStyle: {
           overflow: "hidden",
-          height: 52,
-          // paddingTop: 20, // Adjust padding top
+          // height: 52,
+          paddingTop: 20, // Adjust padding top
           borderTopLeftRadius: 20, // Add border radius
           borderTopRightRadius: 20,
           borderWidth: 1,
@@ -63,7 +63,8 @@ const NavigationTab = () => {
             display: getTabBarVisibility(route) ? "none" : "flex",
             borderTopLeftRadius: 28,
             borderTopRightRadius: 28,
-            height: 52,
+            // height: 52,
+            paddingVertical: 24,
           },
         })}
       />

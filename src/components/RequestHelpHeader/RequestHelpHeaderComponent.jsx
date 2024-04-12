@@ -7,9 +7,11 @@ import { colors } from '../../../themes/themes';
 const RequestHelpHeaderComponent = () => {
   return (
     <View style={styles.bodyTableHeader}>
-      <FilterIcon />
-      <Typography variant="xs-black" style={styles.itemStyle}>Request</Typography>
-      <Typography variant="xs-black">Room</Typography>
+      <View style={{ flexDirection: "row", gap: 16, flex: 1, alignItems: "center"}}>
+        <FilterIcon />
+        <Typography variant="title-black" style={styles.itemStyle}>Request</Typography>
+      </View>
+      <Typography variant="title-black">Room</Typography>
     </View>
   );
 };
@@ -24,9 +26,9 @@ const styles = StyleSheet.create({
     borderColor: colors.n50,
     borderBottomWidth: 1,
   },
-  itemStyle: {
-    marginLeft: 5,
-  },
+  // itemStyle: {
+  //   marginLeft: 5,
+  // },
 });
 
 export default RequestHelpHeaderComponent;

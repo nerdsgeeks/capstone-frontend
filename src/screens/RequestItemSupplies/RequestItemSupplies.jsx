@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    paddingVertical: 18,
+    // paddingVertical: 18,
     paddingTop: 7,
   },
   searchBoxContainer: {

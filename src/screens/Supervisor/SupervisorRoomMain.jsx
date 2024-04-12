@@ -173,7 +173,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             textStyle={{ color: activeChip === "All" ? colors.n0 : colors.n40 }}
             onPress={() => setRoomStatus("All", activeTab)}
           >
-            <Typography variant="small-medium">All</Typography>
+            <Typography variant="body-medium">All</Typography>
           </Chip>
           <Chip
             style={[
@@ -188,7 +188,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("DueIn", activeTab)}
           >
-            <Typography variant="small-medium">Due In</Typography>
+            <Typography variant="body-medium">Due In</Typography>
           </Chip>
           <Chip
             style={[
@@ -203,7 +203,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("DueOut", activeTab)}
           >
-            <Typography variant="small-medium">Due Out</Typography>
+            <Typography variant="body-medium">Due Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -218,7 +218,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("CheckedIn", activeTab)}
           >
-            <Typography variant="small-medium">Checked In</Typography>
+            <Typography variant="body-medium">Checked In</Typography>
           </Chip>
           <Chip
             style={[
@@ -233,7 +233,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("CheckedOut", activeTab)}
           >
-            <Typography variant="small-medium">Checked Out</Typography>
+            <Typography variant="body-medium">Checked Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -248,7 +248,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("DueOut-DueIn", activeTab)}
           >
-            <Typography variant="small-medium">Due In - Due Out</Typography>
+            <Typography variant="body-medium">Due In - Due Out</Typography>
           </Chip>
           <Chip
             style={[
@@ -266,14 +266,14 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
             }}
             onPress={() => setRoomStatus("CheckedOut-CheckedIn", activeTab)}
           >
-            <Typography variant="small-medium">
+            <Typography variant="body-medium">
               Checked In - Checked Out
             </Typography>
           </Chip>
         </ScrollView>
       </View>
 
-      <ScrollView style={styles.bodyContainer}>
+      <View style={styles.bodyContainer}>
         <View
           style={{
             flexDirection: "row",
@@ -283,7 +283,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
           }}
         >
           <View style={styles.numberContainer}>
-            <Typography variant="small-medium">
+            <Typography variant="h5-medium">
               {calculateRoomCount(tabs[activeTab].label)}
             </Typography>
           </View>
@@ -297,7 +297,7 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
           rooms={displayRoomAfterFilter}
           onPressRoomDetail={onPressRoomDetail}
         />
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   chipContainer: {
     flexDirection: "row",
     marginLeft: 26,
-    marginVertical: 6,
+    marginVertical: 17,
   },
   chip: {
     justifyContent: "center",
@@ -320,12 +320,15 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: colors.n10,
+    // paddingVertical: 17,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
   bodyContainer: {
-    paddingVertical: 12,
+    flex:1, 
+    paddingTop: 32,
+    gap: 16,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     marginBottom: 70,
@@ -334,8 +337,8 @@ const styles = StyleSheet.create({
   numberContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     backgroundColor: colors.main,
     borderRadius: 100,
   },

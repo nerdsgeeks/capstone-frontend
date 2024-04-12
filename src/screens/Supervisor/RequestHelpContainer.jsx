@@ -7,6 +7,7 @@ import useBaseUrl from "../../hooks/useBaseUrl";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import Button from "../../components/Button/Button";
 import RequestHelpComponent from "../../components/RequestHelpComponent/RequestHelpComponent";
+import RequestHelpHeaderComponent from "../../components/RequestHelpHeader/RequestHelpHeaderComponent";
 
 const RequestHelpContainer = ({ openHelpDetailModal }) => {
   const [requestItems, setRequestItems] = useState([]);
@@ -78,8 +79,8 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
 
   return (
     <>
-      <ScrollView>
-        <RequestItemHeaderComponent />
+      <ScrollView style={{ height: "82%", paddingBottom: 24,}}>
+        <RequestHelpHeaderComponent  />
         {requestItems.map((request, index) => (
           <RequestHelpComponent
             key={index}
@@ -113,8 +114,8 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
 const styles = {
   buttonStyles: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 20,
+    justifyContent: "space-around",
+    paddingVertical: 24,
   },
 };
 

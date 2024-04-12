@@ -35,7 +35,7 @@ const Accordion = ({ rooms, onPressRoomDetail }) => {
     if (!acc[Floor]) {
       acc[Floor] = [];
     }
-    acc[Floor].push(room);
+    acc[Floor].unshift(room);
     return acc;
   }, {});
 
@@ -44,7 +44,7 @@ const Accordion = ({ rooms, onPressRoomDetail }) => {
       <List.Section style={[styles.container]}>
         {Object.keys(groupedRooms).map((floor) => (
           <List.Accordion
-            title={<Typography variant="xs-medium">Floor {floor}</Typography>}
+            title={<Typography variant="body-medium">Floor {floor}</Typography>}
             key={floor}
             expanded={expanded[floor]}
             onPress={() => handlePress(floor)}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.n0,
     borderRadius: 12,
     overflow: "scroll",
-    height: 34,
+    height: 44,
   },
   defaultTitle: {
     color: colors.n30,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.n0,
     borderRadius: 12,
     overflow: "scroll",
-    height: 34,
+    height: 44,
   },
   expandedTitle: {
     color: colors.n50,
