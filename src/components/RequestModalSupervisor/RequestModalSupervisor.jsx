@@ -35,11 +35,11 @@ const RequestModalSupervisor = ({
               </Typography>
             </View> */}
 
-            {requestDetailObject.comments && (
+            {requestDetailObject.Note && (
               <View style={styles.notes}>
                 <Typography variant="title-medium">Notes</Typography>
                 <Typography variant="title-regular">
-                  {"\u2022"} {requestDetailObject.comments}
+                  {"\u2022"} {requestDetailObject.Note}
                 </Typography>
               </View>
             )}
@@ -154,6 +154,10 @@ const styles = {
   notes: {
     marginTop: 16,
     marginBottom: 16,
+    backgroundColor: colors.pale_teal2,
+    padding: 10,
+    borderRadius: 8,
+    gap: 6
   },
   itemDetailTitle: {
     marginTop: 16,

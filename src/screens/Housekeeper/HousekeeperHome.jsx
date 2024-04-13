@@ -213,14 +213,15 @@ const HousekeeperHome = ({ navigation }) => {
           {/* </SafeAreaView> */}
         </SafeAreaProvider>
       ) : (
-        <SafeAreaProvider>
-          <SafeAreaView style={styles.loaderContainer}>
-            {/* <Typography variant="body-medium" style={{}}>
-              Loading .......
-            </Typography> */}
-            <LoadingScreen></LoadingScreen>
-          </SafeAreaView>
-        </SafeAreaProvider>
+        // <SafeAreaProvider>
+        //   <SafeAreaView style={styles.loaderContainer}>
+        //     {/* <Typography variant="body-medium" style={{}}>
+        //       Loading .......
+        //     </Typography> */}
+        //     <LoadingScreen></LoadingScreen>
+        //   </SafeAreaView>
+        // </SafeAreaProvider>
+        <LoadingScreen />
       )}
     </>
   );

@@ -52,7 +52,8 @@ const HousekeeperPerformance = ({ navigation }) => {
           const filteredData = data.filter(
             (assignedRoom) =>
               assignedRoom.assignedEmployeeID === employeeDetailsStore.userId &&
-              assignedRoom.cleaningStatus === "Approved",
+              assignedRoom.cleaningStatus === "Approved" &&
+              assignedRoom.rating !== 0
           );
           console.log("filteredData");
           console.log(filteredData);

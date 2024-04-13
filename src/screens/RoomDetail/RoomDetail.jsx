@@ -39,6 +39,7 @@ import { Checkbox } from "expo-checkbox";
 import StopIcon from "../../SVG/StopIcon";
 import NewCartIcon from "../../SVG/NewCartIcon";
 import NewCartIconOutline from "../../SVG/NewCartIconOutline";
+import LoadingScreen from "../LoadingScreen";
 
 const RoomDetail = ({ route, navigation }) => {
   // const { roomDetails } = route.params;
@@ -388,6 +389,7 @@ const RoomDetail = ({ route, navigation }) => {
   );
 
   return (
+    // <LoadingScreen />
     <SafeAreaProvider style={{ gap: 16, backgroundColor: colors.n0 }}>
       <RoomDetailHeader
         room={roomDetailsStore}
@@ -655,7 +657,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     gap: 12,
-    paddingVertical: 10,
+    // paddingVertical: 10,
     marginHorizontal: 26,
   },
   bottomTextContainer: {

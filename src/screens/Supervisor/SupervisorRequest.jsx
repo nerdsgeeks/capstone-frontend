@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-
+    backgroundColor: colors.n0,
   },
   headerContainer: {
     borderBottomLeftRadius: 60,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     paddingVertical: 24,
-    paddingHorizontal: 26,
+    // paddingHorizontal: 26,
     gap: 16,
   },
   // bodyContent: {

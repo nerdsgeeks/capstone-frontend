@@ -87,7 +87,7 @@ const Stopwatch = ({ isRunning }) => {
     <View>
       <View style={styles.container}>
         <ClockIcon fill={colors.teal} />
-        <Typography variant="small-medium">
+        <Typography variant="body-medium">
           {formatTime(elapsedTime)}
         </Typography>
       </View>
@@ -107,14 +107,16 @@ const Stopwatch = ({ isRunning }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    backgroundColor: colors.pale_teal2,
     alignSelf: "flex-start",
     gap: 16,
+    width: 160,
     alignItems: "center",
+    justifyContent: "center",
     padding: 10,
-    paddingHorizontal: 20,
     borderRadius: 6,
-    borderWidth: 2,
-    borderColor: colors.pale_teal1,
+    borderWidth: 1,
+    borderColor: colors.pale_teal2,
   },
 });
 

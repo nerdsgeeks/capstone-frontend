@@ -8,6 +8,7 @@ import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationMo
 import Button from "../../components/Button/Button";
 import RequestHelpComponent from "../../components/RequestHelpComponent/RequestHelpComponent";
 import RequestHelpHeaderComponent from "../../components/RequestHelpHeader/RequestHelpHeaderComponent";
+import { colors } from "../../../themes/themes";
 
 const RequestHelpContainer = ({ openHelpDetailModal }) => {
   const [requestItems, setRequestItems] = useState([]);
@@ -79,7 +80,7 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
 
   return (
     <>
-      <ScrollView style={{ height: "82%", paddingBottom: 24,}}>
+      <ScrollView style={{ height: "82%", paddingBottom: 24, paddingHorizontal: 26}}>
         <RequestHelpHeaderComponent  />
         {requestItems.map((request, index) => (
           <RequestHelpComponent
@@ -116,6 +117,9 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 24,
+    backgroundColor: colors.n10,
+    borderTopWidth: 1,
+    borderColor: colors.n20,
   },
 };
 

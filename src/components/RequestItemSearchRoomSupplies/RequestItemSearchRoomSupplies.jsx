@@ -298,7 +298,7 @@ const RequestItemSearchRoomSupplies = ({
                   text={selectedItem.ItemName}
                 />
               </View>
-              <View style={styles.modalForm}>
+              <View style={[styles.modalForm, { zIndex: 1}]}>
                 <Typography variant="body-medium">Room Number</Typography>
                 {/* <TextInput
                     editable={false}
@@ -315,18 +315,34 @@ const RequestItemSearchRoomSupplies = ({
                     ]}
                     value={roomDetails.RoomName}
                   /> */}
-                <SelectList
-                  setSelected={(key) => setSelectedRoom(key)}
-                  data={assignedRooms}
-                  save="key"
-                  boxStyles={{
-                    borderColor: colors.n30,
-                    borderRadius: 12,
-                    alignItems: "center",
-                    width: "100%",
-                  }}
-                  dropdownStyles={{ borderRadius: 12 }}
-                />
+                <View>
+                  <SelectList
+                    setSelected={(key) => setSelectedRoom(key)}
+                    data={assignedRooms}
+                    save="key"
+                    boxStyles={{
+                      borderColor: colors.n30,
+                      borderRadius: 12,
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                    dropdownStyles={{
+                      borderRadius: 12,
+                      // zIndex: 9999,
+                      position: "absolute",
+                      width: "100%",
+                      top: 45,
+                    }}
+                    dropdownItemStyles={{
+                      backgroundColor: "white",
+                      // zIndex: 999,
+                    }}
+                    dropdownTextStyles={{
+                      // zIndex: 999,
+                      backgroundColor: "white",
+                    }}
+                  />
+                </View>
               </View>
               <View style={styles.modalForm}>
                 <Typography variant="body-medium">Add Note</Typography>
@@ -446,11 +462,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 24,
     borderRadius: 20,
+    // zIndex: 1,
   },
   modalForm: {
     width: "100%",
     gap: 6,
     paddingTop: 10,
+    // zIndex: 1,
+  },
+  modalForm1: {
+    width: "100%",
+    gap: 6,
+    paddingTop: 10,
+    // zIndex: 1,
   },
   // requestAddToCartModalContainer: {
   //   width: 240,
@@ -489,7 +513,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   requestAddToCartModalQuantityCounter: {
-    rowGap: 6,
+    // rowGap: 6,
+    paddingTop: 32,
   },
   counterContainer: {
     flexDirection: "row",

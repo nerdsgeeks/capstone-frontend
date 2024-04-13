@@ -109,13 +109,13 @@ const InspectionReview = ({ route, navigation }) => {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: "center", flexDirection: "row" }}>
         <View
-          style={{ alignItems: "center", flexDirection: "column", gap: 12 }}
+          style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 24 }}
         >
           <Typography variant="h5-black">Inspection Review</Typography>
           <Gallery images={images} />
-          <View style={styles.starsContainer}>{renderStars(room.rating)}</View>
+          <View style={styles.starsContainer}>{renderStars(rating)}</View>
           <View style={styles.timer}>
             <ClockIcon fill={colors.teal} />
             <Typography variant="small-medium">
@@ -156,8 +156,7 @@ const InspectionReview = ({ route, navigation }) => {
               />
             </View>
           </View>
-        </View>
-        <View
+          <View
           style={{
             flexDirection: "row",
             gap: 16,
@@ -166,8 +165,10 @@ const InspectionReview = ({ route, navigation }) => {
             justifyContent: "center",
           }}
         >
-          <Button type="primary" name="Submit" onPress={submittedHandler} />
+          <Button type="primary" name="Submit" onPress={submittedHandler} style={{width: "80%"}}/>
         </View>
+        </View>
+        
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 13,
+    gap: 6,
   },
   requestAddToCartModalInput: {
     borderWidth: 1,
@@ -187,9 +188,18 @@ const styles = StyleSheet.create({
   timer: {
     flexDirection: "row",
     backgroundColor: colors.pale_teal2,
-    paddingHorizontal: 24,
-    paddingVertical: 4,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 6,
+    flexDirection: "row",
+    gap: 16,
+    alignItems: "center",
+    // padding: 10,
     borderRadius: 6,
   },
+  modalForm: {
+    width: "80%",
+    gap: 6,
+  }
 });
 export default InspectionReview;

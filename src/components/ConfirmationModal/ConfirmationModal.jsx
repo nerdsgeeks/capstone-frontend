@@ -34,8 +34,8 @@ const ConfirmationModal = ({ visible, onCancel, onConfirm }) => {
               marginTop: 20,
             }}
           >
-            <Button name="Yes" type="tertiary" onPress={onCancel} />
-            <Button name="No" type="quaternary" onPress={onConfirm} />
+            <Button name="Yes" type="tertiary" onPress={onConfirm} style={{ width: "40%"}}/>
+            <Button name="No" type="quaternary" onPress={onCancel} style={{ width: "40%"}} />
           </View>
         </View>
       </View>

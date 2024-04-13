@@ -132,7 +132,7 @@ const PerformanceCard = ( { room }) => {
             <View style={{ flexDirection: "row", gap: 4 }}>{renderStars()}</View>
           </View>
           <Typography variant="body-regular">
-            {room.inspectionNotes}
+            {room.inspectionFeedback}
           </Typography>
         </View>
       </View>
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   clock: {
     flexDirection: "row",
     alignSelf: "flex-start",
-    gap: 18,
+    gap: 16,
     alignItems: "center",
     padding: 10,
     borderRadius: 6,
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
   },
   feedbackbox: {
     padding: 16,
+    gap: 16,
     borderRadius: 8,
     backgroundColor: colors.pale_teal2,
   }

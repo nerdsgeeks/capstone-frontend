@@ -75,7 +75,7 @@ const SupervisorInformationModal = ({
                   </View>
                 </View>
                 <View style={{ gap: 8, marginTop: 16 }}>
-                  <Typography variant="body-black" style={{ paddingVertical: 8}}>Colour Code</Typography>
+                  <Typography variant="body-black" style={{ paddingVertical: 8}}>Room Type</Typography>
                   <View style={{ flexDirection: "row", gap:6}}>
                     <View style={[styles.colorButton, {backgroundColor: colors.pink_yellow}]}></View>
                     <Typography variant="xs-regular">Suite</Typography>

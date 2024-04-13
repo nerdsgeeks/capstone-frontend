@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { View, StyleSheet, Text } from "react-native";
@@ -10,19 +11,37 @@ import HousekeeperPerformanceStack from "../routes/HousekeeperPerformanceStack";
 import { colors } from "../../themes/themes";
 import NewCartIcon from "../SVG/NewCartIcon";
 import NewCartIconOutline from "../SVG/NewCartIconOutline";
+import LoadingScreen from "../screens/LoadingScreen";
 
 const Tab = createBottomTabNavigator();
 
 const NavigationTab = () => {
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   // Simulate loading completion after 3 seconds
+  //   const timeoutId = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 2000);
+
+  //   return () => clearTimeout(timeoutId);
+  // }, []);
+
+  // if (isLoading) {
+  //   // Render loading screen
+  //   return <LoadingScreen />;
+  // }
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
           overflow: "hidden",
+          zIndex: 1,
           // height: 52,
           paddingTop: 20, // Adjust padding top
-          borderTopLeftRadius: 20, // Add border radius
-          borderTopRightRadius: 20,
+          // borderTopLeftRadius: 20, // Add border radius
+          // borderTopRightRadius: 20,
           borderWidth: 1,
           borderColor: colors.n20,
           shadowColor: colors.n50,
@@ -61,8 +80,8 @@ const NavigationTab = () => {
           ),
           tabBarStyle: {
             display: getTabBarVisibility(route) ? "none" : "flex",
-            borderTopLeftRadius: 28,
-            borderTopRightRadius: 28,
+            // borderTopLeftRadius: 28,
+            // borderTopRightRadius: 28,
             // height: 52,
             paddingVertical: 24,
           },

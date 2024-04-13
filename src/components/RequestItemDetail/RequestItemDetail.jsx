@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "row",
-    gap: 17,
+    gap: 16,
     alignItems: "center",
 
     justifyContent: "center",
     borderColor: colors.n20,
     borderBottomWidth: 1,
 
-    paddingVertical: 16,
+    paddingVertical: 6,
   },
   topHeader: {
     flexDirection: "row",

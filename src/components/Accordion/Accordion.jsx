@@ -40,7 +40,7 @@ const Accordion = ({ rooms, onPressRoomDetail }) => {
   }, {});
 
   return (
-    <ScrollView style={{ width: "100%" }}>
+    <ScrollView style={{ width: "100%"}}>
       <List.Section style={[styles.container]}>
         {Object.keys(groupedRooms).map((floor) => (
           <List.Accordion
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginHorizontal: 26,
     marginVertical: 16,
-    gap: 14,
+    gap: 24,
   },
   defaultAccordion: {
     alignItems: "space-between",
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     flex: 1,
-    gap: 10,
-    marginTop: 10,
+    gap: 16,
+    marginTop: 20,
     marginBottom: 6,
   },
 });

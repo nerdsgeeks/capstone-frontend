@@ -102,14 +102,14 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
             <View
               style={{
                 flexDirection: "row",
-                // alignItems: "center",
+                alignItems: "center",
                 marginHorizontal: 26,
                 gap: 6,
               }}
             >
               {image && (
                 <Image
-                style={{ borderRadius: 15, width: 30, height: 30 }}
+                style={{ borderRadius: 40, width: 50, height: 50 }}
                 source={{
                   uri: image
                 }}
@@ -139,6 +139,7 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
           <View
             style={{
               flexDirection: "row",
+              flexGrow: 1,
               alignItems: "flex-end",
               justifyContent: "space-between",
               marginHorizontal: 26,
@@ -146,7 +147,7 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
           >
             <BigButton
               name="Update Rooms"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              icon={<BedIcon w="40" h="28" fill={colors.main} />}
               onPress={toggleModal}
             />
             <BigButton

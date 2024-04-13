@@ -17,7 +17,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, justifyContent }) => {
           onPress={() => onTabPress(index)}
           disabled={activeTab === index}
         >
-          <Typography variant={activeTab === index ? "h5-black" : "h5-regular"}>{tab.label}</Typography>
+          <Typography variant={activeTab === index ? "title-black" : "title-regular"}>{tab.label}</Typography>
         </TouchableOpacity>
       ))}
     </View>
@@ -27,7 +27,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, justifyContent }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    gap:8,
+    gap:12,
   },
   tab: {
     alignItems: "center",

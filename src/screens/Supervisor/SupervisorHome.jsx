@@ -29,6 +29,7 @@ const SupervisorHome = ({ navigation }) => {
   const [rooms, setRooms] = useState([]);
   const [assignedRooms, setAssignedRooms] = useState([]);
   const [pendingRequests, setPendingRequests] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // For Assign Rooms Modal
   const [selectedRooms, setSelectedRooms] = useState([]);
@@ -490,14 +491,14 @@ const SupervisorHome = ({ navigation }) => {
           <View style={styles.statusContainer}>
             <BigButton
               name="To Do"
-              icon={<BedIcon w="54" h="37" fill={colors.main} />}
+              icon={<BedIcon w="48" h="33" fill={colors.main} />}
               text={toDoRoomsToday.length.toString()}
               variant="h5-medium"
               onPress={toToDoRooms}
             />
             <BigButton
               name="Completed"
-              icon={<BedIcon w="54" h="37" fill={colors.teal} />}
+              icon={<BedIcon w="48" h="33" fill={colors.teal} />}
               text={cleanedRoomsTodayCount.toString()}
               variant="h5-medium"
               onPress={toCompletedRooms}
@@ -506,8 +507,8 @@ const SupervisorHome = ({ navigation }) => {
               name="Staff"
               icon={
                 <ProfileIcon
-                  w="40"
-                  h="37"
+                  w="33"
+                  h="33"
                   stroke={colors.main}
                   fill={colors.main}
                 />
@@ -557,7 +558,7 @@ const SupervisorHome = ({ navigation }) => {
               transparent={true}
             >
               <View style={styles.modalOverlay}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", flexGrow: 0.5 }}>
                   <View style={styles.AssignRoomModalContainer}>
                     <CloseIcon onPress={toggleAssignRoomModal} />
                     <Typography
@@ -566,71 +567,92 @@ const SupervisorHome = ({ navigation }) => {
                     >
                       Assign Room
                     </Typography>
-                    <View>
-                      <Typography variant="xs-medium" style={{ paddingBottom: 6, justifyContent: "flex-start" }}>
-                        Select Room Number
-                      </Typography>
-                      {unassignedRooms && (
-                        <View
+                    <View style={{ paddingVertical: 16, gap: 16, zIndex: 999 }}>
+                      <View>
+                        <Typography
+                          variant="xs-medium"
                           style={{
-                            flexGrow: 1,
-                            alignSelf: "center",
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                            gap: 12,
-                            paddingHorizontal: 26,
-                            paddingVertical: 10,
+                            paddingBottom: 6,
+                            justifyContent: "flex-start",
                           }}
                         >
-                          {unassignedRooms.map((room, index) => (
-                            <View
-                              key={room.ID}
-                              style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                gap: 4,
-                                width: "45%", // Set width to 50% for two columns
-                              }}
-                            >
-                              <Checkbox
-                                value={selectedRooms.includes(room.ID)}
-                                onValueChange={() => {
-                                  console.log(
-                                    "Checkbox clicked for room ID:",
-                                    room.ID,
-                                  );
-                                  handleCheckboxChange(room.ID);
+                          Select Room Number
+                        </Typography>
+                        {unassignedRooms && (
+                          <View
+                            style={{
+                              flexGrow: 1,
+                              // alignSelf: "center",
+                              // flexDirection: "row",
+                              // // flexWrap: "wrap",
+                              gap: 12,
+                              paddingHorizontal: 26,
+                              paddingVertical: 10,
+                            }}
+                          >
+                            {unassignedRooms.map((room, index) => (
+                              <View
+                                key={room.ID}
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  gap: 4,
+                                  width: "45%", // Set width to 50% for two columns
                                 }}
-                                color={
-                                  selectedRooms.includes(room.ID)
-                                    ? colors.teal
-                                    : undefined
-                                }
-                              />
-                              <Typography variant="xs-medium">
-                                {room.RoomName}
-                              </Typography>
-                            </View>
-                          ))}
-                        </View>
-                      )}
+                              >
+                                <Checkbox
+                                  value={selectedRooms.includes(room.ID)}
+                                  onValueChange={() => {
+                                    console.log(
+                                      "Checkbox clicked for room ID:",
+                                      room.ID,
+                                    );
+                                    handleCheckboxChange(room.ID);
+                                  }}
+                                  color={
+                                    selectedRooms.includes(room.ID)
+                                      ? colors.teal
+                                      : undefined
+                                  }
+                                />
+                                <Typography variant="xs-medium">
+                                  {room.RoomName}
+                                </Typography>
+                              </View>
+                            ))}
+                          </View>
+                        )}
+                      </View>
+                      <View style={{ gap: 6 }}>
+                        <Typography variant="xs-medium">Assign Staff</Typography>
+                        <SelectList
+                          setSelected={(key) => setAssignedEmployee(key)}
+                          data={employeeList}
+                          save="key"
+                          boxStyles={{
+                            borderColor: colors.n30,
+                            borderRadius: 12,
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                          dropdownStyles={{
+                            borderRadius: 12,
+                            position: "absolute",
+                            width: "100%",
+                            top: 45,
+                          }}
+                          dropdownItemStyles={{
+                            backgroundColor: "white",
+                            // zIndex: 999,
+                          }}
+                          dropdownTextStyles={{
+                            // zIndex: 999,
+                            backgroundColor: "white",
+                          }}
+                        />
+                      </View>
                     </View>
-                    <View style={{ gap: 4 }}>
-                      <Typography variant="xs-medium">Assign Staff</Typography>
-                      <SelectList
-                        setSelected={(key) => setAssignedEmployee(key)}
-                        data={employeeList}
-                        save="key"
-                        boxStyles={{
-                          borderColor: colors.n30,
-                          borderRadius: 12,
-                          alignItems: "center",
-                          width: "100%",
-                        }}
-                        dropdownStyles={{ borderRadius: 12 }}
-                      />
-                    </View>
-                    <View style={styles.buttonStyles}>
+                    <View style={{ paddingTop: 24, paddingBottom: 50}}>
                       <Button
                         name="Assign"
                         type="primary"
@@ -736,7 +758,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    flexDirection: "row",
+    flexDirection: "column",
+    padding: 26,
   },
   AssignRoomModalContainer: {
     flexGrow: 1,
@@ -744,8 +767,8 @@ const styles = StyleSheet.create({
     gap: 16,
     backgroundColor: colors.n0,
     borderRadius: 20,
-    paddingHorizontal: 50,
-    paddingVertical: 15,
+    padding: 50,
+    // paddingVertical: 15,
     // alignItems: "center",
   },
 });

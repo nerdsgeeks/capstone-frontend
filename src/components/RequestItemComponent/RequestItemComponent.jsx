@@ -33,13 +33,15 @@ const RequestItemComponent = ({ request, onPress,updateRequestCompletion }) => {
       <View style={styles.bodyCard}>
         <View style={styles.bodyTopContent}>
           
-          <View style={{ flexDirection: "row", gap: 16, flex: 1, alignItems: "center"}}>
+          <View style={{ flexDirection: "row", flex: 1, alignItems: "center"}}>
+          <TouchableOpacity onPress={changeStatus} style={{padding: 8}}>
             <Checkbox
               style={styles.checkbox}
               value={completed}
               onValueChange={changeStatus}
               color={colors.teal}
             />
+            </TouchableOpacity>
             <Typography variant="title-regular" style={styles.itemStyle}>
               {ItemName}
             </Typography>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: colors.n30,
-    paddingHorizontal: 6,
+    // paddingHorizontal: 6,
   },
   bodyTopContent: {
     flexDirection: "row",

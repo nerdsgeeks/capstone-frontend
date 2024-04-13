@@ -38,8 +38,8 @@ const NavigationTabSupervisor = () => {
         tabBarStyle: {
           overflow: "hidden",
           paddingTop: 20, // Adjust padding top
-          borderTopLeftRadius: 20, // Add border radius
-          borderTopRightRadius: 20,
+          // borderTopLeftRadius: 20, // Add border radius
+          // borderTopRightRadius: 20,
           borderWidth: 1,
           borderColor: colors.n20,
           shadowColor: colors.n50,

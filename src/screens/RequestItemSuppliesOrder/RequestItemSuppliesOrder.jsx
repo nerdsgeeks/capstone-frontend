@@ -184,7 +184,7 @@ const RequestItemSuppliesOrder = ({ route, navigation }) => {
             name="Request"
             type="primary"
             onPress={onOrderPressed}
-            style={{ marginVertical: 20, width: "80%" }}
+            style={{ marginVertical: 24, width: "80%" }}
           />
         </View>
 
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    paddingVertical: 22,
+    // paddingVertical: 22,
     paddingTop: 7,
   },
 });

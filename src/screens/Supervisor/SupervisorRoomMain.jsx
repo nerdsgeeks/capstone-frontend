@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     gap: 16,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    marginBottom: 70,
+    paddingBottom: 130,
     backgroundColor: colors.n0,
   },
   numberContainer: {
