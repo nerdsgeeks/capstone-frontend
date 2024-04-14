@@ -18,6 +18,7 @@ import CartIcon from "../../SVG/CartIcon";
 import SupervisorRoomHeader from "../../components/SupervisorRoomHeader/SupervisorRoomHeader";
 import NewCartIcon from "../../SVG/NewCartIcon";
 import { useFocusEffect } from "@react-navigation/native";
+import { format, parse } from "date-fns";
 
 const HousekeeperRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -102,10 +103,7 @@ const HousekeeperRequest = ({ navigation }) => {
     >
       <Typography variant="small-medium">{item.ItemName}</Typography>
       <Typography variant="small-medium" style={{ color: colors.n40 }}>
-        {new Date(item.RequestedDateTime.split("T")[0]).toLocaleDateString(
-          "en-US",
-          { month: "short", day: "2-digit", year: "numeric" },
-        )}
+        {formatDate(item.RequestedDateTime)}
       </Typography>
     </View>
   );
@@ -228,6 +226,27 @@ const HousekeeperRequest = ({ navigation }) => {
       return () => {};
     }, []),
   );
+
+  const formatDate = (RequestedDateTime) => {
+    const localDate = new Date(RequestedDateTime);
+    const today =
+      localDate.getFullYear() +
+      " " +
+      String(localDate.getMonth() + 1).padStart(2, "0") +
+      " " +
+      String(localDate.getDate()).padStart(2, "0");
+    console.log(localDate);
+
+    console.log("today");
+    console.log(today);
+
+    // Parse the input string into a Date object (assuming YYYY MM DD format)
+    const date = parse(today, "yyyy MM dd", new Date());
+
+    // Format the Date object into a more readable form
+    return format(date, "MMM dd, yyyy");
+    return today;
+  };
 
   return (
     <SafeAreaProvider>
