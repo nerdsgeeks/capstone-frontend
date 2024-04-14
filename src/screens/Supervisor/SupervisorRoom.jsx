@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   headerContainer: {
-    width: "100%",
+    // width: "100%",
     borderBottomLeftRadius: 60,
     paddingHorizontal: 26,
-    paddingVertical: 22,
+    paddingVertical: 14,
     paddingTop: 7,
   },
 });

@@ -9,8 +9,13 @@ const RequestHelpComponent = ({
   onPress,
   updateRequestCompletion,
 }) => {
-  const { helperRequestedAdditionalNotes, Quantity, RoomName, startTime, isHelperRequestedApproved } =
-    request;
+  const {
+    helperRequestedAdditionalNotes,
+    Quantity,
+    RoomName,
+    startTime,
+    isHelperRequestedApproved,
+  } = request;
   const [completed, setCompleted] = useState(isHelperRequestedApproved);
 
   const monthAbbreviations = new Intl.DateTimeFormat("en", {
@@ -28,7 +33,10 @@ const RequestHelpComponent = ({
   const formattedTime = day + " " + monthAbbreviations + " " + hours;
 
   const changeStatus = () => {
-    const updatedRequest = { ...request, isHelperRequestedApproved: !completed };
+    const updatedRequest = {
+      ...request,
+      isHelperRequestedApproved: !completed,
+    };
     setCompleted(!completed);
     updateRequestCompletion(updatedRequest);
   };
@@ -37,20 +45,21 @@ const RequestHelpComponent = ({
     <TouchableOpacity onPress={onPress}>
       <View style={styles.bodyCard}>
         <View style={styles.bodyTopContent}>
-          <Checkbox
-            style={styles.checkbox}
-            value={completed}
-            onValueChange={changeStatus}
-          />
-          <Typography variant="small-regular" style={styles.itemStyle}>
-            {helperRequestedAdditionalNotes
-            
-            }
-          </Typography>
-          <Typography variant="small-regular">{RoomName}</Typography>
+          <View style={{ flexDirection: "row", gap: 16, alignItems: "center"}}>
+            <Checkbox
+              style={styles.checkbox}
+              value={completed}
+              onValueChange={changeStatus}
+              color={colors.teal}
+            />
+            <Typography variant="title-regular" style={styles.itemStyle}>
+              {helperRequestedAdditionalNotes}
+            </Typography>
+          </View>
+          <Typography variant="title-regular">{RoomName}</Typography>
         </View>
         <View style={styles.bodyContentBottom}>
-          <Typography variant="small-regular">{formattedTime}</Typography>
+          <Typography variant="title-regular">{formattedTime}</Typography>
         </View>
       </View>
     </TouchableOpacity>
@@ -60,9 +69,10 @@ const RequestHelpComponent = ({
 const styles = StyleSheet.create({
   bodyCard: {
     flexDirection: "column",
-    paddingVertical: 10,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: colors.n30,
+    paddingHorizontal: 6,
   },
   bodyTopContent: {
     flexDirection: "row",
@@ -76,9 +86,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     justifyContent: "flex-start",
   },
-  itemStyle: {
-    width: "40%",
-  },
+  // itemStyle: {
+  //   width: "40%",
+  // },
 });
 
 export default RequestHelpComponent;

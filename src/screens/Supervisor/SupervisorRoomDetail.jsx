@@ -90,8 +90,7 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
-        <View style={{ gap: 16 }}>
+        <View style={{ gap: 24, flex: 1 }}>
           <RoomDetailHeader
             room={room}
             taskStatus="pending"
@@ -99,50 +98,69 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
           />
 
           <RoomDetailInfo reservation={room} room={room} />
-          <View
-            style={{
-              flexDirection: "row",
-              // alignItems: "center",
-              marginHorizontal: 26,
-              gap: 6,
-            }}
-          >
-            {image && (
-              <Image
-              style={{ borderRadius: 15, width: 30, height: 30 }}
-              source={{
-                uri: image
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginHorizontal: 26,
+                gap: 6,
               }}
-            />)}
+            >
+              {image && (
+                <Image
+                style={{ borderRadius: 40, width: 50, height: 50 }}
+                source={{
+                  uri: image
+                }}
+              />)}
             
-            <View>
-              {employeeName && (
-                <Typography variant="xs-regular">
-                {employeeName}
-              </Typography>)}
-              
+              <View>
+                {employeeName && (
+                  <Typography variant="body-regular">
+                  {employeeName}
+                </Typography>)}
+            
+              </View>
             </View>
+            {room.isHelperRequested && (
+              <View style={{ marginHorizontal: 26}}>
+                <TextChip
+                  text="Help Requested"
+                  backgroundColor={colors.pale_teal1}
+                  paddingVertical={12.5}
+                  paddingHorizontal={16}
+                  // style={{ marginHorizontal: 25 }}
+                />
+              </View>
+            )}
           </View>
-          {room.isHelperRequested && (
-            <TextChip
-              text="Help Requested"
-              backgroundColor={colors.pale_teal1}
-              style={{ marginHorizontal: 25 }}
-            />
-          )}
 
           <View
             style={{
               flexDirection: "row",
-              alignItems: "center",
+              flexGrow: 1,
+              alignItems: "flex-end",
               justifyContent: "space-between",
-              marginHorizontal: 25,
+              marginHorizontal: 26,
             }}
           >
             <BigButton
               name="Update Rooms"
-              icon={<BedIcon w="40" h="28" fill={colors.orange} />}
+              icon={<BedIcon w="40" h="28" fill={colors.main} />}
               onPress={toggleModal}
+            />
+            <BigButton
+              name="Inspect"
+              disabled={room.cleaningStatus === "Cleaned" ? false : true}
+              icon={
+                room.cleaningStatus === "Cleaned" ? (
+                  <CheckIcon w="30" h="30" stroke={colors.orange} />
+                ) : (
+                  <CheckIcon w="30" h="30" stroke={colors.n30} />
+                )
+              }
+              onPress={onPressInspection}
             />
             <Modal
               visible={isModalOpen}
@@ -176,21 +194,8 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
                 </View>
               </View>
             </Modal>
-            <BigButton
-              name="Inspect"
-              disabled={room.cleaningStatus === "Cleaned" ? false : true}
-              icon={
-                room.cleaningStatus === "Cleaned" ? (
-                  <CheckIcon w="40" h="28" stroke={colors.orange} />
-                ) : (
-                  <CheckIcon w="40" h="40" stroke={colors.n30} />
-                )
-              }
-              onPress={onPressInspection}
-            />
           </View>
         </View>
-      </SafeAreaView>
     </SafeAreaProvider>
   );
 };

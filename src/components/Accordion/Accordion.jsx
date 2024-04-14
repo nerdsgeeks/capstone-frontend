@@ -35,16 +35,16 @@ const Accordion = ({ rooms, onPressRoomDetail }) => {
     if (!acc[Floor]) {
       acc[Floor] = [];
     }
-    acc[Floor].push(room);
+    acc[Floor].unshift(room);
     return acc;
   }, {});
 
   return (
-    <ScrollView style={{ width: "100%" }}>
+    <ScrollView style={{ width: "100%"}}>
       <List.Section style={[styles.container]}>
         {Object.keys(groupedRooms).map((floor) => (
           <List.Accordion
-            title={<Typography variant="xs-medium">Floor {floor}</Typography>}
+            title={<Typography variant="body-medium">Floor {floor}</Typography>}
             key={floor}
             expanded={expanded[floor]}
             onPress={() => handlePress(floor)}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginHorizontal: 26,
     marginVertical: 16,
-    gap: 14,
+    gap: 24,
   },
   defaultAccordion: {
     alignItems: "space-between",
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.n0,
     borderRadius: 12,
     overflow: "scroll",
-    height: 34,
+    height: 44,
   },
   defaultTitle: {
     color: colors.n30,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.n0,
     borderRadius: 12,
     overflow: "scroll",
-    height: 34,
+    height: 44,
   },
   expandedTitle: {
     color: colors.n50,
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     flex: 1,
-    gap: 10,
-    marginTop: 10,
+    gap: 16,
+    marginTop: 20,
     marginBottom: 6,
   },
 });

@@ -157,7 +157,7 @@ const StaffCleanedRoomScreen = ({ navigation, route }) => {
           />
         </View>
         <View style={styles.timeContainer}>
-          <ClockIcon w="22" h="22" />
+          <ClockIcon w="22" h="22" fill={colors.teal}/>
           <Typography variant="body-regular">
             {
               new Date(roomDetails.cleaningDuration)
@@ -205,7 +205,7 @@ const StaffCleanedRoomScreen = ({ navigation, route }) => {
             value={noteText}
           />
         </View>
-        <View style={{ paddingTop: 50}}>
+        <View style={{ paddingTop: 30}}>
           <Button name="Request Inspection" type="primary" onPress={handleSubmit} />
           </View>
         </SafeAreaView>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   headerStyle: {
-    gap: 16,
+    gap: 24,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -231,9 +231,15 @@ const styles = StyleSheet.create({
   },
   timeContainer: {
     flexDirection: "row",
-    gap: 20,
-    justifyContent: "center",
+    backgroundColor: colors.pale_teal2,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 6,
+    flexDirection: "row",
+    gap: 16,
     alignItems: "center",
+    // padding: 10,
+    borderRadius: 6,
   },
   multipleImageContainer: {
     flexDirection: "row",

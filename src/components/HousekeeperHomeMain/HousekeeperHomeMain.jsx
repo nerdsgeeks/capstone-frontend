@@ -253,7 +253,7 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
           />
         </View>
 
-        <ScrollView>
+        <ScrollView style={{ marginBottom: 24}}>
           {roomToDisplay.map((room, index) => (
             <TouchableOpacity
               key={index}

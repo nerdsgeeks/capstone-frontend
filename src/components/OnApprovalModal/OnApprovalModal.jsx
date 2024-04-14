@@ -27,7 +27,7 @@ const OnApprovalModal = ({
                 source={require('../../../assets/illustrations/onApproval.png')}
                 style={{ width: 97, height: 140, marginVertical:13, }}
               />
-              <Typography variant="body-regular">The requests have been accepted. We will notify your workers.</Typography>
+              <Typography variant="body-regular" style={{ paddingHorizontal: 26, textAlign: "center"}}>The requests have been accepted. We will notify your workers.</Typography>
               <Button name="Done" type="primary" onPress={toggleOnApprovalModal} style={{marginVertical: 30}}/>
             </View>
           </View>

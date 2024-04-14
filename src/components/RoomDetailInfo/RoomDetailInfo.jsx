@@ -11,19 +11,35 @@ import TextChip from "../TextChip/TextChip";
 
 const RoomDetailInfo = ({ reservation, room }) => {
   let tierIcon;
-  switch (room.RoomTier) {
-    case "gold":
-      tierIcon = <TierGoldIcon w="30" h="30" />;
-      break;
-    case "silver":
-      tierIcon = <TierSilverIcon w="30" h="30" />;
-      break;
-    case "diamond":
-      tierIcon = <TierDiamondIcon w="30" h="30" />;
-      break;
-    default:
-      tierIcon = <TextChip text="NO INFO" />;
-      break;
+  if (room.RoomTier) {
+    switch (room.RoomTier.toUpperCase()) {
+      case "gold".toUpperCase():
+        tierIcon = <TierGoldIcon w="30" h="30" />;
+        break;
+      case "silver".toUpperCase():
+        tierIcon = <TierSilverIcon w="30" h="30" />;
+        break;
+      case "diamond".toUpperCase():
+        tierIcon = <TierDiamondIcon w="30" h="30" />;
+        break;
+      default:
+        tierIcon = <TextChip text="No Info" />;
+        break;
+    }
+  } else {
+    switch (room.tier.toUpperCase()) {
+      case "gold".toUpperCase():
+        tierIcon = <TierGoldIcon w="30" h="30" />;
+        break;
+      case "silver".toUpperCase():
+        tierIcon = <TierSilverIcon w="30" h="30" />;
+        break;
+      case "diamond".toUpperCase():
+        tierIcon = <TierDiamondIcon w="30" h="30" />;
+        break;
+      default:
+        tierIcon = <TextChip text="No Info" />;
+    }
   }
   const formatDateRange = (CheckinDate, CheckoutDate) => {
     // Convert the ISO strings to Date objects
@@ -51,19 +67,6 @@ const RoomDetailInfo = ({ reservation, room }) => {
     return `${formattedCheckin} - ${formattedCheckout}`;
   };
 
-  const roomTier = () => {
-    switch (room.tier) {
-      case "gold":
-        return <TierGoldIcon w="30" h="30"  />;
-      case "silver":
-        return <TierSilverIcon w="30" h="30"/>;
-      case "diamond":
-        return <TierDiamondIcon w="30" h="30" />;
-      default:
-        return <Text>Checked In</Text>;
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View
@@ -77,9 +80,9 @@ const RoomDetailInfo = ({ reservation, room }) => {
         <Typography variant="h5-regular">{reservation.guestName}</Typography>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={styles.text}>{roomTier()}</Text>
+          <Text style={styles.text}>{tierIcon}</Text>
           <View style={{ paddingLeft: 10 }}>
-            <PersonIcon fill="black" w="18.33" h="30"/>
+            <PersonIcon fill="black" w="18.33" h="30" />
           </View>
           <Typography variant="h5-medium" style={{ paddingLeft: 3 }}>
             {reservation.noOfGuest}

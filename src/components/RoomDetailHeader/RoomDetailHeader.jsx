@@ -45,18 +45,31 @@ const RoomDetailHeader = ({ room, navigation }) => {
     }
   };
 
-  switch (room.roomTypeName) {
-    case "Suite":
+  switch (room.roomTypeName.toUpperCase()) {
+    case "Suite".toUpperCase():
       backgroundColor = colors.pink_yellow;
       break;
-    case "King Bed":
+    case "King Bed".toUpperCase():
       backgroundColor = colors.yellow1;
       break;
-    case "Queen Bed":
+    case "Queen Bed".toUpperCase():
       backgroundColor = colors.yellow2;
       break;
     default:
       backgroundColor = colors.n0;
+      break;
+  }
+
+  switch (room.cleaningStatus.toUpperCase()) {
+    case "To Do".toUpperCase():
+    case "In Progress".toUpperCase():
+      bgColor = colors.main;
+      break;
+    case "Cleaned".toUpperCase():
+      bgColor = colors.yellow1;
+      break;
+    case "Approved".toUpperCase():
+      bgColor = colors.pale_teal1;
       break;
   }
 
@@ -70,7 +83,7 @@ const RoomDetailHeader = ({ room, navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <BackIcon />
           </TouchableOpacity>
-          <TextChip text={room.cleaningStatus} backgroundColor={colors.main} />
+          <TextChip text={room.cleaningStatus} backgroundColor={bgColor} />
         </View>
         <View>
           <Typography variant="h3-medium" style={{ color: "white" }}>

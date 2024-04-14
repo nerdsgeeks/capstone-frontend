@@ -33,19 +33,26 @@ const RequestItemComponent = ({ request, onPress,updateRequestCompletion }) => {
       <View style={styles.bodyCard}>
         <View style={styles.bodyTopContent}>
           
-          <Checkbox
-            style={styles.checkbox}
-            value={completed}
-            onValueChange={changeStatus}
-          />
-          <Typography variant="small-regular" style={styles.itemStyle}>
-            {ItemName}
-          </Typography>
-          <Typography variant="small-regular">{Quantity}</Typography>
-          <Typography variant="small-regular">{RoomName}</Typography>
+          <View style={{ flexDirection: "row", flex: 1, alignItems: "center"}}>
+          <TouchableOpacity onPress={changeStatus} style={{padding: 8}}>
+            <Checkbox
+              style={styles.checkbox}
+              value={completed}
+              onValueChange={changeStatus}
+              color={colors.teal}
+            />
+            </TouchableOpacity>
+            <Typography variant="title-regular" style={styles.itemStyle}>
+              {ItemName}
+            </Typography>
+          </View>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 0.7}}>
+            <Typography variant="title-regular">{Quantity}</Typography>
+            <Typography variant="title-regular">{RoomName ? RoomName : "N.A"}</Typography>
+          </View>
         </View>
         <View style={styles.bodyContentBottom}>
-          <Typography variant="small-regular">{formattedTime}</Typography>
+          <Typography variant="title-regular">{formattedTime}</Typography>
         </View>     
       </View>
     </TouchableOpacity>
@@ -55,9 +62,10 @@ const RequestItemComponent = ({ request, onPress,updateRequestCompletion }) => {
 const styles = StyleSheet.create({
   bodyCard: {
     flexDirection: "column",
-    paddingVertical: 10,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: colors.n30,
+    // paddingHorizontal: 6,
   },
   bodyTopContent: {
     flexDirection: "row",

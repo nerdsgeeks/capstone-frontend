@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
   listItemsContainer: {
     rowGap: 16,
     paddingBottom: 80,
-    // marginBottom: 180,
+    marginBottom: 32,
   },
   listItems: {
     rowGap: 16,

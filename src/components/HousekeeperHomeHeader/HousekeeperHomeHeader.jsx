@@ -105,7 +105,7 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
                 <ProgressBar
                   progress={Number(taskProgress)}
                   color={colors.teal}
-                  style={{ paddingVertical: 8, width: 180, borderRadius: 20}}
+                  style={{ height: 12, width: 180, borderRadius: 20, backgroundColor: colors.n1}}
                 />
                 {/* <Text>{taskProgress}</Text> */}
               </View>

@@ -13,16 +13,22 @@ const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
     case "Suite":
       roomStyle = {
         backgroundColor: colors.main,
+        borderColor: colors.main,
+        borderWidth: 1,
       };
       break;
     case "King Bed":
       roomStyle = {
         backgroundColor: colors.yellow1,
+        borderColor: colors.yellow1,
+        borderWidth: 1,
       };
       break;
     case "Queen Bed":
       roomStyle = {
         backgroundColor: colors.yellow2,
+        borderColor: colors.yellow2,
+        borderWidth: 1,
       };
       break;
     default:
@@ -36,23 +42,23 @@ const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
   const StatusSvg = () => {
     switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
-        return <DueOutIcon />;
+        return <><DueOutIcon w="28" h="28" /></>;
       case "DueIn".toUpperCase():
-        return <DueInIcon />;
+        return <DueInIcon w="28" h="28" />;
       case "CheckedOut".toUpperCase():
-        return <CheckedOutIcon />;
+        return <CheckedOutIcon w="28" h="28" />;
       case "CheckedIn".toUpperCase():
-        return <CheckIcon stroke={colors.teal} fill={colors.n0} />;
+        return <CheckIcon stroke={colors.teal} fill={colors.n0} w="28" h="28"/>;
       case "DueOut-DueIn".toUpperCase():
         return (
           <>
-            <DueOutIcon /> <DueInIcon />
+            <DueOutIcon w="28" h="28"/> <DueInIcon w="28" h="28"/>
           </>
         );
       case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon /> <DueInIcon />{" "}
+            <CheckedOutIcon w="28" h="28"/> <DueInIcon w="28" h="28"/>
           </>
         );
       default:
@@ -65,7 +71,7 @@ const RoomAccordionButton = ({ room, onPressRoomDetail }) => {
       style={[styles.container, roomStyle]}
       onPress={onPressRoomDetail}
     >
-      <Typography variant="body-black">{room.RoomName}</Typography>
+      <Typography variant="h5-black">{room.RoomName}</Typography>
       <Typography>{StatusSvg()}</Typography>
     </TouchableOpacity>
   );
@@ -77,10 +83,10 @@ const styles = StyleSheet.create({
   container: {
     // marginTop: 13,
     flexDirection: "column",
-    gap: 24,
+    gap: 20,
+
     borderRadius: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    padding:15,
     width: "30%",
   },
 });

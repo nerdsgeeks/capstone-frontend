@@ -18,9 +18,11 @@ import {
 } from "../../store/employeeStore";
 import axios from "axios";
 import useBaseUrl from "../../hooks/useBaseUrl";
+import LoadingScreen from "../LoadingScreen";
 
 const HousekeeperProfile = ({ navigation }) => {
   const baseUrl = useBaseUrl();
+  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const [showScheduleTab, setShowScheduleTab] = useState(false);
   const tabs = [{ label: "Perfomance" }, { label: "Schedule" }];
@@ -67,6 +69,7 @@ const HousekeeperProfile = ({ navigation }) => {
               assignedRoom.cleaningStatus === "Approved",
           );
           setRooms(filteredData);
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching assigned rooms:", error);
@@ -84,41 +87,47 @@ const HousekeeperProfile = ({ navigation }) => {
   // console.log("roooOooOOMS: ", filteredRooms)
 
   const totalMilliseconds = rooms.reduce((acc, room) => {
-    const durationMilliseconds = new Date(room.cleaningDuration).getTime() - new Date("1970-01-01").getTime();
+    const durationMilliseconds =
+      new Date(room.cleaningDuration).getTime() -
+      new Date("1970-01-01").getTime();
     return acc + durationMilliseconds;
-}, 0);
+  }, 0);
 
-const averageMilliseconds = totalMilliseconds / rooms.length;
+  const averageMilliseconds = totalMilliseconds / rooms.length;
 
-const averageMinutes = Math.floor(averageMilliseconds / (1000 * 60));
-const averageSeconds = Math.floor((averageMilliseconds / 1000) % 60);
+  const averageMinutes = Math.floor(averageMilliseconds / (1000 * 60));
+  const averageSeconds = Math.floor((averageMilliseconds / 1000) % 60);
 
+  const averageDuration = `${averageMinutes.toString().padStart(2, "0")}:${averageSeconds.toString().padStart(2, "0")}`;
 
-const averageDuration = `${averageMinutes.toString().padStart(2, '0')}:${averageSeconds.toString().padStart(2, '0')}`;
+  // Filter out rooms with a rating of 0
+  const ratedRooms = rooms.filter((room) => room.rating !== 0);
 
-const totalRating = rooms.reduce((acc, room) => {
-  return acc + room.rating;
-}, 0);
+  // Calculate the total rating for the filtered rooms
+  const totalRating = ratedRooms.reduce((acc, room) => {
+    return acc + room.rating;
+  }, 0);
 
-const averageRating = Math.ceil(totalRating / rooms.length);
+  // Calculate the average rating based on the filtered rooms
+  const averageRating =
+    ratedRooms.length > 0
+      ? parseFloat((totalRating / ratedRooms.length).toFixed(2))
+      : 0;
 
+  const renderStars = () => {
+    const totalStars = 5;
+    const stars = [];
 
-const renderStars = () => {
+    for (let i = 0; i < Math.ceil(averageRating); i++) {
+      stars.push(<StarIcon w="25" h="25" key={i} fill={colors.teal} />);
+    }
 
-  
-  const totalStars = 5;
-  const stars = [];
+    for (let i = Math.ceil(averageRating); i < totalStars; i++) {
+      stars.push(<StarIcon w="25" h="25" key={i} fill={colors.n30} />);
+    }
 
-  for (let i = 0; i < Math.ceil(averageRating); i++) {
-    stars.push(<StarIcon key={i} fill={colors.teal} />);
-  }
-
-  for (let i = Math.ceil(averageRating); i < totalStars; i++) {
-    stars.push(<StarIcon key={i} fill={colors.n30} />);
-  }
-
-  return stars;
-};
+    return stars;
+  };
 
   const handleTabPress = (index) => {
     setActiveTab(index);
@@ -134,6 +143,9 @@ const renderStars = () => {
     navigation.navigate("HousekeeperPerformance", {});
   };
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <SafeAreaProvider>
@@ -187,14 +199,14 @@ const renderStars = () => {
                   <View style={styles.perfomanceTopButtonsContainer}>
                     <BigButton
                       name="Total Rooms"
-                      icon={<BedIcon w="54" h="37" fill={colors.main} />}
+                      icon={<BedIcon w="48" h="33" fill={colors.main} />}
                       text={rooms.length}
                       width={windowWidth / 2 - 34}
                       disabled
                     />
                     <BigButton
                       name="Average Time"
-                      icon={<ClockIcon w="35" h="35" fill={colors.main} />}
+                      icon={<ClockIcon w="33" h="33" fill={colors.main} />}
                       text={averageDuration}
                       variant="xs-medium"
                       width={windowWidth / 2 - 34}

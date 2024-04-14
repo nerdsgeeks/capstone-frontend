@@ -15,6 +15,7 @@ const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [isItemDetailModalOpen, setIsItemDetailModalOpen] = useState(false);
   const [selectedItemDetail, setSelectedItemDetail] = useState(null);
+  console.log(selectedItemDetail)
   const [isHelpDetailModalOpen, setIsHelpDetailModalOpen] = useState(false);
   const [selectedHelpDetail, setSelectedHelpDetail] = useState(null);
 
@@ -66,7 +67,7 @@ const SupervisorRequest = ({ navigation }) => {
           </SafeAreaView>
         </LinearGradient>
         <View style={styles.tabContainer}>
-          <>
+          <View style={{ width: "100%", gap: 24}}>
             <NavTabs
               tabs={[{ label: "Supplies" }, { label: "Help" }]}
               activeTab={activeTab}
@@ -85,7 +86,7 @@ const SupervisorRequest = ({ navigation }) => {
                 />
               )}
             </View>
-          </>
+          </View>
         </View>
       </View>
       {isItemDetailModalOpen && selectedItemDetail && (
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
+    backgroundColor: colors.n0,
   },
   headerContainer: {
     borderBottomLeftRadius: 60,
@@ -122,13 +124,14 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flex: 1,
-    width: "80%",
-    marginTop: 10,
-    marginHorizontal: 26,
+    flexDirection: "row",
+    paddingVertical: 24,
+    // paddingHorizontal: 26,
+    gap: 16,
   },
-  bodyContent: {
-    paddingTop: 20,
-  },
+  // bodyContent: {
+  //   paddingTop: 20,
+  // },
 });
 
 export default SupervisorRequest;

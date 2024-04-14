@@ -27,7 +27,7 @@ const NavTabs = ({ tabs, activeTab, onTabPress, justifyContent }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    gap:8,
+    gap:12,
   },
   tab: {
     alignItems: "center",
