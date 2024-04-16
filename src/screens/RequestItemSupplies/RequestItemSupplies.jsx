@@ -44,8 +44,6 @@ const RequestItemSupplies = ({ route, navigation }) => {
 
   const items = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
-  // console.log("items");
-  // console.log(items);
 
   const requestedItemsCartStore = useRequestCartStore(
     (state) => state.requestedItemsCartStore,
@@ -56,8 +54,6 @@ const RequestItemSupplies = ({ route, navigation }) => {
     (state) => state.updateBaseScreenStore,
   );
 
-  // console.log("baseScreenStore Supplies");
-  // console.log(baseScreenStore);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: route.params.screenTitle || "Welcome",
@@ -87,7 +83,6 @@ const RequestItemSupplies = ({ route, navigation }) => {
   }, [navigation, requestedItemsCartStore]);
 
   useEffect(() => {
-    console.log(route.params.screenTitle);
     switch (route.params.screenTitle.toUpperCase()) {
       case "Room Supplies".toUpperCase():
         const filteredItemsRoom = items.filter(
@@ -137,16 +132,10 @@ const RequestItemSupplies = ({ route, navigation }) => {
                     alignItems: "center",
                   }}
                 >
-                  <TouchableOpacity
-                    onPress={goBack}
-                    // style={{ marginRight: 20 }}
-                  >
+                  <TouchableOpacity onPress={goBack}>
                     <BackIcon />
                   </TouchableOpacity>
-                  <Typography
-                    variant="screenHeader-medium"
-                    // style={{ borderWidth: 2 }}
-                  >
+                  <Typography variant="screenHeader-medium">
                     Room Supplies
                   </Typography>
                 </View>

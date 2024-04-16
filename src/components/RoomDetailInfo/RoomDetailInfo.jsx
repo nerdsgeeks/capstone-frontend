@@ -43,8 +43,6 @@ const RoomDetailInfo = ({ reservation, room }) => {
   }
   const formatDateRange = (CheckinDate, CheckoutDate) => {
     // Convert the ISO strings to Date objects
-    // console.log(`checkinDate : ${CheckinDate}`);
-    // console.log(`checkoutDate : ${CheckoutDate}`);
     const checkinDateSplitted = CheckinDate.split("T");
     const checkoutDateSplitted = CheckoutDate.split("T");
     const checkin = new Date(checkinDateSplitted[0]);

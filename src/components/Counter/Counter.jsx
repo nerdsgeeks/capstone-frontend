@@ -64,16 +64,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-// TO use this componet use the below reference code
-// Add this code in the parent component And call the Counter component
-// const [count, setCount] = useState(0);
-//     const handleIncrement = () => {
-
-//         setCount(count + 1);
-//     }
-//     const handleDecrement = () => {
-
-//         setCount(count - 1);
-//     }
-//     <Counter count={count} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />

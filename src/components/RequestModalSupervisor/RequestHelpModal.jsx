@@ -5,11 +5,7 @@ import Typography from "../Typography/Typography";
 import CalendarIcon from "../../SVG/CalendarIcon";
 import { colors } from "../../../themes/themes";
 
-const RequestHelpModal = ({
-  isModalOpen,
-  closeModal,
-  helpRequestDetails,
-}) => {
+const RequestHelpModal = ({ isModalOpen, closeModal, helpRequestDetails }) => {
   return (
     <Modal
       visible={isModalOpen}
@@ -50,13 +46,14 @@ const RequestHelpModal = ({
               <View style={{ flexDirection: "row", gap: 6 }}>
                 <CalendarIcon />
                 <Typography variant="body-medium">
-                  {new Date(
-                    helpRequestDetails.startTime
-                  ).toLocaleDateString("en-US", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  {new Date(helpRequestDetails.startTime).toLocaleDateString(
+                    "en-US",
+                    {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    },
+                  )}
                 </Typography>
               </View>
             </View>
@@ -78,9 +75,7 @@ const RequestHelpModal = ({
                   justifyContent: "center",
                 }}
               >
-                <Typography variant="body-medium">
-                  NA
-                </Typography>
+                <Typography variant="body-medium">NA</Typography>
               </View>
             </View>
             <View
@@ -94,28 +89,9 @@ const RequestHelpModal = ({
                 {helpRequestDetails.RoomName}
               </Typography>
             </View>
-            {/* <View style={styles.itemDetailTitle}>
-              <Typography variant="h5-black">Requester</Typography>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "flex-start",
-                gap: 6,
-              }}
-            >
-              <Image
-                style={{ borderRadius: 15, width: 30, height: 30 }}
-                source={{
-                  uri: "https://reactnative.dev/img/tiny_logo.png",
-                }}
-              />
-              <Typography variant="body-regular">
-                {helpRequestDetails.firstName} {helpRequestDetails.lastName}
-              </Typography>
-            </View> */}
+
             {helpRequestDetails.firstName && (
-              <View style={{gap: 16}}>
+              <View style={{ gap: 16 }}>
                 <View style={styles.itemDetailTitle}>
                   <Typography variant="h5-black">Requester</Typography>
                 </View>
@@ -133,8 +109,7 @@ const RequestHelpModal = ({
                     }}
                   />
                   <Typography variant="body-regular">
-                    {helpRequestDetails.firstName}{" "}
-                    {helpRequestDetails.lastName}
+                    {helpRequestDetails.firstName} {helpRequestDetails.lastName}
                   </Typography>
                 </View>
               </View>
@@ -171,7 +146,7 @@ const styles = {
     backgroundColor: colors.pale_teal2,
     padding: 10,
     borderRadius: 8,
-    gap: 6
+    gap: 6,
   },
   itemDetailTitle: {
     marginTop: 16,

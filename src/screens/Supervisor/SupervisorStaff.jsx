@@ -38,8 +38,6 @@ const SupervisorStaff = () => {
     onFetchAssignedRooms();
   }, []);
 
-  console.log("rooms:", rooms);
-
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
   );

@@ -81,24 +81,6 @@ const SupervisorHome = ({ navigation }) => {
     navigation.navigate("SupervisorRequest");
   };
 
-  // const handleCheckboxChange = (roomId) => {
-  //   console.log('Previous selected rooms:', selectedRooms);
-
-  //   setSelectedRooms((prevSelectedRooms) => {
-  //     if (prevSelectedRooms.includes(roomId)) {
-  //       console.log(`Room ${roomId} is already selected, removing...`);
-  //       const updatedRooms = prevSelectedRooms.filter((ID) => ID !== roomId);
-  //       console.log('Updated selected rooms:', updatedRooms);
-  //       return updatedRooms;
-  //     } else {
-  //       console.log(`Room ${roomId} is not selected, adding...`);
-  //       const updatedRooms = [...prevSelectedRooms, roomId];
-  //       console.log('Updated selected rooms:', updatedRooms);
-  //       return updatedRooms;
-  //     }
-  //   });
-  // };
-
   const handleCheckboxChange = (roomId) => {
     setSelectedRooms((prevSelectedRooms) => {
       if (prevSelectedRooms.includes(roomId)) {
@@ -152,15 +134,14 @@ const SupervisorHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setEmployees(data);
-          // console.log("employees");
-          // console.log(data);
+
           const tempEmployeeList = data
             .filter((employee) => employee.employeeType === 2)
             .map((employee) => ({
               key: employee.ID,
               value: `${employee.firstName} ${employee.lastName}`,
             }));
-          // console.log("tempEmployeeList");
+
           setEmployeeList(tempEmployeeList);
         })
         .catch((error) => {
@@ -170,7 +151,6 @@ const SupervisorHome = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log("selectedRooms api/assignedRooms/all");
     const apiUrl = baseUrl + "/api/assignedRooms/all";
     const config = {
       headers: {
@@ -203,8 +183,6 @@ const SupervisorHome = ({ navigation }) => {
         .then((response) => {
           const data = response.data;
           setRooms(data);
-          // console.log("rooms");
-          // console.log(data);
         })
         .catch((error) => {
           console.error("Error fetching rooms:", error);
@@ -220,10 +198,6 @@ const SupervisorHome = ({ navigation }) => {
     String(localDate.getMonth() + 1).padStart(2, "0") +
     "-" +
     String(localDate.getDate()).padStart(2, "0");
-  console.log(localDate);
-
-  console.log("today");
-  console.log(today);
 
   const unassignedRooms = rooms.filter((room) => {
     return !assignedRooms.some((assignedRoom) => {
@@ -234,30 +208,12 @@ const SupervisorHome = ({ navigation }) => {
     });
   });
 
-  // const roomsList = availableRooms.map((room) => ({
-  //   key: room.ID,
-  //   value: room.RoomName,
-  // }));
-
-  // console.log("available rooms:", unassignedRooms);
-
-  // const employeeList = employees
-  //   .filter((employee) => employee.EmployeeType === 2)
-  //   .map((employee) => ({
-  //     key: employee.ID,
-  //     value: `${employee.FirstName} ${employee.LastName}`,
-  //   }));
-
   const assignRoom = () => {
-    console.log("employee");
-    console.log(assignedEmployee);
     selectedRooms.forEach((roomId) => {
       const assignedRoom = rooms.find((roo) => roo.ID === roomId);
       const assignEmployee = employees.find(
         (emp) => emp.ID === assignedEmployee,
       );
-      console.log("assignedDateTime");
-      console.log(toLocalISODate(new Date(), "America/Vancouver"));
 
       const newAssignedRoom = {
         RoomID: assignedRoom.ID,
@@ -279,9 +235,6 @@ const SupervisorHome = ({ navigation }) => {
         inspectionNotes: "",
       };
 
-      console.log("newAssignedRoom");
-      console.log(newAssignedRoom);
-
       const apiUrl = baseUrl + "/api/assignedrooms/addAssignedRoom";
       const config = {
         headers: {
@@ -302,7 +255,6 @@ const SupervisorHome = ({ navigation }) => {
       toggleAssignRoomModal();
     });
 
-    console.log("selectedRooms api/assignedRooms/all");
     const apiUrl = baseUrl + "/api/assignedRooms/all";
     const config = {
       headers: {
@@ -380,8 +332,6 @@ const SupervisorHome = ({ navigation }) => {
         RoomTier: roomToUpdate.RoomTier,
       };
 
-      console.log(updateRoomItem);
-
       const apiUrl = baseUrl + "/api/rooms/updateroom";
       const config = {
         headers: {
@@ -430,7 +380,6 @@ const SupervisorHome = ({ navigation }) => {
   }
 
   useEffect(() => {
-    console.log("assigned Rooms Use Effect");
     const cleanedRoomsTodayUseEffect = assignedRooms.filter((room) => {
       const assignedDate = new Date(room.assignedDateTime)
         .toISOString()
@@ -540,17 +489,7 @@ const SupervisorHome = ({ navigation }) => {
               width="100%"
             />
           </View>
-          {/* <BigButton
-            name="Assign Room"
-            icon={<RequestIcon w="40" h="28" stroke={colors.orange} />}
-            style={{ width: "90%" }}
-            onPress={() => {
-              toggleAssignRoomModal();
-              console.log(employeeList);
-              console.log(employees);
-            }}
-          /> */}
-          {/* {employeeList[0].ID} */}
+
           {isAssignRoomModalOpen && (
             <Modal
               onRequestClose={toggleAssignRoomModal}
@@ -582,9 +521,7 @@ const SupervisorHome = ({ navigation }) => {
                           <View
                             style={{
                               flexGrow: 1,
-                              // alignSelf: "center",
-                              // flexDirection: "row",
-                              // // flexWrap: "wrap",
+
                               gap: 12,
                               paddingHorizontal: 26,
                               paddingVertical: 10,
@@ -603,10 +540,6 @@ const SupervisorHome = ({ navigation }) => {
                                 <Checkbox
                                   value={selectedRooms.includes(room.ID)}
                                   onValueChange={() => {
-                                    console.log(
-                                      "Checkbox clicked for room ID:",
-                                      room.ID,
-                                    );
                                     handleCheckboxChange(room.ID);
                                   }}
                                   color={
@@ -624,7 +557,9 @@ const SupervisorHome = ({ navigation }) => {
                         )}
                       </View>
                       <View style={{ gap: 6 }}>
-                        <Typography variant="xs-medium">Assign Staff</Typography>
+                        <Typography variant="xs-medium">
+                          Assign Staff
+                        </Typography>
                         <SelectList
                           setSelected={(key) => setAssignedEmployee(key)}
                           data={employeeList}
@@ -643,16 +578,14 @@ const SupervisorHome = ({ navigation }) => {
                           }}
                           dropdownItemStyles={{
                             backgroundColor: "white",
-                            // zIndex: 999,
                           }}
                           dropdownTextStyles={{
-                            // zIndex: 999,
                             backgroundColor: "white",
                           }}
                         />
                       </View>
                     </View>
-                    <View style={{ paddingTop: 24, paddingBottom: 50}}>
+                    <View style={{ paddingTop: 24, paddingBottom: 50 }}>
                       <Button
                         name="Assign"
                         type="primary"

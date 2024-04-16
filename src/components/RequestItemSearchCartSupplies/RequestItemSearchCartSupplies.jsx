@@ -45,8 +45,6 @@ const RequestItemSearchCartSupplies = ({
   const [requestedItemsCart, setRequestedItemsCart] = useState(
     requestedItemsCartSuppliesStore,
   );
-  // console.log("items:");
-  // console.log(items);
 
   const [isRequestAddToCartModalOpen, setIsRequestAddToCartModalOpen] =
     useState(false);
@@ -66,16 +64,13 @@ const RequestItemSearchCartSupplies = ({
   };
 
   const handleIncrement = () => {
-    console.log("handleIncrement");
     setCount(count + 1);
   };
   const handleDecrement = () => {
-    console.log("handleDecrement");
     setCount(count - 1);
   };
 
   const toggleRequestAddToCartModal = () => {
-    console.log(isRequestAddToCartModalOpen);
     setIsRequestAddToCartModalOpen(!isRequestAddToCartModalOpen);
   };
 
@@ -96,17 +91,12 @@ const RequestItemSearchCartSupplies = ({
   };
 
   const onOrderPressed = () => {
-    console.log("onOrderPressed");
     updateRequestedItemsCartSuppliesStore(requestedItemsCart);
-    // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
+
     navigation.goBack();
   };
 
   const onRequestAddToCartModalSubmitPressed = () => {
-    // console.log("selectedItem");
-    // console.log(selectedItem);
-    // console.log("roomDetails");
-    // console.log(roomDetails);
     const requestedItem = {
       RequestedItemID: selectedItem.ID,
       ImageUrl: selectedItem.ImageUrl,
@@ -115,10 +105,6 @@ const RequestItemSearchCartSupplies = ({
       assignedRoomID: roomDetails.ID,
       Note: modalNoteText,
     };
-
-    console.log("RequestItemSearch");
-    console.log(requestedItem);
-    console.log(requestedItemsCart);
 
     setRequestedItemsCart((currentItems) => {
       const itemIndex = currentItems.findIndex(
@@ -141,9 +127,6 @@ const RequestItemSearchCartSupplies = ({
       requestedItem,
     );
 
-    console.log("requestedItemsCart");
-    console.log(requestedItemsCart);
-    console.log(tempRequestedItemsCart);
     updateRequestedItemsCartSuppliesStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
@@ -183,34 +166,6 @@ const RequestItemSearchCartSupplies = ({
 
   return (
     <View style={styles.container}>
-      {/* <Button
-        title="test"
-        onPress={() => {
-          console.log(requestedItems);
-        }}
-      ></Button> */}
-      {/* <View style={styles.searchBoxContainer}>
-        <Typography variant="xs-regular">Search</Typography>
-        <View>
-          <View
-            style={{
-              position: "absolute",
-              top: 18,
-              left: 10,
-            }}
-          >
-            <SearchIcon />
-          </View>
-
-          <TextInput
-            style={[styles.requestItemSearchInput]}
-            placeholder="Search"
-            onFocus={() => onFocusSearchInput()}
-            // onBlur={() =>  onBlurSearchInput()}
-          />
-        </View>
-      </View> */}
-
       <Modal
         visible={isRequestAddToCartModalOpen}
         onRequestClose={toggleRequestAddToCartModal}
@@ -323,8 +278,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     gap: 6,
     alignItems: "center",
-    // margin: 10,
-    // height: 100,
   },
   requestItemSearchInput: {
     borderWidth: 1,
@@ -341,9 +294,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 6,
   },
-  // listItemsContainer: {
-  //   marginBottom: 60,
-  // },
+
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
@@ -365,16 +316,7 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingTop: 10,
   },
-  // requestAddToCartModalContainer: {
-  //   width: 240,
-  //   backgroundColor: "white",
-  //   padding: 20,
-  //   borderRadius: 10,
-  //   alignItems: "center",
-  //   rowGap: 32,
-  //   paddingTop: 0,
-  //   top: -26,
-  // },
+
   requestAddToCartModalHeaderText: {
     fontSize: 18,
     fontWeight: "bold",

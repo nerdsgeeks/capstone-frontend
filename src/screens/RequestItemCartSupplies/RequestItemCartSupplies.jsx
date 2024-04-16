@@ -59,7 +59,6 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
   };
 
   const clearSearch = () => {
-    console.log("clearSearch");
     setSearchQuery("");
   };
 
@@ -72,8 +71,6 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
 
   const items = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
-  // console.log("items");
-  // console.log(items);
 
   const requestedItemsCartSuppliesStore = useRequestCartSuppliesStore(
     (state) => state.requestedItemsCartSuppliesStore,
@@ -87,38 +84,7 @@ const RequestItemCartSupplies = ({ route, navigation }) => {
     (state) => state.updateBaseScreenStore,
   );
 
-  // console.log("baseScreenStore Supplies");
-  // console.log(baseScreenStore);
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: route.params.screenTitle || "Welcome",
-  //     headerRight: () => (
-  //       <TouchableOpacity onPress={onCartIconPressed} style={{}}>
-  //         <CartIcon stroke="#000000"></CartIcon>
-  //         <View
-  //           style={{
-  //             position: "absolute",
-  //             backgroundColor: "#FECE8C",
-  //             height: 24,
-  //             width: 24,
-  //             borderRadius: 12,
-  //             justifyContent: "center",
-  //             alignItems: "center",
-  //             left: 14,
-  //             bottom: 10,
-  //           }}
-  //         >
-  //           <Typography variant="xs-regular">
-  //             {requestedItemsCartSuppliesStore.length}
-  //           </Typography>
-  //         </View>
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation, requestedItemsCartSuppliesStore]);
-
   useEffect(() => {
-    console.log(route.params.screenTitle);
     switch (route.params.screenTitle.toUpperCase()) {
       case "Room Supplies".toUpperCase():
         const filteredItemsRoom = items.filter(
@@ -262,10 +228,7 @@ const styles = StyleSheet.create({
     paddingVertical: 22,
     paddingTop: 7,
   },
-  // searchBoxContainer: {
-  //   alignSelf: "flex-start",
-  //   marginLeft: 100,
-  // },
+
   searchBoxContainer: {
     paddingHorizontal: 26,
     paddingTop: 12,

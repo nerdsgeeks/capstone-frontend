@@ -15,7 +15,7 @@ const SupervisorRequest = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [isItemDetailModalOpen, setIsItemDetailModalOpen] = useState(false);
   const [selectedItemDetail, setSelectedItemDetail] = useState(null);
-  console.log(selectedItemDetail)
+
   const [isHelpDetailModalOpen, setIsHelpDetailModalOpen] = useState(false);
   const [selectedHelpDetail, setSelectedHelpDetail] = useState(null);
 
@@ -24,7 +24,6 @@ const SupervisorRequest = ({ navigation }) => {
   };
 
   const pressedIcon = () => {
-    console.log("Pressed Icon");
     navigation.navigate("SupervisorRequestHistory");
   };
 
@@ -34,7 +33,6 @@ const SupervisorRequest = ({ navigation }) => {
   };
 
   const openHelpDetailModal = (request) => {
-    console.log(request);
     setSelectedHelpDetail(request);
     setIsHelpDetailModalOpen(true);
   };
@@ -67,7 +65,7 @@ const SupervisorRequest = ({ navigation }) => {
           </SafeAreaView>
         </LinearGradient>
         <View style={styles.tabContainer}>
-          <View style={{ width: "100%", gap: 24}}>
+          <View style={{ width: "100%", gap: 24 }}>
             <NavTabs
               tabs={[{ label: "Supplies" }, { label: "Help" }]}
               activeTab={activeTab}

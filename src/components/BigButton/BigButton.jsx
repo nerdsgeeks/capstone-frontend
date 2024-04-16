@@ -15,12 +15,12 @@ const BigButton = ({
   name,
   icon,
   text,
-  variantTitle= "title-medium",
+  variantTitle = "title-medium",
   variantText = "h4-medium",
   onPress,
   disabled = false,
   width = windowWidth / 2 - 39,
-  // height = 120,
+
   ...props
 }) => {
   const shadowStyle = !disabled
@@ -35,11 +35,11 @@ const BigButton = ({
       style={[styles.touchableOpacity, { width: width }, shadowStyle]}
       disabled={disabled}
     >
-      <View style={{ flexDirection: "row"}}>
+      <View style={{ flexDirection: "row" }}>
         <View
           style={[
             disabled ? styles.buttonContainer : styles.disabledStyle,
-            { flexGrow: 1},
+            { flexGrow: 1 },
           ]}
         >
           <Typography variant={variantTitle}>{name}</Typography>
@@ -50,14 +50,15 @@ const BigButton = ({
               justifyContent: "space-between",
               alignItems: "flex-end",
               width: "100%",
-              // backgroundColor: "hotpink",
             }}
           >
-            {icon ? <View style={{ flexDirection: "row"}}>{icon}</View> : <View style={{ width: 40, height: 28 }}></View>}
+            {icon ? (
+              <View style={{ flexDirection: "row" }}>{icon}</View>
+            ) : (
+              <View style={{ width: 40, height: 28 }}></View>
+            )}
             {text ? (
-              <Typography variant={variantText} >
-                {text}
-              </Typography>
+              <Typography variant={variantText}>{text}</Typography>
             ) : (
               <View style={{ width: 30, height: 28 }}></View>
             )}
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderRadius: 20,
     alignItems: "flex-start",
-    // height: 80,
   },
   buttonContainer: {
     flexDirection: "column",
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     gap: 26,
   },
   disabledStyle: {
-    // width: "100%",
     flexDirection: "column",
     gap: 26,
     alignItems: "flex-start",
@@ -110,16 +109,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5, // For Android
   },
-  // shadowAndroid: {
-  //   elevation: 5, // For Android
-  //   shadowColor: "#000",
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 3,
-  //   },
-  //   shadowOpacity: 0.27,
-  //   shadowRadius: 4.65,
-  // },
 });
 
 export default BigButton;

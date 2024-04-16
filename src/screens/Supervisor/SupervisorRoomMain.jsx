@@ -39,24 +39,6 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  // useEffect(() => {
-  //   fetchRooms().then((data) => {
-  //     const localDate = new Date();
-  //     const today =
-  //       localDate.getFullYear() +
-  //       "-" +
-  //       String(localDate.getMonth() + 1).padStart(2, "0") +
-  //       "-" +
-  //       String(localDate.getDate()).padStart(2, "0");
-  //     const filteredRooms = data.filter(
-  //       (room) =>
-  //         room.assignedDateTime && room.assignedDateTime.startsWith(today),
-  //     );
-  //     setRooms(filteredRooms);
-  //     setDisplayRoomAfterFilter(filteredRooms);
-  //   });
-  // }, []);
-
   useFocusEffect(
     React.useCallback(() => {
       fetchRooms().then((data) => {
@@ -113,7 +95,6 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
       );
     }
 
-    console.log("activeTab", activeTab);
     displayFilterWithTabPress(activeTab, filteredRooms);
     setActiveChip(status);
   };
@@ -135,15 +116,13 @@ const SupervisorRoomMain = ({ onPressRoomDetail }) => {
 
   const displayFilterWithTabPress = (index, rooms) => {
     compareValue = tabs[index].label;
-    console.log(compareValue);
+
     let statusRooms = [];
 
     if (compareValue === "Pending") {
       statusRooms = rooms.filter((room) => room.cleaningStatus === "To Do");
     } else if (compareValue === "Cleaned") {
-      console.log("Cleaned");
       statusRooms = rooms.filter((room) => room.cleaningStatus === "Cleaned");
-      console.log("statusRooms", statusRooms);
     } else if (compareValue === "Approved") {
       statusRooms = rooms.filter((room) => room.cleaningStatus === "Approved");
     }
@@ -326,7 +305,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyContainer: {
-    flex:1, 
+    flex: 1,
     paddingTop: 32,
     gap: 16,
     borderTopLeftRadius: 30,

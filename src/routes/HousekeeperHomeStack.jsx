@@ -36,17 +36,6 @@ const HousekeeperHomeStack = () => {
         name="RequestItemSupplies"
         component={RequestItemSupplies}
         options={{ title: "", headerShown: false }}
-        // options={({ route }) => ({
-        //   title: route.params.screenTitle || "Welcome",
-        //   headerRight: () => (
-        //     <TouchableOpacity
-        //       onPress={() => alert("This is a button!")}
-        //       style={{}}
-        //     >
-        //       <CartIcon stroke="#000000"></CartIcon>
-        //     </TouchableOpacity>
-        //   ),
-        // })}
       />
 
       <Stack.Screen

@@ -50,7 +50,7 @@ const RequestItemContainer = ({ openItemDetailModal }) => {
 
   const toggleOnApprovalModal = () => {
     setIsOnApprovalModalOpen(!isOnApprovalModalOpen);
-  }
+  };
 
   const handleConfirm = () => {
     // Check if a request is selected
@@ -58,7 +58,7 @@ const RequestItemContainer = ({ openItemDetailModal }) => {
       // Check if the selected request is approved
       if (selectedRequest) {
         // If approved, call the acceptRequestItem function
-        console.log(updatedRequestItems);
+
         acceptRequestItem(baseUrl, updatedRequestItems, accessTokenStore)
           .then(() => {
             // Clear the updated request items and perform additional logic after approval
@@ -89,7 +89,6 @@ const RequestItemContainer = ({ openItemDetailModal }) => {
   };
 
   const updateRequestCompletion = (updatedRequest) => {
-    console.log(employeeDetailsStore.userId);
     const updatedItem = {
       requestItemId: updatedRequest.ID,
       assignedRoomID: updatedRequest.assignedRoomID,
@@ -137,19 +136,22 @@ const RequestItemContainer = ({ openItemDetailModal }) => {
         onCancel={handleCancel}
         onConfirm={handleConfirm}
       />
-      <OnApprovalModal isOnApprovalModalOpen={isOnApprovalModalOpen} toggleOnApprovalModal={toggleOnApprovalModal}/>
+      <OnApprovalModal
+        isOnApprovalModalOpen={isOnApprovalModalOpen}
+        toggleOnApprovalModal={toggleOnApprovalModal}
+      />
       <View style={styles.buttonStyles}>
         <Button
           name="Approve"
           onPress={() => onPressApprove()}
           type="primary"
-          style={{ width: "40%"}}
+          style={{ width: "40%" }}
         />
         <Button
           name="Decline"
           onPress={() => onPressDecline()}
           type="secondary"
-          style={{ width: "40%"}}
+          style={{ width: "40%" }}
         />
       </View>
     </View>

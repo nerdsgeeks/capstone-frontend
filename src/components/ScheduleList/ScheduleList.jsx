@@ -3,8 +3,6 @@ import { colors } from "../../../themes/themes";
 import { View, FlatList } from "react-native";
 
 const ScheduleList = ({ data }) => {
-  console.log("data");
-  console.log(data);
   const Item = ({ item }) => (
     <View
       style={{

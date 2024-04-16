@@ -28,8 +28,6 @@ const SearchInput = ({}) => {
           multiline
           style={[styles.requestItemSearchInput]}
           placeholder="Search"
-          // onFocus={() => setIsRequestHelpModalTextFocused(true)}
-          // onBlur={() => setIsRequestHelpModalTextFocused(false)}
         />
       </View>
     </View>

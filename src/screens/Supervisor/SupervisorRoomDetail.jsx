@@ -51,7 +51,6 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
       RoomTier: room.RoomTier,
     };
 
-    console.log(updateRoomItem);
     const apiUrl = baseUrl + "/api/rooms/updateroom";
     const config = {
       headers: {
@@ -86,116 +85,120 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
 
   const image = employeeDetailsStore.imageURL;
   const employeeName = `${employeeDetailsStore.firstName} ${employeeDetailsStore.lastName}`;
-  console.log("employeeDetailsStore ere ahsdnas", employeeDetailsStore)
 
   return (
     <SafeAreaProvider>
-        <View style={{ gap: 24, flex: 1 }}>
-          <RoomDetailHeader
-            room={room}
-            taskStatus="pending"
-            navigation={navigation}
-          />
+      <View style={{ gap: 24, flex: 1 }}>
+        <RoomDetailHeader
+          room={room}
+          taskStatus="pending"
+          navigation={navigation}
+        />
 
-          <RoomDetailInfo reservation={room} room={room} />
-          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginHorizontal: 26,
-                gap: 6,
-              }}
-            >
-              {image && (
-                <Image
-                style={{ borderRadius: 40, width: 50, height: 50 }}
-                source={{
-                  uri: image
-                }}
-              />)}
-            
-              <View>
-                {employeeName && (
-                  <Typography variant="body-regular">
-                  {employeeName}
-                </Typography>)}
-            
-              </View>
-            </View>
-            {room.isHelperRequested && (
-              <View style={{ marginHorizontal: 26}}>
-                <TextChip
-                  text="Help Requested"
-                  backgroundColor={colors.pale_teal1}
-                  paddingVertical={12.5}
-                  paddingHorizontal={16}
-                  // style={{ marginHorizontal: 25 }}
-                />
-              </View>
-            )}
-          </View>
-
+        <RoomDetailInfo reservation={room} room={room} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
-              flexGrow: 1,
-              alignItems: "flex-end",
-              justifyContent: "space-between",
+              alignItems: "center",
               marginHorizontal: 26,
+              gap: 6,
             }}
           >
-            <BigButton
-              name="Update Rooms"
-              icon={<BedIcon w="40" h="28" fill={colors.main} />}
-              onPress={toggleModal}
-            />
-            <BigButton
-              name="Inspect"
-              disabled={room.cleaningStatus === "Cleaned" ? false : true}
-              icon={
-                room.cleaningStatus === "Cleaned" ? (
-                  <CheckIcon w="30" h="30" stroke={colors.orange} />
-                ) : (
-                  <CheckIcon w="30" h="30" stroke={colors.n30} />
-                )
-              }
-              onPress={onPressInspection}
-            />
-            <Modal
-              visible={isModalOpen}
-              onRequestClose={toggleModal}
-              animationType="fade"
-              transparent={true}
-            >
-              <View style={styles.overlay}>
-                <View style={styles.modalView}>
-                  <CloseIcon onPress={toggleModal} />
-                  <Typography variant="h5-black">Update Room Status</Typography>
-                  <Typography variant="title-regular">
-                    Room {room.RoomName}
-                  </Typography>
-                  <View style={{ marginTop: 45, gap: 16 }}>
-                    <View style={{ gap: 6 }}>
-                      <Typography variant="xs-medium">Room Status</Typography>
-                      <SelectList
-                        setSelected={(val) => setSelectedStatus(val)}
-                        data={roomStatus}
-                        save="value"
-                      />
-                    </View>
+            {image && (
+              <Image
+                style={{ borderRadius: 40, width: 50, height: 50 }}
+                source={{
+                  uri: image,
+                }}
+              />
+            )}
 
-                    <Button
-                      name="Assign"
-                      type="primary"
-                      onPress={updateRoomStatus}
+            <View>
+              {employeeName && (
+                <Typography variant="body-regular">{employeeName}</Typography>
+              )}
+            </View>
+          </View>
+          {room.isHelperRequested && (
+            <View style={{ marginHorizontal: 26 }}>
+              <TextChip
+                text="Help Requested"
+                backgroundColor={colors.pale_teal1}
+                paddingVertical={12.5}
+                paddingHorizontal={16}
+                // style={{ marginHorizontal: 25 }}
+              />
+            </View>
+          )}
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            flexGrow: 1,
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            marginHorizontal: 26,
+          }}
+        >
+          <BigButton
+            name="Update Rooms"
+            icon={<BedIcon w="40" h="28" fill={colors.main} />}
+            onPress={toggleModal}
+          />
+          <BigButton
+            name="Inspect"
+            disabled={room.cleaningStatus === "Cleaned" ? false : true}
+            icon={
+              room.cleaningStatus === "Cleaned" ? (
+                <CheckIcon w="30" h="30" stroke={colors.orange} />
+              ) : (
+                <CheckIcon w="30" h="30" stroke={colors.n30} />
+              )
+            }
+            onPress={onPressInspection}
+          />
+          <Modal
+            visible={isModalOpen}
+            onRequestClose={toggleModal}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.overlay}>
+              <View style={styles.modalView}>
+                <CloseIcon onPress={toggleModal} />
+                <Typography variant="h5-black">Update Room Status</Typography>
+                <Typography variant="title-regular">
+                  Room {room.RoomName}
+                </Typography>
+                <View style={{ marginTop: 45, gap: 16 }}>
+                  <View style={{ gap: 6 }}>
+                    <Typography variant="xs-medium">Room Status</Typography>
+                    <SelectList
+                      setSelected={(val) => setSelectedStatus(val)}
+                      data={roomStatus}
+                      save="value"
                     />
                   </View>
+
+                  <Button
+                    name="Assign"
+                    type="primary"
+                    onPress={updateRoomStatus}
+                  />
                 </View>
               </View>
-            </Modal>
-          </View>
+            </View>
+          </Modal>
         </View>
+      </View>
     </SafeAreaProvider>
   );
 };

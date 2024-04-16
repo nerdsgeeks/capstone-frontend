@@ -42,7 +42,6 @@ import NewCartIconOutline from "../../SVG/NewCartIconOutline";
 import LoadingScreen from "../LoadingScreen";
 
 const RoomDetail = ({ route, navigation }) => {
-  // const { roomDetails } = route.params;
   const roomDetailsStore = useRoomDetailsStore(
     (state) => state.roomDetailsStore,
   );
@@ -50,10 +49,8 @@ const RoomDetail = ({ route, navigation }) => {
     (state) => state.updateRoomDetailsStore,
   );
   const { items } = route.params;
-  // const { navigation } = route.params;
+
   const baseUrl = useBaseUrl();
-  console.log("roomDetailsStore");
-  console.log(roomDetailsStore);
 
   const [showStart, setShowStart] = useState(true);
   const [showPause, setShowPause] = useState(false);
@@ -139,8 +136,6 @@ const RoomDetail = ({ route, navigation }) => {
   const roomsStore = useRoomsStore((state) => state.roomsStore);
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
 
-  // const [modalNoteText, setModalNoteText] = useState("");
-
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
   );
@@ -155,20 +150,7 @@ const RoomDetail = ({ route, navigation }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  // const handlemodalNoteTextChange = (text) => {
-  //   setModalNoteText(text);
-  // };
-
-  // const updateSelectedItemWithNote = () => {
-  //   const updatedRoomDetails = {
-  //     ...roomDetailsStore,
-  //     helperRequestedAdditionalNotes: modalNoteText,
-  //   };
-  //   updateRoomDetailsStore(updatedRoomDetails);
-  // };
-
   const toggleRequestHelpModal = () => {
-    console.log(isRequestHelpModalOpen);
     setRequestHelpModalState(!isRequestHelpModalOpen);
   };
 
@@ -191,7 +173,6 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   const onHelpPressed = () => {
-    console.log("Helped pressed");
     toggleRequestHelpModal();
   };
 
@@ -200,15 +181,10 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   const onStartPressed = () => {
-    console.log("Start pressed");
-    console.log(roomDetailsStore);
-
     if (firstTimeStart) {
       roomDetailsStore.startTime = new Date().toISOString();
       roomDetailsStore.cleaningStatus = "In Progress";
       updateRoomDetailsStore(roomDetailsStore);
-      console.log("firstTimeStart");
-      console.log(roomDetailsStore);
     }
 
     setShowStart(false);
@@ -221,17 +197,13 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   const onPausePressed = () => {
-    console.log("Pause pressed");
     setShowStart(true);
     setShowPause(false);
     setIsTimerRunning(false);
     setDoneDisabled(false);
-    console.log("onPausePressed");
-    console.log(roomDetailsStore);
+
     roomDetailsStore.endTime = new Date().toISOString();
     updateRoomDetailsStore(roomDetailsStore);
-    console.log("endTime");
-    console.log(roomDetailsStore);
   };
 
   const onDonePressed = () => {
@@ -239,8 +211,6 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   const onRequestHelpModalSubmitPressed = () => {
-    console.log("RequestHelpModalSubmitPressed");
-
     const tempAssignedRoomObject = {
       ID: roomDetailsStore.ID,
       roomID: roomDetailsStore.roomID,
@@ -269,7 +239,7 @@ const RoomDetail = ({ route, navigation }) => {
 
   const onUpdateAssignedRoom = (tempAssignedRoom) => {
     const apiUrl = baseUrl + "/api/assignedrooms/updateAssignedRoom";
-    console.log(apiUrl);
+
     const config = {
       headers: {
         Authorization: `Bearer ${accessTokenStore}`,
@@ -279,8 +249,6 @@ const RoomDetail = ({ route, navigation }) => {
       .put(apiUrl, tempAssignedRoom, config)
       .then((response) => {
         const data = response.data;
-        // console.log("onUpdateAssignedRoom");
-        // console.log(roomDetailsStore);
 
         const updatedRoomDetails = {
           ...roomDetailsStore,
@@ -288,8 +256,6 @@ const RoomDetail = ({ route, navigation }) => {
           isHelperRequested: true,
         };
 
-        // console.log("updatedRoomDetails");
-        // console.log(updatedRoomDetails);
         let tempRoomStore = roomsStore;
         // Find the index of the room in the array
         const index = tempRoomStore.findIndex(
@@ -308,8 +274,6 @@ const RoomDetail = ({ route, navigation }) => {
         }
 
         updateRoomsStore(tempRoomStore);
-        // console.log("roomsStore");
-        // console.log(roomsStore);
 
         updateRoomDetailsStore(updatedRoomDetails);
         setIsHelperRequested(true);
@@ -322,14 +286,9 @@ const RoomDetail = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    // console.log(baseUrl);
-    // console.log("roomDetailsStore");
-    // console.log(roomDetailsStore);
-    console.log("useEffect");
     const apiUrl =
       baseUrl + `/api/requestItems/getRequestItemView/${roomDetailsStore.ID}`;
 
-    console.log(apiUrl);
     const config = {
       headers: {
         Authorization: `Bearer ${accessTokenStore}`,
@@ -350,8 +309,6 @@ const RoomDetail = ({ route, navigation }) => {
             data = dataWithCount;
           }
           setrequestedItems(data);
-          console.log("setrequestedItems");
-          console.log(dataWithCount);
         })
         .catch((error) => {
           console.log(error);
@@ -363,16 +320,6 @@ const RoomDetail = ({ route, navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log("useFocusEffect");
-      // setDoneDisabled(
-      //   roomDetailsStore.cleaningStatus.toUpperCase() ===
-      //     "Cleaned".toUpperCase() ||
-      //     roomDetailsStore.cleaningStatus.toUpperCase() ===
-      //       "Approved".toUpperCase()
-      //     ? true
-      //     : true,
-      // );
-
       if (
         roomDetailsStore.cleaningStatus.toUpperCase() ===
           "Cleaned".toUpperCase() ||
@@ -462,31 +409,6 @@ const RoomDetail = ({ route, navigation }) => {
                           </Typography>
                         </View>
                       ))}
-                      {/* <View>
-                        {!isRequestHelpModalTextFocused && (
-                          <View style={{ position: "absolute", top: 15, left: 10 }}>
-                            <PlusIcon />
-                          </View>
-                        )}
-                        <TextInput
-                          style={[
-                            styles.requestHelpModalInput,
-                            {
-                              padding: isRequestHelpModalTextFocused ? 2 : 10,
-                              paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
-                              height: isRequestHelpModalTextFocused ? 80 : 40,
-                            },
-                          ]}
-                          placeholder="Note"
-                          onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                          onBlur={() => {
-                            setIsRequestHelpModalTextFocused(false);
-                            updateSelectedItemWithNote();
-                          }}
-                          onChangeText={handlemodalNoteTextChange} // Update state on text change
-                          value={modalNoteText}
-                        />
-                      </View> */}
                     </View>
                     <Button
                       type="primary"
@@ -646,25 +568,19 @@ const RoomDetail = ({ route, navigation }) => {
 export default RoomDetail;
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   flexDirection: "column",
-
-  // },
   mainAndButtonContainer: {
     flex: 1,
     flexDirection: "column",
   },
   bottomContainer: {
     gap: 12,
-    // paddingVertical: 10,
+
     marginHorizontal: 26,
   },
   bottomTextContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // paddingHorizontal: 20,
   },
   bottomButtonsContainer: {
     flexDirection: "row",
@@ -775,9 +691,7 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 12,
   },
-  // requestHelpModalNoteLabel: {
-  //   fontSize: 14,
-  // },
+
   requestHelpModalInput: {
     borderWidth: 1,
     borderColor: "grey",

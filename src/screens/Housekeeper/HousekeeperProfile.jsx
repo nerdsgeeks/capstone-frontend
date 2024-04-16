@@ -77,15 +77,6 @@ const HousekeeperProfile = ({ navigation }) => {
     onFetchAssignedRooms();
   }, []);
 
-  // const filteredRooms = rooms.filter((room) => {
-  //   return (
-  //     room.assignedEmployeeID === employeeDetailsStore.userId &&
-  //     room.cleaningStatus === "Approved"
-  //   );
-  // });
-
-  // console.log("roooOooOOMS: ", filteredRooms)
-
   const totalMilliseconds = rooms.reduce((acc, room) => {
     const durationMilliseconds =
       new Date(room.cleaningDuration).getTime() -
@@ -249,11 +240,7 @@ const styles = StyleSheet.create({
     columnGap: 10,
     alignSelf: "flex-start",
   },
-  // profilePicAndNameContainer: {
 
-  //   alignItems: "flex-start",
-
-  // },
   profilePic: {
     width: 140,
     height: 140,

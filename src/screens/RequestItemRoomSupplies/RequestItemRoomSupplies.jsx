@@ -57,7 +57,6 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
   };
 
   const clearSearch = () => {
-    console.log("clearSearch");
     setSearchQuery("");
   };
 
@@ -70,8 +69,6 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
 
   const items = useItemsStore((state) => state.itemsStore);
   const updateItemsStore = useItemsStore((state) => state.updateItemsStore);
-  // console.log("items");
-  // console.log(items);
 
   const requestedItemsCartRoomSuppliesStore = useRequestCartRoomSuppliesStore(
     (state) => state.requestedItemsCartRoomSuppliesStore,
@@ -82,60 +79,7 @@ const RequestItemRoomSupplies = ({ route, navigation }) => {
     (state) => state.updateBaseScreenStore,
   );
 
-  // console.log("baseScreenStore Supplies");
-  // console.log(baseScreenStore);
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerTitle: () => (
-  //       <Typography variant="h4-medium">
-  //         {route.params.screenTitle}
-  //       </Typography>
-  //     ),
-  //     headerStyle: {
-  //       verticalPadding: 80, // Height of the header
-  //       borderBottomLeftRadius: 60, // Border radius for bottom left corner
-  //       borderBottomRightRadius: 60, // Border radius for bottom right corner
-  //       overflow: 'hidden', // Ensure the gradient doesn't overflow
-  //     },
-  //     headerBackground: () => (
-  //       <View style={{ flex:1, borderTopLeftRadius: 50 }}>
-  //         <LinearGradient
-  //           colors={["#F89C7B", "#FFD9A5", "#FEDEB3", "#F9F9F9"]}
-  //           start={{ x: 0.0, y: 0.0 }}
-  //           end={{ x: 1.0, y: 1.0 }}
-  //           locations={[0.01, 0.7, 0.92, 1.0]}
-  //           style={{ flex: 1,  }}
-  //         />
-  //       </View>
-  //     ),
-  //     headerLeft: () => <BackIcon />,
-  //     headerRight: () => (
-  //       <TouchableOpacity onPress={onCartIconPressed} style={{}}>
-  //         <CartIcon stroke="#000000"></CartIcon>
-  //         <View
-  //           style={{
-  //             position: "absolute",
-  //             backgroundColor: "#FECE8C",
-  //             height: 24,
-  //             width: 24,
-  //             borderRadius: 12,
-  //             justifyContent: "center",
-  //             alignItems: "center",
-  //             left: 14,
-  //             bottom: 10,
-  //           }}
-  //         >
-  //           <Typography variant="xs-regular">
-  //             {requestedItemsCartRoomSuppliesStore.length}
-  //           </Typography>
-  //         </View>
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation, requestedItemsCartRoomSuppliesStore]);
-
   useEffect(() => {
-    console.log(route.params.screenTitle);
     switch (route.params.screenTitle.toUpperCase()) {
       case "Room Supplies".toUpperCase():
         const filteredItemsRoom = items.filter(
@@ -299,8 +243,4 @@ const styles = StyleSheet.create({
     paddingLeft: 36,
     height: 44,
   },
-  // searchBoxContainer: {
-  //   alignSelf: "flex-start",
-  //   marginLeft: 100,
-  // },
 });

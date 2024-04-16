@@ -45,25 +45,8 @@ const HousekeeperRequest = ({ navigation }) => {
   const updateEmployeeDetailsStore = useEmployeeDetailsStore(
     (state) => state.updateEmployeeDetailsStore,
   );
-  // const pendingItems = [
-  //   { id: "1", itemName: "Toilet Paper", date: "2024-03-01" },
-  //   { id: "2", itemName: "Small Towel", date: "2024-03-05" },
-  //   { id: "3", itemName: "Large Towel", date: "2024-03-10" },
-  //   { id: "4", itemName: "Toilet Paper", date: "2024-03-15" },
-  //   { id: "5", itemName: "Small Towel", date: "2024-03-20" },
-  //   { id: "6", itemName: "Large Towel", date: "2024-03-20" },
-  // ];
 
-  // const historyItems = [
-  //   { id: "1", itemName: "Mopping Set", date: "2024-03-01" },
-  //   { id: "2", itemName: "Squeegee", date: "2024-03-05" },
-  //   { id: "3", itemName: "Sponge", date: "2024-03-10" },
-  //   { id: "4", itemName: "Mopping Set", date: "2024-03-15" },
-  //   { id: "5", itemName: "Squeegee", date: "2024-03-20" },
-  //   { id: "6", itemName: "Sponge", date: "2024-03-20" },
-  // ];
   const onRoomSuppliesPressed = () => {
-    // console.log("onRoomSuppliesPressed");
     navigation.navigate("RequestItemRoomSupplies", {
       roomDetails: [],
       items: [],
@@ -72,7 +55,6 @@ const HousekeeperRequest = ({ navigation }) => {
   };
 
   const onCartSuppliesPressed = () => {
-    console.log("onCartSuppliesPressed");
     navigation.navigate("RequestItemCartSupplies", {
       roomDetails: [],
       items: [],
@@ -135,57 +117,12 @@ const HousekeeperRequest = ({ navigation }) => {
     </View>
   );
 
-  // useEffect(() => {
-  //   updateBaseScreenStore("HousekeeperRequest");
-
-  //   const apiUrl = baseUrl + `/api/requestItems/all`;
-
-  //   console.log(apiUrl);
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${accessTokenStore}`,
-  //     },
-  //   };
-  //   const onFetchRequestItemsViewAll = () =>
-  //     axios
-  //       .get(apiUrl, config)
-  //       .then((response) => {
-  //         let data = response.data;
-  //         let tempPendingItems = [];
-  //         let tempHistoryItems = [];
-  //         if (data.length > 0) {
-  //           data.forEach((item) => {
-  //             if (item.isCompleted) {
-  //               tempHistoryItems.push(item);
-  //             } else {
-  //               tempPendingItems.push(item);
-  //             }
-  //           });
-  //         }
-
-  //         // console.log("data");
-  //         // console.log(data);
-  //         // console.log(tempPendingItems);
-  //         // console.log(tempPendingItems);
-  //         setItems(tempPendingItems);
-  //         setPendingItems(tempPendingItems);
-  //         setHistoryItems(tempHistoryItems);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-
-  //   onFetchRequestItemsViewAll();
-  // }, []);
-
   useFocusEffect(
     React.useCallback(() => {
-      console.log("back Housekeeper request");
       updateBaseScreenStore("HousekeeperRequest");
 
       const apiUrl = baseUrl + `/api/requestItems/all`;
 
-      console.log(apiUrl);
       const config = {
         headers: {
           Authorization: `Bearer ${accessTokenStore}`,
@@ -208,10 +145,6 @@ const HousekeeperRequest = ({ navigation }) => {
               });
             }
 
-            // console.log("data");
-            // console.log(data);
-            // console.log(tempPendingItems);
-            // console.log(tempPendingItems);
             setItems(tempPendingItems);
             setPendingItems(tempPendingItems);
             setHistoryItems(tempHistoryItems);
@@ -235,10 +168,6 @@ const HousekeeperRequest = ({ navigation }) => {
       String(localDate.getMonth() + 1).padStart(2, "0") +
       " " +
       String(localDate.getDate()).padStart(2, "0");
-    console.log(localDate);
-
-    console.log("today");
-    console.log(today);
 
     // Parse the input string into a Date object (assuming YYYY MM DD format)
     const date = parse(today, "yyyy MM dd", new Date());
