@@ -165,7 +165,7 @@ const RoomDetail = ({ route, navigation }) => {
   const reservation = {
     roomId: roomDetailsStore.RoomName,
     CheckinDate: roomDetailsStore.CheckinDate,
-    CheckoutDate: roomDetailsStore.CheckinDate,
+    CheckoutDate: roomDetailsStore.CheckoutDate,
     guestName: roomDetailsStore.guestName,
     noOfGuest: roomDetailsStore.noOfGuest,
     additionalNotes: roomDetailsStore.AdditionalNotes,
