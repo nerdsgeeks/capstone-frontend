@@ -72,7 +72,8 @@ const Gallery = ({ images }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 100,
   },
   bigImage: {
     alignSelf: "center",

@@ -16,6 +16,7 @@ import {
   useAccessTokenStore,
   useEmployeeDetailsStore,
 } from "../../store/employeeStore";
+import BackIcon from "../../SVG/BackIcon";
 
 const InspectionReview = ({ route, navigation }) => {
   const [rating, setRating] = useState(0);
@@ -114,6 +115,9 @@ const InspectionReview = ({ route, navigation }) => {
             gap: 24,
           }}
         >
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ alignSelf: "flex-start"}}>
+            <BackIcon w="30" h="30" />
+          </TouchableOpacity>
           <Typography variant="h5-black">Inspection Review</Typography>
           <Gallery images={images} />
           <View style={styles.starsContainer}>{renderStars(rating)}</View>
