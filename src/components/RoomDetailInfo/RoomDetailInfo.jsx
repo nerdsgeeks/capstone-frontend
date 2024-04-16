@@ -103,12 +103,25 @@ const RoomDetailInfo = ({ reservation, room }) => {
             borderRadius: 8,
           }}
         >
-          <Typography variant="small-medium">Requests:</Typography>
-          <Typography variant="small-regular">
+          <Typography variant="body-medium">Requests:</Typography>
+          <Typography variant="body-regular">
             {"\u2022"} {reservation.additionalNotes}
           </Typography>
         </View>
-      ) : null}
+      ) : <View
+      style={{
+        flexDirection: "column",
+        gap: 10,
+        padding: 16,
+        backgroundColor: colors.pale_teal2,
+        borderRadius: 8,
+      }}
+    >
+      <Typography variant="body-medium">Requests:</Typography>
+      <Typography variant="body-regular">
+        {"\u2022"} {reservation.AdditionalNotes}
+      </Typography>
+    </View>}
     </View>
   );
 };
