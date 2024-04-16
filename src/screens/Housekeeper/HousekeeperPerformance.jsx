@@ -36,14 +36,13 @@ const HousekeeperPerformance = ({ navigation }) => {
 
   useEffect(() => {
     const apiUrl = baseUrl + "/api/assignedrooms/all";
-    console.log(employeeDetailsStore);
+
     const config = {
       headers: {
         Authorization: `Bearer ${accessTokenStore}`,
       },
     };
 
-    console.log(apiUrl);
     const onFetchAssignedRooms = () =>
       axios
         .get(apiUrl, config)
@@ -53,10 +52,9 @@ const HousekeeperPerformance = ({ navigation }) => {
             (assignedRoom) =>
               assignedRoom.assignedEmployeeID === employeeDetailsStore.userId &&
               assignedRoom.cleaningStatus === "Approved" &&
-              assignedRoom.rating !== 0
+              assignedRoom.rating !== 0,
           );
-          console.log("filteredData");
-          console.log(filteredData);
+
           setFeedbackCount(filteredData.length);
           setAssignedRooms(filteredData.reverse());
         })

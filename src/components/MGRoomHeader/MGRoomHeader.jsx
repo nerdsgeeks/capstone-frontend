@@ -28,25 +28,24 @@ const MGRoomHeader = ({ name, message, image }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  console.log("employeeDetailsStore");
-  console.log(employeeDetailsStore);
-
   return (
     <View style={styles.container}>
       {image && (
         <Image
-        source={{
-          uri: `${employeeDetailsStore.imageURL}`,
-        }}
-        style={styles.profilePic}
-      />
+          source={{
+            uri: `${employeeDetailsStore.imageURL}`,
+          }}
+          style={styles.profilePic}
+        />
       )}
-      
+
       <View style={styles.rightContainer}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Typography variant="h4-regular">Hi {employeeDetailsStore.firstName}</Typography>
+          <Typography variant="h4-regular">
+            Hi {employeeDetailsStore.firstName}
+          </Typography>
           <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
-            <CalendarIcon w="19.11" h="22"/>
+            <CalendarIcon w="19.11" h="22" />
             <Typography variant="body-medium">{formattedDate}</Typography>
           </View>
         </View>

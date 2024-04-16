@@ -56,17 +56,12 @@ const RequestItemSuppliesOrder = ({ route, navigation }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  console.log("baseScreenStore");
-  console.log(baseScreenStore);
-
   const onOrderPressed = () => {
-    console.log("onOrderPressed");
     const currentDateTimeStamp = toLocalISODate(
       new Date(),
       "America/Vancouver",
     );
     const apiUrl = baseUrl + "/api/requestItems/addRequestItem";
-    console.log(requestedItemsCartStore);
 
     requestedItemsCartStore.forEach((item, index) => {
       // Your logic here
@@ -90,8 +85,6 @@ const RequestItemSuppliesOrder = ({ route, navigation }) => {
           .post(apiUrl, tempRequestedItem, config)
           .then((response) => {
             const data = response.data;
-            console.log("data");
-            console.log(data);
           })
           .catch((error) => {
             console.log(error);

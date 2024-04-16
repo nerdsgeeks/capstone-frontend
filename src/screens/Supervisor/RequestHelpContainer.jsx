@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import RequestItemHeaderComponent from "../../components/RequestItemHeaderComponent/RequestItemHeaderComponent";
-import { useAccessTokenStore,useEmployeeDetailsStore } from "../../store/employeeStore";
+import {
+  useAccessTokenStore,
+  useEmployeeDetailsStore,
+} from "../../store/employeeStore";
 import { acceptRequestHelp, fetchRooms } from "../Utils/SupervisorApi"; // Corrected backend calls
 import useBaseUrl from "../../hooks/useBaseUrl";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
@@ -17,7 +20,7 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
     useState(false);
   const [selectedRequest, setSelectedRequest] = useState();
   const accessTokenStore = useAccessTokenStore(
-    (state) => state.accessTokenStore
+    (state) => state.accessTokenStore,
   );
   const baseUrl = useBaseUrl();
   const [updated, setUpdated] = useState(false);
@@ -27,8 +30,12 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
   );
 
   useEffect(() => {
-    fetchRooms(baseUrl, accessTokenStore).then((data) => { 
-      const filteredData = data.filter((room) => room.isHelperRequested === true && room.isHelperRequestedApproved === false);
+    fetchRooms(baseUrl, accessTokenStore).then((data) => {
+      const filteredData = data.filter(
+        (room) =>
+          room.isHelperRequested === true &&
+          room.isHelperRequestedApproved === false,
+      );
       setRequestItems(filteredData);
     });
   }, [updated]);
@@ -44,16 +51,15 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
   };
 
   const handleConfirm = () => {
-    if (selectedRequest!==null) {
+    if (selectedRequest !== null) {
       if (selectedRequest) {
-        console.log(updatedRequestItems)
-        acceptRequestHelp(baseUrl, updatedRequestItems, accessTokenStore).then( // Corrected backend call
+        acceptRequestHelp(baseUrl, updatedRequestItems, accessTokenStore).then(
+          // Corrected backend call
           () => {
             setUpdatedRequestItems([]);
             setUpdated(!updated);
             // Additional logic after approval
-
-          }
+          },
         );
       } else {
         // Additional logic for decline
@@ -68,9 +74,8 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
   };
 
   const updateRequestCompletion = (updatedRequest) => {
-    console.log(updatedRequest);
     const indexToUpdate = requestItems.findIndex(
-      (request) => request.ID === updatedRequest.ID
+      (request) => request.ID === updatedRequest.ID,
     );
     const updatedItems = [...requestItems];
     updatedItems[indexToUpdate] = updatedRequest;
@@ -80,8 +85,10 @@ const RequestHelpContainer = ({ openHelpDetailModal }) => {
 
   return (
     <>
-      <ScrollView style={{ height: "82%", paddingBottom: 24, paddingHorizontal: 26}}>
-        <RequestHelpHeaderComponent  />
+      <ScrollView
+        style={{ height: "82%", paddingBottom: 24, paddingHorizontal: 26 }}
+      >
+        <RequestHelpHeaderComponent />
         {requestItems.map((request, index) => (
           <RequestHelpComponent
             key={index}

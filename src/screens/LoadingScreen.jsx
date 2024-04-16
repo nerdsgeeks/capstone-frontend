@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ImageBackground, Image, Dimensions } from "react-native";
-import { WebView } from 'react-native-webview';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Image,
+  Dimensions,
+} from "react-native";
 import Typography from "../components/Typography/Typography";
 import { colors } from "../../themes/themes";
 
@@ -23,19 +28,16 @@ const LoadingScreen = ({}) => {
         resizeMode="repeat"
       >
         <View style={styles.content}>
-          <WebView
-              style={styles.image}
-              source={require("../../assets/illustrations/blob_2.gif")}
-            />
-          <View style={{flexGrow: 0.8}}>
-            <Typography variant="body-medium">loading{dots}</Typography>
-          </View>
+          <Image
+            style={styles.image}
+            source={require("../../assets/illustrations/blob_2.gif")}
+          />
+          <Typography variant="body-medium">loading{dots}</Typography>
         </View>
       </ImageBackground>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -52,12 +54,8 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   image: {
-    flexGrow: 1,
-    width: 350,
-    heigth: 350,
-    backgroundColor: "transparent",
-    
-
+    width: 200,
+    height: 240,
   },
 });
 

@@ -45,7 +45,7 @@ const RequestHelpComponent = ({
     <TouchableOpacity onPress={onPress}>
       <View style={styles.bodyCard}>
         <View style={styles.bodyTopContent}>
-          <View style={{ flexDirection: "row", gap: 16, alignItems: "center"}}>
+          <View style={{ flexDirection: "row", gap: 16, alignItems: "center" }}>
             <Checkbox
               style={styles.checkbox}
               value={completed}
@@ -86,9 +86,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     justifyContent: "flex-start",
   },
-  // itemStyle: {
-  //   width: "40%",
-  // },
 });
 
 export default RequestHelpComponent;

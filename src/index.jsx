@@ -105,8 +105,6 @@ const App = () => {
         .post(apiUrl, loginDetails)
         .then((response) => {
           const data = response.data;
-          console.log("data");
-          console.log(data);
           const employeeType = data.EmployeeType === 1 ? "Manager" : "Staff";
 
           if (employeeType.toUpperCase() !== type.toUpperCase()) {
@@ -153,15 +151,6 @@ const App = () => {
     <>
       {!isDashboardSelected && (
         <View style={styles.mainContainer}>
-          {/* <Button
-            title="Housekeeper Dashboard"
-            onPress={handleHousekeeperDashboardClick}
-          ></Button>
-          <Button
-            title="Supervisor Dashboard Dashboard"
-            onPress={handleSupervisorDashboardClick}
-          ></Button> */}
-
           <ImageBackground
             source={require("../assets/illustrations/Background.png")}
             style={styles.background}
@@ -175,7 +164,7 @@ const App = () => {
             </View>
           </ImageBackground>
 
-          <View style={{marginHorizontal: 55, gap:30}}>
+          <View style={{ marginHorizontal: 55, gap: 30 }}>
             <View>
               <RadioButtonGroup
                 containerStyle={{
@@ -254,18 +243,10 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  // mainContainer: {
-  //   flex: 1,
-  //   backgroundColor: "#8fcbbc",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   rowGap: 10,
-  // },
   mainContainer: {
     justifyContent: "flex-start",
     alignItems: "center",
     gap: 30,
-    // paddingTop: 100,
   },
   background: {
     width: "100%",
@@ -275,9 +256,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginVertical: 16,
-    width: 138*1.2,
-    height: 137*1.2,
-    
+    width: 138 * 1.2,
+    height: 137 * 1.2,
   },
   input: {
     width: "100%",

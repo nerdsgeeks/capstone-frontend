@@ -11,16 +11,14 @@ import TierSilverIcon from "../../SVG/TierSilverIcon";
 import TierDiamondIcon from "../../SVG/TierDiamondIcon";
 import { colors } from "../../../themes/themes";
 const AssignedRoomListItem = ({ room }) => {
-  // console.log(room);
   const roomTier = () => {
-    // console.log(room.RoomTier);
     switch (room.RoomTier.toUpperCase()) {
       case "GOLD":
-        return <TierGoldIcon w="36" h="36"/>;
+        return <TierGoldIcon w="36" h="36" />;
       case "SILVER":
-        return <TierSilverIcon w="36" h="36"/>;
+        return <TierSilverIcon w="36" h="36" />;
       case "DIAMOND":
-        return <TierDiamondIcon w="36" h="36"/>;
+        return <TierDiamondIcon w="36" h="36" />;
       default:
         return <Text>Checked In</Text>;
     }
@@ -29,23 +27,23 @@ const AssignedRoomListItem = ({ room }) => {
   const StatusSvg = () => {
     switch (room.RoomStatus.toUpperCase()) {
       case "DueOut".toUpperCase():
-        return <DueOutIcon w="26" h="26"/>;
+        return <DueOutIcon w="26" h="26" />;
       case "DueIn".toUpperCase():
-        return <DueInIcon w="26" h="26"/>;
+        return <DueInIcon w="26" h="26" />;
       case "CheckedOut".toUpperCase():
-        return <CheckedOutIcon w="26" h="26"/>;
+        return <CheckedOutIcon w="26" h="26" />;
       case "CheckedIn".toUpperCase():
-        return <CheckIcon stroke={colors.teal} w="26" h="26"/>;
+        return <CheckIcon stroke={colors.teal} w="26" h="26" />;
       case "DueOut-DueIn".toUpperCase():
         return (
           <>
-            <DueOutIcon w="26" h="26" /> <DueInIcon w="26" h="26"/>
+            <DueOutIcon w="26" h="26" /> <DueInIcon w="26" h="26" />
           </>
         );
       case "CheckedOut-DueIn".toUpperCase():
         return (
           <>
-            <CheckedOutIcon w="26" h="26"/> <DueInIcon w="26" h="26"/>
+            <CheckedOutIcon w="26" h="26" /> <DueInIcon w="26" h="26" />
           </>
         );
       default:
@@ -55,8 +53,6 @@ const AssignedRoomListItem = ({ room }) => {
 
   const formatDateRange = (checkinDate, checkoutDate) => {
     // Convert the ISO strings to Date objects
-    // console.log(`checkinDate : ${checkinDate}`);
-    // console.log(`checkoutDate : ${checkoutDate}`);
     const checkinDateSplitted = checkinDate.split("T");
     const checkoutDateSplitted = checkoutDate.split("T");
     const checkin = new Date(checkinDateSplitted[0]);
@@ -99,7 +95,13 @@ const AssignedRoomListItem = ({ room }) => {
             </Typography>
           </View>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems:"flex-end" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+          }}
+        >
           <Text style={styles.svg}>{StatusSvg()}</Text>
           <Text style={styles.text}>{roomTier()}</Text>
         </View>
@@ -141,6 +143,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-// to use this component, import it into the file where you want to use it like below
-//     <AssignedRoomListItem room={room} />

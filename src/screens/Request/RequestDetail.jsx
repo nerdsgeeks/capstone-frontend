@@ -6,7 +6,6 @@ import { colors } from "../../../themes/themes";
 import Button from "../../components/Button/Button";
 import useBaseUrl from "../../hooks/useBaseUrl";
 const RequestDetail = ({ route }) => {
-
   const request = route.params.request;
   const baseUrl = useBaseUrl();
 
@@ -16,40 +15,37 @@ const RequestDetail = ({ route }) => {
     RequesterId: request.requesterId,
     Quantity: request.Quantity,
     IsCompleted: request.isCompleted,
-    ApprovedBySupervisorId: 1
+    ApprovedBySupervisorId: 1,
   });
-    
 
   const handleDecline = () => {
-    requestItems.ApprovedBySupervisorId= null
+    requestItems.ApprovedBySupervisorId = null;
     updateRequest(requestItems);
   };
 
   const handleApproved = () => {
-    requestItems.ApprovedBySupervisorId= 1
-    requestItems.RoomId=1
-    console.log(requestItems)
+    requestItems.ApprovedBySupervisorId = 1;
+    requestItems.RoomId = 1;
+
     updateRequest(requestItems);
   };
-    const updateRequest = async (request) => {
+  const updateRequest = async (request) => {
     try {
-      const response = await fetch(`${baseUrl}/api/updateAssignedSupervisorId/${request.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${baseUrl}/api/updateAssignedSupervisorId/${request.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(request),
         },
-        body: JSON.stringify(request),
-      });
+      );
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
-
-
-
-
 
   const fullName = request.FirstName + " " + request.LastName;
   return (
@@ -64,38 +60,59 @@ const RequestDetail = ({ route }) => {
       <View style={styles.detailsContainer}>
         <View style={styles.detailItem}>
           <View style={styles.detail}>
-            <Typography variant="small-regular" style={{flex:1}}>Date:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.RequestedDateTime}</Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              Date:
+            </Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              {request.RequestedDateTime}
+            </Typography>
           </View>
           <View style={styles.detail}>
-            <Typography variant="small-regular" style={{flex:1}}>Item Type:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.ItemType}</Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              Item Type:
+            </Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              {request.ItemType}
+            </Typography>
           </View>
           <View style={styles.detail}>
-            <Typography variant="small-regular" style={{flex:1}}>Room Number:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.RoomName}</Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              Room Number:
+            </Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              {request.RoomName}
+            </Typography>
           </View>
           <View style={styles.detail}>
-            <Typography variant="small-regular" style={{flex:1}}>Requester:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{fullName}</Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              Requester:
+            </Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              {fullName}
+            </Typography>
           </View>
           <View style={styles.detail}>
-            <Typography variant="small-regular" style={{flex:1}}>Requester ID:</Typography>
-            <Typography variant="small-regular" style={{flex:1}}>{request.requesterId}</Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              Requester ID:
+            </Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              {request.requesterId}
+            </Typography>
           </View>
           <View style={styles.detail}>
-            <Typography variant="small-regular" style={{flex:1}}>Comments:</Typography>
+            <Typography variant="small-regular" style={{ flex: 1 }}>
+              Comments:
+            </Typography>
           </View>
           <View style={styles.commentContainer}>
-          <Typography variant="small-regular"> {request.Note}</Typography>
+            <Typography variant="small-regular"> {request.Note}</Typography>
           </View>
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <Button name="Decline" type="secondary" onPress={handleDecline}/>
+        <Button name="Decline" type="secondary" onPress={handleDecline} />
         <Button name="Approve" type="primary" onPress={handleApproved} />
-
-        </View>
+      </View>
     </View>
   );
 };
@@ -104,47 +121,46 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap:20
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 20,
   },
   imageContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: "column",
+    alignItems: "center",
     marginBottom: 20,
   },
   image: {
-    minWidth:116,
-    minHeight:115,
-    flexShrink:0,
-    maxWidth:"100%",
-    maxHeight:"100%"
+    minWidth: 116,
+    minHeight: 115,
+    flexShrink: 0,
+    maxWidth: "100%",
+    maxHeight: "100%",
   },
   detailsContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    width:"80%"
+    flexDirection: "row",
+    alignItems: "flex-start",
+    width: "80%",
   },
   detailItem: {
     flex: 1,
-   
   },
   detail: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginBottom: 10,
   },
   commentContainer: {
-    minHeight:117,
-    backgroundColor:colors.pale_teal2,
-    borderRadius:6,
-    borderWidth:1,
-    borderColor:colors.pale_teal2,
+    minHeight: 117,
+    backgroundColor: colors.pale_teal2,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: colors.pale_teal2,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width:"80%"
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
   },
 });
 

@@ -34,7 +34,6 @@ const SupervisorRoom = ({ navigation }) => {
   );
 
   const onPressRoomDetail = (room) => {
-    console.log("room", room);
     navigation.navigate("SupervisorRoomDetail", { room });
   };
   const displayInformation = () => {
@@ -69,11 +68,11 @@ const SupervisorRoom = ({ navigation }) => {
                 >
                   <Typography variant="h4-medium">Rooms</Typography>
                   <TouchableOpacity onPress={displayInformation}>
-                    <InformationIcon  w="30" h="30"/>
+                    <InformationIcon w="30" h="30" />
                   </TouchableOpacity>
                 </View>
               }
-              icon={<CalendarIcon/>}
+              icon={<CalendarIcon />}
               text={showDate}
             />
           </SafeAreaView>

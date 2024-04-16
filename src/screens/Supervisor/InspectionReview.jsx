@@ -23,8 +23,6 @@ const InspectionReview = ({ route, navigation }) => {
   const [modalNoteText, setModalNoteText] = useState("");
   const baseUrl = useBaseUrl();
   const room = route.params.room;
-  console.log(" InspectionReview room");
-  console.log(room);
 
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
@@ -33,8 +31,6 @@ const InspectionReview = ({ route, navigation }) => {
   const handlemodalNoteTextChange = (text) => {
     setModalNoteText(text);
   };
-
-  console.log(modalNoteText);
 
   const updateSelectedItemWithNote = () => {
     const updatedSelectedItem = { ...selectedItem, note: modalNoteText };
@@ -63,8 +59,6 @@ const InspectionReview = ({ route, navigation }) => {
       isHelperRequestedApproved: room.isHelperRequestedApproved,
       helperRequestedAdditionalNotes: room.helperRequestedAdditionalNotes,
     };
-
-    console.log("roomReviewed: ", roomReviewed);
 
     const apiUrl = baseUrl + "/api/assignedrooms/updateAssignedRoom";
     const config = {
@@ -109,9 +103,16 @@ const InspectionReview = ({ route, navigation }) => {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, justifyContent: "center", flexDirection: "row" }}>
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: "center", flexDirection: "row" }}
+      >
         <View
-          style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 24 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: 24,
+          }}
         >
           <Typography variant="h5-black">Inspection Review</Typography>
           <Gallery images={images} />
@@ -157,18 +158,22 @@ const InspectionReview = ({ route, navigation }) => {
             </View>
           </View>
           <View
-          style={{
-            flexDirection: "row",
-            gap: 16,
-            paddingTop: 30,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Button type="primary" name="Submit" onPress={submittedHandler} style={{width: "80%"}}/>
+            style={{
+              flexDirection: "row",
+              gap: 16,
+              paddingTop: 30,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              type="primary"
+              name="Submit"
+              onPress={submittedHandler}
+              style={{ width: "80%" }}
+            />
+          </View>
         </View>
-        </View>
-        
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -200,6 +205,6 @@ const styles = StyleSheet.create({
   modalForm: {
     width: "80%",
     gap: 6,
-  }
+  },
 });
 export default InspectionReview;

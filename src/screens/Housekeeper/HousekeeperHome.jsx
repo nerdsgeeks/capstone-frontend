@@ -53,9 +53,6 @@ const HousekeeperHome = ({ navigation }) => {
   );
 
   useEffect(() => {
-    // console.log(baseUrl);
-    // console.log("roomDetailsStore");
-    // console.log(roomDetailsStore);
     const localDate = new Date();
     const today =
       localDate.getFullYear() +
@@ -63,35 +60,23 @@ const HousekeeperHome = ({ navigation }) => {
       String(localDate.getMonth() + 1).padStart(2, "0") +
       "-" +
       String(localDate.getDate()).padStart(2, "0");
-    console.log(localDate);
 
-    console.log("today");
-    console.log(today);
     const apiUrl =
       baseUrl +
       `/api/assignedrooms/getAssignedRoomView/${employeeDetailsStore.userId}/${today}`;
     const apiItemsUrl = baseUrl + "/api/items/all";
 
-    console.log(
-      baseUrl +
-        `/api/assignedrooms/getAssignedRoomView/${employeeDetailsStore.userId}/${today}`,
-    );
-    console.log(baseUrl + "/api/items/all");
     const config = {
       headers: {
         Authorization: `Bearer ${accessTokenStore}`,
       },
     };
-    // console.log("config");
-    // console.log(config);
 
     const onFetchRooms = () =>
       axios
         .get(apiUrl, config)
         .then((response) => {
           const data = response.data;
-          // console.log("rooms");
-          // console.log(data);
 
           setRooms(data);
           updateRoomsStore(data);
@@ -114,8 +99,7 @@ const HousekeeperHome = ({ navigation }) => {
         .get(apiItemsUrl, config)
         .then((response) => {
           const data = response.data;
-          // console.log("items");
-          // console.log(data);
+
           setItems(data);
           updateItemsStore(data);
         })
@@ -129,7 +113,6 @@ const HousekeeperHome = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log("back");
       const localDate = new Date();
       const today =
         localDate.getFullYear() +
@@ -137,10 +120,7 @@ const HousekeeperHome = ({ navigation }) => {
         String(localDate.getMonth() + 1).padStart(2, "0") +
         "-" +
         String(localDate.getDate()).padStart(2, "0");
-      console.log(localDate);
 
-      console.log("today");
-      console.log(today);
       const apiUrl =
         baseUrl +
         `/api/assignedrooms/getAssignedRoomView/${employeeDetailsStore.userId}/${today}`;
@@ -150,14 +130,12 @@ const HousekeeperHome = ({ navigation }) => {
           Authorization: `Bearer ${accessTokenStore}`,
         },
       };
-      // console.log("config");
-      // console.log(config);
 
       const fetchRooms = async () => {
         try {
           const response = await axios.get(apiUrl, config);
           const data = response.data;
-          console.log(data);
+
           setRooms(data);
           updateRoomsStore(data);
           if (data.length > 0) {
@@ -213,14 +191,6 @@ const HousekeeperHome = ({ navigation }) => {
           {/* </SafeAreaView> */}
         </SafeAreaProvider>
       ) : (
-        // <SafeAreaProvider>
-        //   <SafeAreaView style={styles.loaderContainer}>
-        //     {/* <Typography variant="body-medium" style={{}}>
-        //       Loading .......
-        //     </Typography> */}
-        //     <LoadingScreen></LoadingScreen>
-        //   </SafeAreaView>
-        // </SafeAreaProvider>
         <LoadingScreen />
       )}
     </>

@@ -16,22 +16,6 @@ import LoadingScreen from "../screens/LoadingScreen";
 const Tab = createBottomTabNavigator();
 
 const NavigationTab = () => {
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   // Simulate loading completion after 3 seconds
-  //   const timeoutId = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 2000);
-
-  //   return () => clearTimeout(timeoutId);
-  // }, []);
-
-  // if (isLoading) {
-  //   // Render loading screen
-  //   return <LoadingScreen />;
-  // }
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -40,8 +24,7 @@ const NavigationTab = () => {
           zIndex: 1,
           // height: 52,
           paddingTop: 20, // Adjust padding top
-          // borderTopLeftRadius: 20, // Add border radius
-          // borderTopRightRadius: 20,
+
           borderWidth: 1,
           borderColor: colors.n20,
           shadowColor: colors.n50,
@@ -61,15 +44,7 @@ const NavigationTab = () => {
         component={HousekeeperHomeStack}
         options={({ route }) => ({
           tabBarIcon: ({ focused }) => (
-            <View
-            // style={{
-            //   height: 72,
-            //   width: 60,
-            //   borderColor: "#F89C7B",
-            //   justifyContent: "center",
-            //   alignItems: "center",
-            // }}
-            >
+            <View>
               <HomeIcon
                 fill={focused ? colors.main : "none"}
                 stroke={focused ? colors.main : colors.n30}
@@ -80,9 +55,7 @@ const NavigationTab = () => {
           ),
           tabBarStyle: {
             display: getTabBarVisibility(route) ? "none" : "flex",
-            // borderTopLeftRadius: 28,
-            // borderTopRightRadius: 28,
-            // height: 52,
+
             paddingVertical: 24,
           },
         })}
@@ -93,28 +66,12 @@ const NavigationTab = () => {
         component={HousekeeperRequestStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View
-              style={
-                {
-                  // height: 72,
-                  // width: 60,
-                  // borderColor: "#F89C7B",
-                  // justifyContent: "center",
-                  // alignItems: "center",
-                }
-              }
-            >
+            <View style={{}}>
               {focused ? (
                 <NewCartIcon w="37.8" h="35" />
               ) : (
                 <NewCartIconOutline w="37.8" h="35" />
               )}
-              {/* <CartIcon
-                fill={focused ? colors.main : "none"}
-                stroke={focused ? colors.main : colors.n30}
-                h="28"
-                w="30.72"
-              /> */}
             </View>
           ),
         }}
@@ -125,15 +82,7 @@ const NavigationTab = () => {
         component={HousekeeperPerformanceStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View
-            // style={{
-            //   height: 72,
-            //   width: 60,
-            //   borderColor: "#F89C7B",
-            //   justifyContent: "center",
-            //   alignItems: "center",
-            // }}
-            >
+            <View>
               <ProfileIcon
                 fill={focused ? colors.main : "none"}
                 stroke={focused ? colors.main : colors.n30}

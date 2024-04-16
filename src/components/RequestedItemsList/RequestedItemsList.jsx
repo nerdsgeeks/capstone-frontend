@@ -12,7 +12,7 @@ const RequestedItemsList = ({
       {items.length > 0 && (
         <ScrollView style={styles.container}>
           {showRequestedItemText && (
-            <Typography variant="title-medium" style={{ marginTop: 20,}}>
+            <Typography variant="title-medium" style={{ marginTop: 20 }}>
               Requested Items
             </Typography>
           )}
@@ -40,11 +40,6 @@ const styles = StyleSheet.create({
   },
   requestedItemsListContainer: {
     flex: 1,
-    // borderBottomWidth: 1,
-    // // borderWidth: 2,
-    // borderColor: "#D9D9D9",
-    // paddingVertical: 16,
-    // height: "83%",
   },
 });
 

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Modal, StyleSheet, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import Typography from "../../components/Typography/Typography";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import BackIcon from "../../SVG/BackIcon";
@@ -37,7 +44,6 @@ const SupervisorRequestHistory = ({ navigation }) => {
     if (activeTab === 0) {
       setSelectedItemDetail(request);
       setIsItemDetailModalOpen(true);
-      console.log("here");
     } else {
       setSelectedHelpDetail(request);
       setIsHelpDetailModalOpen(true);
@@ -52,8 +58,6 @@ const SupervisorRequestHistory = ({ navigation }) => {
     setIsHelpDetailModalOpen(false);
   };
   const baseUrl = useBaseUrl();
-  
-
 
   const accessTokenStore = useAccessTokenStore(
     (state) => state.accessTokenStore,
@@ -72,8 +76,6 @@ const SupervisorRequestHistory = ({ navigation }) => {
   const handleTabPress = (index) => {
     setActiveTab(index);
   };
-
-  
 
   useEffect(() => {
     fetchRequestItems(baseUrl, accessTokenStore).then((data) => {
@@ -126,53 +128,51 @@ const SupervisorRequestHistory = ({ navigation }) => {
               justifyContent="center"
             />
             <ScrollView>
-            <View style={styles.bodyContent}>
-              {activeTab === 0 ? (
-                <View style={styles.horizontalContainer}>
-                  <RequestItemHeaderComponent />
-                  {requestItems.map((request, index) => (
-                    <RequestItemHistory
-                      key={index}
-                      request={request}
-                      onPress={() => onPress({ request: request })}
-                    />
-                  ))}
-                </View>
-              ) : (
-                <View style={styles.horizontalContainer}>
-                  <RequestHelpHeaderComponent />
-                  {requestHelp.map((request, index) => (
-                    <RequestItemHistory
-                      key={index}
-                      request={request}
-                      onPress={() => onPress({ request: request })}
-                    />
-                  ))}
-                </View>
-              )}
-              
-            </View>
-            </ScrollView> 
+              <View style={styles.bodyContent}>
+                {activeTab === 0 ? (
+                  <View style={styles.horizontalContainer}>
+                    <RequestItemHeaderComponent />
+                    {requestItems.map((request, index) => (
+                      <RequestItemHistory
+                        key={index}
+                        request={request}
+                        onPress={() => onPress({ request: request })}
+                      />
+                    ))}
+                  </View>
+                ) : (
+                  <View style={styles.horizontalContainer}>
+                    <RequestHelpHeaderComponent />
+                    {requestHelp.map((request, index) => (
+                      <RequestItemHistory
+                        key={index}
+                        request={request}
+                        onPress={() => onPress({ request: request })}
+                      />
+                    ))}
+                  </View>
+                )}
+              </View>
+            </ScrollView>
           </View>
         </View>
         {isItemDetailModalOpen && selectedItemDetail && (
-        <RequestModalSupervisor
-          isRequestDetailModalOpen={isItemDetailModalOpen}
-          toggleRequestDetailModal={closeItemDetailModal}
-          requestDetailObject={selectedItemDetail}
-          closeModal={closeItemDetailModal}
-        />
-      )}
-      {isHelpDetailModalOpen && selectedHelpDetail && (
-        <RequestHelpModal
-          isHelpDetailModalOpen={isHelpDetailModalOpen}
-          toggleHelpDetailModal={closeHelpDetailModal}
-          helpRequestDetails={selectedHelpDetail}
-          closeModal={closeHelpDetailModal}
-        />
-      )}
+          <RequestModalSupervisor
+            isRequestDetailModalOpen={isItemDetailModalOpen}
+            toggleRequestDetailModal={closeItemDetailModal}
+            requestDetailObject={selectedItemDetail}
+            closeModal={closeItemDetailModal}
+          />
+        )}
+        {isHelpDetailModalOpen && selectedHelpDetail && (
+          <RequestHelpModal
+            isHelpDetailModalOpen={isHelpDetailModalOpen}
+            toggleHelpDetailModal={closeHelpDetailModal}
+            helpRequestDetails={selectedHelpDetail}
+            closeModal={closeHelpDetailModal}
+          />
+        )}
       </View>
-     
     </SafeAreaProvider>
   );
 };
@@ -197,7 +197,6 @@ const styles = StyleSheet.create({
   bodyContent: {
     paddingTop: 20,
     flexGrow: 1,
-    // width: "100vw",
   },
 
   modalOverlay: {

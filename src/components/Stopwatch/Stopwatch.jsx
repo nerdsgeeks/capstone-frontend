@@ -33,8 +33,6 @@ const Stopwatch = ({ isRunning }) => {
         )
       : 0,
   );
-  // console.log(isRunningStopwatch);
-  // console.log(isRunning);
 
   useEffect(() => {
     let intervalId;
@@ -60,19 +58,6 @@ const Stopwatch = ({ isRunning }) => {
     return () => clearInterval(intervalId);
   }, [isRunning]);
 
-  // const handleStart = () => {
-  //   setIsRunning(true);
-  // };
-
-  // const handlePause = () => {
-  //   setIsRunning(false);
-  // };
-
-  // const handleStop = () => {
-  //   setIsRunning(false);
-  //   setElapsedTime(0);
-  // };
-
   const formatTime = (milliseconds) => {
     const seconds = Math.floor((milliseconds / 1000) % 60);
     const minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
@@ -87,9 +72,7 @@ const Stopwatch = ({ isRunning }) => {
     <View>
       <View style={styles.container}>
         <ClockIcon fill={colors.teal} />
-        <Typography variant="body-medium">
-          {formatTime(elapsedTime)}
-        </Typography>
+        <Typography variant="body-medium">{formatTime(elapsedTime)}</Typography>
       </View>
       {/* switch buttons with the ones in the UI to make it work */}
       {/* <View style={styles.buttonContainer}>

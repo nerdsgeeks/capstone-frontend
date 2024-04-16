@@ -25,13 +25,9 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
   );
   const roomsStore = useRoomsStore((state) => state.roomsStore);
   const updateRoomsStore = useRoomsStore((state) => state.updateRoomsStore);
-  // console.log(" HousekeeperHomeMain rooms");
-  // console.log(rooms);
 
   const [activeTab, setActiveTab] = useState(0);
   const tabs = [{ label: "To do" }, { label: "Completed" }];
-  // console.log("rooms");
-  // console.log(rooms);
 
   const setRoomTypeRooms = (type) => {
     const today = new Date().toISOString().split("T")[0];
@@ -50,21 +46,14 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
     }
 
     if (type.toUpperCase() !== "All".toUpperCase()) {
-      // console.log("room");
-      // console.log(rooms);
-      console.log("type");
-      console.log(type);
-
       filteredRooms = filteredRooms.filter(
         (room) => room.roomTypeName.toUpperCase() === activeChip.toUpperCase(),
       );
     }
 
-    console.log("filteredRooms");
-    console.log(filteredRooms);
     setRoomToDisplay(filteredRooms);
     setAssignedRoomNumber(filteredRooms.length);
-    console.log("type: " + type);
+
     switch (type) {
       case "All":
         setActiveChip("All");
@@ -103,18 +92,11 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
     }
 
     if (activeChip.toUpperCase() !== "All".toUpperCase()) {
-      // console.log("room");
-      // console.log(rooms);
-      console.log("activeChip");
-      console.log(activeChip);
-
       filteredRooms = filteredRooms.filter(
         (room) => room.roomTypeName.toUpperCase() === activeChip.toUpperCase(),
       );
     }
 
-    console.log("filteredRooms");
-    console.log(filteredRooms);
     setRoomToDisplay(filteredRooms);
     setAssignedRoomNumber(filteredRooms.length);
   };
@@ -135,18 +117,11 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
     }
 
     if (activeChip.toUpperCase() !== "All".toUpperCase()) {
-      // console.log("room");
-      // console.log(rooms);
-      console.log("activeChip");
-      console.log(activeChip);
-
       filteredRooms = filteredRooms.filter(
         (room) => room.roomTypeName.toUpperCase() === activeChip.toUpperCase(),
       );
     }
 
-    console.log("filteredRooms");
-    console.log(filteredRooms);
     setRoomToDisplay(filteredRooms);
     setAssignedRoomNumber(filteredRooms.length);
   }, [roomsStore]);
@@ -253,7 +228,7 @@ const HousekeeperHomeMain = ({ rooms, items, navigation }) => {
           />
         </View>
 
-        <ScrollView style={{ marginBottom: 24}}>
+        <ScrollView style={{ marginBottom: 24 }}>
           {roomToDisplay.map((room, index) => (
             <TouchableOpacity
               key={index}

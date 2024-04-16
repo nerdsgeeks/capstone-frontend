@@ -42,9 +42,6 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
     (state) => state.updateEmployeeDetailsStore,
   );
 
-  console.log("employeeDetailsStore");
-  console.log(employeeDetailsStore);
-
   const displayInformation = () => {
     setInformationModalOpen(true);
   };
@@ -60,9 +57,7 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
       }}
     >
       <View style={styles.leftProfileContainer}>
-        {/* <Text>{employeeDetailsStore.imageURL}</Text> */}
         <Image
-          //source={require("./path-to-your-image.jpg")} // Replace with the path to your image
           source={{
             uri: `${employeeDetailsStore.imageURL}`,
           }}
@@ -72,15 +67,16 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
       <View style={styles.middleContainer}>
         <View style={styles.progressContainer}>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
             <Typography variant="h4-medium">
               Hi {employeeDetailsStore.firstName}
             </Typography>
-            <TouchableOpacity
-              onPress={displayInformation}
-
-            >
+            <TouchableOpacity onPress={displayInformation}>
               <InformationIcon w="30" h="30" />
             </TouchableOpacity>
           </View>
@@ -105,7 +101,12 @@ const HousekeeperHomeHeader = ({ name, taskProgress, scheduleTime }) => {
                 <ProgressBar
                   progress={Number(taskProgress)}
                   color={colors.teal}
-                  style={{ height: 12, width: 180, borderRadius: 20, backgroundColor: colors.n1}}
+                  style={{
+                    height: 12,
+                    width: 180,
+                    borderRadius: 20,
+                    backgroundColor: colors.n1,
+                  }}
                 />
                 {/* <Text>{taskProgress}</Text> */}
               </View>

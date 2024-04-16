@@ -39,8 +39,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   const [requestedItemsCart, setRequestedItemsCart] = useState(
     requestedItemsCartStore,
   );
-  // console.log("items:");
-  // console.log(items);
 
   const [isRequestAddToCartModalOpen, setIsRequestAddToCartModalOpen] =
     useState(false);
@@ -64,16 +62,13 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   };
 
   const handleIncrement = () => {
-    console.log("handleIncrement");
     setCount(count + 1);
   };
   const handleDecrement = () => {
-    console.log("handleDecrement");
     setCount(count - 1);
   };
 
   const toggleRequestAddToCartModal = () => {
-    console.log(isRequestAddToCartModalOpen);
     setIsRequestAddToCartModalOpen(!isRequestAddToCartModalOpen);
   };
 
@@ -94,17 +89,12 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
   };
 
   const onOrderPressed = () => {
-    console.log("onOrderPressed");
     updateRequestedItemsCartStore(requestedItemsCart);
-    // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
+
     navigation.goBack();
   };
 
   const onRequestAddToCartModalSubmitPressed = () => {
-    // console.log("selectedItem");
-    // console.log(selectedItem);
-    // console.log("roomDetails");
-    // console.log(roomDetails);
     const requestedItem = {
       RequestedItemID: selectedItem.ID,
       ImageUrl: selectedItem.ImageUrl,
@@ -113,10 +103,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
       assignedRoomID: roomDetails.ID,
       Note: modalNoteText,
     };
-
-    console.log("RequestItemSearch");
-    console.log(requestedItem);
-    console.log(requestedItemsCart);
 
     setRequestedItemsCart((currentItems) => {
       const itemIndex = currentItems.findIndex(
@@ -139,24 +125,12 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
       requestedItem,
     );
 
-    console.log("requestedItemsCart");
-    console.log(requestedItemsCart);
-    console.log(tempRequestedItemsCart);
     updateRequestedItemsCartStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
     setModalNoteText("");
   };
 
-  // const renderItem = ({ item }) => (
-  //   <TouchableOpacity
-  //     style={styles.itemContainer}
-  //     onPress={() => onPressItem(item)}
-  //   >
-  //     <Image source={{ uri: item.ImageUrl }} style={styles.image} />
-  //     <Typography variant="xs-medium">{item.ItemName}</Typography>
-  //   </TouchableOpacity>
-  // );
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={[styles.itemContainer, { width: imageWidth }]}
@@ -188,7 +162,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
     }
   };
   const clearSearch = () => {
-    console.log("clearSearch");
     setSearchQuery("");
   };
 
@@ -274,17 +247,8 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                     source={selectedItem.ImageUrl}
                     text={selectedItem.ItemName}
                   />
-                  {/* <Typography
-                      variant="body-regular"
-                      style={{ textAlign: "center" }}
-                    >
-                      {selectedItem.ItemName}
-                    </Typography> */}
                 </View>
                 <View style={styles.requestAddToCartModalRoomNumberSection}>
-                  {/* <Text style={styles.requestAddToCartModalNoteLabel}>
-                      Room Number
-                    </Text> */}
                   <Typography variant="body-medium"> Room Number</Typography>
                   <TextInput
                     editable={false}
@@ -303,9 +267,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                   />
                 </View>
                 <View style={styles.requestAddToCartModalNoteSection}>
-                  {/* <Text style={styles.requestAddToCartModalNoteLabel}>
-                      Add Note
-                    </Text> */}
                   <Typography variant="body-medium">Add Note</Typography>
                   <View>
                     {!isRequestHelpModalTextFocused && (
@@ -332,32 +293,6 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                       value={modalNoteText}
                     />
                   </View>
-
-                  {/* <View>
-                  {!isRequestHelpModalTextFocused && (
-                    <View style={{ position: "absolute", top: 12, left: 10 }}>
-                      <PlusIcon fill={colors.n50} />
-                    </View>
-                  )}
-                  <TextInput
-                    style={[
-                      styles.requestAddToCartModalInput,
-                      {
-                        padding: isRequestHelpModalTextFocused ? 2 : 10,
-                        paddingLeft: isRequestHelpModalTextFocused ? 20 : 36,
-                        height: 44,
-                      },
-                    ]}
-                    placeholder="Note"
-                    onFocus={() => setIsRequestHelpModalTextFocused(true)}
-                    onBlur={() => {
-                      setIsRequestHelpModalTextFocused(false);
-                      updateSelectedItemWithNote();
-                    }}
-                    onChangeText={handlemodalNoteTextChange} // Update state on text change
-                    value={modalNoteText}
-                  />
-                </View> */}
                 </View>
                 <View style={styles.requestAddToCartModalQuantityCounter}>
                   <Typography variant="body-medium">Quantity</Typography>
@@ -377,14 +312,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                {/* <TouchableOpacity
-                    style={styles.requestAddToCartModalButton}
-                    onPress={onRequestAddToCartModalSubmitPressed}
-                  >
-                    <Text style={styles.requestAddToCartModalButtonText}>
-                      Add to Cart
-                    </Text>
-                  </TouchableOpacity> */}
+
                 <Button
                   name="Add to Cart"
                   type="primary"
@@ -395,10 +323,8 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
             </View>
           </View>
         </Modal>
-        {/* {showItemsList ? ( */}
+
         <View style={styles.listItemsContainer}>
-          {/* <Typography variant="h6-black">{headerText}</Typography> */}
-          {/* <ScrollView style={styles.listItems}> */}
           <FlatList
             data={itemsFiltered}
             renderItem={renderItem}
@@ -407,19 +333,7 @@ const RequestItemSearch = ({ headerText, roomDetails, items, navigation }) => {
             contentContainerStyle={styles.list}
             columnWrapperStyle={styles.columnWrapper}
           />
-          {/* </ScrollView> */}
         </View>
-        {/* ) : (
-          <View style={styles.requestedItemsCartContainer}>
-            <RequestedItemsList items={requestedItemsCart}></RequestedItemsList>
-            <TouchableOpacity
-              style={styles.requestAddToCartModalButton}
-              onPress={onOrderPressed}
-            >
-              <Text style={styles.requestAddToCartModalButtonText}>Order</Text>
-            </TouchableOpacity>
-          </View>
-        )} */}
       </View>
     </SafeAreaProvider>
   );
@@ -464,9 +378,7 @@ const styles = StyleSheet.create({
   listItems: {
     rowGap: 16,
   },
-  // list: {
-  //   paddingHorizontal: 10,
-  // },
+
   itemTextContainer: {
     height: 36,
   },
@@ -478,8 +390,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     gap: 6,
     alignItems: "center",
-    // margin: 10,
-    // height: 100,
   },
   image: {
     flex: 1,
@@ -487,9 +397,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 6,
   },
-  // listItemsContainer: {
-  //   marginBottom: 60,
-  // },
+
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay

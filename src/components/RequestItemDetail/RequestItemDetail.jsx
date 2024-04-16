@@ -22,9 +22,6 @@ const RequestItemDetail = ({
     (state) => state.updateRequestedItemsCartStore,
   );
   const handleIncrement = (index) => {
-    console.log(index);
-    console.log("handleIncrement");
-    console.log(requestedItemsCartStore);
     setCount(count + 1);
     const updatedItems = requestedItemsCartStore.map((item, idx) => {
       if (idx === index) {
@@ -35,9 +32,6 @@ const RequestItemDetail = ({
     updateRequestedItemsCartStore(updatedItems);
   };
   const handleDecrement = (index) => {
-    console.log(index);
-    console.log("handleDecrement");
-    // console.log(requestedItemsCartStore);
     setCount(count - 1);
     const updatedItems = requestedItemsCartStore.map((item, idx) => {
       if (idx === index) {
@@ -53,21 +47,20 @@ const RequestItemDetail = ({
     <View style={styles.container}>
       <ImageDisplay type="small" source={imageSrc} />
 
-      <View style={{gap:23, flexGrow: 1}}>
+      <View style={{ gap: 23, flexGrow: 1 }}>
         <View style={styles.topHeader}>
           <Typography variant="body-medium">{itemName}</Typography>
           {/* <Typography variant="small-medium">{index}</Typography> */}
-          <TrashIcon w="26" h="26"/>
+          <TrashIcon w="26" h="26" />
         </View>
-        
-          <Counter
-            count={count}
-            handleIncrement={() => handleIncrement(index)}
-            handleDecrement={() => handleDecrement(index)}
-            containerStyle={styles.Counter}
-            disabled={disabled}
-          />
-        
+
+        <Counter
+          count={count}
+          handleIncrement={() => handleIncrement(index)}
+          handleDecrement={() => handleDecrement(index)}
+          containerStyle={styles.Counter}
+          disabled={disabled}
+        />
       </View>
     </View>
   );
@@ -99,6 +92,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
-// to use this component use the below reference code
-//      <RequestItemDetail imageSrc={require("imageUrl")} />

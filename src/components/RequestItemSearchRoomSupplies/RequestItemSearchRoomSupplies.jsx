@@ -52,8 +52,6 @@ const RequestItemSearchRoomSupplies = ({
   const [requestedItemsCart, setRequestedItemsCart] = useState(
     requestedItemsCartRoomSuppliesStore,
   );
-  // console.log("items:");
-  // console.log(items);
 
   const [isRequestAddToCartModalOpen, setIsRequestAddToCartModalOpen] =
     useState(false);
@@ -90,16 +88,13 @@ const RequestItemSearchRoomSupplies = ({
   };
 
   const handleIncrement = () => {
-    console.log("handleIncrement");
     setCount(count + 1);
   };
   const handleDecrement = () => {
-    console.log("handleDecrement");
     setCount(count - 1);
   };
 
   const toggleRequestAddToCartModal = () => {
-    console.log(isRequestAddToCartModalOpen);
     setIsRequestAddToCartModalOpen(!isRequestAddToCartModalOpen);
   };
 
@@ -120,17 +115,12 @@ const RequestItemSearchRoomSupplies = ({
   };
 
   const onOrderPressed = () => {
-    console.log("onOrderPressed");
     updateRequestedItemsCartRoomSuppliesStore(requestedItemsCart);
-    // navigation.navigate("RoomDetail", { roomDetails: roomDetails });
+
     navigation.goBack();
   };
 
   const onRequestAddToCartModalSubmitPressed = () => {
-    // console.log("selectedItem");
-    // console.log(selectedItem);
-    // console.log("roomDetails");
-    // console.log(roomDetails);
     const requestedItem = {
       RequestedItemID: selectedItem.ID,
       ImageUrl: selectedItem.ImageUrl,
@@ -139,10 +129,6 @@ const RequestItemSearchRoomSupplies = ({
       assignedRoomID: selectedRoom,
       Note: modalNoteText,
     };
-
-    console.log("RequestItemSearch");
-    console.log(requestedItem);
-    console.log(requestedItemsCart);
 
     setRequestedItemsCart((currentItems) => {
       const itemIndex = currentItems.findIndex(
@@ -165,9 +151,6 @@ const RequestItemSearchRoomSupplies = ({
       requestedItem,
     );
 
-    console.log("requestedItemsCart");
-    console.log(requestedItemsCart);
-    console.log(tempRequestedItemsCart);
     updateRequestedItemsCartRoomSuppliesStore(tempRequestedItemsCart);
     toggleRequestAddToCartModal();
     setShowItemsList(false);
@@ -239,8 +222,6 @@ const RequestItemSearchRoomSupplies = ({
             }));
 
             setAssignedRooms(tempAssignedRooms);
-            console.log("filteredRooms");
-            console.log(filteredRooms);
           }
         })
         .catch((error) => {
@@ -251,34 +232,6 @@ const RequestItemSearchRoomSupplies = ({
 
   return (
     <View style={styles.container}>
-      {/* <Button
-        title="test"
-        onPress={() => {
-          console.log(requestedItems);
-        }}
-      ></Button> */}
-      {/* <View style={styles.searchBoxContainer}>
-        <Typography variant="xs-regular">Search</Typography>
-        <View>
-          <View
-            style={{
-              position: "absolute",
-              top: 18,
-              left: 10,
-            }}
-          >
-            <SearchIcon />
-          </View>
-
-          <TextInput
-            style={[styles.requestItemSearchInput]}
-            placeholder="Search"
-            onFocus={() => onFocusSearchInput()}
-            // onBlur={() =>  onBlurSearchInput()}
-          />
-        </View>
-      </View> */}
-
       <Modal
         visible={isRequestAddToCartModalOpen}
         onRequestClose={toggleRequestAddToCartModal}
@@ -298,23 +251,9 @@ const RequestItemSearchRoomSupplies = ({
                   text={selectedItem.ItemName}
                 />
               </View>
-              <View style={[styles.modalForm, { zIndex: 1}]}>
+              <View style={[styles.modalForm, { zIndex: 1 }]}>
                 <Typography variant="body-medium">Room Number</Typography>
-                {/* <TextInput
-                    editable={false}
-                    style={[
-                      {
-                        borderWidth: 1,
-                        borderColor: "grey",
-                        borderRadius: 5,
-                        marginTop: 5,
-                        padding: 10,
-                        paddingLeft: 20,
-                        height: 40,
-                      },
-                    ]}
-                    value={roomDetails.RoomName}
-                  /> */}
+
                 <View>
                   <SelectList
                     setSelected={(key) => setSelectedRoom(key)}
@@ -328,17 +267,15 @@ const RequestItemSearchRoomSupplies = ({
                     }}
                     dropdownStyles={{
                       borderRadius: 12,
-                      // zIndex: 9999,
+
                       position: "absolute",
                       width: "100%",
                       top: 45,
                     }}
                     dropdownItemStyles={{
                       backgroundColor: "white",
-                      // zIndex: 999,
                     }}
                     dropdownTextStyles={{
-                      // zIndex: 999,
                       backgroundColor: "white",
                     }}
                   />
@@ -435,8 +372,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     gap: 6,
     alignItems: "center",
-    // margin: 10,
-    // height: 100,
   },
   image: {
     flex: 1,
@@ -444,9 +379,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 6,
   },
-  // listItemsContainer: {
-  //   marginBottom: 5,
-  // },
+
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
@@ -476,16 +409,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     // zIndex: 1,
   },
-  // requestAddToCartModalContainer: {
-  //   width: 240,
-  //   backgroundColor: "white",
-  //   padding: 20,
-  //   borderRadius: 10,
-  //   alignItems: "center",
-  //   rowGap: 32,
-  //   paddingTop: 0,
-  //   top: -26,
-  // },
+
   requestAddToCartModalHeaderText: {
     fontSize: 18,
     fontWeight: "bold",

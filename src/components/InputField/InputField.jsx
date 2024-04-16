@@ -6,7 +6,7 @@ import { colors } from "../../../themes/themes";
 const InputField = ({ label, icon }) => {
   const [text, setText] = useState("");
   return (
-    <View style={{ flexDirection: "row"}}>
+    <View style={{ flexDirection: "row" }}>
       <TextInput
         label={label}
         value={text}
@@ -30,5 +30,3 @@ const styles = StyleSheet.create({
     color: colors.n50,
   },
 });
-
-// https://callstack.github.io/react-native-paper/4.0/text-input.html#right
