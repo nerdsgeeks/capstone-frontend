@@ -9,7 +9,7 @@ Cleanops is a mobile application that transform your housekeeping management , a
 
 ## How to run
 
-Visit the frontend folder in the new terminal.
+Visit the frontend folder in the new terminal
 
 - Run `npm install`
 - Run `npm start`
