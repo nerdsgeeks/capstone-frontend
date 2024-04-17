@@ -158,7 +158,7 @@ const RequestItemRoomSuppliesOrder = ({ route, navigation }) => {
                   <TouchableOpacity onPress={goBack}>
                     <BackIcon />
                   </TouchableOpacity>
-                  <Typography variant="h4-medium">Shopping Cart</Typography>
+                  <Typography variant="h4-medium">Supplies Cart</Typography>
                 </View>
               }
             />

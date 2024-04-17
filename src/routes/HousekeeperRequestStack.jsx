@@ -22,25 +22,25 @@ const HousekeeperRequestStack = () => {
       <Stack.Screen
         name="RequestItemRoomSupplies"
         component={RequestItemRoomSupplies}
-        options={{ title: "Shopping Cart", headerShown: false }}
+        options={{ title: "Supplies Cart", headerShown: false }}
       />
 
       <Stack.Screen
         name="RequestItemCartSupplies"
         component={RequestItemCartSupplies}
-        options={{ title: "Shopping Cart", headerShown: false }}
+        options={{ title: "Supplies Cart", headerShown: false }}
       />
 
       <Stack.Screen
         name="RequestItemRoomSuppliesOrder"
         component={RequestItemRoomSuppliesOrder}
-        options={{ title: "Shopping Cart", headerShown: false   }}
+        options={{ title: "Supplies Cart", headerShown: false }}
       />
 
       <Stack.Screen
         name="RequestItemCartSuppliesOrder"
         component={RequestItemCartSuppliesOrder}
-        options={{ title: "Shopping Cart", headerShown: false  }}
+        options={{ title: "Supplies Cart", headerShown: false }}
       />
     </Stack.Navigator>
   );
