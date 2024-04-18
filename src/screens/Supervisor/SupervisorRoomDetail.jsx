@@ -111,18 +111,20 @@ const SupervisorRoomDetail = ({ staff, onPress, route, navigation }) => {
               gap: 6,
             }}
           >
-            {image && (
+            {room.employeeImageURL && (
               <Image
                 style={{ borderRadius: 40, width: 50, height: 50 }}
                 source={{
-                  uri: image,
+                  uri: room.employeeImageURL,
                 }}
               />
             )}
 
             <View>
-              {employeeName && (
-                <Typography variant="body-regular">{employeeName}</Typography>
+              {room.firstName && (
+                <Typography variant="body-regular">
+                  {room.firstName} {room.lastName}
+                </Typography>
               )}
             </View>
           </View>
